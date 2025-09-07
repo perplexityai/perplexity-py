@@ -10,7 +10,7 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from perplexity import PerplexityAPI, AsyncPerplexityAPI, DefaultAioHttpClient
+from perplexity import Perplexity, AsyncPerplexity, DefaultAioHttpClient
 from perplexity._utils import is_dict
 
 if TYPE_CHECKING:
@@ -49,17 +49,17 @@ bearer_token = "My Bearer Token"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[PerplexityAPI]:
+def client(request: FixtureRequest) -> Iterator[Perplexity]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
+    with Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPerplexityAPI]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPerplexity]:
     param = getattr(request, "param", True)
 
     # defaults
@@ -78,7 +78,7 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPerplexity
     else:
         raise TypeError(f"Unexpected fixture parameter type {type(param)}, expected bool or dict")
 
-    async with AsyncPerplexityAPI(
+    async with AsyncPerplexity(
         base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict, http_client=http_client
     ) as client:
         yield client
