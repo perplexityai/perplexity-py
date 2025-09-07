@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import anyio
 
 if TYPE_CHECKING:
-    from ._client import PerplexityAPI, AsyncPerplexityAPI
+    from ._client import Perplexity, AsyncPerplexity
 
 
 class SyncAPIResource:
-    _client: PerplexityAPI
+    _client: Perplexity
 
-    def __init__(self, client: PerplexityAPI) -> None:
+    def __init__(self, client: Perplexity) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
@@ -28,9 +28,9 @@ class SyncAPIResource:
 
 
 class AsyncAPIResource:
-    _client: AsyncPerplexityAPI
+    _client: AsyncPerplexity
 
-    def __init__(self, client: AsyncPerplexityAPI) -> None:
+    def __init__(self, client: AsyncPerplexity) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
