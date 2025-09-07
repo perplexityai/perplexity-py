@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 (2025-09-07)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/ppl-ai/perplexity-py/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** initial updates ([dd0709d](https://github.com/ppl-ai/perplexity-py/commit/dd0709dcc9775ae935a6dad72bc826d2a61dd740))
+* **api:** simplify name ([6794370](https://github.com/ppl-ai/perplexity-py/commit/679437027a8d0f3d930902d3410e366cd392beb8))
+
 ## 0.1.0 (2025-09-07)
 
 Full Changelog: [v0.0.2...v0.1.0](https://github.com/ppl-ai/perplexity-py/compare/v0.0.2...v0.1.0)
