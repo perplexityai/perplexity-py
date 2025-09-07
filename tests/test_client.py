@@ -18,11 +18,11 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from perplexity import Perplexity, AsyncPerplexity, APIResponseValidationError
+from perplexity import PerplexityAPI, AsyncPerplexityAPI, APIResponseValidationError
 from perplexity._types import Omit
 from perplexity._utils import asyncify
 from perplexity._models import BaseModel, FinalRequestOptions
-from perplexity._exceptions import APIStatusError, APITimeoutError, PerplexityError, APIResponseValidationError
+from perplexity._exceptions import APIStatusError, APITimeoutError, PerplexityAPIError, APIResponseValidationError
 from perplexity._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
@@ -50,7 +50,7 @@ def _low_retry_timeout(*_args: Any, **_kwargs: Any) -> float:
     return 0.1
 
 
-def _get_open_connections(client: Perplexity | AsyncPerplexity) -> int:
+def _get_open_connections(client: PerplexityAPI | AsyncPerplexityAPI) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -58,8 +58,8 @@ def _get_open_connections(client: Perplexity | AsyncPerplexity) -> int:
     return len(pool._requests)
 
 
-class TestPerplexity:
-    client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+class TestPerplexityAPI:
+    client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -106,7 +106,7 @@ class TestPerplexity:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -143,7 +143,7 @@ class TestPerplexity:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -269,7 +269,7 @@ class TestPerplexity:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -280,7 +280,7 @@ class TestPerplexity:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = Perplexity(
+            client = PerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -290,7 +290,7 @@ class TestPerplexity:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = Perplexity(
+            client = PerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -300,7 +300,7 @@ class TestPerplexity:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = Perplexity(
+            client = PerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -311,7 +311,7 @@ class TestPerplexity:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                Perplexity(
+                PerplexityAPI(
                     base_url=base_url,
                     bearer_token=bearer_token,
                     _strict_response_validation=True,
@@ -319,7 +319,7 @@ class TestPerplexity:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -329,7 +329,7 @@ class TestPerplexity:
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = Perplexity(
+        client2 = PerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -343,17 +343,17 @@ class TestPerplexity:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
-        with pytest.raises(PerplexityError):
-            with update_env(**{"PERPLEXITY_BEARER_TOKEN": Omit()}):
-                client2 = Perplexity(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+        with pytest.raises(PerplexityAPIError):
+            with update_env(**{"PERPLEXITY_API_KEY": Omit()}):
+                client2 = PerplexityAPI(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -470,7 +470,7 @@ class TestPerplexity:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: Perplexity) -> None:
+    def test_multipart_repeating_array(self, client: PerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -557,7 +557,7 @@ class TestPerplexity:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = Perplexity(
+        client = PerplexityAPI(
             base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -567,19 +567,19 @@ class TestPerplexity:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(PERPLEXITY_BASE_URL="http://localhost:5000/from/env"):
-            client = Perplexity(bearer_token=bearer_token, _strict_response_validation=True)
+        with update_env(PERPLEXITY_API_BASE_URL="http://localhost:5000/from/env"):
+            client = PerplexityAPI(bearer_token=bearer_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -588,7 +588,7 @@ class TestPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: Perplexity) -> None:
+    def test_base_url_trailing_slash(self, client: PerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -601,12 +601,12 @@ class TestPerplexity:
     @pytest.mark.parametrize(
         "client",
         [
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -615,7 +615,7 @@ class TestPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: Perplexity) -> None:
+    def test_base_url_no_trailing_slash(self, client: PerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -628,12 +628,12 @@ class TestPerplexity:
     @pytest.mark.parametrize(
         "client",
         [
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            Perplexity(
+            PerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -642,7 +642,7 @@ class TestPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: Perplexity) -> None:
+    def test_absolute_request_url(self, client: PerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -653,7 +653,7 @@ class TestPerplexity:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -664,7 +664,7 @@ class TestPerplexity:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -685,7 +685,7 @@ class TestPerplexity:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            Perplexity(
+            PerplexityAPI(
                 base_url=base_url,
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -699,12 +699,12 @@ class TestPerplexity:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -732,7 +732,7 @@ class TestPerplexity:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Perplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = PerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -741,7 +741,7 @@ class TestPerplexity:
 
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Perplexity) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: PerplexityAPI) -> None:
         respx_mock.post("/search").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
@@ -751,7 +751,7 @@ class TestPerplexity:
 
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Perplexity) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: PerplexityAPI) -> None:
         respx_mock.post("/search").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
@@ -764,7 +764,7 @@ class TestPerplexity:
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
         self,
-        client: Perplexity,
+        client: PerplexityAPI,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -793,7 +793,7 @@ class TestPerplexity:
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
-        self, client: Perplexity, failures_before_success: int, respx_mock: MockRouter
+        self, client: PerplexityAPI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -818,7 +818,7 @@ class TestPerplexity:
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: Perplexity, failures_before_success: int, respx_mock: MockRouter
+        self, client: PerplexityAPI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -889,8 +889,8 @@ class TestPerplexity:
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
 
 
-class TestAsyncPerplexity:
-    client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+class TestAsyncPerplexityAPI:
+    client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -939,7 +939,7 @@ class TestAsyncPerplexity:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -976,7 +976,7 @@ class TestAsyncPerplexity:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -1102,7 +1102,7 @@ class TestAsyncPerplexity:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -1113,7 +1113,7 @@ class TestAsyncPerplexity:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncPerplexity(
+            client = AsyncPerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1123,7 +1123,7 @@ class TestAsyncPerplexity:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncPerplexity(
+            client = AsyncPerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1133,7 +1133,7 @@ class TestAsyncPerplexity:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncPerplexity(
+            client = AsyncPerplexityAPI(
                 base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1144,7 +1144,7 @@ class TestAsyncPerplexity:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncPerplexity(
+                AsyncPerplexityAPI(
                     base_url=base_url,
                     bearer_token=bearer_token,
                     _strict_response_validation=True,
@@ -1152,7 +1152,7 @@ class TestAsyncPerplexity:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -1162,7 +1162,7 @@ class TestAsyncPerplexity:
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = AsyncPerplexity(
+        client2 = AsyncPerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -1176,17 +1176,17 @@ class TestAsyncPerplexity:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
-        with pytest.raises(PerplexityError):
-            with update_env(**{"PERPLEXITY_BEARER_TOKEN": Omit()}):
-                client2 = AsyncPerplexity(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+        with pytest.raises(PerplexityAPIError):
+            with update_env(**{"PERPLEXITY_API_KEY": Omit()}):
+                client2 = AsyncPerplexityAPI(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url=base_url,
             bearer_token=bearer_token,
             _strict_response_validation=True,
@@ -1303,7 +1303,7 @@ class TestAsyncPerplexity:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncPerplexity) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncPerplexityAPI) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -1390,7 +1390,7 @@ class TestAsyncPerplexity:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = AsyncPerplexity(
+        client = AsyncPerplexityAPI(
             base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -1400,19 +1400,19 @@ class TestAsyncPerplexity:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(PERPLEXITY_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncPerplexity(bearer_token=bearer_token, _strict_response_validation=True)
+        with update_env(PERPLEXITY_API_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncPerplexityAPI(bearer_token=bearer_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -1421,7 +1421,7 @@ class TestAsyncPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: AsyncPerplexity) -> None:
+    def test_base_url_trailing_slash(self, client: AsyncPerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1434,12 +1434,12 @@ class TestAsyncPerplexity:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -1448,7 +1448,7 @@ class TestAsyncPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: AsyncPerplexity) -> None:
+    def test_base_url_no_trailing_slash(self, client: AsyncPerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1461,12 +1461,12 @@ class TestAsyncPerplexity:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
             ),
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url="http://localhost:5000/custom/path/",
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -1475,7 +1475,7 @@ class TestAsyncPerplexity:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: AsyncPerplexity) -> None:
+    def test_absolute_request_url(self, client: AsyncPerplexityAPI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1486,7 +1486,7 @@ class TestAsyncPerplexity:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1498,7 +1498,7 @@ class TestAsyncPerplexity:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1520,7 +1520,7 @@ class TestAsyncPerplexity:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncPerplexity(
+            AsyncPerplexityAPI(
                 base_url=base_url,
                 bearer_token=bearer_token,
                 _strict_response_validation=True,
@@ -1535,12 +1535,14 @@ class TestAsyncPerplexity:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = AsyncPerplexityAPI(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True
+        )
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1569,7 +1571,7 @@ class TestAsyncPerplexity:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncPerplexity(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncPerplexityAPI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -1579,7 +1581,7 @@ class TestAsyncPerplexity:
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncPerplexity
+        self, respx_mock: MockRouter, async_client: AsyncPerplexityAPI
     ) -> None:
         respx_mock.post("/search").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
@@ -1591,7 +1593,7 @@ class TestAsyncPerplexity:
     @mock.patch("perplexity._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncPerplexity
+        self, respx_mock: MockRouter, async_client: AsyncPerplexityAPI
     ) -> None:
         respx_mock.post("/search").mock(return_value=httpx.Response(500))
 
@@ -1606,7 +1608,7 @@ class TestAsyncPerplexity:
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
-        async_client: AsyncPerplexity,
+        async_client: AsyncPerplexityAPI,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -1636,7 +1638,7 @@ class TestAsyncPerplexity:
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
-        self, async_client: AsyncPerplexity, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncPerplexityAPI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1662,7 +1664,7 @@ class TestAsyncPerplexity:
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncPerplexity, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncPerplexityAPI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 

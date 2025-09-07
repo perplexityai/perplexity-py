@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from perplexity import Perplexity, AsyncPerplexity
+from perplexity import PerplexityAPI, AsyncPerplexityAPI
 from tests.utils import assert_matches_type
 from perplexity.types import SearchPerformResponse
 
@@ -19,7 +19,7 @@ class TestSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_perform(self, client: Perplexity) -> None:
+    def test_method_perform(self, client: PerplexityAPI) -> None:
         search = client.search.perform(
             query="string",
         )
@@ -27,7 +27,7 @@ class TestSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_perform_with_all_params(self, client: Perplexity) -> None:
+    def test_method_perform_with_all_params(self, client: PerplexityAPI) -> None:
         search = client.search.perform(
             query="string",
             country="country",
@@ -46,7 +46,7 @@ class TestSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_perform(self, client: Perplexity) -> None:
+    def test_raw_response_perform(self, client: PerplexityAPI) -> None:
         response = client.search.with_raw_response.perform(
             query="string",
         )
@@ -58,7 +58,7 @@ class TestSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_perform(self, client: Perplexity) -> None:
+    def test_streaming_response_perform(self, client: PerplexityAPI) -> None:
         with client.search.with_streaming_response.perform(
             query="string",
         ) as response:
@@ -78,7 +78,7 @@ class TestAsyncSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_perform(self, async_client: AsyncPerplexity) -> None:
+    async def test_method_perform(self, async_client: AsyncPerplexityAPI) -> None:
         search = await async_client.search.perform(
             query="string",
         )
@@ -86,7 +86,7 @@ class TestAsyncSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_perform_with_all_params(self, async_client: AsyncPerplexity) -> None:
+    async def test_method_perform_with_all_params(self, async_client: AsyncPerplexityAPI) -> None:
         search = await async_client.search.perform(
             query="string",
             country="country",
@@ -105,7 +105,7 @@ class TestAsyncSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_perform(self, async_client: AsyncPerplexity) -> None:
+    async def test_raw_response_perform(self, async_client: AsyncPerplexityAPI) -> None:
         response = await async_client.search.with_raw_response.perform(
             query="string",
         )
@@ -117,7 +117,7 @@ class TestAsyncSearch:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_perform(self, async_client: AsyncPerplexity) -> None:
+    async def test_streaming_response_perform(self, async_client: AsyncPerplexityAPI) -> None:
         async with async_client.search.with_streaming_response.perform(
             query="string",
         ) as response:

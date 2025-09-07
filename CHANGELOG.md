@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 (2025-09-07)
+
+Full Changelog: [v0.0.2...v0.1.0](https://github.com/ppl-ai/perplexity-py/compare/v0.0.2...v0.1.0)
+
+### Features
+
+* **api:** initial updates ([dd0709d](https://github.com/ppl-ai/perplexity-py/commit/dd0709dcc9775ae935a6dad72bc826d2a61dd740))
+
 ## 0.0.2 (2025-09-07)
 
 Full Changelog: [v0.0.1...v0.0.2](https://github.com/ppl-ai/perplexity-py/compare/v0.0.1...v0.0.2)
