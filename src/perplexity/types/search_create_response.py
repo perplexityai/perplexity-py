@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from .._models import BaseModel
 
-__all__ = ["SearchPerformResponse", "Result"]
+__all__ = ["SearchCreateResponse", "Result"]
 
 
 class Result(BaseModel):
@@ -19,7 +19,7 @@ class Result(BaseModel):
     last_updated: Optional[str] = None
 
 
-class SearchPerformResponse(BaseModel):
+class SearchCreateResponse(BaseModel):
     id: str
 
     results: List[Result]
