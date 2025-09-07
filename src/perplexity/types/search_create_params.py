@@ -7,10 +7,10 @@ from typing_extensions import Literal, Required, TypedDict
 
 from .._types import SequenceNotStr
 
-__all__ = ["SearchPerformParams"]
+__all__ = ["SearchCreateParams"]
 
 
-class SearchPerformParams(TypedDict, total=False):
+class SearchCreateParams(TypedDict, total=False):
     query: Required[Union[str, SequenceNotStr[str]]]
 
     country: Optional[str]

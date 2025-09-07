@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import search_perform_params
+from ..types import search_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -19,7 +19,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.search_perform_response import SearchPerformResponse
+from ..types.search_create_response import SearchCreateResponse
 
 __all__ = ["SearchResource", "AsyncSearchResource"]
 
@@ -31,7 +31,7 @@ class SearchResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/ppl-ai/testing-stainless#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/ppl-ai/perplexity-py#accessing-raw-response-data-eg-headers
         """
         return SearchResourceWithRawResponse(self)
 
@@ -40,11 +40,11 @@ class SearchResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/ppl-ai/testing-stainless#with_streaming_response
+        For more information, see https://www.github.com/ppl-ai/perplexity-py#with_streaming_response
         """
         return SearchResourceWithStreamingResponse(self)
 
-    def perform(
+    def create(
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
@@ -65,7 +65,7 @@ class SearchResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SearchPerformResponse:
+    ) -> SearchCreateResponse:
         """
         Search
 
@@ -95,12 +95,12 @@ class SearchResource(SyncAPIResource):
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                 },
-                search_perform_params.SearchPerformParams,
+                search_create_params.SearchCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SearchPerformResponse,
+            cast_to=SearchCreateResponse,
         )
 
 
@@ -111,7 +111,7 @@ class AsyncSearchResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/ppl-ai/testing-stainless#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/ppl-ai/perplexity-py#accessing-raw-response-data-eg-headers
         """
         return AsyncSearchResourceWithRawResponse(self)
 
@@ -120,11 +120,11 @@ class AsyncSearchResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/ppl-ai/testing-stainless#with_streaming_response
+        For more information, see https://www.github.com/ppl-ai/perplexity-py#with_streaming_response
         """
         return AsyncSearchResourceWithStreamingResponse(self)
 
-    async def perform(
+    async def create(
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
@@ -145,7 +145,7 @@ class AsyncSearchResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SearchPerformResponse:
+    ) -> SearchCreateResponse:
         """
         Search
 
@@ -175,12 +175,12 @@ class AsyncSearchResource(AsyncAPIResource):
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                 },
-                search_perform_params.SearchPerformParams,
+                search_create_params.SearchCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SearchPerformResponse,
+            cast_to=SearchCreateResponse,
         )
 
 
@@ -188,8 +188,8 @@ class SearchResourceWithRawResponse:
     def __init__(self, search: SearchResource) -> None:
         self._search = search
 
-        self.perform = to_raw_response_wrapper(
-            search.perform,
+        self.create = to_raw_response_wrapper(
+            search.create,
         )
 
 
@@ -197,8 +197,8 @@ class AsyncSearchResourceWithRawResponse:
     def __init__(self, search: AsyncSearchResource) -> None:
         self._search = search
 
-        self.perform = async_to_raw_response_wrapper(
-            search.perform,
+        self.create = async_to_raw_response_wrapper(
+            search.create,
         )
 
 
@@ -206,8 +206,8 @@ class SearchResourceWithStreamingResponse:
     def __init__(self, search: SearchResource) -> None:
         self._search = search
 
-        self.perform = to_streamed_response_wrapper(
-            search.perform,
+        self.create = to_streamed_response_wrapper(
+            search.create,
         )
 
 
@@ -215,6 +215,6 @@ class AsyncSearchResourceWithStreamingResponse:
     def __init__(self, search: AsyncSearchResource) -> None:
         self._search = search
 
-        self.perform = async_to_streamed_response_wrapper(
-            search.perform,
+        self.create = async_to_streamed_response_wrapper(
+            search.create,
         )

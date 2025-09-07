@@ -745,7 +745,7 @@ class TestPerplexity:
         respx_mock.post("/search").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.search.with_streaming_response.perform(query="string").__enter__()
+            client.search.with_streaming_response.create(query="string").__enter__()
 
         assert _get_open_connections(self.client) == 0
 
@@ -755,7 +755,7 @@ class TestPerplexity:
         respx_mock.post("/search").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.search.with_streaming_response.perform(query="string").__enter__()
+            client.search.with_streaming_response.create(query="string").__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -784,7 +784,7 @@ class TestPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = client.search.with_raw_response.perform(query="string")
+        response = client.search.with_raw_response.create(query="string")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -808,7 +808,7 @@ class TestPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = client.search.with_raw_response.perform(
+        response = client.search.with_raw_response.create(
             query="string", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -833,7 +833,7 @@ class TestPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = client.search.with_raw_response.perform(
+        response = client.search.with_raw_response.create(
             query="string", extra_headers={"x-stainless-retry-count": "42"}
         )
 
@@ -1584,7 +1584,7 @@ class TestAsyncPerplexity:
         respx_mock.post("/search").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.search.with_streaming_response.perform(query="string").__aenter__()
+            await async_client.search.with_streaming_response.create(query="string").__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
@@ -1596,7 +1596,7 @@ class TestAsyncPerplexity:
         respx_mock.post("/search").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.search.with_streaming_response.perform(query="string").__aenter__()
+            await async_client.search.with_streaming_response.create(query="string").__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1626,7 +1626,7 @@ class TestAsyncPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = await client.search.with_raw_response.perform(query="string")
+        response = await client.search.with_raw_response.create(query="string")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1651,7 +1651,7 @@ class TestAsyncPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = await client.search.with_raw_response.perform(
+        response = await client.search.with_raw_response.create(
             query="string", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -1677,7 +1677,7 @@ class TestAsyncPerplexity:
 
         respx_mock.post("/search").mock(side_effect=retry_handler)
 
-        response = await client.search.with_raw_response.perform(
+        response = await client.search.with_raw_response.create(
             query="string", extra_headers={"x-stainless-retry-count": "42"}
         )
 

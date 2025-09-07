@@ -32,10 +32,10 @@ client = Perplexity(
     bearer_token=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
 )
 
-response = client.search.perform(
+search = client.search.create(
     query="string",
 )
-print(response.id)
+print(search.id)
 ```
 
 While you can provide a `bearer_token` keyword argument,
@@ -58,10 +58,10 @@ client = AsyncPerplexity(
 
 
 async def main() -> None:
-    response = await client.search.perform(
+    search = await client.search.create(
         query="string",
     )
-    print(response.id)
+    print(search.id)
 
 
 asyncio.run(main())
@@ -93,10 +93,10 @@ async def main() -> None:
         bearer_token="My Bearer Token",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.search.perform(
+        search = await client.search.create(
             query="string",
         )
-        print(response.id)
+        print(search.id)
 
 
 asyncio.run(main())
@@ -127,7 +127,7 @@ from perplexity import Perplexity
 client = Perplexity()
 
 try:
-    client.search.perform(
+    client.search.create(
         query="string",
     )
 except perplexity.APIConnectionError as e:
@@ -172,7 +172,7 @@ client = Perplexity(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).search.perform(
+client.with_options(max_retries=5).search.create(
     query="string",
 )
 ```
@@ -197,7 +197,7 @@ client = Perplexity(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).search.perform(
+client.with_options(timeout=5.0).search.create(
     query="string",
 )
 ```
@@ -240,18 +240,18 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from perplexity import Perplexity
 
 client = Perplexity()
-response = client.search.with_raw_response.perform(
+response = client.search.with_raw_response.create(
     query="string",
 )
 print(response.headers.get('X-My-Header'))
 
-search = response.parse()  # get the object that `search.perform()` would have returned
+search = response.parse()  # get the object that `search.create()` would have returned
 print(search.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/ppl-ai/testing-stainless/tree/main/src/perplexity/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/ppl-ai/perplexity-py/tree/main/src/perplexity/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/ppl-ai/testing-stainless/tree/main/src/perplexity/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/ppl-ai/perplexity-py/tree/main/src/perplexity/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -260,7 +260,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.search.with_streaming_response.perform(
+with client.search.with_streaming_response.create(
     query="string",
 ) as response:
     print(response.headers.get("X-My-Header"))
@@ -357,7 +357,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/ppl-ai/testing-stainless/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/ppl-ai/perplexity-py/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 
