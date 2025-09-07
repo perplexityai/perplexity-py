@@ -249,9 +249,9 @@ search = response.parse()  # get the object that `search.perform()` would have r
 print(search.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/ppl-ai/perplexity-py/tree/main/src/perplexity/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/ppl-ai/testing-stainless/tree/main/src/perplexity/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/ppl-ai/perplexity-py/tree/main/src/perplexity/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/ppl-ai/testing-stainless/tree/main/src/perplexity/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -357,7 +357,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/ppl-ai/perplexity-py/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/ppl-ai/testing-stainless/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 
