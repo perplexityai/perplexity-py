@@ -23,7 +23,7 @@ from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import search
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, PerplexityError
+from ._exceptions import APIStatusError, PerplexityAPIError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -35,17 +35,17 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "Perplexity",
-    "AsyncPerplexity",
+    "PerplexityAPI",
+    "AsyncPerplexityAPI",
     "Client",
     "AsyncClient",
 ]
 
 
-class Perplexity(SyncAPIClient):
+class PerplexityAPI(SyncAPIClient):
     search: search.SearchResource
-    with_raw_response: PerplexityWithRawResponse
-    with_streaming_response: PerplexityWithStreamedResponse
+    with_raw_response: PerplexityAPIWithRawResponse
+    with_streaming_response: PerplexityAPIWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -73,22 +73,22 @@ class Perplexity(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous Perplexity client instance.
+        """Construct a new synchronous PerplexityAPI client instance.
 
-        This automatically infers the `bearer_token` argument from the `PERPLEXITY_BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `PERPLEXITY_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("PERPLEXITY_BEARER_TOKEN")
+            bearer_token = os.environ.get("PERPLEXITY_API_KEY")
         if bearer_token is None:
-            raise PerplexityError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PERPLEXITY_BEARER_TOKEN environment variable"
+            raise PerplexityAPIError(
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PERPLEXITY_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 
         if base_url is None:
-            base_url = os.environ.get("PERPLEXITY_BASE_URL")
+            base_url = os.environ.get("PERPLEXITY_API_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.example.com"
+            base_url = f"https://api.perplexity.ai"
 
         super().__init__(
             version=__version__,
@@ -102,8 +102,8 @@ class Perplexity(SyncAPIClient):
         )
 
         self.search = search.SearchResource(self)
-        self.with_raw_response = PerplexityWithRawResponse(self)
-        self.with_streaming_response = PerplexityWithStreamedResponse(self)
+        self.with_raw_response = PerplexityAPIWithRawResponse(self)
+        self.with_streaming_response = PerplexityAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -210,10 +210,10 @@ class Perplexity(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncPerplexity(AsyncAPIClient):
+class AsyncPerplexityAPI(AsyncAPIClient):
     search: search.AsyncSearchResource
-    with_raw_response: AsyncPerplexityWithRawResponse
-    with_streaming_response: AsyncPerplexityWithStreamedResponse
+    with_raw_response: AsyncPerplexityAPIWithRawResponse
+    with_streaming_response: AsyncPerplexityAPIWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -241,22 +241,22 @@ class AsyncPerplexity(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncPerplexity client instance.
+        """Construct a new async AsyncPerplexityAPI client instance.
 
-        This automatically infers the `bearer_token` argument from the `PERPLEXITY_BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `PERPLEXITY_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("PERPLEXITY_BEARER_TOKEN")
+            bearer_token = os.environ.get("PERPLEXITY_API_KEY")
         if bearer_token is None:
-            raise PerplexityError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PERPLEXITY_BEARER_TOKEN environment variable"
+            raise PerplexityAPIError(
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PERPLEXITY_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 
         if base_url is None:
-            base_url = os.environ.get("PERPLEXITY_BASE_URL")
+            base_url = os.environ.get("PERPLEXITY_API_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.example.com"
+            base_url = f"https://api.perplexity.ai"
 
         super().__init__(
             version=__version__,
@@ -270,8 +270,8 @@ class AsyncPerplexity(AsyncAPIClient):
         )
 
         self.search = search.AsyncSearchResource(self)
-        self.with_raw_response = AsyncPerplexityWithRawResponse(self)
-        self.with_streaming_response = AsyncPerplexityWithStreamedResponse(self)
+        self.with_raw_response = AsyncPerplexityAPIWithRawResponse(self)
+        self.with_streaming_response = AsyncPerplexityAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -378,26 +378,26 @@ class AsyncPerplexity(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class PerplexityWithRawResponse:
-    def __init__(self, client: Perplexity) -> None:
+class PerplexityAPIWithRawResponse:
+    def __init__(self, client: PerplexityAPI) -> None:
         self.search = search.SearchResourceWithRawResponse(client.search)
 
 
-class AsyncPerplexityWithRawResponse:
-    def __init__(self, client: AsyncPerplexity) -> None:
+class AsyncPerplexityAPIWithRawResponse:
+    def __init__(self, client: AsyncPerplexityAPI) -> None:
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
 
 
-class PerplexityWithStreamedResponse:
-    def __init__(self, client: Perplexity) -> None:
+class PerplexityAPIWithStreamedResponse:
+    def __init__(self, client: PerplexityAPI) -> None:
         self.search = search.SearchResourceWithStreamingResponse(client.search)
 
 
-class AsyncPerplexityWithStreamedResponse:
-    def __init__(self, client: AsyncPerplexity) -> None:
+class AsyncPerplexityAPIWithStreamedResponse:
+    def __init__(self, client: AsyncPerplexityAPI) -> None:
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
 
 
-Client = Perplexity
+Client = PerplexityAPI
 
-AsyncClient = AsyncPerplexity
+AsyncClient = AsyncPerplexityAPI

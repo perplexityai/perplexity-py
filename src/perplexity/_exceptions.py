@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class PerplexityError(Exception):
+class PerplexityAPIError(Exception):
     pass
 
 
-class APIError(PerplexityError):
+class APIError(PerplexityAPIError):
     message: str
     request: httpx.Request
 
