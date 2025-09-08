@@ -23,6 +23,8 @@ class SearchCreateParams(TypedDict, total=False):
 
     max_tokens: int
 
+    max_tokens_per_page: int
+
     safe_search: Optional[bool]
 
     search_after_date_filter: Optional[str]
