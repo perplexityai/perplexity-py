@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 (2025-09-08)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/ppl-ai/perplexity-py/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **api:** change bearer_token to api_key ([875bba1](https://github.com/ppl-ai/perplexity-py/commit/875bba126072093d572f00818746b0637a1a56a6))
+
 ## 0.4.0 (2025-09-07)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/ppl-ai/perplexity-py/compare/v0.3.0...v0.4.0)
