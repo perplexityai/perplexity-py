@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 (2025-09-08)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/ppl-ai/perplexity-py/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** add /content endpoint ([a83e23b](https://github.com/ppl-ai/perplexity-py/commit/a83e23bbcacc8b80748ccf512f3a287ed6011a37))
+* **api:** include /content endpoint ([d30ca3e](https://github.com/ppl-ai/perplexity-py/commit/d30ca3e3697f8fd5e17f00762ab2a89ea4d5814f))
+
 ## 0.5.0 (2025-09-08)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/ppl-ai/perplexity-py/compare/v0.4.0...v0.5.0)
