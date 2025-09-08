@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import search
+from .resources import search, content
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, PerplexityError
 from ._base_client import (
@@ -44,6 +44,7 @@ __all__ = [
 
 class Perplexity(SyncAPIClient):
     search: search.SearchResource
+    content: content.ContentResource
     with_raw_response: PerplexityWithRawResponse
     with_streaming_response: PerplexityWithStreamedResponse
 
@@ -102,6 +103,7 @@ class Perplexity(SyncAPIClient):
         )
 
         self.search = search.SearchResource(self)
+        self.content = content.ContentResource(self)
         self.with_raw_response = PerplexityWithRawResponse(self)
         self.with_streaming_response = PerplexityWithStreamedResponse(self)
 
@@ -212,6 +214,7 @@ class Perplexity(SyncAPIClient):
 
 class AsyncPerplexity(AsyncAPIClient):
     search: search.AsyncSearchResource
+    content: content.AsyncContentResource
     with_raw_response: AsyncPerplexityWithRawResponse
     with_streaming_response: AsyncPerplexityWithStreamedResponse
 
@@ -270,6 +273,7 @@ class AsyncPerplexity(AsyncAPIClient):
         )
 
         self.search = search.AsyncSearchResource(self)
+        self.content = content.AsyncContentResource(self)
         self.with_raw_response = AsyncPerplexityWithRawResponse(self)
         self.with_streaming_response = AsyncPerplexityWithStreamedResponse(self)
 
@@ -381,21 +385,25 @@ class AsyncPerplexity(AsyncAPIClient):
 class PerplexityWithRawResponse:
     def __init__(self, client: Perplexity) -> None:
         self.search = search.SearchResourceWithRawResponse(client.search)
+        self.content = content.ContentResourceWithRawResponse(client.content)
 
 
 class AsyncPerplexityWithRawResponse:
     def __init__(self, client: AsyncPerplexity) -> None:
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
+        self.content = content.AsyncContentResourceWithRawResponse(client.content)
 
 
 class PerplexityWithStreamedResponse:
     def __init__(self, client: Perplexity) -> None:
         self.search = search.SearchResourceWithStreamingResponse(client.search)
+        self.content = content.ContentResourceWithStreamingResponse(client.content)
 
 
 class AsyncPerplexityWithStreamedResponse:
     def __init__(self, client: AsyncPerplexity) -> None:
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
+        self.content = content.AsyncContentResourceWithStreamingResponse(client.content)
 
 
 Client = Perplexity
