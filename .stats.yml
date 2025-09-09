@@ -1,4 +1,4 @@
 configured_endpoints: 2
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/perplexity-ai%2Fperplexity-185831f484c464517fc6618626a9df301132e9985cbf4b96f1db7d2d0efbe49c.yml
 openapi_spec_hash: 45730bd4915f28dea6ab7a945bbc3f25
-config_hash: 10aba8e4698941098caca11197d214a0
+config_hash: 0ce8ec3ce8abe4cf5d15af7506ca235c
