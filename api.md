@@ -1,3 +1,45 @@
+# Shared Types
+
+```python
+from perplexity.types import ChatChoice, ChatMessage, SearchResult, UsageInfo
+```
+
+# Chat
+
+## Completions
+
+Types:
+
+```python
+from perplexity.types.chat import CompletionCreateResponse
+```
+
+Methods:
+
+- <code title="post /chat/completions">client.chat.completions.<a href="./src/perplexity/resources/chat/completions.py">create</a>(\*\*<a href="src/perplexity/types/chat/completion_create_params.py">params</a>) -> <a href="./src/perplexity/types/chat/completion_create_response.py">CompletionCreateResponse</a></code>
+
+# Async
+
+## Chat
+
+### Completions
+
+Types:
+
+```python
+from perplexity.types.async_.chat import (
+    CompletionCreateResponse,
+    CompletionListResponse,
+    CompletionGetResponse,
+)
+```
+
+Methods:
+
+- <code title="post /async/chat/completions">client.async*.chat.completions.<a href="./src/perplexity/resources/async*/chat/completions.py">create</a>(\*\*<a href="src/perplexity/types/async_/chat/completion_create_params.py">params</a>) -> <a href="./src/perplexity/types/async_/chat/completion_create_response.py">CompletionCreateResponse</a></code>
+- <code title="get /async/chat/completions">client.async*.chat.completions.<a href="./src/perplexity/resources/async*/chat/completions.py">list</a>(\*\*<a href="src/perplexity/types/async_/chat/completion_list_params.py">params</a>) -> <a href="./src/perplexity/types/async_/chat/completion_list_response.py">CompletionListResponse</a></code>
+- <code title="get /async/chat/completions/{request_id}">client.async*.chat.completions.<a href="./src/perplexity/resources/async*/chat/completions.py">get</a>(request*id) -> <a href="./src/perplexity/types/async*/chat/completion_get_response.py">CompletionGetResponse</a></code>
+
 # Search
 
 Types:

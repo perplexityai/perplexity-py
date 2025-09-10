@@ -29,6 +29,8 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.chat import chat
+from .resources.async_ import async_
 
 __all__ = [
     "Timeout",
@@ -43,6 +45,8 @@ __all__ = [
 
 
 class Perplexity(SyncAPIClient):
+    chat: chat.ChatResource
+    async_: async_.AsyncResource
     search: search.SearchResource
     content: content.ContentResource
     with_raw_response: PerplexityWithRawResponse
@@ -102,6 +106,8 @@ class Perplexity(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.chat = chat.ChatResource(self)
+        self.async_ = async_.AsyncResource(self)
         self.search = search.SearchResource(self)
         self.content = content.ContentResource(self)
         self.with_raw_response = PerplexityWithRawResponse(self)
@@ -213,6 +219,8 @@ class Perplexity(SyncAPIClient):
 
 
 class AsyncPerplexity(AsyncAPIClient):
+    chat: chat.AsyncChatResource
+    async_: async_.AsyncAsyncResource
     search: search.AsyncSearchResource
     content: content.AsyncContentResource
     with_raw_response: AsyncPerplexityWithRawResponse
@@ -272,6 +280,8 @@ class AsyncPerplexity(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.chat = chat.AsyncChatResource(self)
+        self.async_ = async_.AsyncAsyncResource(self)
         self.search = search.AsyncSearchResource(self)
         self.content = content.AsyncContentResource(self)
         self.with_raw_response = AsyncPerplexityWithRawResponse(self)
@@ -384,24 +394,32 @@ class AsyncPerplexity(AsyncAPIClient):
 
 class PerplexityWithRawResponse:
     def __init__(self, client: Perplexity) -> None:
+        self.chat = chat.ChatResourceWithRawResponse(client.chat)
+        self.async_ = async_.AsyncResourceWithRawResponse(client.async_)
         self.search = search.SearchResourceWithRawResponse(client.search)
         self.content = content.ContentResourceWithRawResponse(client.content)
 
 
 class AsyncPerplexityWithRawResponse:
     def __init__(self, client: AsyncPerplexity) -> None:
+        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
+        self.async_ = async_.AsyncAsyncResourceWithRawResponse(client.async_)
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
         self.content = content.AsyncContentResourceWithRawResponse(client.content)
 
 
 class PerplexityWithStreamedResponse:
     def __init__(self, client: Perplexity) -> None:
+        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
+        self.async_ = async_.AsyncResourceWithStreamingResponse(client.async_)
         self.search = search.SearchResourceWithStreamingResponse(client.search)
         self.content = content.ContentResourceWithStreamingResponse(client.content)
 
 
 class AsyncPerplexityWithStreamedResponse:
     def __init__(self, client: AsyncPerplexity) -> None:
+        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
+        self.async_ = async_.AsyncAsyncResourceWithStreamingResponse(client.async_)
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
         self.content = content.AsyncContentResourceWithStreamingResponse(client.content)
 

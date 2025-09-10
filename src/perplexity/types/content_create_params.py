@@ -11,3 +11,4 @@ __all__ = ["ContentCreateParams"]
 
 class ContentCreateParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
+    """List of URLs to retrieve content from"""
