@@ -9,6 +9,8 @@ dist
 .venv
 .idea
 
+.DS_Store
+
 .env
 .envrc
 codegen.log

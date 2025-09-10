@@ -32,10 +32,16 @@ client = Perplexity(
     api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
 )
 
-search = client.search.create(
-    query="string",
+completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Tell me about the latest developments in AI",
+        }
+    ],
+    model="sonar",
 )
-print(search.id)
+print(completion.id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -58,10 +64,16 @@ client = AsyncPerplexity(
 
 
 async def main() -> None:
-    search = await client.search.create(
-        query="string",
+    completion = await client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": "Tell me about the latest developments in AI",
+            }
+        ],
+        model="sonar",
     )
-    print(search.id)
+    print(completion.id)
 
 
 asyncio.run(main())
@@ -93,10 +105,16 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        search = await client.search.create(
-            query="string",
+        completion = await client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Tell me about the latest developments in AI",
+                }
+            ],
+            model="sonar",
         )
-        print(search.id)
+        print(completion.id)
 
 
 asyncio.run(main())
@@ -110,6 +128,28 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from perplexity import Perplexity
+
+client = Perplexity()
+
+completion = client.chat.completions.create(
+    messages=[
+        {
+            "content": "string",
+            "role": "system",
+        }
+    ],
+    model="sonar",
+    web_search_options={},
+)
+print(completion.web_search_options)
+```
 
 ## Handling errors
 
@@ -127,8 +167,14 @@ from perplexity import Perplexity
 client = Perplexity()
 
 try:
-    client.search.create(
-        query="string",
+    client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": "What is the capital of France?",
+            }
+        ],
+        model="sonar",
     )
 except perplexity.APIConnectionError as e:
     print("The server could not be reached")
@@ -172,8 +218,14 @@ client = Perplexity(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).search.create(
-    query="string",
+client.with_options(max_retries=5).chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
+    model="sonar",
 )
 ```
 
@@ -197,8 +249,14 @@ client = Perplexity(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).search.create(
-    query="string",
+client.with_options(timeout=5.0).chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
+    model="sonar",
 )
 ```
 
@@ -240,13 +298,17 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from perplexity import Perplexity
 
 client = Perplexity()
-response = client.search.with_raw_response.create(
-    query="string",
+response = client.chat.completions.with_raw_response.create(
+    messages=[{
+        "role": "user",
+        "content": "What is the capital of France?",
+    }],
+    model="sonar",
 )
 print(response.headers.get('X-My-Header'))
 
-search = response.parse()  # get the object that `search.create()` would have returned
-print(search.id)
+completion = response.parse()  # get the object that `chat.completions.create()` would have returned
+print(completion.id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/ppl-ai/perplexity-py/tree/main/src/perplexity/_response.py) object.
@@ -260,8 +322,14 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.search.with_streaming_response.create(
-    query="string",
+with client.chat.completions.with_streaming_response.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
+    model="sonar",
 ) as response:
     print(response.headers.get("X-My-Header"))
 

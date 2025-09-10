@@ -16,22 +16,6 @@ from .async_ import (
     AsyncResourceWithStreamingResponse,
     AsyncAsyncResourceWithStreamingResponse,
 )
-from .search import (
-    SearchResource,
-    AsyncSearchResource,
-    SearchResourceWithRawResponse,
-    AsyncSearchResourceWithRawResponse,
-    SearchResourceWithStreamingResponse,
-    AsyncSearchResourceWithStreamingResponse,
-)
-from .content import (
-    ContentResource,
-    AsyncContentResource,
-    ContentResourceWithRawResponse,
-    AsyncContentResourceWithRawResponse,
-    ContentResourceWithStreamingResponse,
-    AsyncContentResourceWithStreamingResponse,
-)
 
 __all__ = [
     "ChatResource",
@@ -46,16 +30,4 @@ __all__ = [
     "AsyncAsyncResourceWithRawResponse",
     "AsyncResourceWithStreamingResponse",
     "AsyncAsyncResourceWithStreamingResponse",
-    "SearchResource",
-    "AsyncSearchResource",
-    "SearchResourceWithRawResponse",
-    "AsyncSearchResourceWithRawResponse",
-    "SearchResourceWithStreamingResponse",
-    "AsyncSearchResourceWithStreamingResponse",
-    "ContentResource",
-    "AsyncContentResource",
-    "ContentResourceWithRawResponse",
-    "AsyncContentResourceWithRawResponse",
-    "ContentResourceWithStreamingResponse",
-    "AsyncContentResourceWithStreamingResponse",
 ]

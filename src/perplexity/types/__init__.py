@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+from .shared import (
+    UsageInfo as UsageInfo,
+    ChatChoice as ChatChoice,
+    ChatMessage as ChatMessage,
+    SearchResult as SearchResult,
+)
 from .search_create_params import SearchCreateParams as SearchCreateParams
 from .content_create_params import ContentCreateParams as ContentCreateParams
 from .search_create_response import SearchCreateResponse as SearchCreateResponse
