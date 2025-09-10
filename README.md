@@ -20,7 +20,46 @@ The full API of this library can be found in [api.md](api.md).
 pip install perplexityai
 ```
 
-## Usage
+## Search API
+
+Get web search results:
+
+```python
+import os
+from perplexity import Perplexity
+
+client = Perplexity(
+    api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
+)
+
+search = client.search.create(
+    query="latest AI developments 2024",
+    max_results=5
+)
+
+for result in search.results:
+    print(f"{result.title}: {result.url}")
+```
+
+## Content API
+
+Extract and process content from URLs:
+
+```python
+from perplexity import Perplexity
+
+client = Perplexity()
+
+content = client.content.create(
+    urls=["https://en.wikipedia.org/wiki/Perplexity_AI"]
+)
+
+for result in content.results:
+    print(f"Title: {result.title}")
+    print(f"Content: {result.content[:200]}...")
+```
+
+## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).
 
