@@ -68,38 +68,9 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SearchCreateResponse:
         """
-        Perform a search query with various filtering and customization options
+        Search
 
         Args:
-          query: Search query string or array of query strings to search for
-
-          country: Country code to bias search results towards (e.g., 'US', 'GB', 'CA')
-
-          last_updated_after_filter: Only include results last updated after this date (ISO 8601 format: YYYY-MM-DD)
-
-          last_updated_before_filter: Only include results last updated before this date (ISO 8601 format: YYYY-MM-DD)
-
-          max_results: Maximum number of search results to return
-
-          max_tokens: Maximum number of tokens to return across all results
-
-          max_tokens_per_page: Maximum number of tokens to return per individual search result
-
-          safe_search: Enable safe search filtering to exclude adult content
-
-          search_after_date_filter: Only include results published after this date (ISO 8601 format: YYYY-MM-DD)
-
-          search_before_date_filter: Only include results published before this date (ISO 8601 format: YYYY-MM-DD)
-
-          search_domain_filter: List of domains to restrict search results to (e.g., ['example.com',
-              'another.com'])
-
-          search_mode: Type of search to perform: 'web' for general web search, 'academic' for
-              scholarly articles, 'sec' for SEC filings
-
-          search_recency_filter: Filter results by how recently they were published (hour, day, week, month, or
-              year)
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -179,38 +150,9 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SearchCreateResponse:
         """
-        Perform a search query with various filtering and customization options
+        Search
 
         Args:
-          query: Search query string or array of query strings to search for
-
-          country: Country code to bias search results towards (e.g., 'US', 'GB', 'CA')
-
-          last_updated_after_filter: Only include results last updated after this date (ISO 8601 format: YYYY-MM-DD)
-
-          last_updated_before_filter: Only include results last updated before this date (ISO 8601 format: YYYY-MM-DD)
-
-          max_results: Maximum number of search results to return
-
-          max_tokens: Maximum number of tokens to return across all results
-
-          max_tokens_per_page: Maximum number of tokens to return per individual search result
-
-          safe_search: Enable safe search filtering to exclude adult content
-
-          search_after_date_filter: Only include results published after this date (ISO 8601 format: YYYY-MM-DD)
-
-          search_before_date_filter: Only include results published before this date (ISO 8601 format: YYYY-MM-DD)
-
-          search_domain_filter: List of domains to restrict search results to (e.g., ['example.com',
-              'another.com'])
-
-          search_mode: Type of search to perform: 'web' for general web search, 'academic' for
-              scholarly articles, 'sec' for SEC filings
-
-          search_recency_filter: Filter results by how recently they were published (hour, day, week, month, or
-              year)
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

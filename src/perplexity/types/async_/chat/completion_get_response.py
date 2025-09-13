@@ -4,43 +4,44 @@ from typing import List, Optional
 from typing_extensions import Literal
 
 from ...._models import BaseModel
+from ...shared.choice import Choice
 from ...shared.usage_info import UsageInfo
-from ...shared.chat_choice import ChatChoice
-from ...shared.search_result import SearchResult
+from ...shared.api_public_search_result import APIPublicSearchResult
 
 __all__ = ["CompletionGetResponse", "Response"]
 
 
 class Response(BaseModel):
     id: str
-    """Unique identifier for the chat completion"""
 
-    choices: List[ChatChoice]
+    choices: List[Choice]
 
     created: int
-    """Unix timestamp of creation"""
 
     model: str
-    """The model used"""
-
-    object: str
 
     usage: UsageInfo
 
-    search_results: Optional[List[SearchResult]] = None
-    """Search results used in generating the response"""
+    citations: Optional[List[str]] = None
+
+    object: Optional[str] = None
+
+    search_results: Optional[List[APIPublicSearchResult]] = None
+
+    status: Optional[Literal["PENDING", "COMPLETED"]] = None
+
+    type: Optional[Literal["message", "info", "end_of_stream"]] = None
 
 
 class CompletionGetResponse(BaseModel):
     id: str
-    """Unique identifier for the async job"""
 
     created_at: int
-    """Unix timestamp of creation"""
 
     model: str
 
     status: Literal["CREATED", "IN_PROGRESS", "COMPLETED", "FAILED"]
+    """Status enum for async processing."""
 
     completed_at: Optional[int] = None
 
@@ -49,6 +50,5 @@ class CompletionGetResponse(BaseModel):
     failed_at: Optional[int] = None
 
     response: Optional[Response] = None
-    """The completion response when status is COMPLETED"""
 
     started_at: Optional[int] = None

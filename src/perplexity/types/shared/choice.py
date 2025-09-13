@@ -4,14 +4,16 @@ from typing import Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .chat_message import ChatMessage
+from .chat_message_output import ChatMessageOutput
 
-__all__ = ["ChatChoice"]
+__all__ = ["Choice"]
 
 
-class ChatChoice(BaseModel):
+class Choice(BaseModel):
+    delta: ChatMessageOutput
+
     index: int
 
-    message: ChatMessage
+    message: ChatMessageOutput
 
     finish_reason: Optional[Literal["stop", "length"]] = None

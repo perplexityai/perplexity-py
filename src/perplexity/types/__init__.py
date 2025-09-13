@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from .shared import (
+    Choice as Choice,
     UsageInfo as UsageInfo,
-    ChatChoice as ChatChoice,
-    ChatMessage as ChatMessage,
-    SearchResult as SearchResult,
+    ChatMessageInput as ChatMessageInput,
+    ChatMessageOutput as ChatMessageOutput,
+    APIPublicSearchResult as APIPublicSearchResult,
 )
 from .search_create_params import SearchCreateParams as SearchCreateParams
 from .content_create_params import ContentCreateParams as ContentCreateParams

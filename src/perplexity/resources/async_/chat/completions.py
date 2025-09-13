@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -15,7 +17,7 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.async_.chat import completion_list_params, completion_create_params
+from ....types.async_.chat import completion_get_params, completion_create_params
 from ....types.async_.chat.completion_get_response import CompletionGetResponse
 from ....types.async_.chat.completion_list_response import CompletionListResponse
 from ....types.async_.chat.completion_create_response import CompletionCreateResponse
@@ -47,6 +49,7 @@ class CompletionsResource(SyncAPIResource):
         self,
         *,
         request: completion_create_params.Request,
+        idempotency_key: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -55,7 +58,10 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionCreateResponse:
         """
-        Creates an asynchronous chat completion job
+        FastAPI wrapper around async chat completions
+
+        This endpoint creates an asynchronous chat completion job and returns a job ID
+        that can be used to poll for results.
 
         Args:
           extra_headers: Send extra headers
@@ -68,7 +74,13 @@ class CompletionsResource(SyncAPIResource):
         """
         return self._post(
             "/async/chat/completions",
-            body=maybe_transform({"request": request}, completion_create_params.CompletionCreateParams),
+            body=maybe_transform(
+                {
+                    "request": request,
+                    "idempotency_key": idempotency_key,
+                },
+                completion_create_params.CompletionCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -78,8 +90,6 @@ class CompletionsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        next_token: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -87,44 +97,25 @@ class CompletionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionListResponse:
-        """
-        Lists all asynchronous chat completion requests for the authenticated user
-
-        Args:
-          limit: Maximum number of requests to return
-
-          next_token: Token for fetching the next page of results
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """list all async chat completion requests for a given user."""
         return self._get(
             "/async/chat/completions",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {
-                        "limit": limit,
-                        "next_token": next_token,
-                    },
-                    completion_list_params.CompletionListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CompletionListResponse,
         )
 
     def get(
         self,
-        request_id: str,
+        api_request: str,
         *,
+        local_mode: bool | NotGiven = NOT_GIVEN,
+        x_client_env: str | NotGiven = NOT_GIVEN,
+        x_client_name: str | NotGiven = NOT_GIVEN,
+        x_request_time: str | NotGiven = NOT_GIVEN,
+        x_usage_tier: str | NotGiven = NOT_GIVEN,
+        x_user_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -133,7 +124,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionGetResponse:
         """
-        Retrieves the status and result of a specific asynchronous chat completion job
+        get the response for a given async chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -144,12 +135,28 @@ class CompletionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not request_id:
-            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        if not api_request:
+            raise ValueError(f"Expected a non-empty value for `api_request` but received {api_request!r}")
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "x-client-env": x_client_env,
+                    "x-client-name": x_client_name,
+                    "x-request-time": x_request_time,
+                    "x-usage-tier": x_usage_tier,
+                    "x-user-id": x_user_id,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return self._get(
-            f"/async/chat/completions/{request_id}",
+            f"/async/chat/completions/{api_request}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"local_mode": local_mode}, completion_get_params.CompletionGetParams),
             ),
             cast_to=CompletionGetResponse,
         )
@@ -179,6 +186,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         self,
         *,
         request: completion_create_params.Request,
+        idempotency_key: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -187,7 +195,10 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionCreateResponse:
         """
-        Creates an asynchronous chat completion job
+        FastAPI wrapper around async chat completions
+
+        This endpoint creates an asynchronous chat completion job and returns a job ID
+        that can be used to poll for results.
 
         Args:
           extra_headers: Send extra headers
@@ -200,7 +211,13 @@ class AsyncCompletionsResource(AsyncAPIResource):
         """
         return await self._post(
             "/async/chat/completions",
-            body=await async_maybe_transform({"request": request}, completion_create_params.CompletionCreateParams),
+            body=await async_maybe_transform(
+                {
+                    "request": request,
+                    "idempotency_key": idempotency_key,
+                },
+                completion_create_params.CompletionCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -210,8 +227,6 @@ class AsyncCompletionsResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        next_token: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -219,44 +234,25 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionListResponse:
-        """
-        Lists all asynchronous chat completion requests for the authenticated user
-
-        Args:
-          limit: Maximum number of requests to return
-
-          next_token: Token for fetching the next page of results
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
+        """list all async chat completion requests for a given user."""
         return await self._get(
             "/async/chat/completions",
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {
-                        "limit": limit,
-                        "next_token": next_token,
-                    },
-                    completion_list_params.CompletionListParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=CompletionListResponse,
         )
 
     async def get(
         self,
-        request_id: str,
+        api_request: str,
         *,
+        local_mode: bool | NotGiven = NOT_GIVEN,
+        x_client_env: str | NotGiven = NOT_GIVEN,
+        x_client_name: str | NotGiven = NOT_GIVEN,
+        x_request_time: str | NotGiven = NOT_GIVEN,
+        x_usage_tier: str | NotGiven = NOT_GIVEN,
+        x_user_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -265,7 +261,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> CompletionGetResponse:
         """
-        Retrieves the status and result of a specific asynchronous chat completion job
+        get the response for a given async chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -276,12 +272,30 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not request_id:
-            raise ValueError(f"Expected a non-empty value for `request_id` but received {request_id!r}")
+        if not api_request:
+            raise ValueError(f"Expected a non-empty value for `api_request` but received {api_request!r}")
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "x-client-env": x_client_env,
+                    "x-client-name": x_client_name,
+                    "x-request-time": x_request_time,
+                    "x-usage-tier": x_usage_tier,
+                    "x-user-id": x_user_id,
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return await self._get(
-            f"/async/chat/completions/{request_id}",
+            f"/async/chat/completions/{api_request}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"local_mode": local_mode}, completion_get_params.CompletionGetParams
+                ),
             ),
             cast_to=CompletionGetResponse,
         )
