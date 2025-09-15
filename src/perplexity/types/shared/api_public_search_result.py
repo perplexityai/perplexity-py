@@ -4,12 +4,16 @@ from typing import Optional
 
 from ..._models import BaseModel
 
-__all__ = ["SearchResult"]
+__all__ = ["APIPublicSearchResult"]
 
 
-class SearchResult(BaseModel):
+class APIPublicSearchResult(BaseModel):
     title: str
 
     url: str
 
     date: Optional[str] = None
+
+    last_updated: Optional[str] = None
+
+    snippet: Optional[str] = None

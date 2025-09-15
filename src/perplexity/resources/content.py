@@ -53,11 +53,9 @@ class ContentResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ContentCreateResponse:
         """
-        Retrieve the full content from specified URLs
+        Get Urls Content
 
         Args:
-          urls: List of URLs to retrieve content from
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -108,11 +106,9 @@ class AsyncContentResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ContentCreateResponse:
         """
-        Retrieve the full content from specified URLs
+        Get Urls Content
 
         Args:
-          urls: List of URLs to retrieve content from
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

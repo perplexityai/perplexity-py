@@ -184,10 +184,10 @@ completion = client.chat.completions.create(
             "role": "system",
         }
     ],
-    model="sonar",
-    web_search_options={},
+    model="model",
+    debug_params={},
 )
-print(completion.web_search_options)
+print(completion.debug_params)
 ```
 
 ## Handling errors

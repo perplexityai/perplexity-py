@@ -732,7 +732,7 @@ class TestPerplexity:
                         "role": "system",
                     }
                 ],
-                model="sonar",
+                model="model",
             ).__enter__()
 
         assert _get_open_connections(self.client) == 0
@@ -750,7 +750,7 @@ class TestPerplexity:
                         "role": "system",
                     }
                 ],
-                model="sonar",
+                model="model",
             ).__enter__()
         assert _get_open_connections(self.client) == 0
 
@@ -787,7 +787,7 @@ class TestPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
         )
 
         assert response.retries_taken == failures_before_success
@@ -819,7 +819,7 @@ class TestPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -851,7 +851,7 @@ class TestPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
@@ -1591,7 +1591,7 @@ class TestAsyncPerplexity:
                         "role": "system",
                     }
                 ],
-                model="sonar",
+                model="model",
             ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
@@ -1611,7 +1611,7 @@ class TestAsyncPerplexity:
                         "role": "system",
                     }
                 ],
-                model="sonar",
+                model="model",
             ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
@@ -1649,7 +1649,7 @@ class TestAsyncPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
         )
 
         assert response.retries_taken == failures_before_success
@@ -1682,7 +1682,7 @@ class TestAsyncPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -1715,7 +1715,7 @@ class TestAsyncPerplexity:
                     "role": "system",
                 }
             ],
-            model="sonar",
+            model="model",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
