@@ -32,7 +32,7 @@ class TestCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
@@ -46,24 +46,137 @@ class TestCompletions:
                     {
                         "content": "string",
                         "role": "system",
+                        "reasoning_steps": [
+                            {
+                                "thought": "thought",
+                                "type": "web_search",
+                                "agent_progress": {
+                                    "action": "action",
+                                    "screenshot": "screenshot",
+                                    "url": "url",
+                                },
+                                "browser_agent": {
+                                    "result": "result",
+                                    "url": "url",
+                                },
+                                "browser_tool_execution": {"tool": {"foo": "bar"}},
+                                "execute_python": {
+                                    "code": "code",
+                                    "result": "result",
+                                },
+                                "fetch_url_content": {
+                                    "contents": [
+                                        {
+                                            "title": "title",
+                                            "url": "url",
+                                            "date": "date",
+                                            "last_updated": "last_updated",
+                                            "snippet": "snippet",
+                                        }
+                                    ]
+                                },
+                                "file_attachment_search": {"attachment_urls": ["string"]},
+                                "web_search": {
+                                    "search_keywords": ["string"],
+                                    "search_results": [
+                                        {
+                                            "title": "title",
+                                            "url": "url",
+                                            "date": "date",
+                                            "last_updated": "last_updated",
+                                            "snippet": "snippet",
+                                        }
+                                    ],
+                                },
+                            }
+                        ],
+                        "tool_calls": [
+                            {
+                                "id": "id",
+                                "function": {
+                                    "arguments": "arguments",
+                                    "name": "name",
+                                },
+                                "type": "function",
+                            }
+                        ],
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
+                "_debug_pro_search": True,
+                "_inputs": [0],
+                "_is_browser_agent": True,
+                "_prompt_token_length": 0,
+                "best_of": 0,
+                "country": "country",
+                "cum_logprobs": True,
+                "debug_params": {
+                    "summarizer_model_override": "summarizer_model_override",
+                    "summarizer_prompt_override": "summarizer_prompt_override",
+                },
                 "disable_search": True,
+                "diverse_first_token": True,
                 "enable_search_classifier": True,
+                "file_workspace_id": "file_workspace_id",
+                "frequency_penalty": -2,
+                "has_image_url": True,
+                "image_domain_filter": ["string"],
+                "image_format_filter": ["string"],
                 "last_updated_after_filter": "last_updated_after_filter",
                 "last_updated_before_filter": "last_updated_before_filter",
-                "reasoning_effort": "low",
+                "latitude": 0,
+                "logprobs": True,
+                "longitude": 0,
+                "max_tokens": 1,
+                "n": 1,
+                "num_images": 0,
+                "num_search_results": 0,
+                "parallel_tool_calls": True,
+                "presence_penalty": -2,
+                "ranking_model": "ranking_model",
+                "reasoning_effort": "minimal",
+                "response_format": {"type": "text"},
+                "response_metadata": {"foo": "bar"},
                 "return_images": True,
                 "return_related_questions": True,
+                "return_videos": True,
+                "safe_search": True,
                 "search_after_date_filter": "search_after_date_filter",
                 "search_before_date_filter": "search_before_date_filter",
                 "search_domain_filter": ["string"],
+                "search_internal_properties": {"foo": "bar"},
                 "search_mode": "web",
                 "search_recency_filter": "hour",
+                "search_tenant": "search_tenant",
+                "stop": "string",
+                "stream": True,
+                "temperature": 0,
+                "tool_choice": "none",
+                "tools": [
+                    {
+                        "function": {
+                            "description": "description",
+                            "name": "name",
+                            "parameters": {
+                                "properties": {"foo": "bar"},
+                                "type": "type",
+                                "additional_properties": True,
+                                "required": ["string"],
+                            },
+                            "strict": True,
+                        },
+                        "type": "function",
+                    }
+                ],
+                "top_k": 0,
+                "top_logprobs": 0,
+                "top_p": 0,
+                "updated_after_timestamp": 0,
+                "updated_before_timestamp": 0,
                 "web_search_options": {
-                    "image_search_relevance_enhanced": True,
+                    "image_results_enhanced_relevance": True,
                     "search_context_size": "low",
+                    "search_type": "fast",
                     "user_location": {
                         "city": "city",
                         "country": "country",
@@ -73,6 +186,7 @@ class TestCompletions:
                     },
                 },
             },
+            idempotency_key="idempotency_key",
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
@@ -87,7 +201,7 @@ class TestCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         )
 
@@ -107,7 +221,7 @@ class TestCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         ) as response:
             assert not response.is_closed
@@ -122,15 +236,6 @@ class TestCompletions:
     @parametrize
     def test_method_list(self, client: Perplexity) -> None:
         completion = client.async_.chat.completions.list()
-        assert_matches_type(CompletionListResponse, completion, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_list_with_all_params(self, client: Perplexity) -> None:
-        completion = client.async_.chat.completions.list(
-            limit=0,
-            next_token="next_token",
-        )
         assert_matches_type(CompletionListResponse, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -159,7 +264,21 @@ class TestCompletions:
     @parametrize
     def test_method_get(self, client: Perplexity) -> None:
         completion = client.async_.chat.completions.get(
-            "request_id",
+            api_request="api_request",
+        )
+        assert_matches_type(CompletionGetResponse, completion, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_get_with_all_params(self, client: Perplexity) -> None:
+        completion = client.async_.chat.completions.get(
+            api_request="api_request",
+            local_mode=True,
+            x_client_env="x-client-env",
+            x_client_name="x-client-name",
+            x_request_time="x-request-time",
+            x_usage_tier="x-usage-tier",
+            x_user_id="x-user-id",
         )
         assert_matches_type(CompletionGetResponse, completion, path=["response"])
 
@@ -167,7 +286,7 @@ class TestCompletions:
     @parametrize
     def test_raw_response_get(self, client: Perplexity) -> None:
         response = client.async_.chat.completions.with_raw_response.get(
-            "request_id",
+            api_request="api_request",
         )
 
         assert response.is_closed is True
@@ -179,7 +298,7 @@ class TestCompletions:
     @parametrize
     def test_streaming_response_get(self, client: Perplexity) -> None:
         with client.async_.chat.completions.with_streaming_response.get(
-            "request_id",
+            api_request="api_request",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -192,9 +311,9 @@ class TestCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_get(self, client: Perplexity) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `request_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `api_request` but received ''"):
             client.async_.chat.completions.with_raw_response.get(
-                "",
+                api_request="",
             )
 
 
@@ -214,7 +333,7 @@ class TestAsyncCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
@@ -228,24 +347,137 @@ class TestAsyncCompletions:
                     {
                         "content": "string",
                         "role": "system",
+                        "reasoning_steps": [
+                            {
+                                "thought": "thought",
+                                "type": "web_search",
+                                "agent_progress": {
+                                    "action": "action",
+                                    "screenshot": "screenshot",
+                                    "url": "url",
+                                },
+                                "browser_agent": {
+                                    "result": "result",
+                                    "url": "url",
+                                },
+                                "browser_tool_execution": {"tool": {"foo": "bar"}},
+                                "execute_python": {
+                                    "code": "code",
+                                    "result": "result",
+                                },
+                                "fetch_url_content": {
+                                    "contents": [
+                                        {
+                                            "title": "title",
+                                            "url": "url",
+                                            "date": "date",
+                                            "last_updated": "last_updated",
+                                            "snippet": "snippet",
+                                        }
+                                    ]
+                                },
+                                "file_attachment_search": {"attachment_urls": ["string"]},
+                                "web_search": {
+                                    "search_keywords": ["string"],
+                                    "search_results": [
+                                        {
+                                            "title": "title",
+                                            "url": "url",
+                                            "date": "date",
+                                            "last_updated": "last_updated",
+                                            "snippet": "snippet",
+                                        }
+                                    ],
+                                },
+                            }
+                        ],
+                        "tool_calls": [
+                            {
+                                "id": "id",
+                                "function": {
+                                    "arguments": "arguments",
+                                    "name": "name",
+                                },
+                                "type": "function",
+                            }
+                        ],
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
+                "_debug_pro_search": True,
+                "_inputs": [0],
+                "_is_browser_agent": True,
+                "_prompt_token_length": 0,
+                "best_of": 0,
+                "country": "country",
+                "cum_logprobs": True,
+                "debug_params": {
+                    "summarizer_model_override": "summarizer_model_override",
+                    "summarizer_prompt_override": "summarizer_prompt_override",
+                },
                 "disable_search": True,
+                "diverse_first_token": True,
                 "enable_search_classifier": True,
+                "file_workspace_id": "file_workspace_id",
+                "frequency_penalty": -2,
+                "has_image_url": True,
+                "image_domain_filter": ["string"],
+                "image_format_filter": ["string"],
                 "last_updated_after_filter": "last_updated_after_filter",
                 "last_updated_before_filter": "last_updated_before_filter",
-                "reasoning_effort": "low",
+                "latitude": 0,
+                "logprobs": True,
+                "longitude": 0,
+                "max_tokens": 1,
+                "n": 1,
+                "num_images": 0,
+                "num_search_results": 0,
+                "parallel_tool_calls": True,
+                "presence_penalty": -2,
+                "ranking_model": "ranking_model",
+                "reasoning_effort": "minimal",
+                "response_format": {"type": "text"},
+                "response_metadata": {"foo": "bar"},
                 "return_images": True,
                 "return_related_questions": True,
+                "return_videos": True,
+                "safe_search": True,
                 "search_after_date_filter": "search_after_date_filter",
                 "search_before_date_filter": "search_before_date_filter",
                 "search_domain_filter": ["string"],
+                "search_internal_properties": {"foo": "bar"},
                 "search_mode": "web",
                 "search_recency_filter": "hour",
+                "search_tenant": "search_tenant",
+                "stop": "string",
+                "stream": True,
+                "temperature": 0,
+                "tool_choice": "none",
+                "tools": [
+                    {
+                        "function": {
+                            "description": "description",
+                            "name": "name",
+                            "parameters": {
+                                "properties": {"foo": "bar"},
+                                "type": "type",
+                                "additional_properties": True,
+                                "required": ["string"],
+                            },
+                            "strict": True,
+                        },
+                        "type": "function",
+                    }
+                ],
+                "top_k": 0,
+                "top_logprobs": 0,
+                "top_p": 0,
+                "updated_after_timestamp": 0,
+                "updated_before_timestamp": 0,
                 "web_search_options": {
-                    "image_search_relevance_enhanced": True,
+                    "image_results_enhanced_relevance": True,
                     "search_context_size": "low",
+                    "search_type": "fast",
                     "user_location": {
                         "city": "city",
                         "country": "country",
@@ -255,6 +487,7 @@ class TestAsyncCompletions:
                     },
                 },
             },
+            idempotency_key="idempotency_key",
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
@@ -269,7 +502,7 @@ class TestAsyncCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         )
 
@@ -289,7 +522,7 @@ class TestAsyncCompletions:
                         "role": "system",
                     }
                 ],
-                "model": "sonar",
+                "model": "model",
             },
         ) as response:
             assert not response.is_closed
@@ -304,15 +537,6 @@ class TestAsyncCompletions:
     @parametrize
     async def test_method_list(self, async_client: AsyncPerplexity) -> None:
         completion = await async_client.async_.chat.completions.list()
-        assert_matches_type(CompletionListResponse, completion, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncPerplexity) -> None:
-        completion = await async_client.async_.chat.completions.list(
-            limit=0,
-            next_token="next_token",
-        )
         assert_matches_type(CompletionListResponse, completion, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -341,7 +565,21 @@ class TestAsyncCompletions:
     @parametrize
     async def test_method_get(self, async_client: AsyncPerplexity) -> None:
         completion = await async_client.async_.chat.completions.get(
-            "request_id",
+            api_request="api_request",
+        )
+        assert_matches_type(CompletionGetResponse, completion, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_get_with_all_params(self, async_client: AsyncPerplexity) -> None:
+        completion = await async_client.async_.chat.completions.get(
+            api_request="api_request",
+            local_mode=True,
+            x_client_env="x-client-env",
+            x_client_name="x-client-name",
+            x_request_time="x-request-time",
+            x_usage_tier="x-usage-tier",
+            x_user_id="x-user-id",
         )
         assert_matches_type(CompletionGetResponse, completion, path=["response"])
 
@@ -349,7 +587,7 @@ class TestAsyncCompletions:
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.async_.chat.completions.with_raw_response.get(
-            "request_id",
+            api_request="api_request",
         )
 
         assert response.is_closed is True
@@ -361,7 +599,7 @@ class TestAsyncCompletions:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncPerplexity) -> None:
         async with async_client.async_.chat.completions.with_streaming_response.get(
-            "request_id",
+            api_request="api_request",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -374,7 +612,7 @@ class TestAsyncCompletions:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_get(self, async_client: AsyncPerplexity) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `request_id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `api_request` but received ''"):
             await async_client.async_.chat.completions.with_raw_response.get(
-                "",
+                api_request="",
             )

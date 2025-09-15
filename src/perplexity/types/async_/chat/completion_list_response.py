@@ -16,6 +16,7 @@ class Request(BaseModel):
     model: str
 
     status: Literal["CREATED", "IN_PROGRESS", "COMPLETED", "FAILED"]
+    """Status enum for async processing."""
 
     completed_at: Optional[int] = None
 
@@ -28,4 +29,3 @@ class CompletionListResponse(BaseModel):
     requests: List[Request]
 
     next_token: Optional[str] = None
-    """Token for pagination"""
