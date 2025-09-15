@@ -2,89 +2,231 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
-from typing_extensions import Literal, Required, TypedDict
+from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
-from ..shared_params.chat_message import ChatMessage
+from ..shared_params.chat_message_input import ChatMessageInput
 
-__all__ = ["CompletionCreateParams", "WebSearchOptions", "WebSearchOptionsUserLocation"]
+__all__ = [
+    "CompletionCreateParams",
+    "DebugParams",
+    "ResponseFormat",
+    "ResponseFormatResponseFormatText",
+    "ResponseFormatResponseFormatJsonSchema",
+    "ResponseFormatResponseFormatJsonSchemaJsonSchema",
+    "ResponseFormatResponseFormatRegex",
+    "ResponseFormatResponseFormatRegexRegex",
+    "Tool",
+    "ToolFunction",
+    "ToolFunctionParameters",
+    "WebSearchOptions",
+    "WebSearchOptionsUserLocation",
+]
 
 
 class CompletionCreateParams(TypedDict, total=False):
-    messages: Required[Iterable[ChatMessage]]
-    """A list of messages comprising the conversation so far"""
+    messages: Required[Iterable[ChatMessageInput]]
 
-    model: Required[Literal["sonar", "sonar-pro", "sonar-deep-research", "sonar-reasoning", "sonar-reasoning-pro"]]
-    """The name of the model that will complete your prompt"""
+    model: Required[str]
 
-    disable_search: bool
-    """Disables web search completely - model uses only training data"""
+    _debug_pro_search: bool
 
-    enable_search_classifier: bool
-    """Enables classifier that decides if web search is needed"""
+    _inputs: Optional[Iterable[int]]
+
+    _is_browser_agent: Optional[bool]
+
+    _prompt_token_length: Optional[int]
+
+    best_of: Optional[int]
+
+    country: Optional[str]
+
+    cum_logprobs: Optional[bool]
+
+    debug_params: Optional[DebugParams]
+
+    disable_search: Optional[bool]
+
+    diverse_first_token: Optional[bool]
+
+    enable_search_classifier: Optional[bool]
+
+    file_workspace_id: Optional[str]
+
+    frequency_penalty: Optional[float]
+
+    has_image_url: bool
+
+    image_domain_filter: Optional[SequenceNotStr[str]]
+
+    image_format_filter: Optional[SequenceNotStr[str]]
 
     last_updated_after_filter: Optional[str]
-    """Only include content last updated after this date (YYYY-MM-DD)"""
 
     last_updated_before_filter: Optional[str]
-    """Only include content last updated before this date (YYYY-MM-DD)"""
 
-    reasoning_effort: Optional[Literal["low", "medium", "high"]]
-    """Controls computational effort for sonar-deep-research model.
+    latitude: Optional[float]
 
-    Higher effort = more thorough but more tokens
-    """
+    logprobs: Optional[bool]
 
-    return_images: bool
-    """Whether to include images in search results"""
+    longitude: Optional[float]
 
-    return_related_questions: bool
-    """Whether to return related questions"""
+    max_tokens: Optional[int]
+
+    n: Optional[int]
+
+    num_images: int
+
+    num_search_results: int
+
+    parallel_tool_calls: Optional[bool]
+
+    presence_penalty: Optional[float]
+
+    ranking_model: Optional[str]
+
+    reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]]
+
+    response_format: Optional[ResponseFormat]
+
+    response_metadata: Optional[Dict[str, object]]
+
+    return_images: Optional[bool]
+
+    return_related_questions: Optional[bool]
+
+    return_videos: Optional[bool]
+
+    safe_search: Optional[bool]
 
     search_after_date_filter: Optional[str]
-    """Only include content published after this date (YYYY-MM-DD)"""
 
     search_before_date_filter: Optional[str]
-    """Only include content published before this date (YYYY-MM-DD)"""
 
     search_domain_filter: Optional[SequenceNotStr[str]]
-    """List of domains to limit search results to. Use '-' prefix to exclude domains"""
+
+    search_internal_properties: Optional[Dict[str, object]]
 
     search_mode: Optional[Literal["web", "academic", "sec"]]
-    """
-    Type of search: 'web' for general, 'academic' for scholarly, 'sec' for SEC
-    filings
-    """
 
     search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]]
-    """Filter results by how recently they were published"""
+
+    search_tenant: Optional[str]
+
+    stop: Union[str, SequenceNotStr[str], None]
+
+    stream: Optional[bool]
+
+    temperature: Optional[float]
+
+    tool_choice: Optional[Literal["none", "auto", "required"]]
+
+    tools: Optional[Iterable[Tool]]
+
+    top_k: Optional[int]
+
+    top_logprobs: Optional[int]
+
+    top_p: Optional[float]
+
+    updated_after_timestamp: Optional[int]
+
+    updated_before_timestamp: Optional[int]
 
     web_search_options: WebSearchOptions
+
+
+class DebugParams(TypedDict, total=False):
+    summarizer_model_override: Optional[str]
+
+    summarizer_prompt_override: Optional[str]
+
+
+class ResponseFormatResponseFormatText(TypedDict, total=False):
+    type: Required[Literal["text"]]
+
+
+class ResponseFormatResponseFormatJsonSchemaJsonSchema(TypedDict, total=False):
+    schema: Required[Dict[str, object]]
+
+    description: Optional[str]
+
+    name: Optional[str]
+
+    strict: Optional[bool]
+
+
+class ResponseFormatResponseFormatJsonSchema(TypedDict, total=False):
+    json_schema: Required[ResponseFormatResponseFormatJsonSchemaJsonSchema]
+
+    type: Required[Literal["json_schema"]]
+
+
+class ResponseFormatResponseFormatRegexRegex(TypedDict, total=False):
+    regex: Required[str]
+
+    description: Optional[str]
+
+    name: Optional[str]
+
+    strict: Optional[bool]
+
+
+class ResponseFormatResponseFormatRegex(TypedDict, total=False):
+    regex: Required[ResponseFormatResponseFormatRegexRegex]
+
+    type: Required[Literal["regex"]]
+
+
+ResponseFormat: TypeAlias = Union[
+    ResponseFormatResponseFormatText, ResponseFormatResponseFormatJsonSchema, ResponseFormatResponseFormatRegex
+]
+
+
+class ToolFunctionParameters(TypedDict, total=False):
+    properties: Required[Dict[str, object]]
+
+    type: Required[str]
+
+    additional_properties: Optional[bool]
+
+    required: Optional[SequenceNotStr[str]]
+
+
+class ToolFunction(TypedDict, total=False):
+    description: Required[str]
+
+    name: Required[str]
+
+    parameters: Required[ToolFunctionParameters]
+
+    strict: Optional[bool]
+
+
+class Tool(TypedDict, total=False):
+    function: Required[ToolFunction]
+
+    type: Required[Literal["function"]]
 
 
 class WebSearchOptionsUserLocation(TypedDict, total=False):
     city: Optional[str]
 
     country: Optional[str]
-    """Two-letter ISO country code"""
 
     latitude: Optional[float]
 
     longitude: Optional[float]
 
     region: Optional[str]
-    """State/province name"""
 
 
 class WebSearchOptions(TypedDict, total=False):
-    image_search_relevance_enhanced: bool
-    """Improves relevance of image search results"""
+    image_results_enhanced_relevance: bool
 
     search_context_size: Literal["low", "medium", "high"]
-    """
-    Amount of search context retrieved: low (cost-saving), medium (balanced), high
-    (comprehensive)
-    """
 
-    user_location: WebSearchOptionsUserLocation
+    search_type: Literal["fast", "pro", "auto"]
+
+    user_location: Optional[WebSearchOptionsUserLocation]
