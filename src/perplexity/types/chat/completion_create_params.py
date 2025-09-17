@@ -96,8 +96,6 @@ class CompletionCreateParams(TypedDict, total=False):
 
     return_related_questions: Optional[bool]
 
-    return_videos: Optional[bool]
-
     safe_search: Optional[bool]
 
     search_after_date_filter: Optional[str]
