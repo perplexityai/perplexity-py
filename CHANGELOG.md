@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0 (2025-09-17)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/ppl-ai/perplexity-py/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* **api:** manual updates ([8fbe318](https://github.com/ppl-ai/perplexity-py/commit/8fbe318c5ed7df04335c2cd14de708cae5780623))
+
+
+### Chores
+
+* **internal:** update pydantic dependency ([cac84f2](https://github.com/ppl-ai/perplexity-py/commit/cac84f25cd550ee57f8971d74231f63ba8d36905))
+
 ## 0.8.0 (2025-09-15)
 
 Full Changelog: [v0.7.2...v0.8.0](https://github.com/ppl-ai/perplexity-py/compare/v0.7.2...v0.8.0)

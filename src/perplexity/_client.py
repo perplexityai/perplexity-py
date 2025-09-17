@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import search, content
+from .resources import search
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, PerplexityError
 from ._base_client import (
@@ -48,7 +48,6 @@ class Perplexity(SyncAPIClient):
     chat: chat.ChatResource
     async_: async_.AsyncResource
     search: search.SearchResource
-    content: content.ContentResource
     with_raw_response: PerplexityWithRawResponse
     with_streaming_response: PerplexityWithStreamedResponse
 
@@ -109,7 +108,6 @@ class Perplexity(SyncAPIClient):
         self.chat = chat.ChatResource(self)
         self.async_ = async_.AsyncResource(self)
         self.search = search.SearchResource(self)
-        self.content = content.ContentResource(self)
         self.with_raw_response = PerplexityWithRawResponse(self)
         self.with_streaming_response = PerplexityWithStreamedResponse(self)
 
@@ -222,7 +220,6 @@ class AsyncPerplexity(AsyncAPIClient):
     chat: chat.AsyncChatResource
     async_: async_.AsyncAsyncResource
     search: search.AsyncSearchResource
-    content: content.AsyncContentResource
     with_raw_response: AsyncPerplexityWithRawResponse
     with_streaming_response: AsyncPerplexityWithStreamedResponse
 
@@ -283,7 +280,6 @@ class AsyncPerplexity(AsyncAPIClient):
         self.chat = chat.AsyncChatResource(self)
         self.async_ = async_.AsyncAsyncResource(self)
         self.search = search.AsyncSearchResource(self)
-        self.content = content.AsyncContentResource(self)
         self.with_raw_response = AsyncPerplexityWithRawResponse(self)
         self.with_streaming_response = AsyncPerplexityWithStreamedResponse(self)
 
@@ -397,7 +393,6 @@ class PerplexityWithRawResponse:
         self.chat = chat.ChatResourceWithRawResponse(client.chat)
         self.async_ = async_.AsyncResourceWithRawResponse(client.async_)
         self.search = search.SearchResourceWithRawResponse(client.search)
-        self.content = content.ContentResourceWithRawResponse(client.content)
 
 
 class AsyncPerplexityWithRawResponse:
@@ -405,7 +400,6 @@ class AsyncPerplexityWithRawResponse:
         self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
         self.async_ = async_.AsyncAsyncResourceWithRawResponse(client.async_)
         self.search = search.AsyncSearchResourceWithRawResponse(client.search)
-        self.content = content.AsyncContentResourceWithRawResponse(client.content)
 
 
 class PerplexityWithStreamedResponse:
@@ -413,7 +407,6 @@ class PerplexityWithStreamedResponse:
         self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
         self.async_ = async_.AsyncResourceWithStreamingResponse(client.async_)
         self.search = search.SearchResourceWithStreamingResponse(client.search)
-        self.content = content.ContentResourceWithStreamingResponse(client.content)
 
 
 class AsyncPerplexityWithStreamedResponse:
@@ -421,7 +414,6 @@ class AsyncPerplexityWithStreamedResponse:
         self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
         self.async_ = async_.AsyncAsyncResourceWithStreamingResponse(client.async_)
         self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
-        self.content = content.AsyncContentResourceWithStreamingResponse(client.content)
 
 
 Client = Perplexity
