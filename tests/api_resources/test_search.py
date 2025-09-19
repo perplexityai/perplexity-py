@@ -30,18 +30,10 @@ class TestSearch:
     def test_method_create_with_all_params(self, client: Perplexity) -> None:
         search = client.search.create(
             query="string",
-            country="country",
-            last_updated_after_filter="last_updated_after_filter",
-            last_updated_before_filter="last_updated_before_filter",
             max_results=0,
             max_tokens=0,
             max_tokens_per_page=0,
-            safe_search=True,
-            search_after_date_filter="search_after_date_filter",
-            search_before_date_filter="search_before_date_filter",
-            search_domain_filter=["string"],
             search_mode="web",
-            search_recency_filter="hour",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
 
@@ -90,18 +82,10 @@ class TestAsyncSearch:
     async def test_method_create_with_all_params(self, async_client: AsyncPerplexity) -> None:
         search = await async_client.search.create(
             query="string",
-            country="country",
-            last_updated_after_filter="last_updated_after_filter",
-            last_updated_before_filter="last_updated_before_filter",
             max_results=0,
             max_tokens=0,
             max_tokens_per_page=0,
-            safe_search=True,
-            search_after_date_filter="search_after_date_filter",
-            search_before_date_filter="search_before_date_filter",
-            search_domain_filter=["string"],
             search_mode="web",
-            search_recency_filter="hour",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
 
