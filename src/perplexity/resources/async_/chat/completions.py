@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ...._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -49,13 +49,13 @@ class CompletionsResource(SyncAPIResource):
         self,
         *,
         request: completion_create_params.Request,
-        idempotency_key: Optional[str] | NotGiven = NOT_GIVEN,
+        idempotency_key: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionCreateResponse:
         """
         FastAPI wrapper around async chat completions
@@ -95,7 +95,7 @@ class CompletionsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionListResponse:
         """list all async chat completion requests for a given user."""
         return self._get(
@@ -110,18 +110,18 @@ class CompletionsResource(SyncAPIResource):
         self,
         api_request: str,
         *,
-        local_mode: bool | NotGiven = NOT_GIVEN,
-        x_client_env: str | NotGiven = NOT_GIVEN,
-        x_client_name: str | NotGiven = NOT_GIVEN,
-        x_request_time: str | NotGiven = NOT_GIVEN,
-        x_usage_tier: str | NotGiven = NOT_GIVEN,
-        x_user_id: str | NotGiven = NOT_GIVEN,
+        local_mode: bool | Omit = omit,
+        x_client_env: str | Omit = omit,
+        x_client_name: str | Omit = omit,
+        x_request_time: str | Omit = omit,
+        x_usage_tier: str | Omit = omit,
+        x_user_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionGetResponse:
         """
         get the response for a given async chat completion request.
@@ -186,13 +186,13 @@ class AsyncCompletionsResource(AsyncAPIResource):
         self,
         *,
         request: completion_create_params.Request,
-        idempotency_key: Optional[str] | NotGiven = NOT_GIVEN,
+        idempotency_key: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionCreateResponse:
         """
         FastAPI wrapper around async chat completions
@@ -232,7 +232,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionListResponse:
         """list all async chat completion requests for a given user."""
         return await self._get(
@@ -247,18 +247,18 @@ class AsyncCompletionsResource(AsyncAPIResource):
         self,
         api_request: str,
         *,
-        local_mode: bool | NotGiven = NOT_GIVEN,
-        x_client_env: str | NotGiven = NOT_GIVEN,
-        x_client_name: str | NotGiven = NOT_GIVEN,
-        x_request_time: str | NotGiven = NOT_GIVEN,
-        x_usage_tier: str | NotGiven = NOT_GIVEN,
-        x_user_id: str | NotGiven = NOT_GIVEN,
+        local_mode: bool | Omit = omit,
+        x_client_env: str | Omit = omit,
+        x_client_name: str | Omit = omit,
+        x_request_time: str | Omit = omit,
+        x_usage_tier: str | Omit = omit,
+        x_user_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionGetResponse:
         """
         get the response for a given async chat completion request.
