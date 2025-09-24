@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.11.0 (2025-09-24)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/ppl-ai/perplexity-py/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** manual updates ([d0b1071](https://github.com/ppl-ai/perplexity-py/commit/d0b1071f0a16cf589c8c7d58dd545f8455eb6878))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([6642343](https://github.com/ppl-ai/perplexity-py/commit/66423439ddc11f2db05dc47f71b362c37681a557))
+* **types:** change optional parameter type from NotGiven to Omit ([3b0edc9](https://github.com/ppl-ai/perplexity-py/commit/3b0edc968f37f3a4233d0a66333e526a23f5073e))
+
 ## 0.10.0 (2025-09-19)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/ppl-ai/perplexity-py/compare/v0.9.0...v0.10.0)

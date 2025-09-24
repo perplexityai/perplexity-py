@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import search_create_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -48,16 +48,17 @@ class SearchResource(SyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
-        max_results: int | NotGiven = NOT_GIVEN,
-        max_tokens: int | NotGiven = NOT_GIVEN,
-        max_tokens_per_page: int | NotGiven = NOT_GIVEN,
-        search_mode: Optional[Literal["web", "academic", "sec"]] | NotGiven = NOT_GIVEN,
+        country: Optional[str] | Omit = omit,
+        max_results: int | Omit = omit,
+        max_tokens: int | Omit = omit,
+        max_tokens_per_page: int | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SearchCreateResponse:
         """
         Search
@@ -76,6 +77,7 @@ class SearchResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "query": query,
+                    "country": country,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,
@@ -114,16 +116,17 @@ class AsyncSearchResource(AsyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
-        max_results: int | NotGiven = NOT_GIVEN,
-        max_tokens: int | NotGiven = NOT_GIVEN,
-        max_tokens_per_page: int | NotGiven = NOT_GIVEN,
-        search_mode: Optional[Literal["web", "academic", "sec"]] | NotGiven = NOT_GIVEN,
+        country: Optional[str] | Omit = omit,
+        max_results: int | Omit = omit,
+        max_tokens: int | Omit = omit,
+        max_tokens_per_page: int | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SearchCreateResponse:
         """
         Search
@@ -142,6 +145,7 @@ class AsyncSearchResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "query": query,
+                    "country": country,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,
