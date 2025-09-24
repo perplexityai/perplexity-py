@@ -13,6 +13,8 @@ __all__ = ["SearchCreateParams"]
 class SearchCreateParams(TypedDict, total=False):
     query: Required[Union[str, SequenceNotStr[str]]]
 
+    country: Optional[str]
+
     max_results: int
 
     max_tokens: int
