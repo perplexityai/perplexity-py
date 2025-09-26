@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.12.0 (2025-09-26)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/perplexityai/perplexity-py/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** add /chat/completions and /async/chat/completions ([945f7c2](https://github.com/perplexityai/perplexity-py/commit/945f7c27c80ca90f6c703590578a414351e0adb2))
+* **api:** add /content endpoint ([7c08ab9](https://github.com/perplexityai/perplexity-py/commit/7c08ab9a1a728ddf8da3523b330e28c8f3f40cd4))
+* **api:** change bearer_token to api_key ([af29515](https://github.com/perplexityai/perplexity-py/commit/af295151b4ff3dc44dc5768aa0e965a8f5984840))
+* **api:** include /content endpoint ([46697bc](https://github.com/perplexityai/perplexity-py/commit/46697bc483a4647c47368820badcdea6753a1078))
+* **api:** manual updates ([d0b1071](https://github.com/perplexityai/perplexity-py/commit/d0b1071f0a16cf589c8c7d58dd545f8455eb6878))
+* **api:** manual updates ([7f38b2f](https://github.com/perplexityai/perplexity-py/commit/7f38b2f1eb750a6d5e435a5bfd376b62fa5a9594))
+* **api:** manual updates ([8fbe318](https://github.com/perplexityai/perplexity-py/commit/8fbe318c5ed7df04335c2cd14de708cae5780623))
+* **api:** update from perform -&gt; create ([c88982f](https://github.com/perplexityai/perplexity-py/commit/c88982f6b0b3ae6060f0754e1cbb8aa3035e4054))
+* **api:** update via SDK Studio ([5a26918](https://github.com/perplexityai/perplexity-py/commit/5a269186a185f62a94fbfc57e627f8820194dc23))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([6642343](https://github.com/perplexityai/perplexity-py/commit/66423439ddc11f2db05dc47f71b362c37681a557))
+* **internal:** update pydantic dependency ([cac84f2](https://github.com/perplexityai/perplexity-py/commit/cac84f25cd550ee57f8971d74231f63ba8d36905))
+* remove custom code ([3270d55](https://github.com/perplexityai/perplexity-py/commit/3270d55b91143e4b9dbc118f39791d36444e0409))
+* **types:** change optional parameter type from NotGiven to Omit ([3b0edc9](https://github.com/perplexityai/perplexity-py/commit/3b0edc968f37f3a4233d0a66333e526a23f5073e))
+* update SDK settings ([bcb8f64](https://github.com/perplexityai/perplexity-py/commit/bcb8f64648137caf170f0cf4b9816a39780c9f9c))
+* update SDK settings ([99e08d9](https://github.com/perplexityai/perplexity-py/commit/99e08d9fb37306acce60d1da281c98d082d34995))
+* update SDK settings ([6de8ec2](https://github.com/perplexityai/perplexity-py/commit/6de8ec2ca199470e9f7b70a4f840a6aeef3b1104))
+
 ## 0.11.0 (2025-09-24)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/ppl-ai/perplexity-py/compare/v0.10.0...v0.11.0)
