@@ -35,8 +35,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ppl-ai/perplexity-py"
-Repository = "https://github.com/ppl-ai/perplexity-py"
+Homepage = "https://github.com/perplexityai/perplexity-py"
+Repository = "https://github.com/perplexityai/perplexity-py"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.8"]
@@ -124,7 +124,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/ppl-ai/perplexity-py/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/perplexityai/perplexity-py/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
