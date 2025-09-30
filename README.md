@@ -41,24 +41,6 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
-## Content API
-
-Extract and process content from URLs:
-
-```python
-from perplexity import Perplexity
-
-client = Perplexity()
-
-content = client.content.create(
-    urls=["https://en.wikipedia.org/wiki/Perplexity_AI"]
-)
-
-for result in content.results:
-    print(f"Title: {result.title}")
-    print(f"Content: {result.content[:200]}...")
-```
-
 ## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).
