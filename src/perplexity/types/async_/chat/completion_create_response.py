@@ -1,36 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 from ...._models import BaseModel
-from ...shared.choice import Choice
-from ...shared.usage_info import UsageInfo
-from ...shared.api_public_search_result import APIPublicSearchResult
+from ...stream_chunk import StreamChunk
 
-__all__ = ["CompletionCreateResponse", "Response"]
-
-
-class Response(BaseModel):
-    id: str
-
-    choices: List[Choice]
-
-    created: int
-
-    model: str
-
-    usage: UsageInfo
-
-    citations: Optional[List[str]] = None
-
-    object: Optional[str] = None
-
-    search_results: Optional[List[APIPublicSearchResult]] = None
-
-    status: Optional[Literal["PENDING", "COMPLETED"]] = None
-
-    type: Optional[Literal["message", "info", "end_of_stream"]] = None
+__all__ = ["CompletionCreateResponse"]
 
 
 class CompletionCreateResponse(BaseModel):
@@ -49,6 +25,6 @@ class CompletionCreateResponse(BaseModel):
 
     failed_at: Optional[int] = None
 
-    response: Optional[Response] = None
+    response: Optional[StreamChunk] = None
 
     started_at: Optional[int] = None

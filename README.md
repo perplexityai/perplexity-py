@@ -32,7 +32,7 @@ client = Perplexity(
     api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
 )
 
-completion = client.chat.completions.create(
+stream_chunk = client.chat.completions.create(
     messages=[
         {
             "role": "user",
@@ -41,7 +41,7 @@ completion = client.chat.completions.create(
     ],
     model="sonar",
 )
-print(completion.id)
+print(stream_chunk.id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -64,7 +64,7 @@ client = AsyncPerplexity(
 
 
 async def main() -> None:
-    completion = await client.chat.completions.create(
+    stream_chunk = await client.chat.completions.create(
         messages=[
             {
                 "role": "user",
@@ -73,7 +73,7 @@ async def main() -> None:
         ],
         model="sonar",
     )
-    print(completion.id)
+    print(stream_chunk.id)
 
 
 asyncio.run(main())
@@ -105,7 +105,7 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        completion = await client.chat.completions.create(
+        stream_chunk = await client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
@@ -114,10 +114,54 @@ async def main() -> None:
             ],
             model="sonar",
         )
-        print(completion.id)
+        print(stream_chunk.id)
 
 
 asyncio.run(main())
+```
+
+## Streaming responses
+
+We provide support for streaming responses using Server Side Events (SSE).
+
+```python
+from perplexity import Perplexity
+
+client = Perplexity()
+
+stream = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
+    model="sonar",
+    stream=True,
+)
+for stream_chunk in stream:
+    print(stream_chunk.id)
+```
+
+The async client uses the exact same interface.
+
+```python
+from perplexity import AsyncPerplexity
+
+client = AsyncPerplexity()
+
+stream = await client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
+    model="sonar",
+    stream=True,
+)
+async for stream_chunk in stream:
+    print(stream_chunk.id)
 ```
 
 ## Using types
@@ -138,7 +182,7 @@ from perplexity import Perplexity
 
 client = Perplexity()
 
-completion = client.chat.completions.create(
+stream_chunk = client.chat.completions.create(
     messages=[
         {
             "content": "string",
@@ -148,7 +192,7 @@ completion = client.chat.completions.create(
     model="model",
     debug_params={},
 )
-print(completion.debug_params)
+print(stream_chunk.debug_params)
 ```
 
 ## Handling errors
