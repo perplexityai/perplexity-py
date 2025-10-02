@@ -3,15 +3,15 @@
 from typing import List, Optional
 from typing_extensions import Literal
 
-from ..._models import BaseModel
-from ..shared.choice import Choice
-from ..shared.usage_info import UsageInfo
-from ..shared.api_public_search_result import APIPublicSearchResult
+from .._models import BaseModel
+from .shared.choice import Choice
+from .shared.usage_info import UsageInfo
+from .shared.api_public_search_result import APIPublicSearchResult
 
-__all__ = ["CompletionCreateResponse"]
+__all__ = ["StreamChunk"]
 
 
-class CompletionCreateResponse(BaseModel):
+class StreamChunk(BaseModel):
     id: str
 
     choices: List[Choice]

@@ -12,17 +12,17 @@ from perplexity.types import (
 
 # Chat
 
-## Completions
-
 Types:
 
 ```python
-from perplexity.types.chat import CompletionCreateResponse
+from perplexity.types import StreamChunk
 ```
+
+## Completions
 
 Methods:
 
-- <code title="post /chat/completions">client.chat.completions.<a href="./src/perplexity/resources/chat/completions.py">create</a>(\*\*<a href="src/perplexity/types/chat/completion_create_params.py">params</a>) -> <a href="./src/perplexity/types/chat/completion_create_response.py">CompletionCreateResponse</a></code>
+- <code title="post /chat/completions">client.chat.completions.<a href="./src/perplexity/resources/chat/completions.py">create</a>(\*\*<a href="src/perplexity/types/chat/completion_create_params.py">params</a>) -> <a href="./src/perplexity/types/stream_chunk.py">StreamChunk</a></code>
 
 # Async
 

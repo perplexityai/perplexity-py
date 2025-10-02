@@ -9,7 +9,7 @@ from ..._types import SequenceNotStr
 from ..shared_params.chat_message_input import ChatMessageInput
 
 __all__ = [
-    "CompletionCreateParams",
+    "CompletionCreateParamsBase",
     "DebugParams",
     "ResponseFormat",
     "ResponseFormatResponseFormatText",
@@ -22,10 +22,12 @@ __all__ = [
     "ToolFunctionParameters",
     "WebSearchOptions",
     "WebSearchOptionsUserLocation",
+    "CompletionCreateParamsNonStreaming",
+    "CompletionCreateParamsStreaming",
 ]
 
 
-class CompletionCreateParams(TypedDict, total=False):
+class CompletionCreateParamsBase(TypedDict, total=False):
     messages: Required[Iterable[ChatMessageInput]]
 
     model: Required[str]
@@ -113,8 +115,6 @@ class CompletionCreateParams(TypedDict, total=False):
     search_tenant: Optional[str]
 
     stop: Union[str, SequenceNotStr[str], None]
-
-    stream: Optional[bool]
 
     temperature: Optional[float]
 
@@ -228,3 +228,14 @@ class WebSearchOptions(TypedDict, total=False):
     search_type: Literal["fast", "pro", "auto"]
 
     user_location: Optional[WebSearchOptionsUserLocation]
+
+
+class CompletionCreateParamsNonStreaming(CompletionCreateParamsBase, total=False):
+    stream: Optional[Literal[False]]
+
+
+class CompletionCreateParamsStreaming(CompletionCreateParamsBase):
+    stream: Required[Literal[True]]
+
+
+CompletionCreateParams = Union[CompletionCreateParamsNonStreaming, CompletionCreateParamsStreaming]

@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Iterable, Optional
-from typing_extensions import Literal
+from typing_extensions import Literal, overload
 
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -17,9 +17,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..._streaming import Stream, AsyncStream
 from ...types.chat import completion_create_params
 from ..._base_client import make_request_options
-from ...types.chat.completion_create_response import CompletionCreateResponse
+from ...types.stream_chunk import StreamChunk
 from ...types.shared_params.chat_message_input import ChatMessageInput
 
 __all__ = ["CompletionsResource", "AsyncCompletionsResource"]
@@ -45,6 +46,7 @@ class CompletionsResource(SyncAPIResource):
         """
         return CompletionsResourceWithStreamingResponse(self)
 
+    @overload
     def create(
         self,
         *,
@@ -92,7 +94,7 @@ class CompletionsResource(SyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
-        stream: Optional[bool] | Omit = omit,
+        stream: Optional[Literal[False]] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
@@ -108,7 +110,7 @@ class CompletionsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CompletionCreateResponse:
+    ) -> StreamChunk:
         """
         FastAPI wrapper around chat completions
 
@@ -121,6 +123,231 @@ class CompletionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        stream: Literal[True],
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Stream[StreamChunk]:
+        """
+        FastAPI wrapper around chat completions
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        stream: bool,
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> StreamChunk | Stream[StreamChunk]:
+        """
+        FastAPI wrapper around chat completions
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model"], ["messages", "model", "stream"])
+    def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> StreamChunk | Stream[StreamChunk]:
         return self._post(
             "/chat/completions",
             body=maybe_transform(
@@ -180,12 +407,16 @@ class CompletionsResource(SyncAPIResource):
                     "updated_before_timestamp": updated_before_timestamp,
                     "web_search_options": web_search_options,
                 },
-                completion_create_params.CompletionCreateParams,
+                completion_create_params.CompletionCreateParamsStreaming
+                if stream
+                else completion_create_params.CompletionCreateParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CompletionCreateResponse,
+            cast_to=StreamChunk,
+            stream=stream or False,
+            stream_cls=Stream[StreamChunk],
         )
 
 
@@ -209,6 +440,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         """
         return AsyncCompletionsResourceWithStreamingResponse(self)
 
+    @overload
     async def create(
         self,
         *,
@@ -256,7 +488,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
-        stream: Optional[bool] | Omit = omit,
+        stream: Optional[Literal[False]] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
@@ -272,7 +504,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CompletionCreateResponse:
+    ) -> StreamChunk:
         """
         FastAPI wrapper around chat completions
 
@@ -285,6 +517,231 @@ class AsyncCompletionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        stream: Literal[True],
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncStream[StreamChunk]:
+        """
+        FastAPI wrapper around chat completions
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        stream: bool,
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> StreamChunk | AsyncStream[StreamChunk]:
+        """
+        FastAPI wrapper around chat completions
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "model"], ["messages", "model", "stream"])
+    async def create(
+        self,
+        *,
+        messages: Iterable[ChatMessageInput],
+        model: str,
+        _debug_pro_search: bool | Omit = omit,
+        _inputs: Optional[Iterable[int]] | Omit = omit,
+        _is_browser_agent: Optional[bool] | Omit = omit,
+        _prompt_token_length: Optional[int] | Omit = omit,
+        best_of: Optional[int] | Omit = omit,
+        country: Optional[str] | Omit = omit,
+        cum_logprobs: Optional[bool] | Omit = omit,
+        debug_params: Optional[completion_create_params.DebugParams] | Omit = omit,
+        disable_search: Optional[bool] | Omit = omit,
+        diverse_first_token: Optional[bool] | Omit = omit,
+        enable_search_classifier: Optional[bool] | Omit = omit,
+        file_workspace_id: Optional[str] | Omit = omit,
+        frequency_penalty: Optional[float] | Omit = omit,
+        has_image_url: bool | Omit = omit,
+        image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        last_updated_after_filter: Optional[str] | Omit = omit,
+        last_updated_before_filter: Optional[str] | Omit = omit,
+        latitude: Optional[float] | Omit = omit,
+        logprobs: Optional[bool] | Omit = omit,
+        longitude: Optional[float] | Omit = omit,
+        max_tokens: Optional[int] | Omit = omit,
+        n: Optional[int] | Omit = omit,
+        num_images: int | Omit = omit,
+        num_search_results: int | Omit = omit,
+        parallel_tool_calls: Optional[bool] | Omit = omit,
+        presence_penalty: Optional[float] | Omit = omit,
+        ranking_model: Optional[str] | Omit = omit,
+        reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
+        response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_metadata: Optional[Dict[str, object]] | Omit = omit,
+        return_images: Optional[bool] | Omit = omit,
+        return_related_questions: Optional[bool] | Omit = omit,
+        safe_search: Optional[bool] | Omit = omit,
+        search_after_date_filter: Optional[str] | Omit = omit,
+        search_before_date_filter: Optional[str] | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_internal_properties: Optional[Dict[str, object]] | Omit = omit,
+        search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
+        search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_tenant: Optional[str] | Omit = omit,
+        stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
+        temperature: Optional[float] | Omit = omit,
+        tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
+        tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
+        top_k: Optional[int] | Omit = omit,
+        top_logprobs: Optional[int] | Omit = omit,
+        top_p: Optional[float] | Omit = omit,
+        updated_after_timestamp: Optional[int] | Omit = omit,
+        updated_before_timestamp: Optional[int] | Omit = omit,
+        web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> StreamChunk | AsyncStream[StreamChunk]:
         return await self._post(
             "/chat/completions",
             body=await async_maybe_transform(
@@ -344,12 +801,16 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "updated_before_timestamp": updated_before_timestamp,
                     "web_search_options": web_search_options,
                 },
-                completion_create_params.CompletionCreateParams,
+                completion_create_params.CompletionCreateParamsStreaming
+                if stream
+                else completion_create_params.CompletionCreateParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=CompletionCreateResponse,
+            cast_to=StreamChunk,
+            stream=stream or False,
+            stream_cls=AsyncStream[StreamChunk],
         )
 
 
