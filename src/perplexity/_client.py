@@ -105,6 +105,8 @@ class Perplexity(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self._default_stream_cls = Stream
+
         self.chat = chat.ChatResource(self)
         self.async_ = async_.AsyncResource(self)
         self.search = search.SearchResource(self)
@@ -276,6 +278,8 @@ class AsyncPerplexity(AsyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+        self._default_stream_cls = AsyncStream
 
         self.chat = chat.AsyncChatResource(self)
         self.async_ = async_.AsyncAsyncResource(self)
