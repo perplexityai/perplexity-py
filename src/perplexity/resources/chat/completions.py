@@ -68,6 +68,7 @@ class CompletionsResource(SyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -95,7 +96,9 @@ class CompletionsResource(SyncAPIResource):
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
         stream: Optional[Literal[False]] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -103,6 +106,7 @@ class CompletionsResource(SyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -112,7 +116,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -148,6 +152,7 @@ class CompletionsResource(SyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -174,7 +179,9 @@ class CompletionsResource(SyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -182,6 +189,7 @@ class CompletionsResource(SyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -191,7 +199,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Stream[StreamChunk]:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -227,6 +235,7 @@ class CompletionsResource(SyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -253,7 +262,9 @@ class CompletionsResource(SyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -261,6 +272,7 @@ class CompletionsResource(SyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -270,7 +282,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | Stream[StreamChunk]:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -305,6 +317,7 @@ class CompletionsResource(SyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -332,7 +345,9 @@ class CompletionsResource(SyncAPIResource):
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
         stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -340,6 +355,7 @@ class CompletionsResource(SyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -370,6 +386,7 @@ class CompletionsResource(SyncAPIResource):
                     "has_image_url": has_image_url,
                     "image_domain_filter": image_domain_filter,
                     "image_format_filter": image_format_filter,
+                    "language_preference": language_preference,
                     "last_updated_after_filter": last_updated_after_filter,
                     "last_updated_before_filter": last_updated_before_filter,
                     "latitude": latitude,
@@ -397,7 +414,9 @@ class CompletionsResource(SyncAPIResource):
                     "search_tenant": search_tenant,
                     "stop": stop,
                     "stream": stream,
+                    "stream_mode": stream_mode,
                     "temperature": temperature,
+                    "thread_id": thread_id,
                     "tool_choice": tool_choice,
                     "tools": tools,
                     "top_k": top_k,
@@ -405,6 +424,7 @@ class CompletionsResource(SyncAPIResource):
                     "top_p": top_p,
                     "updated_after_timestamp": updated_after_timestamp,
                     "updated_before_timestamp": updated_before_timestamp,
+                    "use_threads": use_threads,
                     "web_search_options": web_search_options,
                 },
                 completion_create_params.CompletionCreateParamsStreaming
@@ -462,6 +482,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -489,7 +510,9 @@ class AsyncCompletionsResource(AsyncAPIResource):
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
         stream: Optional[Literal[False]] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -497,6 +520,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -506,7 +530,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -542,6 +566,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -568,7 +593,9 @@ class AsyncCompletionsResource(AsyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -576,6 +603,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -585,7 +613,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[StreamChunk]:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -621,6 +649,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -647,7 +676,9 @@ class AsyncCompletionsResource(AsyncAPIResource):
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -655,6 +686,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -664,7 +696,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | AsyncStream[StreamChunk]:
         """
-        FastAPI wrapper around chat completions
+        Generate a chat completion response for the given conversation.
 
         Args:
           extra_headers: Send extra headers
@@ -699,6 +731,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         has_image_url: bool | Omit = omit,
         image_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         image_format_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        language_preference: Optional[str] | Omit = omit,
         last_updated_after_filter: Optional[str] | Omit = omit,
         last_updated_before_filter: Optional[str] | Omit = omit,
         latitude: Optional[float] | Omit = omit,
@@ -726,7 +759,9 @@ class AsyncCompletionsResource(AsyncAPIResource):
         search_tenant: Optional[str] | Omit = omit,
         stop: Union[str, SequenceNotStr[str], None] | Omit = omit,
         stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
+        stream_mode: Literal["full", "concise"] | Omit = omit,
         temperature: Optional[float] | Omit = omit,
+        thread_id: Optional[str] | Omit = omit,
         tool_choice: Optional[Literal["none", "auto", "required"]] | Omit = omit,
         tools: Optional[Iterable[completion_create_params.Tool]] | Omit = omit,
         top_k: Optional[int] | Omit = omit,
@@ -734,6 +769,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         top_p: Optional[float] | Omit = omit,
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
+        use_threads: Optional[bool] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -764,6 +800,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "has_image_url": has_image_url,
                     "image_domain_filter": image_domain_filter,
                     "image_format_filter": image_format_filter,
+                    "language_preference": language_preference,
                     "last_updated_after_filter": last_updated_after_filter,
                     "last_updated_before_filter": last_updated_before_filter,
                     "latitude": latitude,
@@ -791,7 +828,9 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "search_tenant": search_tenant,
                     "stop": stop,
                     "stream": stream,
+                    "stream_mode": stream_mode,
                     "temperature": temperature,
+                    "thread_id": thread_id,
                     "tool_choice": tool_choice,
                     "tools": tools,
                     "top_k": top_k,
@@ -799,6 +838,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "top_p": top_p,
                     "updated_after_timestamp": updated_after_timestamp,
                     "updated_before_timestamp": updated_before_timestamp,
+                    "use_threads": use_threads,
                     "web_search_options": web_search_options,
                 },
                 completion_create_params.CompletionCreateParamsStreaming

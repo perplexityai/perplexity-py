@@ -20,8 +20,6 @@ class StreamChunk(BaseModel):
 
     model: str
 
-    usage: UsageInfo
-
     citations: Optional[List[str]] = None
 
     object: Optional[str] = None
@@ -31,3 +29,5 @@ class StreamChunk(BaseModel):
     status: Optional[Literal["PENDING", "COMPLETED"]] = None
 
     type: Optional[Literal["message", "info", "end_of_stream"]] = None
+
+    usage: Optional[UsageInfo] = None

@@ -48,7 +48,7 @@ class SearchResource(SyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
-        country: Optional[str] | Omit = omit,
+        display_server_time: bool | Omit = omit,
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
         max_tokens_per_page: int | Omit = omit,
@@ -61,7 +61,7 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SearchCreateResponse:
         """
-        Search
+        Search the web and retrieve relevant web page contents.
 
         Args:
           extra_headers: Send extra headers
@@ -77,7 +77,7 @@ class SearchResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "query": query,
-                    "country": country,
+                    "display_server_time": display_server_time,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,
@@ -116,7 +116,7 @@ class AsyncSearchResource(AsyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
-        country: Optional[str] | Omit = omit,
+        display_server_time: bool | Omit = omit,
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
         max_tokens_per_page: int | Omit = omit,
@@ -129,7 +129,7 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SearchCreateResponse:
         """
-        Search
+        Search the web and retrieve relevant web page contents.
 
         Args:
           extra_headers: Send extra headers
@@ -145,7 +145,7 @@ class AsyncSearchResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "query": query,
-                    "country": country,
+                    "display_server_time": display_server_time,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,

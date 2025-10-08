@@ -16,6 +16,8 @@ class CompletionGetParams(TypedDict, total=False):
 
     x_client_name: Annotated[str, PropertyInfo(alias="x-client-name")]
 
+    x_created_at_epoch_seconds: Annotated[str, PropertyInfo(alias="x-created-at-epoch-seconds")]
+
     x_request_time: Annotated[str, PropertyInfo(alias="x-request-time")]
 
     x_usage_tier: Annotated[str, PropertyInfo(alias="x-usage-tier")]
