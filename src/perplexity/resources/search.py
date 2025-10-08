@@ -52,6 +52,7 @@ class SearchResource(SyncAPIResource):
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
         max_tokens_per_page: int | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -81,6 +82,7 @@ class SearchResource(SyncAPIResource):
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,
+                    "search_domain_filter": search_domain_filter,
                     "search_mode": search_mode,
                 },
                 search_create_params.SearchCreateParams,
@@ -120,6 +122,7 @@ class AsyncSearchResource(AsyncAPIResource):
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
         max_tokens_per_page: int | Omit = omit,
+        search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -149,6 +152,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "max_results": max_results,
                     "max_tokens": max_tokens,
                     "max_tokens_per_page": max_tokens_per_page,
+                    "search_domain_filter": search_domain_filter,
                     "search_mode": search_mode,
                 },
                 search_create_params.SearchCreateParams,
