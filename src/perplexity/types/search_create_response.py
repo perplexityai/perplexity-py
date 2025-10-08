@@ -23,3 +23,5 @@ class SearchCreateResponse(BaseModel):
     id: str
 
     results: List[Result]
+
+    server_time: Optional[str] = None
