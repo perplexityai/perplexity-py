@@ -58,10 +58,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionCreateResponse:
         """
-        FastAPI wrapper around async chat completions
-
-        This endpoint creates an asynchronous chat completion job and returns a job ID
-        that can be used to poll for results.
+        Submit an asynchronous chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -97,7 +94,7 @@ class CompletionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionListResponse:
-        """list all async chat completion requests for a given user."""
+        """Retrieve a list of all asynchronous chat completion requests for a given user."""
         return self._get(
             "/async/chat/completions",
             options=make_request_options(
@@ -113,6 +110,7 @@ class CompletionsResource(SyncAPIResource):
         local_mode: bool | Omit = omit,
         x_client_env: str | Omit = omit,
         x_client_name: str | Omit = omit,
+        x_created_at_epoch_seconds: str | Omit = omit,
         x_request_time: str | Omit = omit,
         x_usage_tier: str | Omit = omit,
         x_user_id: str | Omit = omit,
@@ -124,7 +122,7 @@ class CompletionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionGetResponse:
         """
-        get the response for a given async chat completion request.
+        Retrieve the response for a given asynchronous chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -142,6 +140,7 @@ class CompletionsResource(SyncAPIResource):
                 {
                     "x-client-env": x_client_env,
                     "x-client-name": x_client_name,
+                    "x-created-at-epoch-seconds": x_created_at_epoch_seconds,
                     "x-request-time": x_request_time,
                     "x-usage-tier": x_usage_tier,
                     "x-user-id": x_user_id,
@@ -195,10 +194,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionCreateResponse:
         """
-        FastAPI wrapper around async chat completions
-
-        This endpoint creates an asynchronous chat completion job and returns a job ID
-        that can be used to poll for results.
+        Submit an asynchronous chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -234,7 +230,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionListResponse:
-        """list all async chat completion requests for a given user."""
+        """Retrieve a list of all asynchronous chat completion requests for a given user."""
         return await self._get(
             "/async/chat/completions",
             options=make_request_options(
@@ -250,6 +246,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         local_mode: bool | Omit = omit,
         x_client_env: str | Omit = omit,
         x_client_name: str | Omit = omit,
+        x_created_at_epoch_seconds: str | Omit = omit,
         x_request_time: str | Omit = omit,
         x_usage_tier: str | Omit = omit,
         x_user_id: str | Omit = omit,
@@ -261,7 +258,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CompletionGetResponse:
         """
-        get the response for a given async chat completion request.
+        Retrieve the response for a given asynchronous chat completion request.
 
         Args:
           extra_headers: Send extra headers
@@ -279,6 +276,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                 {
                     "x-client-env": x_client_env,
                     "x-client-name": x_client_name,
+                    "x-created-at-epoch-seconds": x_created_at_epoch_seconds,
                     "x-request-time": x_request_time,
                     "x-usage-tier": x_usage_tier,
                     "x-user-id": x_user_id,

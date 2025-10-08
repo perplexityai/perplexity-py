@@ -72,6 +72,7 @@ class TestCompletions:
                                             "date": "date",
                                             "last_updated": "last_updated",
                                             "snippet": "snippet",
+                                            "source": "web",
                                         }
                                     ]
                                 },
@@ -85,6 +86,7 @@ class TestCompletions:
                                             "date": "date",
                                             "last_updated": "last_updated",
                                             "snippet": "snippet",
+                                            "source": "web",
                                         }
                                     ],
                                 },
@@ -122,6 +124,7 @@ class TestCompletions:
                 "has_image_url": True,
                 "image_domain_filter": ["string"],
                 "image_format_filter": ["string"],
+                "language_preference": "language_preference",
                 "last_updated_after_filter": "last_updated_after_filter",
                 "last_updated_before_filter": "last_updated_before_filter",
                 "latitude": 0,
@@ -149,7 +152,9 @@ class TestCompletions:
                 "search_tenant": "search_tenant",
                 "stop": "string",
                 "stream": True,
+                "stream_mode": "full",
                 "temperature": 0,
+                "thread_id": "thread_id",
                 "tool_choice": "none",
                 "tools": [
                     {
@@ -172,6 +177,7 @@ class TestCompletions:
                 "top_p": 0,
                 "updated_after_timestamp": 0,
                 "updated_before_timestamp": 0,
+                "use_threads": True,
                 "web_search_options": {
                     "image_results_enhanced_relevance": True,
                     "search_context_size": "low",
@@ -275,6 +281,7 @@ class TestCompletions:
             local_mode=True,
             x_client_env="x-client-env",
             x_client_name="x-client-name",
+            x_created_at_epoch_seconds="x-created-at-epoch-seconds",
             x_request_time="x-request-time",
             x_usage_tier="x-usage-tier",
             x_user_id="x-user-id",
@@ -372,6 +379,7 @@ class TestAsyncCompletions:
                                             "date": "date",
                                             "last_updated": "last_updated",
                                             "snippet": "snippet",
+                                            "source": "web",
                                         }
                                     ]
                                 },
@@ -385,6 +393,7 @@ class TestAsyncCompletions:
                                             "date": "date",
                                             "last_updated": "last_updated",
                                             "snippet": "snippet",
+                                            "source": "web",
                                         }
                                     ],
                                 },
@@ -422,6 +431,7 @@ class TestAsyncCompletions:
                 "has_image_url": True,
                 "image_domain_filter": ["string"],
                 "image_format_filter": ["string"],
+                "language_preference": "language_preference",
                 "last_updated_after_filter": "last_updated_after_filter",
                 "last_updated_before_filter": "last_updated_before_filter",
                 "latitude": 0,
@@ -449,7 +459,9 @@ class TestAsyncCompletions:
                 "search_tenant": "search_tenant",
                 "stop": "string",
                 "stream": True,
+                "stream_mode": "full",
                 "temperature": 0,
+                "thread_id": "thread_id",
                 "tool_choice": "none",
                 "tools": [
                     {
@@ -472,6 +484,7 @@ class TestAsyncCompletions:
                 "top_p": 0,
                 "updated_after_timestamp": 0,
                 "updated_before_timestamp": 0,
+                "use_threads": True,
                 "web_search_options": {
                     "image_results_enhanced_relevance": True,
                     "search_context_size": "low",
@@ -575,6 +588,7 @@ class TestAsyncCompletions:
             local_mode=True,
             x_client_env="x-client-env",
             x_client_name="x-client-name",
+            x_created_at_epoch_seconds="x-created-at-epoch-seconds",
             x_request_time="x-request-time",
             x_usage_tier="x-usage-tier",
             x_user_id="x-user-id",

@@ -64,6 +64,8 @@ class CompletionCreateParamsBase(TypedDict, total=False):
 
     image_format_filter: Optional[SequenceNotStr[str]]
 
+    language_preference: Optional[str]
+
     last_updated_after_filter: Optional[str]
 
     last_updated_before_filter: Optional[str]
@@ -116,7 +118,11 @@ class CompletionCreateParamsBase(TypedDict, total=False):
 
     stop: Union[str, SequenceNotStr[str], None]
 
+    stream_mode: Literal["full", "concise"]
+
     temperature: Optional[float]
+
+    thread_id: Optional[str]
 
     tool_choice: Optional[Literal["none", "auto", "required"]]
 
@@ -131,6 +137,8 @@ class CompletionCreateParamsBase(TypedDict, total=False):
     updated_after_timestamp: Optional[int]
 
     updated_before_timestamp: Optional[int]
+
+    use_threads: Optional[bool]
 
     web_search_options: WebSearchOptions
 
@@ -225,7 +233,7 @@ class WebSearchOptions(TypedDict, total=False):
 
     search_context_size: Literal["low", "medium", "high"]
 
-    search_type: Literal["fast", "pro", "auto"]
+    search_type: Optional[Literal["fast", "pro", "auto"]]
 
     user_location: Optional[WebSearchOptionsUserLocation]
 

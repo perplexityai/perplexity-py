@@ -124,7 +124,7 @@ class RequestWebSearchOptions(TypedDict, total=False):
 
     search_context_size: Literal["low", "medium", "high"]
 
-    search_type: Literal["fast", "pro", "auto"]
+    search_type: Optional[Literal["fast", "pro", "auto"]]
 
     user_location: Optional[RequestWebSearchOptionsUserLocation]
 
@@ -165,6 +165,8 @@ class Request(TypedDict, total=False):
     image_domain_filter: Optional[SequenceNotStr[str]]
 
     image_format_filter: Optional[SequenceNotStr[str]]
+
+    language_preference: Optional[str]
 
     last_updated_after_filter: Optional[str]
 
@@ -220,7 +222,11 @@ class Request(TypedDict, total=False):
 
     stream: Optional[bool]
 
+    stream_mode: Literal["full", "concise"]
+
     temperature: Optional[float]
+
+    thread_id: Optional[str]
 
     tool_choice: Optional[Literal["none", "auto", "required"]]
 
@@ -235,5 +241,7 @@ class Request(TypedDict, total=False):
     updated_after_timestamp: Optional[int]
 
     updated_before_timestamp: Optional[int]
+
+    use_threads: Optional[bool]
 
     web_search_options: RequestWebSearchOptions

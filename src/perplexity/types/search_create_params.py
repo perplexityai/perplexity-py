@@ -13,7 +13,7 @@ __all__ = ["SearchCreateParams"]
 class SearchCreateParams(TypedDict, total=False):
     query: Required[Union[str, SequenceNotStr[str]]]
 
-    country: Optional[str]
+    display_server_time: bool
 
     max_results: int
 

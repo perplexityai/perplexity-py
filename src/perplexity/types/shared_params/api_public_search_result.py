@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Required, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["APIPublicSearchResult"]
 
@@ -18,3 +18,5 @@ class APIPublicSearchResult(TypedDict, total=False):
     last_updated: Optional[str]
 
     snippet: str
+
+    source: Literal["web", "attachment"]
