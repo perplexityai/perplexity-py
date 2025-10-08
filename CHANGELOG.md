@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.0 (2025-10-08)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/perplexityai/perplexity-py/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** manual updates ([6c510ea](https://github.com/perplexityai/perplexity-py/commit/6c510eaf7239b14380059214d2fdb65fe2048d5c))
+
 ## 0.13.0 (2025-10-02)
 
 Full Changelog: [v0.12.1...v0.13.0](https://github.com/perplexityai/perplexity-py/compare/v0.12.1...v0.13.0)
