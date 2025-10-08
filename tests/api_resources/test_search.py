@@ -34,6 +34,7 @@ class TestSearch:
             max_results=0,
             max_tokens=0,
             max_tokens_per_page=0,
+            search_domain_filter=["string"],
             search_mode="web",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
@@ -87,6 +88,7 @@ class TestAsyncSearch:
             max_results=0,
             max_tokens=0,
             max_tokens_per_page=0,
+            search_domain_filter=["string"],
             search_mode="web",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
