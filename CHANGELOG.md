@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.1 (2025-10-11)
+
+Full Changelog: [v0.16.0...v0.16.1](https://github.com/perplexityai/perplexity-py/compare/v0.16.0...v0.16.1)
+
+### Chores
+
+* **internal:** detect missing future annotations with ruff ([26f14f1](https://github.com/perplexityai/perplexity-py/commit/26f14f1036636e9635044911c932bd5257d879f5))
+
 ## 0.16.0 (2025-10-10)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/perplexityai/perplexity-py/compare/v0.15.0...v0.16.0)
