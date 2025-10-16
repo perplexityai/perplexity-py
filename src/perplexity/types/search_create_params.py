@@ -21,6 +21,12 @@ class SearchCreateParams(TypedDict, total=False):
 
     max_tokens_per_page: int
 
+    search_after_date_filter: Optional[str]
+
+    search_before_date_filter: Optional[str]
+
     search_domain_filter: Optional[SequenceNotStr[str]]
 
     search_mode: Optional[Literal["web", "academic", "sec"]]
+
+    search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]]
