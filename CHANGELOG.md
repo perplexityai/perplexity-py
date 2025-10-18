@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.1 (2025-10-18)
+
+Full Changelog: [v0.17.0...v0.17.1](https://github.com/perplexityai/perplexity-py/compare/v0.17.0...v0.17.1)
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([c51305f](https://github.com/perplexityai/perplexity-py/commit/c51305fa20dc6109a5efcfcac1f78686234e6147))
+
 ## 0.17.0 (2025-10-16)
 
 Full Changelog: [v0.16.1...v0.17.0](https://github.com/perplexityai/perplexity-py/compare/v0.16.1...v0.17.0)
