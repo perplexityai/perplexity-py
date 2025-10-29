@@ -41,6 +41,31 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
+### Search with country filtering
+
+You can restrict search results to specific countries using the `country` parameter:
+
+```python
+# Search for results from the United States
+search_us = client.search.create(
+    query="latest tech news",
+    country="US",  # ISO 3166-1 alpha-2 country code
+    max_results=5
+)
+
+# Search for results from the United Kingdom
+search_uk = client.search.create(
+    query="weather forecast",
+    country="GB",  # UK country code
+    max_results=5
+)
+
+for result in search_us.results:
+    print(f"{result.title}: {result.url}")
+```
+
+The `country` parameter accepts ISO 3166-1 alpha-2 country codes (e.g., "US", "GB", "CA", "DE", "FR", "JP", "AU", "IN").
+
 ## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).
