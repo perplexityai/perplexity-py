@@ -157,18 +157,6 @@ class ReasoningStepWebSearch(TypedDict, total=False):
 class ReasoningStep(TypedDict, total=False):
     thought: Required[str]
 
-    type: Required[
-        Literal[
-            "web_search",
-            "fetch_url_content",
-            "execute_python",
-            "agent_progress",
-            "browser_agent",
-            "browser_tool_execution",
-            "file_attachment_search",
-        ]
-    ]
-
     agent_progress: Optional[ReasoningStepAgentProgress]
     """Agent progress class for live-browsing updates"""
 
@@ -186,6 +174,8 @@ class ReasoningStep(TypedDict, total=False):
 
     file_attachment_search: Optional[ReasoningStepFileAttachmentSearch]
     """File attachment search step details wrapper class"""
+
+    type: Optional[str]
 
     web_search: Optional[ReasoningStepWebSearch]
     """Web search step details wrapper class"""

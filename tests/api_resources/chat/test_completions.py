@@ -42,7 +42,6 @@ class TestCompletions:
                     "reasoning_steps": [
                         {
                             "thought": "thought",
-                            "type": "web_search",
                             "agent_progress": {
                                 "action": "action",
                                 "screenshot": "screenshot",
@@ -70,6 +69,7 @@ class TestCompletions:
                                 ]
                             },
                             "file_attachment_search": {"attachment_urls": ["string"]},
+                            "type": "type",
                             "web_search": {
                                 "search_keywords": ["string"],
                                 "search_results": [
@@ -105,10 +105,6 @@ class TestCompletions:
             best_of=0,
             country="country",
             cum_logprobs=True,
-            debug_params={
-                "summarizer_model_override": "summarizer_model_override",
-                "summarizer_prompt_override": "summarizer_prompt_override",
-            },
             disable_search=True,
             diverse_first_token=True,
             enable_search_classifier=True,
@@ -250,7 +246,6 @@ class TestCompletions:
                     "reasoning_steps": [
                         {
                             "thought": "thought",
-                            "type": "web_search",
                             "agent_progress": {
                                 "action": "action",
                                 "screenshot": "screenshot",
@@ -278,6 +273,7 @@ class TestCompletions:
                                 ]
                             },
                             "file_attachment_search": {"attachment_urls": ["string"]},
+                            "type": "type",
                             "web_search": {
                                 "search_keywords": ["string"],
                                 "search_results": [
@@ -314,10 +310,6 @@ class TestCompletions:
             best_of=0,
             country="country",
             cum_logprobs=True,
-            debug_params={
-                "summarizer_model_override": "summarizer_model_override",
-                "summarizer_prompt_override": "summarizer_prompt_override",
-            },
             disable_search=True,
             diverse_first_token=True,
             enable_search_classifier=True,
@@ -464,7 +456,6 @@ class TestAsyncCompletions:
                     "reasoning_steps": [
                         {
                             "thought": "thought",
-                            "type": "web_search",
                             "agent_progress": {
                                 "action": "action",
                                 "screenshot": "screenshot",
@@ -492,6 +483,7 @@ class TestAsyncCompletions:
                                 ]
                             },
                             "file_attachment_search": {"attachment_urls": ["string"]},
+                            "type": "type",
                             "web_search": {
                                 "search_keywords": ["string"],
                                 "search_results": [
@@ -527,10 +519,6 @@ class TestAsyncCompletions:
             best_of=0,
             country="country",
             cum_logprobs=True,
-            debug_params={
-                "summarizer_model_override": "summarizer_model_override",
-                "summarizer_prompt_override": "summarizer_prompt_override",
-            },
             disable_search=True,
             diverse_first_token=True,
             enable_search_classifier=True,
@@ -672,7 +660,6 @@ class TestAsyncCompletions:
                     "reasoning_steps": [
                         {
                             "thought": "thought",
-                            "type": "web_search",
                             "agent_progress": {
                                 "action": "action",
                                 "screenshot": "screenshot",
@@ -700,6 +687,7 @@ class TestAsyncCompletions:
                                 ]
                             },
                             "file_attachment_search": {"attachment_urls": ["string"]},
+                            "type": "type",
                             "web_search": {
                                 "search_keywords": ["string"],
                                 "search_results": [
@@ -736,10 +724,6 @@ class TestAsyncCompletions:
             best_of=0,
             country="country",
             cum_logprobs=True,
-            debug_params={
-                "summarizer_model_override": "summarizer_model_override",
-                "summarizer_prompt_override": "summarizer_prompt_override",
-            },
             disable_search=True,
             diverse_first_token=True,
             enable_search_classifier=True,
