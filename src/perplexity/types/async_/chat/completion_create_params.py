@@ -11,7 +11,6 @@ from ...shared_params.chat_message_input import ChatMessageInput
 __all__ = [
     "CompletionCreateParams",
     "Request",
-    "RequestDebugParams",
     "RequestResponseFormat",
     "RequestResponseFormatResponseFormatText",
     "RequestResponseFormatResponseFormatJsonSchema",
@@ -30,12 +29,6 @@ class CompletionCreateParams(TypedDict, total=False):
     request: Required[Request]
 
     idempotency_key: Optional[str]
-
-
-class RequestDebugParams(TypedDict, total=False):
-    summarizer_model_override: Optional[str]
-
-    summarizer_prompt_override: Optional[str]
 
 
 class RequestResponseFormatResponseFormatText(TypedDict, total=False):
@@ -147,8 +140,6 @@ class Request(TypedDict, total=False):
     country: Optional[str]
 
     cum_logprobs: Optional[bool]
-
-    debug_params: Optional[RequestDebugParams]
 
     disable_search: Optional[bool]
 

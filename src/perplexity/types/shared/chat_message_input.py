@@ -155,16 +155,6 @@ class ReasoningStepWebSearch(BaseModel):
 class ReasoningStep(BaseModel):
     thought: str
 
-    type: Literal[
-        "web_search",
-        "fetch_url_content",
-        "execute_python",
-        "agent_progress",
-        "browser_agent",
-        "browser_tool_execution",
-        "file_attachment_search",
-    ]
-
     agent_progress: Optional[ReasoningStepAgentProgress] = None
     """Agent progress class for live-browsing updates"""
 
@@ -182,6 +172,8 @@ class ReasoningStep(BaseModel):
 
     file_attachment_search: Optional[ReasoningStepFileAttachmentSearch] = None
     """File attachment search step details wrapper class"""
+
+    type: Optional[str] = None
 
     web_search: Optional[ReasoningStepWebSearch] = None
     """Web search step details wrapper class"""

@@ -190,9 +190,9 @@ stream_chunk = client.chat.completions.create(
         }
     ],
     model="model",
-    debug_params={},
+    web_search_options={},
 )
-print(stream_chunk.debug_params)
+print(stream_chunk.web_search_options)
 ```
 
 ## Handling errors
