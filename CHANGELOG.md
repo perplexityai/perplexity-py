@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.19.1 (2025-10-31)
+
+Full Changelog: [v0.19.0...v0.19.1](https://github.com/perplexityai/perplexity-py/compare/v0.19.0...v0.19.1)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([2d7b697](https://github.com/perplexityai/perplexity-py/commit/2d7b697dc5fce75416c4e770dc6c086bf0e7ec2a))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([5eb163f](https://github.com/perplexityai/perplexity-py/commit/5eb163fcff3a0f0bd9ecbc87407627e044535fee))
+
 ## 0.19.0 (2025-10-30)
 
 Full Changelog: [v0.18.0...v0.19.0](https://github.com/perplexityai/perplexity-py/compare/v0.18.0...v0.19.0)
