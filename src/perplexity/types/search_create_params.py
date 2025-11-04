@@ -13,6 +13,8 @@ __all__ = ["SearchCreateParams"]
 class SearchCreateParams(TypedDict, total=False):
     query: Required[Union[str, SequenceNotStr[str]]]
 
+    country: Optional[str]
+
     display_server_time: bool
 
     max_results: int
@@ -26,6 +28,8 @@ class SearchCreateParams(TypedDict, total=False):
     search_before_date_filter: Optional[str]
 
     search_domain_filter: Optional[SequenceNotStr[str]]
+
+    search_language_filter: Optional[SequenceNotStr[str]]
 
     search_mode: Optional[Literal["web", "academic", "sec"]]
 

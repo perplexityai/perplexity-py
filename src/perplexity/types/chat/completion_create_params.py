@@ -107,6 +107,8 @@ class CompletionCreateParamsBase(TypedDict, total=False):
 
     search_internal_properties: Optional[Dict[str, object]]
 
+    search_language_filter: Optional[SequenceNotStr[str]]
+
     search_mode: Optional[Literal["web", "academic", "sec"]]
 
     search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]]
