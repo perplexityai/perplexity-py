@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0 (2025-11-04)
+
+Full Changelog: [v0.19.1...v0.20.0](https://github.com/perplexityai/perplexity-py/compare/v0.19.1...v0.20.0)
+
+### Features
+
+* **api:** add country param ([16c185c](https://github.com/perplexityai/perplexity-py/commit/16c185cc1b1e977991c3b8f152c8b5d8ac8d913b))
+
+
+### Chores
+
+* **internal:** grammar fix (it's -&gt; its) ([89af593](https://github.com/perplexityai/perplexity-py/commit/89af593a699c843d97043c40aaa7b28a89d265f6))
+
 ## 0.19.1 (2025-10-31)
 
 Full Changelog: [v0.19.0...v0.19.1](https://github.com/perplexityai/perplexity-py/compare/v0.19.0...v0.19.1)

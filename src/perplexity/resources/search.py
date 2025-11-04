@@ -48,6 +48,7 @@ class SearchResource(SyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
+        country: Optional[str] | Omit = omit,
         display_server_time: bool | Omit = omit,
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
@@ -55,6 +56,7 @@ class SearchResource(SyncAPIResource):
         search_after_date_filter: Optional[str] | Omit = omit,
         search_before_date_filter: Optional[str] | Omit = omit,
         search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -81,6 +83,7 @@ class SearchResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "query": query,
+                    "country": country,
                     "display_server_time": display_server_time,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
@@ -88,6 +91,7 @@ class SearchResource(SyncAPIResource):
                     "search_after_date_filter": search_after_date_filter,
                     "search_before_date_filter": search_before_date_filter,
                     "search_domain_filter": search_domain_filter,
+                    "search_language_filter": search_language_filter,
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                 },
@@ -124,6 +128,7 @@ class AsyncSearchResource(AsyncAPIResource):
         self,
         *,
         query: Union[str, SequenceNotStr[str]],
+        country: Optional[str] | Omit = omit,
         display_server_time: bool | Omit = omit,
         max_results: int | Omit = omit,
         max_tokens: int | Omit = omit,
@@ -131,6 +136,7 @@ class AsyncSearchResource(AsyncAPIResource):
         search_after_date_filter: Optional[str] | Omit = omit,
         search_before_date_filter: Optional[str] | Omit = omit,
         search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
+        search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -157,6 +163,7 @@ class AsyncSearchResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "query": query,
+                    "country": country,
                     "display_server_time": display_server_time,
                     "max_results": max_results,
                     "max_tokens": max_tokens,
@@ -164,6 +171,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "search_after_date_filter": search_after_date_filter,
                     "search_before_date_filter": search_before_date_filter,
                     "search_domain_filter": search_domain_filter,
+                    "search_language_filter": search_language_filter,
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                 },
