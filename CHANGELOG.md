@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.20.1 (2025-11-22)
+
+Full Changelog: [v0.20.0...v0.20.1](https://github.com/perplexityai/perplexity-py/compare/v0.20.0...v0.20.1)
+
+### Bug Fixes
+
+* compat with Python 3.14 ([d2d0f32](https://github.com/perplexityai/perplexity-py/commit/d2d0f3228fa678c3715c442f566597418d047a68))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([5e50bc7](https://github.com/perplexityai/perplexity-py/commit/5e50bc77cb15d1d275a3b8297e6f69ec2725a28f))
+
+
+### Chores
+
+* add Python 3.14 classifier and testing ([b1e5838](https://github.com/perplexityai/perplexity-py/commit/b1e5838891ee06d312d9e038789fd70f0492723f))
+* **package:** drop Python 3.8 support ([c5802a8](https://github.com/perplexityai/perplexity-py/commit/c5802a88dec2fe830321b6c07b1fb6c2a0d8beb0))
+
 ## 0.20.0 (2025-11-04)
 
 Full Changelog: [v0.19.1...v0.20.0](https://github.com/perplexityai/perplexity-py/compare/v0.19.1...v0.20.0)
