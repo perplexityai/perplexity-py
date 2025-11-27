@@ -1,6 +1,6 @@
 [project]
 name = "perplexityai"
-version = "0.20.1"
+version = "0.20.2"
 description = "The official Python library for the perplexity API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -46,7 +46,7 @@ managed = true
 # version pins are in requirements-dev.lock
 dev-dependencies = [
     "pyright==1.1.399",
-    "mypy",
+    "mypy==1.17",
     "respx",
     "pytest",
     "pytest-asyncio",
