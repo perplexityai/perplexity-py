@@ -116,6 +116,7 @@ pip install perplexityai[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from perplexity import DefaultAioHttpClient
 from perplexity import AsyncPerplexity
@@ -123,7 +124,7 @@ from perplexity import AsyncPerplexity
 
 async def main() -> None:
     async with AsyncPerplexity(
-        api_key="My API Key",
+        api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         stream_chunk = await client.chat.completions.create(
