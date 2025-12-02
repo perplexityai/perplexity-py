@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.21.0 (2025-12-02)
+
+Full Changelog: [v0.20.1...v0.21.0](https://github.com/perplexityai/perplexity-py/compare/v0.20.1...v0.21.0)
+
+### Features
+
+* **api:** manual updates ([d3a7788](https://github.com/perplexityai/perplexity-py/commit/d3a77881d1015fcb54ee77190d12f1c70fc8c397))
+
+
+### Bug Fixes
+
+* ensure streams are always closed ([e693ad7](https://github.com/perplexityai/perplexity-py/commit/e693ad78fd587c93eadaf222bf19052644e0418d))
+
+
+### Chores
+
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([2769af7](https://github.com/perplexityai/perplexity-py/commit/2769af76861bd8b6ad886874c53f666f05276fa8))
+* update lockfile ([fb77b01](https://github.com/perplexityai/perplexity-py/commit/fb77b01b0ca50cafab392b776e31bf8eae1b7c3b))
+
 ## 0.20.1 (2025-11-22)
 
 Full Changelog: [v0.20.0...v0.20.1](https://github.com/perplexityai/perplexity-py/compare/v0.20.0...v0.20.1)
