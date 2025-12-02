@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Union, Optional
+from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
@@ -23,12 +23,8 @@ __all__ = [
     "ContentStructuredContentChatMessageContentVideoChunkVideoURL",
     "ContentStructuredContentChatMessageContentVideoChunkVideoURLVideoURL",
     "ReasoningStep",
-    "ReasoningStepAgentProgress",
-    "ReasoningStepBrowserAgent",
-    "ReasoningStepBrowserToolExecution",
     "ReasoningStepExecutePython",
     "ReasoningStepFetchURLContent",
-    "ReasoningStepFileAttachmentSearch",
     "ReasoningStepWebSearch",
     "ToolCall",
     "ToolCallFunction",
@@ -114,24 +110,6 @@ ContentStructuredContent: TypeAlias = Union[
 ]
 
 
-class ReasoningStepAgentProgress(BaseModel):
-    action: Optional[str] = None
-
-    screenshot: Optional[str] = None
-
-    url: Optional[str] = None
-
-
-class ReasoningStepBrowserAgent(BaseModel):
-    result: str
-
-    url: str
-
-
-class ReasoningStepBrowserToolExecution(BaseModel):
-    tool: Dict[str, object]
-
-
 class ReasoningStepExecutePython(BaseModel):
     code: str
 
@@ -140,10 +118,6 @@ class ReasoningStepExecutePython(BaseModel):
 
 class ReasoningStepFetchURLContent(BaseModel):
     contents: List[APIPublicSearchResult]
-
-
-class ReasoningStepFileAttachmentSearch(BaseModel):
-    attachment_urls: List[str]
 
 
 class ReasoningStepWebSearch(BaseModel):
@@ -155,23 +129,11 @@ class ReasoningStepWebSearch(BaseModel):
 class ReasoningStep(BaseModel):
     thought: str
 
-    agent_progress: Optional[ReasoningStepAgentProgress] = None
-    """Agent progress class for live-browsing updates"""
-
-    browser_agent: Optional[ReasoningStepBrowserAgent] = None
-    """Browser agent step summary class"""
-
-    browser_tool_execution: Optional[ReasoningStepBrowserToolExecution] = None
-    """Tool input for kicking off browser tool automation"""
-
     execute_python: Optional[ReasoningStepExecutePython] = None
     """Code generation step details wrapper class"""
 
     fetch_url_content: Optional[ReasoningStepFetchURLContent] = None
     """Fetch url content step details wrapper class"""
-
-    file_attachment_search: Optional[ReasoningStepFileAttachmentSearch] = None
-    """File attachment search step details wrapper class"""
 
     type: Optional[str] = None
 
@@ -194,11 +156,13 @@ class ToolCall(BaseModel):
 
 
 class ChatMessageOutput(BaseModel):
-    content: Union[str, List[ContentStructuredContent]]
+    content: Union[str, List[ContentStructuredContent], None] = None
 
     role: Literal["system", "user", "assistant", "tool"]
     """Chat roles enum"""
 
     reasoning_steps: Optional[List[ReasoningStep]] = None
+
+    tool_call_id: Optional[str] = None
 
     tool_calls: Optional[List[ToolCall]] = None
