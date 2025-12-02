@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
@@ -25,12 +25,8 @@ __all__ = [
     "ContentStructuredContentChatMessageContentVideoChunkVideoURL",
     "ContentStructuredContentChatMessageContentVideoChunkVideoURLVideoURL",
     "ReasoningStep",
-    "ReasoningStepAgentProgress",
-    "ReasoningStepBrowserAgent",
-    "ReasoningStepBrowserToolExecution",
     "ReasoningStepExecutePython",
     "ReasoningStepFetchURLContent",
-    "ReasoningStepFileAttachmentSearch",
     "ReasoningStepWebSearch",
     "ToolCall",
     "ToolCallFunction",
@@ -116,24 +112,6 @@ ContentStructuredContent: TypeAlias = Union[
 ]
 
 
-class ReasoningStepAgentProgress(TypedDict, total=False):
-    action: Required[Optional[str]]
-
-    screenshot: Required[Optional[str]]
-
-    url: Required[Optional[str]]
-
-
-class ReasoningStepBrowserAgent(TypedDict, total=False):
-    result: Required[str]
-
-    url: Required[str]
-
-
-class ReasoningStepBrowserToolExecution(TypedDict, total=False):
-    tool: Required[Dict[str, object]]
-
-
 class ReasoningStepExecutePython(TypedDict, total=False):
     code: Required[str]
 
@@ -142,10 +120,6 @@ class ReasoningStepExecutePython(TypedDict, total=False):
 
 class ReasoningStepFetchURLContent(TypedDict, total=False):
     contents: Required[Iterable[APIPublicSearchResult]]
-
-
-class ReasoningStepFileAttachmentSearch(TypedDict, total=False):
-    attachment_urls: Required[SequenceNotStr[str]]
 
 
 class ReasoningStepWebSearch(TypedDict, total=False):
@@ -157,23 +131,11 @@ class ReasoningStepWebSearch(TypedDict, total=False):
 class ReasoningStep(TypedDict, total=False):
     thought: Required[str]
 
-    agent_progress: Optional[ReasoningStepAgentProgress]
-    """Agent progress class for live-browsing updates"""
-
-    browser_agent: Optional[ReasoningStepBrowserAgent]
-    """Browser agent step summary class"""
-
-    browser_tool_execution: Optional[ReasoningStepBrowserToolExecution]
-    """Tool input for kicking off browser tool automation"""
-
     execute_python: Optional[ReasoningStepExecutePython]
     """Code generation step details wrapper class"""
 
     fetch_url_content: Optional[ReasoningStepFetchURLContent]
     """Fetch url content step details wrapper class"""
-
-    file_attachment_search: Optional[ReasoningStepFileAttachmentSearch]
-    """File attachment search step details wrapper class"""
 
     type: Optional[str]
 
@@ -196,11 +158,13 @@ class ToolCall(TypedDict, total=False):
 
 
 class ChatMessageInput(TypedDict, total=False):
-    content: Required[Union[str, Iterable[ContentStructuredContent]]]
+    content: Required[Union[str, Iterable[ContentStructuredContent], None]]
 
     role: Required[Literal["system", "user", "assistant", "tool"]]
     """Chat roles enum"""
 
     reasoning_steps: Optional[Iterable[ReasoningStep]]
+
+    tool_call_id: Optional[str]
 
     tool_calls: Optional[Iterable[ToolCall]]
