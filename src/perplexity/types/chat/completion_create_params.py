@@ -33,9 +33,9 @@ class CompletionCreateParamsBase(TypedDict, total=False):
 
     _debug_pro_search: bool
 
-    _inputs: Optional[Iterable[int]]
+    _force_new_agent: Optional[bool]
 
-    _is_browser_agent: Optional[bool]
+    _inputs: Optional[Iterable[int]]
 
     _prompt_token_length: Optional[int]
 
@@ -138,6 +138,8 @@ class CompletionCreateParamsBase(TypedDict, total=False):
     updated_before_timestamp: Optional[int]
 
     use_threads: Optional[bool]
+
+    user_original_query: Optional[str]
 
     web_search_options: WebSearchOptions
 

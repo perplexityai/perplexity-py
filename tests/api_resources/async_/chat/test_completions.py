@@ -49,16 +49,6 @@ class TestCompletions:
                         "reasoning_steps": [
                             {
                                 "thought": "thought",
-                                "agent_progress": {
-                                    "action": "action",
-                                    "screenshot": "screenshot",
-                                    "url": "url",
-                                },
-                                "browser_agent": {
-                                    "result": "result",
-                                    "url": "url",
-                                },
-                                "browser_tool_execution": {"tool": {"foo": "bar"}},
                                 "execute_python": {
                                     "code": "code",
                                     "result": "result",
@@ -75,7 +65,6 @@ class TestCompletions:
                                         }
                                     ]
                                 },
-                                "file_attachment_search": {"attachment_urls": ["string"]},
                                 "type": "type",
                                 "web_search": {
                                     "search_keywords": ["string"],
@@ -92,6 +81,7 @@ class TestCompletions:
                                 },
                             }
                         ],
+                        "tool_call_id": "tool_call_id",
                         "tool_calls": [
                             {
                                 "id": "id",
@@ -106,8 +96,8 @@ class TestCompletions:
                 ],
                 "model": "model",
                 "_debug_pro_search": True,
+                "_force_new_agent": True,
                 "_inputs": [0],
-                "_is_browser_agent": True,
                 "_prompt_token_length": 0,
                 "best_of": 0,
                 "country": "country",
@@ -175,6 +165,7 @@ class TestCompletions:
                 "updated_after_timestamp": 0,
                 "updated_before_timestamp": 0,
                 "use_threads": True,
+                "user_original_query": "user_original_query",
                 "web_search_options": {
                     "image_results_enhanced_relevance": True,
                     "search_context_size": "low",
@@ -353,16 +344,6 @@ class TestAsyncCompletions:
                         "reasoning_steps": [
                             {
                                 "thought": "thought",
-                                "agent_progress": {
-                                    "action": "action",
-                                    "screenshot": "screenshot",
-                                    "url": "url",
-                                },
-                                "browser_agent": {
-                                    "result": "result",
-                                    "url": "url",
-                                },
-                                "browser_tool_execution": {"tool": {"foo": "bar"}},
                                 "execute_python": {
                                     "code": "code",
                                     "result": "result",
@@ -379,7 +360,6 @@ class TestAsyncCompletions:
                                         }
                                     ]
                                 },
-                                "file_attachment_search": {"attachment_urls": ["string"]},
                                 "type": "type",
                                 "web_search": {
                                     "search_keywords": ["string"],
@@ -396,6 +376,7 @@ class TestAsyncCompletions:
                                 },
                             }
                         ],
+                        "tool_call_id": "tool_call_id",
                         "tool_calls": [
                             {
                                 "id": "id",
@@ -410,8 +391,8 @@ class TestAsyncCompletions:
                 ],
                 "model": "model",
                 "_debug_pro_search": True,
+                "_force_new_agent": True,
                 "_inputs": [0],
-                "_is_browser_agent": True,
                 "_prompt_token_length": 0,
                 "best_of": 0,
                 "country": "country",
@@ -479,6 +460,7 @@ class TestAsyncCompletions:
                 "updated_after_timestamp": 0,
                 "updated_before_timestamp": 0,
                 "use_threads": True,
+                "user_original_query": "user_original_query",
                 "web_search_options": {
                     "image_results_enhanced_relevance": True,
                     "search_context_size": "low",

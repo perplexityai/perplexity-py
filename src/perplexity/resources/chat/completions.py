@@ -53,8 +53,8 @@ class CompletionsResource(SyncAPIResource):
         messages: Iterable[ChatMessageInput],
         model: str,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -107,6 +107,7 @@ class CompletionsResource(SyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -137,8 +138,8 @@ class CompletionsResource(SyncAPIResource):
         model: str,
         stream: Literal[True],
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -190,6 +191,7 @@ class CompletionsResource(SyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -220,8 +222,8 @@ class CompletionsResource(SyncAPIResource):
         model: str,
         stream: bool,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -273,6 +275,7 @@ class CompletionsResource(SyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -302,8 +305,8 @@ class CompletionsResource(SyncAPIResource):
         messages: Iterable[ChatMessageInput],
         model: str,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -356,6 +359,7 @@ class CompletionsResource(SyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -371,8 +375,8 @@ class CompletionsResource(SyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "_debug_pro_search": _debug_pro_search,
+                    "_force_new_agent": _force_new_agent,
                     "_inputs": _inputs,
-                    "_is_browser_agent": _is_browser_agent,
                     "_prompt_token_length": _prompt_token_length,
                     "best_of": best_of,
                     "country": country,
@@ -425,6 +429,7 @@ class CompletionsResource(SyncAPIResource):
                     "updated_after_timestamp": updated_after_timestamp,
                     "updated_before_timestamp": updated_before_timestamp,
                     "use_threads": use_threads,
+                    "user_original_query": user_original_query,
                     "web_search_options": web_search_options,
                 },
                 completion_create_params.CompletionCreateParamsStreaming
@@ -467,8 +472,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
         messages: Iterable[ChatMessageInput],
         model: str,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -521,6 +526,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -551,8 +557,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
         model: str,
         stream: Literal[True],
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -604,6 +610,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -634,8 +641,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
         model: str,
         stream: bool,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -687,6 +694,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -716,8 +724,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
         messages: Iterable[ChatMessageInput],
         model: str,
         _debug_pro_search: bool | Omit = omit,
+        _force_new_agent: Optional[bool] | Omit = omit,
         _inputs: Optional[Iterable[int]] | Omit = omit,
-        _is_browser_agent: Optional[bool] | Omit = omit,
         _prompt_token_length: Optional[int] | Omit = omit,
         best_of: Optional[int] | Omit = omit,
         country: Optional[str] | Omit = omit,
@@ -770,6 +778,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         updated_after_timestamp: Optional[int] | Omit = omit,
         updated_before_timestamp: Optional[int] | Omit = omit,
         use_threads: Optional[bool] | Omit = omit,
+        user_original_query: Optional[str] | Omit = omit,
         web_search_options: completion_create_params.WebSearchOptions | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -785,8 +794,8 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "_debug_pro_search": _debug_pro_search,
+                    "_force_new_agent": _force_new_agent,
                     "_inputs": _inputs,
-                    "_is_browser_agent": _is_browser_agent,
                     "_prompt_token_length": _prompt_token_length,
                     "best_of": best_of,
                     "country": country,
@@ -839,6 +848,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "updated_after_timestamp": updated_after_timestamp,
                     "updated_before_timestamp": updated_before_timestamp,
                     "use_threads": use_threads,
+                    "user_original_query": user_original_query,
                     "web_search_options": web_search_options,
                 },
                 completion_create_params.CompletionCreateParamsStreaming
