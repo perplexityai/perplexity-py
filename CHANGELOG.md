@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.22.0 (2025-12-05)
+
+Full Changelog: [v0.21.0...v0.22.0](https://github.com/perplexityai/perplexity-py/compare/v0.21.0...v0.22.0)
+
+### Features
+
+* **api:** manual updates ([935821c](https://github.com/perplexityai/perplexity-py/commit/935821cb9acbf024ac84892e8dbe2954ae3c4305))
+
+
+### Chores
+
+* **docs:** use environment variables for authentication in code snippets ([cedc48d](https://github.com/perplexityai/perplexity-py/commit/cedc48d7d7e98f633d934b4e5e867f05005852ab))
+
 ## 0.21.0 (2025-12-02)
 
 Full Changelog: [v0.20.1...v0.21.0](https://github.com/perplexityai/perplexity-py/compare/v0.20.1...v0.21.0)

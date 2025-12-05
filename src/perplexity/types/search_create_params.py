@@ -17,6 +17,10 @@ class SearchCreateParams(TypedDict, total=False):
 
     display_server_time: bool
 
+    last_updated_after_filter: Optional[str]
+
+    last_updated_before_filter: Optional[str]
+
     max_results: int
 
     max_tokens: int
