@@ -113,22 +113,30 @@ ContentStructuredContent: TypeAlias = Union[
 
 
 class ReasoningStepExecutePython(TypedDict, total=False):
+    """Code generation step details wrapper class"""
+
     code: Required[str]
 
     result: Required[str]
 
 
 class ReasoningStepFetchURLContent(TypedDict, total=False):
+    """Fetch url content step details wrapper class"""
+
     contents: Required[Iterable[APIPublicSearchResult]]
 
 
 class ReasoningStepWebSearch(TypedDict, total=False):
+    """Web search step details wrapper class"""
+
     search_keywords: Required[SequenceNotStr[str]]
 
     search_results: Required[Iterable[APIPublicSearchResult]]
 
 
 class ReasoningStep(TypedDict, total=False):
+    """Reasoning step wrapper class"""
+
     thought: Required[str]
 
     execute_python: Optional[ReasoningStepExecutePython]
