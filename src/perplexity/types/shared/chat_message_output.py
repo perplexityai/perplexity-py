@@ -111,22 +111,30 @@ ContentStructuredContent: TypeAlias = Union[
 
 
 class ReasoningStepExecutePython(BaseModel):
+    """Code generation step details wrapper class"""
+
     code: str
 
     result: str
 
 
 class ReasoningStepFetchURLContent(BaseModel):
+    """Fetch url content step details wrapper class"""
+
     contents: List[APIPublicSearchResult]
 
 
 class ReasoningStepWebSearch(BaseModel):
+    """Web search step details wrapper class"""
+
     search_keywords: List[str]
 
     search_results: List[APIPublicSearchResult]
 
 
 class ReasoningStep(BaseModel):
+    """Reasoning step wrapper class"""
+
     thought: str
 
     execute_python: Optional[ReasoningStepExecutePython] = None
