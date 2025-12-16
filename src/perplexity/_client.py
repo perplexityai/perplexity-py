@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import search
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, PerplexityError
 from ._base_client import (
@@ -29,8 +29,12 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.chat import chat
-from .resources.async_ import async_
+
+if TYPE_CHECKING:
+    from .resources import chat, async_, search
+    from .resources.search import SearchResource, AsyncSearchResource
+    from .resources.chat.chat import ChatResource, AsyncChatResource
+    from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
 
 __all__ = [
     "Timeout",
@@ -45,12 +49,6 @@ __all__ = [
 
 
 class Perplexity(SyncAPIClient):
-    chat: chat.ChatResource
-    search: search.SearchResource
-    async_: async_.AsyncResource
-    with_raw_response: PerplexityWithRawResponse
-    with_streaming_response: PerplexityWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -107,11 +105,31 @@ class Perplexity(SyncAPIClient):
 
         self._default_stream_cls = Stream
 
-        self.chat = chat.ChatResource(self)
-        self.search = search.SearchResource(self)
-        self.async_ = async_.AsyncResource(self)
-        self.with_raw_response = PerplexityWithRawResponse(self)
-        self.with_streaming_response = PerplexityWithStreamedResponse(self)
+    @cached_property
+    def chat(self) -> ChatResource:
+        from .resources.chat import ChatResource
+
+        return ChatResource(self)
+
+    @cached_property
+    def search(self) -> SearchResource:
+        from .resources.search import SearchResource
+
+        return SearchResource(self)
+
+    @cached_property
+    def async_(self) -> AsyncResource:
+        from .resources.async_ import AsyncResource
+
+        return AsyncResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> PerplexityWithRawResponse:
+        return PerplexityWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> PerplexityWithStreamedResponse:
+        return PerplexityWithStreamedResponse(self)
 
     @property
     @override
@@ -219,12 +237,6 @@ class Perplexity(SyncAPIClient):
 
 
 class AsyncPerplexity(AsyncAPIClient):
-    chat: chat.AsyncChatResource
-    search: search.AsyncSearchResource
-    async_: async_.AsyncAsyncResource
-    with_raw_response: AsyncPerplexityWithRawResponse
-    with_streaming_response: AsyncPerplexityWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -281,11 +293,31 @@ class AsyncPerplexity(AsyncAPIClient):
 
         self._default_stream_cls = AsyncStream
 
-        self.chat = chat.AsyncChatResource(self)
-        self.search = search.AsyncSearchResource(self)
-        self.async_ = async_.AsyncAsyncResource(self)
-        self.with_raw_response = AsyncPerplexityWithRawResponse(self)
-        self.with_streaming_response = AsyncPerplexityWithStreamedResponse(self)
+    @cached_property
+    def chat(self) -> AsyncChatResource:
+        from .resources.chat import AsyncChatResource
+
+        return AsyncChatResource(self)
+
+    @cached_property
+    def search(self) -> AsyncSearchResource:
+        from .resources.search import AsyncSearchResource
+
+        return AsyncSearchResource(self)
+
+    @cached_property
+    def async_(self) -> AsyncAsyncResource:
+        from .resources.async_ import AsyncAsyncResource
+
+        return AsyncAsyncResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncPerplexityWithRawResponse:
+        return AsyncPerplexityWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncPerplexityWithStreamedResponse:
+        return AsyncPerplexityWithStreamedResponse(self)
 
     @property
     @override
@@ -393,31 +425,103 @@ class AsyncPerplexity(AsyncAPIClient):
 
 
 class PerplexityWithRawResponse:
+    _client: Perplexity
+
     def __init__(self, client: Perplexity) -> None:
-        self.chat = chat.ChatResourceWithRawResponse(client.chat)
-        self.search = search.SearchResourceWithRawResponse(client.search)
-        self.async_ = async_.AsyncResourceWithRawResponse(client.async_)
+        self._client = client
+
+    @cached_property
+    def chat(self) -> chat.ChatResourceWithRawResponse:
+        from .resources.chat import ChatResourceWithRawResponse
+
+        return ChatResourceWithRawResponse(self._client.chat)
+
+    @cached_property
+    def search(self) -> search.SearchResourceWithRawResponse:
+        from .resources.search import SearchResourceWithRawResponse
+
+        return SearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def async_(self) -> async_.AsyncResourceWithRawResponse:
+        from .resources.async_ import AsyncResourceWithRawResponse
+
+        return AsyncResourceWithRawResponse(self._client.async_)
 
 
 class AsyncPerplexityWithRawResponse:
+    _client: AsyncPerplexity
+
     def __init__(self, client: AsyncPerplexity) -> None:
-        self.chat = chat.AsyncChatResourceWithRawResponse(client.chat)
-        self.search = search.AsyncSearchResourceWithRawResponse(client.search)
-        self.async_ = async_.AsyncAsyncResourceWithRawResponse(client.async_)
+        self._client = client
+
+    @cached_property
+    def chat(self) -> chat.AsyncChatResourceWithRawResponse:
+        from .resources.chat import AsyncChatResourceWithRawResponse
+
+        return AsyncChatResourceWithRawResponse(self._client.chat)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithRawResponse:
+        from .resources.search import AsyncSearchResourceWithRawResponse
+
+        return AsyncSearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
+        from .resources.async_ import AsyncAsyncResourceWithRawResponse
+
+        return AsyncAsyncResourceWithRawResponse(self._client.async_)
 
 
 class PerplexityWithStreamedResponse:
+    _client: Perplexity
+
     def __init__(self, client: Perplexity) -> None:
-        self.chat = chat.ChatResourceWithStreamingResponse(client.chat)
-        self.search = search.SearchResourceWithStreamingResponse(client.search)
-        self.async_ = async_.AsyncResourceWithStreamingResponse(client.async_)
+        self._client = client
+
+    @cached_property
+    def chat(self) -> chat.ChatResourceWithStreamingResponse:
+        from .resources.chat import ChatResourceWithStreamingResponse
+
+        return ChatResourceWithStreamingResponse(self._client.chat)
+
+    @cached_property
+    def search(self) -> search.SearchResourceWithStreamingResponse:
+        from .resources.search import SearchResourceWithStreamingResponse
+
+        return SearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def async_(self) -> async_.AsyncResourceWithStreamingResponse:
+        from .resources.async_ import AsyncResourceWithStreamingResponse
+
+        return AsyncResourceWithStreamingResponse(self._client.async_)
 
 
 class AsyncPerplexityWithStreamedResponse:
+    _client: AsyncPerplexity
+
     def __init__(self, client: AsyncPerplexity) -> None:
-        self.chat = chat.AsyncChatResourceWithStreamingResponse(client.chat)
-        self.search = search.AsyncSearchResourceWithStreamingResponse(client.search)
-        self.async_ = async_.AsyncAsyncResourceWithStreamingResponse(client.async_)
+        self._client = client
+
+    @cached_property
+    def chat(self) -> chat.AsyncChatResourceWithStreamingResponse:
+        from .resources.chat import AsyncChatResourceWithStreamingResponse
+
+        return AsyncChatResourceWithStreamingResponse(self._client.chat)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithStreamingResponse:
+        from .resources.search import AsyncSearchResourceWithStreamingResponse
+
+        return AsyncSearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:
+        from .resources.async_ import AsyncAsyncResourceWithStreamingResponse
+
+        return AsyncAsyncResourceWithStreamingResponse(self._client.async_)
 
 
 Client = Perplexity
