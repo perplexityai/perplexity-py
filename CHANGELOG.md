@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.22.1 (2025-12-16)
+
+Full Changelog: [v0.22.0...v0.22.1](https://github.com/perplexityai/perplexity-py/compare/v0.22.0...v0.22.1)
+
+### Bug Fixes
+
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([1dae6e5](https://github.com/perplexityai/perplexity-py/commit/1dae6e56a918d3ac6cbc38accd3058c169199515))
+
+
+### Chores
+
+* add missing docstrings ([be56ae3](https://github.com/perplexityai/perplexity-py/commit/be56ae34c5342b345e53b706c006f6a873e1db74))
+* **internal:** add missing files argument to base client ([a2599a9](https://github.com/perplexityai/perplexity-py/commit/a2599a9261bf65ee59f611918b05eee8b7c55ead))
+* speedup initial import ([2e54d11](https://github.com/perplexityai/perplexity-py/commit/2e54d1119537403fe72903a25cba1ef75fcb274f))
+
 ## 0.22.0 (2025-12-05)
 
 Full Changelog: [v0.21.0...v0.22.0](https://github.com/perplexityai/perplexity-py/compare/v0.21.0...v0.22.0)
