@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.2 (2025-12-17)
+
+Full Changelog: [v0.22.1...v0.22.2](https://github.com/perplexityai/perplexity-py/compare/v0.22.1...v0.22.2)
+
+### Bug Fixes
+
+* use async_to_httpx_files in patch method ([87aa45b](https://github.com/perplexityai/perplexity-py/commit/87aa45bc26f1b60b0e8aab33b11ecbf0ee88d380))
+
 ## 0.22.1 (2025-12-16)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/perplexityai/perplexity-py/compare/v0.22.0...v0.22.1)
