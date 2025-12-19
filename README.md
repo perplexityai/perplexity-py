@@ -134,7 +134,7 @@ stream = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "What is the capital of France?",
+            "content": "Tell me about the latest developments in AI",
         }
     ],
     model="sonar",
@@ -155,7 +155,7 @@ stream = await client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "What is the capital of France?",
+            "content": "Tell me about the latest developments in AI",
         }
     ],
     model="sonar",
