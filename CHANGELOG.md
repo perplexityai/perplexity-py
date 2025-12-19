@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.22.3 (2025-12-19)
+
+Full Changelog: [v0.22.2...v0.22.3](https://github.com/perplexityai/perplexity-py/compare/v0.22.2...v0.22.3)
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([6b73854](https://github.com/perplexityai/perplexity-py/commit/6b7385457abfe0ca60cfa9a69233ef88ff9beebc))
+
+
+### Documentation
+
+* add more examples ([e30d66d](https://github.com/perplexityai/perplexity-py/commit/e30d66d2742254da014330466b5dbf58933c20f3))
+
 ## 0.22.2 (2025-12-17)
 
 Full Changelog: [v0.22.1...v0.22.2](https://github.com/perplexityai/perplexity-py/compare/v0.22.1...v0.22.2)
