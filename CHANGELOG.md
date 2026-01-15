@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.23.0 (2026-01-13)
+
+Full Changelog: [v0.22.3...v0.23.0](https://github.com/perplexityai/perplexity-py/compare/v0.22.3...v0.23.0)
+
+### Features
+
+* **client:** add support for binary request streaming ([651a50d](https://github.com/perplexityai/perplexity-py/commit/651a50d83ed6448952b5ba3c087cd88d8239b7a7))
+
 ## 0.22.3 (2026-01-05)
 
 Full Changelog: [v0.22.2...v0.22.3](https://github.com/perplexityai/perplexity-py/compare/v0.22.2...v0.22.3)
