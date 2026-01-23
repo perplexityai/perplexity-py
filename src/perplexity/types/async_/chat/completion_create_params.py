@@ -7,6 +7,7 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from ...._types import SequenceNotStr
 from ...shared_params.chat_message_input import ChatMessageInput
+from ...shared_params.web_search_options import WebSearchOptions
 
 __all__ = [
     "CompletionCreateParams",
@@ -20,8 +21,6 @@ __all__ = [
     "RequestTool",
     "RequestToolFunction",
     "RequestToolFunctionParameters",
-    "RequestWebSearchOptions",
-    "RequestWebSearchOptionsUserLocation",
 ]
 
 
@@ -98,28 +97,6 @@ class RequestTool(TypedDict, total=False):
     function: Required[RequestToolFunction]
 
     type: Required[Literal["function"]]
-
-
-class RequestWebSearchOptionsUserLocation(TypedDict, total=False):
-    city: Optional[str]
-
-    country: Optional[str]
-
-    latitude: Optional[float]
-
-    longitude: Optional[float]
-
-    region: Optional[str]
-
-
-class RequestWebSearchOptions(TypedDict, total=False):
-    image_results_enhanced_relevance: bool
-
-    search_context_size: Literal["low", "medium", "high"]
-
-    search_type: Optional[Literal["fast", "pro", "auto"]]
-
-    user_location: Optional[RequestWebSearchOptionsUserLocation]
 
 
 class Request(TypedDict, total=False):
@@ -239,4 +216,4 @@ class Request(TypedDict, total=False):
 
     user_original_query: Optional[str]
 
-    web_search_options: RequestWebSearchOptions
+    web_search_options: WebSearchOptions

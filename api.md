@@ -6,7 +6,12 @@ from perplexity.types import (
     ChatMessageInput,
     ChatMessageOutput,
     Choice,
+    JsonSchemaFormat,
+    ResponseFormat,
+    SearchResult,
     UsageInfo,
+    UserLocation,
+    WebSearchOptions,
 )
 ```
 
@@ -35,6 +40,27 @@ from perplexity.types import SearchCreateResponse
 Methods:
 
 - <code title="post /search">client.search.<a href="./src/perplexity/resources/search.py">create</a>(\*\*<a href="src/perplexity/types/search_create_params.py">params</a>) -> <a href="./src/perplexity/types/search_create_response.py">SearchCreateResponse</a></code>
+
+# Responses
+
+Types:
+
+```python
+from perplexity.types import (
+    Annotation,
+    ContentPart,
+    ErrorInfo,
+    OutputItem,
+    ResponseStreamChunk,
+    ResponsesCreateParams,
+    ResponsesUsage,
+    ResponseCreateResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v2/responses">client.responses.<a href="./src/perplexity/resources/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
 
 # Async
 
