@@ -275,7 +275,7 @@ class ResponsesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ResponseCreateResponse | Stream[ResponseStreamChunk]:
         return self._post(
-            "/v2/responses",
+            "/v1/responses",
             body=maybe_transform(
                 {
                     "input": input,
@@ -552,7 +552,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ResponseCreateResponse | AsyncStream[ResponseStreamChunk]:
         return await self._post(
-            "/v2/responses",
+            "/v1/responses",
             body=await async_maybe_transform(
                 {
                     "input": input,
