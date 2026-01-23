@@ -54,13 +54,8 @@ from perplexity.types import (
     ResponseStreamChunk,
     ResponsesCreateParams,
     ResponsesUsage,
-    ResponseCreateResponse,
 )
 ```
-
-Methods:
-
-- <code title="post /v2/responses">client.responses.<a href="./src/perplexity/resources/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
 
 # Async
 

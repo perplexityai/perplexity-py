@@ -31,10 +31,9 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import chat, async_, search, responses
+    from .resources import chat, async_, search
     from .resources.search import SearchResource, AsyncSearchResource
     from .resources.chat.chat import ChatResource, AsyncChatResource
-    from .resources.responses import ResponsesResource, AsyncResponsesResource
     from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
 
 __all__ = [
@@ -117,12 +116,6 @@ class Perplexity(SyncAPIClient):
         from .resources.search import SearchResource
 
         return SearchResource(self)
-
-    @cached_property
-    def responses(self) -> ResponsesResource:
-        from .resources.responses import ResponsesResource
-
-        return ResponsesResource(self)
 
     @cached_property
     def async_(self) -> AsyncResource:
@@ -313,12 +306,6 @@ class AsyncPerplexity(AsyncAPIClient):
         return AsyncSearchResource(self)
 
     @cached_property
-    def responses(self) -> AsyncResponsesResource:
-        from .resources.responses import AsyncResponsesResource
-
-        return AsyncResponsesResource(self)
-
-    @cached_property
     def async_(self) -> AsyncAsyncResource:
         from .resources.async_ import AsyncAsyncResource
 
@@ -456,12 +443,6 @@ class PerplexityWithRawResponse:
         return SearchResourceWithRawResponse(self._client.search)
 
     @cached_property
-    def responses(self) -> responses.ResponsesResourceWithRawResponse:
-        from .resources.responses import ResponsesResourceWithRawResponse
-
-        return ResponsesResourceWithRawResponse(self._client.responses)
-
-    @cached_property
     def async_(self) -> async_.AsyncResourceWithRawResponse:
         from .resources.async_ import AsyncResourceWithRawResponse
 
@@ -485,12 +466,6 @@ class AsyncPerplexityWithRawResponse:
         from .resources.search import AsyncSearchResourceWithRawResponse
 
         return AsyncSearchResourceWithRawResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.AsyncResponsesResourceWithRawResponse:
-        from .resources.responses import AsyncResponsesResourceWithRawResponse
-
-        return AsyncResponsesResourceWithRawResponse(self._client.responses)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
@@ -518,12 +493,6 @@ class PerplexityWithStreamedResponse:
         return SearchResourceWithStreamingResponse(self._client.search)
 
     @cached_property
-    def responses(self) -> responses.ResponsesResourceWithStreamingResponse:
-        from .resources.responses import ResponsesResourceWithStreamingResponse
-
-        return ResponsesResourceWithStreamingResponse(self._client.responses)
-
-    @cached_property
     def async_(self) -> async_.AsyncResourceWithStreamingResponse:
         from .resources.async_ import AsyncResourceWithStreamingResponse
 
@@ -547,12 +516,6 @@ class AsyncPerplexityWithStreamedResponse:
         from .resources.search import AsyncSearchResourceWithStreamingResponse
 
         return AsyncSearchResourceWithStreamingResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.AsyncResponsesResourceWithStreamingResponse:
-        from .resources.responses import AsyncResponsesResourceWithStreamingResponse
-
-        return AsyncResponsesResourceWithStreamingResponse(self._client.responses)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:
