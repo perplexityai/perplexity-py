@@ -1,6 +1,6 @@
 [project]
 name = "perplexityai"
-version = "0.23.0"
+version = "0.24.0"
 description = "The official Python library for the perplexity API"
 dynamic = ["readme"]
 license = "Apache-2.0"
