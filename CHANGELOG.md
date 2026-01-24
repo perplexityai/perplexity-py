@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.26.0 (2026-01-24)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/perplexityai/perplexity-py/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* **client:** add output_text convenience property ([5ead294](https://github.com/perplexityai/perplexity-py/commit/5ead294740d418341a0d01b022cfe8f3e53e45c6))
+
+
+### Bug Fixes
+
+* sort imports in response_create_response.py ([fd021a3](https://github.com/perplexityai/perplexity-py/commit/fd021a341c3c1f082e6a6c47c320731ec8e92e46))
+
 ## 0.25.0 (2026-01-23)
 
 Full Changelog: [v0.24.0...v0.25.0](https://github.com/perplexityai/perplexity-py/compare/v0.24.0...v0.25.0)
