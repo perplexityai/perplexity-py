@@ -46,7 +46,7 @@ class ResponseCreatedEventResponse(BaseModel):
 
     output: List[OutputItem]
 
-    status: Literal["completed", "failed", "in_progress"]
+    status: Literal["completed", "failed", "in_progress", "requires_action"]
     """Status of a response or output item"""
 
     error: Optional[ErrorInfo] = None
@@ -99,7 +99,7 @@ class ResponseInProgressEventResponse(BaseModel):
 
     output: List[OutputItem]
 
-    status: Literal["completed", "failed", "in_progress"]
+    status: Literal["completed", "failed", "in_progress", "requires_action"]
     """Status of a response or output item"""
 
     error: Optional[ErrorInfo] = None
@@ -152,7 +152,7 @@ class ResponseCompletedEventResponse(BaseModel):
 
     output: List[OutputItem]
 
-    status: Literal["completed", "failed", "in_progress"]
+    status: Literal["completed", "failed", "in_progress", "requires_action"]
     """Status of a response or output item"""
 
     error: Optional[ErrorInfo] = None
