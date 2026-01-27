@@ -20,6 +20,7 @@ from .._response import (
 )
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
+from ..types.input_item_param import InputItemParam
 from ..types.response_stream_chunk import ResponseStreamChunk
 from ..types.response_create_response import ResponseCreateResponse
 from ..types.shared_params.response_format import ResponseFormat
@@ -51,7 +52,7 @@ class ResponsesResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -75,7 +76,7 @@ class ResponsesResource(SyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           instructions: System instructions for the model
 
@@ -119,7 +120,7 @@ class ResponsesResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         stream: Literal[True],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
@@ -143,7 +144,7 @@ class ResponsesResource(SyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -187,7 +188,7 @@ class ResponsesResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         stream: bool,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
@@ -211,7 +212,7 @@ class ResponsesResource(SyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -255,7 +256,7 @@ class ResponsesResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -328,7 +329,7 @@ class AsyncResponsesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -352,7 +353,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           instructions: System instructions for the model
 
@@ -396,7 +397,7 @@ class AsyncResponsesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         stream: Literal[True],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
@@ -420,7 +421,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -464,7 +465,7 @@ class AsyncResponsesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         stream: bool,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
@@ -488,7 +489,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         reasoning.
 
         Args:
-          input: Input content - either a string or array of input messages
+          input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -532,7 +533,7 @@ class AsyncResponsesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Iterable[response_create_params.InputInputMessageArray]],
+        input: Union[str, Iterable[InputItemParam]],
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,

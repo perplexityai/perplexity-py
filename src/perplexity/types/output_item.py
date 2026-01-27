@@ -7,6 +7,7 @@ from .._utils import PropertyInfo
 from .._models import BaseModel
 from .content_part import ContentPart
 from .shared.search_result import SearchResult
+from .function_call_output_item import FunctionCallOutputItem
 
 __all__ = [
     "OutputItem",
@@ -25,7 +26,7 @@ class MessageOutputItem(BaseModel):
     role: Literal["assistant"]
     """Role in a message"""
 
-    status: Literal["completed", "failed", "in_progress"]
+    status: Literal["completed", "failed", "in_progress", "requires_action"]
     """Status of a response or output item"""
 
     type: Literal["message"]
@@ -59,5 +60,6 @@ class FetchURLResultsOutputItem(BaseModel):
 
 
 OutputItem: TypeAlias = Annotated[
-    Union[MessageOutputItem, SearchResultsOutputItem, FetchURLResultsOutputItem], PropertyInfo(discriminator="type")
+    Union[MessageOutputItem, SearchResultsOutputItem, FetchURLResultsOutputItem, FunctionCallOutputItem],
+    PropertyInfo(discriminator="type"),
 ]
