@@ -6,12 +6,12 @@ from typing import Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
+from .input_item_param import InputItemParam
+from .function_tool_param import FunctionToolParam
 from .shared_params.response_format import ResponseFormat
 
 __all__ = [
     "ResponseCreateParamsBase",
-    "InputInputMessageArray",
-    "InputInputMessageArrayContentContentPartArray",
     "Reasoning",
     "Tool",
     "ToolWebSearchTool",
@@ -24,8 +24,8 @@ __all__ = [
 
 
 class ResponseCreateParamsBase(TypedDict, total=False):
-    input: Required[Union[str, Iterable[InputInputMessageArray]]]
-    """Input content - either a string or array of input messages"""
+    input: Required[Union[str, Iterable[InputItemParam]]]
+    """Input content - either a string or array of input items"""
 
     instructions: str
     """System instructions for the model"""
@@ -71,23 +71,6 @@ class ResponseCreateParamsBase(TypedDict, total=False):
 
     tools: Iterable[Tool]
     """Tools available to the model"""
-
-
-class InputInputMessageArrayContentContentPartArray(TypedDict, total=False):
-    type: Required[Literal["input_text", "input_image"]]
-
-    image_url: str
-
-    text: str
-
-
-class InputInputMessageArray(TypedDict, total=False):
-    content: Required[Union[str, Iterable[InputInputMessageArrayContentContentPartArray]]]
-    """Message content - either a string or array of content parts"""
-
-    role: Required[Literal["user", "assistant", "system", "developer"]]
-
-    type: Literal["message"]
 
 
 class Reasoning(TypedDict, total=False):
@@ -148,7 +131,7 @@ class ToolFetchURLTool(TypedDict, total=False):
     """Maximum number of URLs to fetch per tool call"""
 
 
-Tool: TypeAlias = Union[ToolWebSearchTool, ToolFetchURLTool]
+Tool: TypeAlias = Union[ToolWebSearchTool, ToolFetchURLTool, FunctionToolParam]
 
 
 class ResponseCreateParamsNonStreaming(ResponseCreateParamsBase, total=False):
