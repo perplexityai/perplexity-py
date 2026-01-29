@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.0 (2026-01-29)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/perplexityai/perplexity-py/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* **client:** add custom JSON encoder for extended type support ([ba938d8](https://github.com/perplexityai/perplexity-py/commit/ba938d869a3ed5adf0662bc119fed186fd70e675))
+
 ## 0.27.0 (2026-01-27)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/perplexityai/perplexity-py/compare/v0.26.0...v0.27.0)
