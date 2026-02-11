@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.28.1 (2026-02-11)
+
+Full Changelog: [v0.28.0...v0.28.1](https://github.com/perplexityai/perplexity-py/compare/v0.28.0...v0.28.1)
+
+### Chores
+
+* **internal:** bump dependencies ([2bfd87b](https://github.com/perplexityai/perplexity-py/commit/2bfd87b6af223cc12ed5f254a880c600fd7d0a43))
+* **internal:** fix lint error on Python 3.14 ([aab618c](https://github.com/perplexityai/perplexity-py/commit/aab618c6aba3763b603db6bb7428ff0aaf8e28dc))
+
 ## 0.28.0 (2026-01-29)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/perplexityai/perplexity-py/compare/v0.27.0...v0.28.0)
