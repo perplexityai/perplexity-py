@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.0 (2026-02-12)
+
+Full Changelog: [v0.29.1...v0.30.0](https://github.com/perplexityai/perplexity-py/compare/v0.29.1...v0.30.0)
+
+### Features
+
+* **api:** Add browser and sandbox API endpoints ([f5c3e58](https://github.com/perplexityai/perplexity-py/commit/f5c3e58836feb37a6b9ba366a55811513a8cd28c))
+
 ## 0.29.1 (2026-02-12)
 
 Full Changelog: [v0.29.0...v0.29.1](https://github.com/perplexityai/perplexity-py/compare/v0.29.0...v0.29.1)
