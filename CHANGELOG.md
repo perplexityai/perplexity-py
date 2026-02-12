@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.29.0 (2026-02-12)
+
+Full Changelog: [v0.28.1...v0.29.0](https://github.com/perplexityai/perplexity-py/compare/v0.28.1...v0.29.0)
+
+### Features
+
+* **api:** Add Embeddings API ([15dec35](https://github.com/perplexityai/perplexity-py/commit/15dec35d373b2fb76a737cacb02b81335e65bf20))
+
 ## 0.28.1 (2026-02-11)
 
 Full Changelog: [v0.28.0...v0.28.1](https://github.com/perplexityai/perplexity-py/compare/v0.28.0...v0.28.1)
