@@ -31,11 +31,16 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import chat, async_, search, responses
+    from .resources import chat, async_, search, responses, embeddings, contextualized_embeddings
     from .resources.search import SearchResource, AsyncSearchResource
     from .resources.chat.chat import ChatResource, AsyncChatResource
     from .resources.responses import ResponsesResource, AsyncResponsesResource
+    from .resources.embeddings import EmbeddingsResource, AsyncEmbeddingsResource
     from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
+    from .resources.contextualized_embeddings import (
+        ContextualizedEmbeddingsResource,
+        AsyncContextualizedEmbeddingsResource,
+    )
 
 __all__ = [
     "Timeout",
@@ -123,6 +128,18 @@ class Perplexity(SyncAPIClient):
         from .resources.responses import ResponsesResource
 
         return ResponsesResource(self)
+
+    @cached_property
+    def embeddings(self) -> EmbeddingsResource:
+        from .resources.embeddings import EmbeddingsResource
+
+        return EmbeddingsResource(self)
+
+    @cached_property
+    def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
+        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResource
+
+        return ContextualizedEmbeddingsResource(self)
 
     @cached_property
     def async_(self) -> AsyncResource:
@@ -319,6 +336,18 @@ class AsyncPerplexity(AsyncAPIClient):
         return AsyncResponsesResource(self)
 
     @cached_property
+    def embeddings(self) -> AsyncEmbeddingsResource:
+        from .resources.embeddings import AsyncEmbeddingsResource
+
+        return AsyncEmbeddingsResource(self)
+
+    @cached_property
+    def contextualized_embeddings(self) -> AsyncContextualizedEmbeddingsResource:
+        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResource
+
+        return AsyncContextualizedEmbeddingsResource(self)
+
+    @cached_property
     def async_(self) -> AsyncAsyncResource:
         from .resources.async_ import AsyncAsyncResource
 
@@ -462,6 +491,18 @@ class PerplexityWithRawResponse:
         return ResponsesResourceWithRawResponse(self._client.responses)
 
     @cached_property
+    def embeddings(self) -> embeddings.EmbeddingsResourceWithRawResponse:
+        from .resources.embeddings import EmbeddingsResourceWithRawResponse
+
+        return EmbeddingsResourceWithRawResponse(self._client.embeddings)
+
+    @cached_property
+    def contextualized_embeddings(self) -> contextualized_embeddings.ContextualizedEmbeddingsResourceWithRawResponse:
+        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResourceWithRawResponse
+
+        return ContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
+
+    @cached_property
     def async_(self) -> async_.AsyncResourceWithRawResponse:
         from .resources.async_ import AsyncResourceWithRawResponse
 
@@ -491,6 +532,20 @@ class AsyncPerplexityWithRawResponse:
         from .resources.responses import AsyncResponsesResourceWithRawResponse
 
         return AsyncResponsesResourceWithRawResponse(self._client.responses)
+
+    @cached_property
+    def embeddings(self) -> embeddings.AsyncEmbeddingsResourceWithRawResponse:
+        from .resources.embeddings import AsyncEmbeddingsResourceWithRawResponse
+
+        return AsyncEmbeddingsResourceWithRawResponse(self._client.embeddings)
+
+    @cached_property
+    def contextualized_embeddings(
+        self,
+    ) -> contextualized_embeddings.AsyncContextualizedEmbeddingsResourceWithRawResponse:
+        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithRawResponse
+
+        return AsyncContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
@@ -524,6 +579,20 @@ class PerplexityWithStreamedResponse:
         return ResponsesResourceWithStreamingResponse(self._client.responses)
 
     @cached_property
+    def embeddings(self) -> embeddings.EmbeddingsResourceWithStreamingResponse:
+        from .resources.embeddings import EmbeddingsResourceWithStreamingResponse
+
+        return EmbeddingsResourceWithStreamingResponse(self._client.embeddings)
+
+    @cached_property
+    def contextualized_embeddings(
+        self,
+    ) -> contextualized_embeddings.ContextualizedEmbeddingsResourceWithStreamingResponse:
+        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResourceWithStreamingResponse
+
+        return ContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
+
+    @cached_property
     def async_(self) -> async_.AsyncResourceWithStreamingResponse:
         from .resources.async_ import AsyncResourceWithStreamingResponse
 
@@ -553,6 +622,20 @@ class AsyncPerplexityWithStreamedResponse:
         from .resources.responses import AsyncResponsesResourceWithStreamingResponse
 
         return AsyncResponsesResourceWithStreamingResponse(self._client.responses)
+
+    @cached_property
+    def embeddings(self) -> embeddings.AsyncEmbeddingsResourceWithStreamingResponse:
+        from .resources.embeddings import AsyncEmbeddingsResourceWithStreamingResponse
+
+        return AsyncEmbeddingsResourceWithStreamingResponse(self._client.embeddings)
+
+    @cached_property
+    def contextualized_embeddings(
+        self,
+    ) -> contextualized_embeddings.AsyncContextualizedEmbeddingsResourceWithStreamingResponse:
+        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithStreamingResponse
+
+        return AsyncContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:

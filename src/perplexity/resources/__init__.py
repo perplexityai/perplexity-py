@@ -32,6 +32,22 @@ from .responses import (
     ResponsesResourceWithStreamingResponse,
     AsyncResponsesResourceWithStreamingResponse,
 )
+from .embeddings import (
+    EmbeddingsResource,
+    AsyncEmbeddingsResource,
+    EmbeddingsResourceWithRawResponse,
+    AsyncEmbeddingsResourceWithRawResponse,
+    EmbeddingsResourceWithStreamingResponse,
+    AsyncEmbeddingsResourceWithStreamingResponse,
+)
+from .contextualized_embeddings import (
+    ContextualizedEmbeddingsResource,
+    AsyncContextualizedEmbeddingsResource,
+    ContextualizedEmbeddingsResourceWithRawResponse,
+    AsyncContextualizedEmbeddingsResourceWithRawResponse,
+    ContextualizedEmbeddingsResourceWithStreamingResponse,
+    AsyncContextualizedEmbeddingsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ChatResource",
@@ -52,6 +68,18 @@ __all__ = [
     "AsyncResponsesResourceWithRawResponse",
     "ResponsesResourceWithStreamingResponse",
     "AsyncResponsesResourceWithStreamingResponse",
+    "EmbeddingsResource",
+    "AsyncEmbeddingsResource",
+    "EmbeddingsResourceWithRawResponse",
+    "AsyncEmbeddingsResourceWithRawResponse",
+    "EmbeddingsResourceWithStreamingResponse",
+    "AsyncEmbeddingsResourceWithStreamingResponse",
+    "ContextualizedEmbeddingsResource",
+    "AsyncContextualizedEmbeddingsResource",
+    "ContextualizedEmbeddingsResourceWithRawResponse",
+    "AsyncContextualizedEmbeddingsResourceWithRawResponse",
+    "ContextualizedEmbeddingsResourceWithStreamingResponse",
+    "AsyncContextualizedEmbeddingsResourceWithStreamingResponse",
     "AsyncResource",
     "AsyncAsyncResource",
     "AsyncResourceWithRawResponse",
