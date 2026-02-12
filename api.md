@@ -6,6 +6,9 @@ from perplexity.types import (
     ChatMessageInput,
     ChatMessageOutput,
     Choice,
+    ContextualizedEmbeddingObject,
+    EmbeddingObject,
+    EmbeddingsUsage,
     JsonSchemaFormat,
     ResponseFormat,
     SearchResult,
@@ -64,6 +67,30 @@ from perplexity.types import (
 Methods:
 
 - <code title="post /v1/responses">client.responses.<a href="./src/perplexity/resources/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
+
+# Embeddings
+
+Types:
+
+```python
+from perplexity.types import EmbeddingCreateResponse
+```
+
+Methods:
+
+- <code title="post /v1/embeddings">client.embeddings.<a href="./src/perplexity/resources/embeddings.py">create</a>(\*\*<a href="src/perplexity/types/embedding_create_params.py">params</a>) -> <a href="./src/perplexity/types/embedding_create_response.py">EmbeddingCreateResponse</a></code>
+
+# ContextualizedEmbeddings
+
+Types:
+
+```python
+from perplexity.types import ContextualizedEmbeddingCreateResponse
+```
+
+Methods:
+
+- <code title="post /v1/contextualizedembeddings">client.contextualized_embeddings.<a href="./src/perplexity/resources/contextualized_embeddings.py">create</a>(\*\*<a href="src/perplexity/types/contextualized_embedding_create_params.py">params</a>) -> <a href="./src/perplexity/types/contextualized_embedding_create_response.py">ContextualizedEmbeddingCreateResponse</a></code>
 
 # Async
 
