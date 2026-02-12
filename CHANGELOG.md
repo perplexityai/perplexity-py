@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.29.1 (2026-02-12)
+
+Full Changelog: [v0.29.0...v0.29.1](https://github.com/perplexityai/perplexity-py/compare/v0.29.0...v0.29.1)
+
+### Chores
+
+* format all `api.md` files ([d76052a](https://github.com/perplexityai/perplexity-py/commit/d76052a6e7d1ac44c3543656f8d224f1707627a9))
+
 ## 0.29.0 (2026-02-12)
 
 Full Changelog: [v0.28.1...v0.29.0](https://github.com/perplexityai/perplexity-py/compare/v0.28.1...v0.29.0)
