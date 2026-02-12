@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from .shared import (
     Choice as Choice,
+    FileEntry as FileEntry,
     UsageInfo as UsageInfo,
+    ProcessInfo as ProcessInfo,
     SearchResult as SearchResult,
     UserLocation as UserLocation,
     ResponseFormat as ResponseFormat,
@@ -12,9 +14,18 @@ from .shared import (
     EmbeddingsUsage as EmbeddingsUsage,
     ChatMessageInput as ChatMessageInput,
     JsonSchemaFormat as JsonSchemaFormat,
+    ReadFileResponse as ReadFileResponse,
     WebSearchOptions as WebSearchOptions,
     ChatMessageOutput as ChatMessageOutput,
+    ListFilesResponse as ListFilesResponse,
+    WriteFileResponse as WriteFileResponse,
+    ExecuteCodeResponse as ExecuteCodeResponse,
+    PauseSandboxResponse as PauseSandboxResponse,
     APIPublicSearchResult as APIPublicSearchResult,
+    ListProcessesResponse as ListProcessesResponse,
+    ModifiedFilesResponse as ModifiedFilesResponse,
+    BrowserSessionResponse as BrowserSessionResponse,
+    SandboxSessionResponse as SandboxSessionResponse,
     ContextualizedEmbeddingObject as ContextualizedEmbeddingObject,
 )
 from .annotation import Annotation as Annotation
