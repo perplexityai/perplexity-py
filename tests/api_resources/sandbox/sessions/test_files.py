@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestFiles:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Perplexity) -> None:
         file = client.sandbox.sessions.files.list(
@@ -25,7 +25,7 @@ class TestFiles:
         )
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Perplexity) -> None:
         file = client.sandbox.sessions.files.list(
@@ -35,7 +35,7 @@ class TestFiles:
         )
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Perplexity) -> None:
         response = client.sandbox.sessions.files.with_raw_response.list(
@@ -47,7 +47,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Perplexity) -> None:
         with client.sandbox.sessions.files.with_streaming_response.list(
@@ -61,7 +61,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list(self, client: Perplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -69,7 +69,7 @@ class TestFiles:
                 session_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_modified(self, client: Perplexity) -> None:
         file = client.sandbox.sessions.files.modified(
@@ -77,7 +77,7 @@ class TestFiles:
         )
         assert_matches_type(ModifiedFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_modified(self, client: Perplexity) -> None:
         response = client.sandbox.sessions.files.with_raw_response.modified(
@@ -89,7 +89,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(ModifiedFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_modified(self, client: Perplexity) -> None:
         with client.sandbox.sessions.files.with_streaming_response.modified(
@@ -103,7 +103,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_modified(self, client: Perplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -111,7 +111,7 @@ class TestFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_read(self, client: Perplexity) -> None:
         file = client.sandbox.sessions.files.read(
@@ -120,7 +120,7 @@ class TestFiles:
         )
         assert_matches_type(ReadFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_read(self, client: Perplexity) -> None:
         response = client.sandbox.sessions.files.with_raw_response.read(
@@ -133,7 +133,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(ReadFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_read(self, client: Perplexity) -> None:
         with client.sandbox.sessions.files.with_streaming_response.read(
@@ -148,7 +148,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_read(self, client: Perplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -157,7 +157,7 @@ class TestFiles:
                 path="path",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_write(self, client: Perplexity) -> None:
         file = client.sandbox.sessions.files.write(
@@ -167,7 +167,7 @@ class TestFiles:
         )
         assert_matches_type(WriteFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_write(self, client: Perplexity) -> None:
         response = client.sandbox.sessions.files.with_raw_response.write(
@@ -181,7 +181,7 @@ class TestFiles:
         file = response.parse()
         assert_matches_type(WriteFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_write(self, client: Perplexity) -> None:
         with client.sandbox.sessions.files.with_streaming_response.write(
@@ -197,7 +197,7 @@ class TestFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_write(self, client: Perplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -213,7 +213,7 @@ class TestAsyncFiles:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncPerplexity) -> None:
         file = await async_client.sandbox.sessions.files.list(
@@ -221,7 +221,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncPerplexity) -> None:
         file = await async_client.sandbox.sessions.files.list(
@@ -231,7 +231,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.sandbox.sessions.files.with_raw_response.list(
@@ -243,7 +243,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(ListFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncPerplexity) -> None:
         async with async_client.sandbox.sessions.files.with_streaming_response.list(
@@ -257,7 +257,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -265,7 +265,7 @@ class TestAsyncFiles:
                 session_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_modified(self, async_client: AsyncPerplexity) -> None:
         file = await async_client.sandbox.sessions.files.modified(
@@ -273,7 +273,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(ModifiedFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_modified(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.sandbox.sessions.files.with_raw_response.modified(
@@ -285,7 +285,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(ModifiedFilesResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_modified(self, async_client: AsyncPerplexity) -> None:
         async with async_client.sandbox.sessions.files.with_streaming_response.modified(
@@ -299,7 +299,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_modified(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -307,7 +307,7 @@ class TestAsyncFiles:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_read(self, async_client: AsyncPerplexity) -> None:
         file = await async_client.sandbox.sessions.files.read(
@@ -316,7 +316,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(ReadFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_read(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.sandbox.sessions.files.with_raw_response.read(
@@ -329,7 +329,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(ReadFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_read(self, async_client: AsyncPerplexity) -> None:
         async with async_client.sandbox.sessions.files.with_streaming_response.read(
@@ -344,7 +344,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_read(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -353,7 +353,7 @@ class TestAsyncFiles:
                 path="path",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_write(self, async_client: AsyncPerplexity) -> None:
         file = await async_client.sandbox.sessions.files.write(
@@ -363,7 +363,7 @@ class TestAsyncFiles:
         )
         assert_matches_type(WriteFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_write(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.sandbox.sessions.files.with_raw_response.write(
@@ -377,7 +377,7 @@ class TestAsyncFiles:
         file = await response.parse()
         assert_matches_type(WriteFileResponse, file, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_write(self, async_client: AsyncPerplexity) -> None:
         async with async_client.sandbox.sessions.files.with_streaming_response.write(
@@ -393,7 +393,7 @@ class TestAsyncFiles:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_write(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):

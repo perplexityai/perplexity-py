@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestEmbeddings:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Perplexity) -> None:
         embedding = client.embeddings.create(
@@ -26,7 +26,7 @@ class TestEmbeddings:
         )
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Perplexity) -> None:
         embedding = client.embeddings.create(
@@ -37,7 +37,7 @@ class TestEmbeddings:
         )
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Perplexity) -> None:
         response = client.embeddings.with_raw_response.create(
@@ -50,7 +50,7 @@ class TestEmbeddings:
         embedding = response.parse()
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Perplexity) -> None:
         with client.embeddings.with_streaming_response.create(
@@ -71,7 +71,7 @@ class TestAsyncEmbeddings:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncPerplexity) -> None:
         embedding = await async_client.embeddings.create(
@@ -80,7 +80,7 @@ class TestAsyncEmbeddings:
         )
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPerplexity) -> None:
         embedding = await async_client.embeddings.create(
@@ -91,7 +91,7 @@ class TestAsyncEmbeddings:
         )
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.embeddings.with_raw_response.create(
@@ -104,7 +104,7 @@ class TestAsyncEmbeddings:
         embedding = await response.parse()
         assert_matches_type(EmbeddingCreateResponse, embedding, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPerplexity) -> None:
         async with async_client.embeddings.with_streaming_response.create(
