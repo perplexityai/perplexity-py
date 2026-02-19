@@ -17,13 +17,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSessions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Perplexity) -> None:
         session = client.browser.sessions.create()
         assert_matches_type(BrowserSessionResponse, session, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Perplexity) -> None:
         response = client.browser.sessions.with_raw_response.create()
@@ -33,7 +33,7 @@ class TestSessions:
         session = response.parse()
         assert_matches_type(BrowserSessionResponse, session, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Perplexity) -> None:
         with client.browser.sessions.with_streaming_response.create() as response:
@@ -45,7 +45,7 @@ class TestSessions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Perplexity) -> None:
         session = client.browser.sessions.delete(
@@ -53,7 +53,7 @@ class TestSessions:
         )
         assert session is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Perplexity) -> None:
         response = client.browser.sessions.with_raw_response.delete(
@@ -65,7 +65,7 @@ class TestSessions:
         session = response.parse()
         assert session is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Perplexity) -> None:
         with client.browser.sessions.with_streaming_response.delete(
@@ -79,7 +79,7 @@ class TestSessions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Perplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
@@ -93,13 +93,13 @@ class TestAsyncSessions:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncPerplexity) -> None:
         session = await async_client.browser.sessions.create()
         assert_matches_type(BrowserSessionResponse, session, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.browser.sessions.with_raw_response.create()
@@ -109,7 +109,7 @@ class TestAsyncSessions:
         session = await response.parse()
         assert_matches_type(BrowserSessionResponse, session, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPerplexity) -> None:
         async with async_client.browser.sessions.with_streaming_response.create() as response:
@@ -121,7 +121,7 @@ class TestAsyncSessions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPerplexity) -> None:
         session = await async_client.browser.sessions.delete(
@@ -129,7 +129,7 @@ class TestAsyncSessions:
         )
         assert session is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.browser.sessions.with_raw_response.delete(
@@ -141,7 +141,7 @@ class TestAsyncSessions:
         session = await response.parse()
         assert session is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPerplexity) -> None:
         async with async_client.browser.sessions.with_streaming_response.delete(
@@ -155,7 +155,7 @@ class TestAsyncSessions:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `session_id` but received ''"):
