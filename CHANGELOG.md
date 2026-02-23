@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.30.0 (2026-02-23)
+
+Full Changelog: [v0.29.1...v0.30.0](https://github.com/perplexityai/perplexity-py/compare/v0.29.1...v0.30.0)
+
+### Features
+
+* **api:** Add browser and sandbox API endpoints ([f5c3e58](https://github.com/perplexityai/perplexity-py/commit/f5c3e58836feb37a6b9ba366a55811513a8cd28c))
+* **api:** manual updates ([a556321](https://github.com/perplexityai/perplexity-py/commit/a556321ac2ed946bfeccc9912dd20ee71349a34a))
+
+
+### Chores
+
+* **internal:** add request options to SSE classes ([b18a992](https://github.com/perplexityai/perplexity-py/commit/b18a992a0eedca20c38932809e1056dfb8c5b00e))
+* **internal:** remove mock server code ([081b00d](https://github.com/perplexityai/perplexity-py/commit/081b00d6a86f95631caacd16a46ea91c8f6d97b9))
+* update mock server docs ([d6f9a54](https://github.com/perplexityai/perplexity-py/commit/d6f9a5428ecb632baea8705f4eadc1225ba5a9fd))
+
 ## 0.29.1 (2026-02-12)
 
 Full Changelog: [v0.29.0...v0.29.1](https://github.com/perplexityai/perplexity-py/compare/v0.29.0...v0.29.1)
