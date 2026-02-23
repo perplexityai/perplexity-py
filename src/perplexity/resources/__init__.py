@@ -32,14 +32,6 @@ from .browser import (
     BrowserResourceWithStreamingResponse,
     AsyncBrowserResourceWithStreamingResponse,
 )
-from .sandbox import (
-    SandboxResource,
-    AsyncSandboxResource,
-    SandboxResourceWithRawResponse,
-    AsyncSandboxResourceWithRawResponse,
-    SandboxResourceWithStreamingResponse,
-    AsyncSandboxResourceWithStreamingResponse,
-)
 from .responses import (
     ResponsesResource,
     AsyncResponsesResource,
@@ -102,12 +94,6 @@ __all__ = [
     "AsyncBrowserResourceWithRawResponse",
     "BrowserResourceWithStreamingResponse",
     "AsyncBrowserResourceWithStreamingResponse",
-    "SandboxResource",
-    "AsyncSandboxResource",
-    "SandboxResourceWithRawResponse",
-    "AsyncSandboxResourceWithRawResponse",
-    "SandboxResourceWithStreamingResponse",
-    "AsyncSandboxResourceWithStreamingResponse",
     "AsyncResource",
     "AsyncAsyncResource",
     "AsyncResourceWithRawResponse",
