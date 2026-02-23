@@ -3,6 +3,7 @@
 ```python
 from perplexity.types import (
     APIPublicSearchResult,
+    BrowserSessionResponse,
     ChatMessageInput,
     ChatMessageOutput,
     Choice,
@@ -91,6 +92,15 @@ from perplexity.types import ContextualizedEmbeddingCreateResponse
 Methods:
 
 - <code title="post /v1/contextualizedembeddings">client.contextualized_embeddings.<a href="./src/perplexity/resources/contextualized_embeddings.py">create</a>(\*\*<a href="src/perplexity/types/contextualized_embedding_create_params.py">params</a>) -> <a href="./src/perplexity/types/contextualized_embedding_create_response.py">ContextualizedEmbeddingCreateResponse</a></code>
+
+# Browser
+
+## Sessions
+
+Methods:
+
+- <code title="post /v1/browser/sessions">client.browser.sessions.<a href="./src/perplexity/resources/browser/sessions.py">create</a>() -> <a href="./src/perplexity/types/shared/browser_session_response.py">BrowserSessionResponse</a></code>
+- <code title="delete /v1/browser/sessions/{session_id}">client.browser.sessions.<a href="./src/perplexity/resources/browser/sessions.py">delete</a>(session_id) -> None</code>
 
 # Async
 

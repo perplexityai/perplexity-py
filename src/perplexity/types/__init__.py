@@ -15,6 +15,7 @@ from .shared import (
     WebSearchOptions as WebSearchOptions,
     ChatMessageOutput as ChatMessageOutput,
     APIPublicSearchResult as APIPublicSearchResult,
+    BrowserSessionResponse as BrowserSessionResponse,
     ContextualizedEmbeddingObject as ContextualizedEmbeddingObject,
 )
 from .annotation import Annotation as Annotation

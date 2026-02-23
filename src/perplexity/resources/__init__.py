@@ -24,6 +24,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .browser import (
+    BrowserResource,
+    AsyncBrowserResource,
+    BrowserResourceWithRawResponse,
+    AsyncBrowserResourceWithRawResponse,
+    BrowserResourceWithStreamingResponse,
+    AsyncBrowserResourceWithStreamingResponse,
+)
 from .responses import (
     ResponsesResource,
     AsyncResponsesResource,
@@ -80,6 +88,12 @@ __all__ = [
     "AsyncContextualizedEmbeddingsResourceWithRawResponse",
     "ContextualizedEmbeddingsResourceWithStreamingResponse",
     "AsyncContextualizedEmbeddingsResourceWithStreamingResponse",
+    "BrowserResource",
+    "AsyncBrowserResource",
+    "BrowserResourceWithRawResponse",
+    "AsyncBrowserResourceWithRawResponse",
+    "BrowserResourceWithStreamingResponse",
+    "AsyncBrowserResourceWithStreamingResponse",
     "AsyncResource",
     "AsyncAsyncResource",
     "AsyncResourceWithRawResponse",

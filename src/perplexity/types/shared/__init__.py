@@ -12,4 +12,5 @@ from .json_schema_format import JsonSchemaFormat as JsonSchemaFormat
 from .web_search_options import WebSearchOptions as WebSearchOptions
 from .chat_message_output import ChatMessageOutput as ChatMessageOutput
 from .api_public_search_result import APIPublicSearchResult as APIPublicSearchResult
+from .browser_session_response import BrowserSessionResponse as BrowserSessionResponse
 from .contextualized_embedding_object import ContextualizedEmbeddingObject as ContextualizedEmbeddingObject

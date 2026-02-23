@@ -31,12 +31,13 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import chat, async_, search, responses, embeddings, contextualized_embeddings
+    from .resources import chat, async_, search, browser, responses, embeddings, contextualized_embeddings
     from .resources.search import SearchResource, AsyncSearchResource
     from .resources.chat.chat import ChatResource, AsyncChatResource
     from .resources.responses import ResponsesResource, AsyncResponsesResource
     from .resources.embeddings import EmbeddingsResource, AsyncEmbeddingsResource
     from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
+    from .resources.browser.browser import BrowserResource, AsyncBrowserResource
     from .resources.contextualized_embeddings import (
         ContextualizedEmbeddingsResource,
         AsyncContextualizedEmbeddingsResource,
@@ -140,6 +141,12 @@ class Perplexity(SyncAPIClient):
         from .resources.contextualized_embeddings import ContextualizedEmbeddingsResource
 
         return ContextualizedEmbeddingsResource(self)
+
+    @cached_property
+    def browser(self) -> BrowserResource:
+        from .resources.browser import BrowserResource
+
+        return BrowserResource(self)
 
     @cached_property
     def async_(self) -> AsyncResource:
@@ -348,6 +355,12 @@ class AsyncPerplexity(AsyncAPIClient):
         return AsyncContextualizedEmbeddingsResource(self)
 
     @cached_property
+    def browser(self) -> AsyncBrowserResource:
+        from .resources.browser import AsyncBrowserResource
+
+        return AsyncBrowserResource(self)
+
+    @cached_property
     def async_(self) -> AsyncAsyncResource:
         from .resources.async_ import AsyncAsyncResource
 
@@ -503,6 +516,12 @@ class PerplexityWithRawResponse:
         return ContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
 
     @cached_property
+    def browser(self) -> browser.BrowserResourceWithRawResponse:
+        from .resources.browser import BrowserResourceWithRawResponse
+
+        return BrowserResourceWithRawResponse(self._client.browser)
+
+    @cached_property
     def async_(self) -> async_.AsyncResourceWithRawResponse:
         from .resources.async_ import AsyncResourceWithRawResponse
 
@@ -546,6 +565,12 @@ class AsyncPerplexityWithRawResponse:
         from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithRawResponse
 
         return AsyncContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
+
+    @cached_property
+    def browser(self) -> browser.AsyncBrowserResourceWithRawResponse:
+        from .resources.browser import AsyncBrowserResourceWithRawResponse
+
+        return AsyncBrowserResourceWithRawResponse(self._client.browser)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
@@ -593,6 +618,12 @@ class PerplexityWithStreamedResponse:
         return ContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
 
     @cached_property
+    def browser(self) -> browser.BrowserResourceWithStreamingResponse:
+        from .resources.browser import BrowserResourceWithStreamingResponse
+
+        return BrowserResourceWithStreamingResponse(self._client.browser)
+
+    @cached_property
     def async_(self) -> async_.AsyncResourceWithStreamingResponse:
         from .resources.async_ import AsyncResourceWithStreamingResponse
 
@@ -636,6 +667,12 @@ class AsyncPerplexityWithStreamedResponse:
         from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithStreamingResponse
 
         return AsyncContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
+
+    @cached_property
+    def browser(self) -> browser.AsyncBrowserResourceWithStreamingResponse:
+        from .resources.browser import AsyncBrowserResourceWithStreamingResponse
+
+        return AsyncBrowserResourceWithStreamingResponse(self._client.browser)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:
