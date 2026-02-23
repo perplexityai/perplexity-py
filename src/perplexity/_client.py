@@ -31,14 +31,13 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import chat, async_, search, browser, sandbox, responses, embeddings, contextualized_embeddings
+    from .resources import chat, async_, search, browser, responses, embeddings, contextualized_embeddings
     from .resources.search import SearchResource, AsyncSearchResource
     from .resources.chat.chat import ChatResource, AsyncChatResource
     from .resources.responses import ResponsesResource, AsyncResponsesResource
     from .resources.embeddings import EmbeddingsResource, AsyncEmbeddingsResource
     from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
     from .resources.browser.browser import BrowserResource, AsyncBrowserResource
-    from .resources.sandbox.sandbox import SandboxResource, AsyncSandboxResource
     from .resources.contextualized_embeddings import (
         ContextualizedEmbeddingsResource,
         AsyncContextualizedEmbeddingsResource,
@@ -148,12 +147,6 @@ class Perplexity(SyncAPIClient):
         from .resources.browser import BrowserResource
 
         return BrowserResource(self)
-
-    @cached_property
-    def sandbox(self) -> SandboxResource:
-        from .resources.sandbox import SandboxResource
-
-        return SandboxResource(self)
 
     @cached_property
     def async_(self) -> AsyncResource:
@@ -368,12 +361,6 @@ class AsyncPerplexity(AsyncAPIClient):
         return AsyncBrowserResource(self)
 
     @cached_property
-    def sandbox(self) -> AsyncSandboxResource:
-        from .resources.sandbox import AsyncSandboxResource
-
-        return AsyncSandboxResource(self)
-
-    @cached_property
     def async_(self) -> AsyncAsyncResource:
         from .resources.async_ import AsyncAsyncResource
 
@@ -535,12 +522,6 @@ class PerplexityWithRawResponse:
         return BrowserResourceWithRawResponse(self._client.browser)
 
     @cached_property
-    def sandbox(self) -> sandbox.SandboxResourceWithRawResponse:
-        from .resources.sandbox import SandboxResourceWithRawResponse
-
-        return SandboxResourceWithRawResponse(self._client.sandbox)
-
-    @cached_property
     def async_(self) -> async_.AsyncResourceWithRawResponse:
         from .resources.async_ import AsyncResourceWithRawResponse
 
@@ -590,12 +571,6 @@ class AsyncPerplexityWithRawResponse:
         from .resources.browser import AsyncBrowserResourceWithRawResponse
 
         return AsyncBrowserResourceWithRawResponse(self._client.browser)
-
-    @cached_property
-    def sandbox(self) -> sandbox.AsyncSandboxResourceWithRawResponse:
-        from .resources.sandbox import AsyncSandboxResourceWithRawResponse
-
-        return AsyncSandboxResourceWithRawResponse(self._client.sandbox)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
@@ -649,12 +624,6 @@ class PerplexityWithStreamedResponse:
         return BrowserResourceWithStreamingResponse(self._client.browser)
 
     @cached_property
-    def sandbox(self) -> sandbox.SandboxResourceWithStreamingResponse:
-        from .resources.sandbox import SandboxResourceWithStreamingResponse
-
-        return SandboxResourceWithStreamingResponse(self._client.sandbox)
-
-    @cached_property
     def async_(self) -> async_.AsyncResourceWithStreamingResponse:
         from .resources.async_ import AsyncResourceWithStreamingResponse
 
@@ -704,12 +673,6 @@ class AsyncPerplexityWithStreamedResponse:
         from .resources.browser import AsyncBrowserResourceWithStreamingResponse
 
         return AsyncBrowserResourceWithStreamingResponse(self._client.browser)
-
-    @cached_property
-    def sandbox(self) -> sandbox.AsyncSandboxResourceWithStreamingResponse:
-        from .resources.sandbox import AsyncSandboxResourceWithStreamingResponse
-
-        return AsyncSandboxResourceWithStreamingResponse(self._client.sandbox)
 
     @cached_property
     def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:
