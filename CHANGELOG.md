@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.30.1 (2026-02-24)
+
+Full Changelog: [v0.30.0...v0.30.1](https://github.com/perplexityai/perplexity-py/compare/v0.30.0...v0.30.1)
+
+### Chores
+
+* **internal:** make `test_proxy_environment_variables` more resilient ([7594ae9](https://github.com/perplexityai/perplexity-py/commit/7594ae9444db9b1bde345560bc955db892a59612))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([285dda6](https://github.com/perplexityai/perplexity-py/commit/285dda6fec7393b9539fd09f2c7ec82d121461f1))
+
 ## 0.30.0 (2026-02-23)
 
 Full Changelog: [v0.29.1...v0.30.0](https://github.com/perplexityai/perplexity-py/compare/v0.29.1...v0.30.0)
