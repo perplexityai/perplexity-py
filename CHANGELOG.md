@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.2 (2026-03-07)
+
+Full Changelog: [v0.30.1...v0.30.2](https://github.com/perplexityai/perplexity-py/compare/v0.30.1...v0.30.2)
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([1d14d88](https://github.com/perplexityai/perplexity-py/commit/1d14d88af41a721cef12a16c65c5ffb1dbc0ad3f))
+
 ## 0.30.1 (2026-02-24)
 
 Full Changelog: [v0.30.0...v0.30.1](https://github.com/perplexityai/perplexity-py/compare/v0.30.0...v0.30.1)
