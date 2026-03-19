@@ -7,7 +7,7 @@ from typing import Optional
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, strip_not_given, async_maybe_transform
+from ...._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -149,7 +149,7 @@ class CompletionsResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         return self._get(
-            f"/async/chat/completions/{api_request}",
+            path_template("/async/chat/completions/{api_request}", api_request=api_request),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -285,7 +285,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         return await self._get(
-            f"/async/chat/completions/{api_request}",
+            path_template("/async/chat/completions/{api_request}", api_request=api_request),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
