@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.30.3 (2026-03-22)
+
+Full Changelog: [v0.30.2...v0.30.3](https://github.com/perplexityai/perplexity-py/compare/v0.30.2...v0.30.3)
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([14fce5c](https://github.com/perplexityai/perplexity-py/commit/14fce5c10fee9c457ae654a7b7d238c9e8968114))
+* **pydantic:** do not pass `by_alias` unless set ([ed9c1a7](https://github.com/perplexityai/perplexity-py/commit/ed9c1a7b8edd95530de24d6335eead8f2c108906))
+* sanitize endpoint path params ([52867d4](https://github.com/perplexityai/perplexity-py/commit/52867d48d8bca5a1c01c9ebac8e410cbf980812b))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([a880ea6](https://github.com/perplexityai/perplexity-py/commit/a880ea6cdedf9e9d122660ad6dc6ae4a4d1b5280))
+
 ## 0.30.2 (2026-03-07)
 
 Full Changelog: [v0.30.1...v0.30.2](https://github.com/perplexityai/perplexity-py/compare/v0.30.1...v0.30.2)
