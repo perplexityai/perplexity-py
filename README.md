@@ -214,7 +214,7 @@ stream_chunk = client.chat.completions.create(
     model="model",
     web_search_options={},
 )
-print(stream_chunk.web_search_options)
+print(stream_chunk.choices)
 ```
 
 ## Handling errors
@@ -301,6 +301,7 @@ By default requests time out after 15 minutes. You can configure this with a `ti
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
+import httpx
 from perplexity import Perplexity
 
 # Configure the default for all requests:
