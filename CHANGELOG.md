@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.30.4 (2026-03-22)
+
+Full Changelog: [v0.30.3...v0.30.4](https://github.com/perplexityai/perplexity-py/compare/v0.30.3...v0.30.4)
+
 ## 0.30.3 (2026-03-22)
 
 Full Changelog: [v0.30.2...v0.30.3](https://github.com/perplexityai/perplexity-py/compare/v0.30.2...v0.30.3)
