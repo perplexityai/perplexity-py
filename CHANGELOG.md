@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.31.0 (2026-03-26)
+
+Full Changelog: [v0.30.4...v0.31.0](https://github.com/perplexityai/perplexity-py/compare/v0.30.4...v0.31.0)
+
+### Features
+
+* **internal:** implement indices array format for query and form serialization ([3639a28](https://github.com/perplexityai/perplexity-py/commit/3639a28cd332b7df2b194f35f12b84ce5bf7f1af))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([25a72f3](https://github.com/perplexityai/perplexity-py/commit/25a72f3f08edbf0600e62c07a122910cb05d1123))
+* **internal:** update gitignore ([8fb5309](https://github.com/perplexityai/perplexity-py/commit/8fb53095aeadd031d454b0db588ab4dc795a0a3a))
+
 ## 0.30.4 (2026-03-22)
 
 Full Changelog: [v0.30.3...v0.30.4](https://github.com/perplexityai/perplexity-py/compare/v0.30.3...v0.30.4)
