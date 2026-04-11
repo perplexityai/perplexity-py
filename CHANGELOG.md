@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.31.1 (2026-04-10)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/perplexityai/perplexity-py/compare/v0.31.0...v0.31.1)
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([fab7c84](https://github.com/perplexityai/perplexity-py/commit/fab7c84cc941910988d0eae8d34f1979e09ec837))
+* ensure file data are only sent as 1 parameter ([dc90680](https://github.com/perplexityai/perplexity-py/commit/dc90680152c3edb6395db3539bf544e68afeaf5b))
+
 ## 0.31.0 (2026-03-26)
 
 Full Changelog: [v0.30.4...v0.31.0](https://github.com/perplexityai/perplexity-py/compare/v0.30.4...v0.31.0)
