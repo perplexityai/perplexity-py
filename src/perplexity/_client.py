@@ -179,6 +179,8 @@ class Perplexity(SyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": "false",
+            "X-Source": "perplexity-py",
+            "X-Title": "Perplexity Python SDK",
             **self._custom_headers,
         }
 
@@ -391,6 +393,8 @@ class AsyncPerplexity(AsyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": f"async:{get_async_library()}",
+            "X-Source": "perplexity-py",
+            "X-Title": "Perplexity Python SDK",
             **self._custom_headers,
         }
 
