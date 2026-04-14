@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.0 (2026-04-14)
+
+Full Changelog: [v0.31.1...v0.32.0](https://github.com/perplexityai/perplexity-py/compare/v0.31.1...v0.32.0)
+
+### Features
+
+* send X-Source and X-Title headers ([430ab7a](https://github.com/perplexityai/perplexity-py/commit/430ab7a33c10604556496e089a1540eb00d8d0a9))
+
 ## 0.31.1 (2026-04-10)
 
 Full Changelog: [v0.31.0...v0.31.1](https://github.com/perplexityai/perplexity-py/compare/v0.31.0...v0.31.1)
