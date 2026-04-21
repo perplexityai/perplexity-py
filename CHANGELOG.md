@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.1 (2026-04-17)
+
+Full Changelog: [v0.32.0...v0.32.1](https://github.com/perplexityai/perplexity-py/compare/v0.32.0...v0.32.1)
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([1ce7a22](https://github.com/perplexityai/perplexity-py/commit/1ce7a2273aa0295c45d1b230224ffed1266d0858))
+
 ## 0.32.0 (2026-04-14)
 
 Full Changelog: [v0.31.1...v0.32.0](https://github.com/perplexityai/perplexity-py/compare/v0.31.1...v0.32.0)
