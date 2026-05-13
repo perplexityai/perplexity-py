@@ -38,3 +38,9 @@ class SearchCreateParams(TypedDict, total=False):
     search_mode: Optional[Literal["web", "academic", "sec"]]
 
     search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]]
+
+    search_type: Optional[Literal["web", "people"]]
+    """Search type — "web" for general web search, "people" for people search.
+
+    max_results above 20 is only supported for people search.
+    """

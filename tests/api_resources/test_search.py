@@ -43,6 +43,7 @@ class TestSearch:
             search_language_filter=["string"],
             search_mode="web",
             search_recency_filter="hour",
+            search_type="web",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
 
@@ -104,6 +105,7 @@ class TestAsyncSearch:
             search_language_filter=["string"],
             search_mode="web",
             search_recency_filter="hour",
+            search_type="web",
         )
         assert_matches_type(SearchCreateResponse, search, path=["response"])
 

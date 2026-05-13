@@ -61,6 +61,7 @@ class SearchResource(SyncAPIResource):
         search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_type: Optional[Literal["web", "people"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -72,6 +73,9 @@ class SearchResource(SyncAPIResource):
         Search the web and retrieve relevant web page contents.
 
         Args:
+          search_type: Search type — "web" for general web search, "people" for people search.
+              max_results above 20 is only supported for people search.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -98,6 +102,7 @@ class SearchResource(SyncAPIResource):
                     "search_language_filter": search_language_filter,
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
+                    "search_type": search_type,
                 },
                 search_create_params.SearchCreateParams,
             ),
@@ -145,6 +150,7 @@ class AsyncSearchResource(AsyncAPIResource):
         search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
         search_recency_filter: Optional[Literal["hour", "day", "week", "month", "year"]] | Omit = omit,
+        search_type: Optional[Literal["web", "people"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -156,6 +162,9 @@ class AsyncSearchResource(AsyncAPIResource):
         Search the web and retrieve relevant web page contents.
 
         Args:
+          search_type: Search type — "web" for general web search, "people" for people search.
+              max_results above 20 is only supported for people search.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -182,6 +191,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "search_language_filter": search_language_filter,
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
+                    "search_type": search_type,
                 },
                 search_create_params.SearchCreateParams,
             ),
