@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.33.0 (2026-05-13)
+
+Full Changelog: [v0.32.1...v0.33.0](https://github.com/perplexityai/perplexity-py/compare/v0.32.1...v0.33.0)
+
+### Features
+
+* **internal/types:** support eagerly validating pydantic iterators ([bcf8068](https://github.com/perplexityai/perplexity-py/commit/bcf8068770450e60c8506561fcc00a51e6d75ba9))
+* **responses:** add people_search and finance_search built-in tools ([c475e61](https://github.com/perplexityai/perplexity-py/commit/c475e6177f43d51eecd0409b2803c42c97c22277))
+* support setting headers via env ([d0becdc](https://github.com/perplexityai/perplexity-py/commit/d0becdc6b94fb2f17a524c4c6f1e3d806e5d8748))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([3e27fb6](https://github.com/perplexityai/perplexity-py/commit/3e27fb63aaca1a81ff48fcc3b0e5f011b356b02b))
+* use correct field name format for multipart file arrays ([7f8c6c9](https://github.com/perplexityai/perplexity-py/commit/7f8c6c95a8f1df0b8920c9a4127afe52c8237a73))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([994f129](https://github.com/perplexityai/perplexity-py/commit/994f129a12bf538917303b6201b0766e40a2c526))
+* **internal:** reformat pyproject.toml ([7e5d521](https://github.com/perplexityai/perplexity-py/commit/7e5d521fbdd36902af458db48b20429e6e24db77))
+
 ## 0.32.1 (2026-04-17)
 
 Full Changelog: [v0.32.0...v0.32.1](https://github.com/perplexityai/perplexity-py/compare/v0.32.0...v0.32.1)

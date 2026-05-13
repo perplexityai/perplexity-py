@@ -1,6 +1,6 @@
 [project]
 name = "perplexityai"
-version = "0.32.1"
+version = "0.33.0"
 description = "The official Python library for the perplexity API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -168,7 +168,7 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ['src/perplexity/_files.py', '_dev/.*.py', 'tests/.*']
+exclude = ["src/perplexity/_files.py", "_dev/.*.py", "tests/.*"]
 
 strict_equality = true
 implicit_reexport = true
