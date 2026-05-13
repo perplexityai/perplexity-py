@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.34.0 (2026-05-13)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/perplexityai/perplexity-py/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* **search:** add search_type parameter for People Search routing ([cd15aef](https://github.com/perplexityai/perplexity-py/commit/cd15aef4f4f0a8b2f10eb6adb7fcba7dac7430f3))
+
 ## 0.33.0 (2026-05-13)
 
 Full Changelog: [v0.32.1...v0.33.0](https://github.com/perplexityai/perplexity-py/compare/v0.32.1...v0.33.0)
