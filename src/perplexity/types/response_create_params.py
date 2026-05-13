@@ -18,6 +18,8 @@ __all__ = [
     "ToolWebSearchToolFilters",
     "ToolWebSearchToolUserLocation",
     "ToolFetchURLTool",
+    "ToolPeopleSearchTool",
+    "ToolFinanceSearchTool",
     "ResponseCreateParamsNonStreaming",
     "ResponseCreateParamsStreaming",
 ]
@@ -131,7 +133,24 @@ class ToolFetchURLTool(TypedDict, total=False):
     """Maximum number of URLs to fetch per tool call"""
 
 
-Tool: TypeAlias = Union[ToolWebSearchTool, ToolFetchURLTool, FunctionToolParam]
+class ToolPeopleSearchTool(TypedDict, total=False):
+    type: Required[Literal["people_search"]]
+    """Enables the `people_search` tool."""
+
+
+class ToolFinanceSearchTool(TypedDict, total=False):
+    type: Required[Literal["finance_search"]]
+    """Enables the `finance_search` tool.
+
+    The model can request structured financial data (quotes, financials, segments,
+    earnings transcripts, etc.) via category-based fan-out to FMP, Finchat, and
+    Quartr.
+    """
+
+
+Tool: TypeAlias = Union[
+    ToolWebSearchTool, ToolFetchURLTool, ToolPeopleSearchTool, FunctionToolParam, ToolFinanceSearchTool
+]
 
 
 class ResponseCreateParamsNonStreaming(ResponseCreateParamsBase, total=False):
