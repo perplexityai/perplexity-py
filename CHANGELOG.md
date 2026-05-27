@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.35.1 (2026-05-27)
+
+Full Changelog: [v0.35.0...v0.35.1](https://github.com/perplexityai/perplexity-py/compare/v0.35.0...v0.35.1)
+
+### Bug Fixes
+
+* **search:** remove search_context_size from search.create (premature) ([e6f39b6](https://github.com/perplexityai/perplexity-py/commit/e6f39b62099dd180d3cf24924331b931ec8b84a4))
+
 ## 0.35.0 (2026-05-27)
 
 Full Changelog: [v0.34.1...v0.35.0](https://github.com/perplexityai/perplexity-py/compare/v0.34.1...v0.35.0)
