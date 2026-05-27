@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.34.1 (2026-05-27)
+
+Full Changelog: [v0.34.0...v0.34.1](https://github.com/perplexityai/perplexity-py/compare/v0.34.0...v0.34.1)
+
+### Bug Fixes
+
+* **streaming:** yield named SSE events for responses.create + discriminate ResponseStreamEvent union ([011b962](https://github.com/perplexityai/perplexity-py/commit/011b9622d7ed0abdd4964811aa7055271eb8e08c))
+
 ## 0.34.0 (2026-05-13)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/perplexityai/perplexity-py/compare/v0.33.0...v0.34.0)
