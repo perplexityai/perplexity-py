@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.35.0 (2026-05-27)
+
+Full Changelog: [v0.34.1...v0.35.0](https://github.com/perplexityai/perplexity-py/compare/v0.34.1...v0.35.0)
+
+### Features
+
+* **api:** search_context_size, background tasks, reasoning effort xhigh + responses.retrieve ([93027f5](https://github.com/perplexityai/perplexity-py/commit/93027f5e57e40a6ca07004281c58d5d86c9607b7))
+
 ## 0.34.1 (2026-05-27)
 
 Full Changelog: [v0.34.0...v0.34.1](https://github.com/perplexityai/perplexity-py/compare/v0.34.0...v0.34.1)

@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import Union, Iterable, Optional
 from typing_extensions import Literal, overload
 
 import httpx
 
 from ..types import response_create_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import required_args, maybe_transform, async_maybe_transform
+from .._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -23,6 +23,7 @@ from .._base_client import make_request_options
 from ..types.input_item_param import InputItemParam
 from ..types.response_stream_chunk import ResponseStreamChunk
 from ..types.response_create_response import ResponseCreateResponse
+from ..types.response_retrieve_response import ResponseRetrieveResponse
 from ..types.shared_params.response_format import ResponseFormat
 
 __all__ = ["ResponsesResource", "AsyncResponsesResource"]
@@ -53,6 +54,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         *,
         input: Union[str, Iterable[InputItemParam]],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -77,6 +79,10 @@ class ResponsesResource(SyncAPIResource):
 
         Args:
           input: Input content - either a string or array of input items
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -122,6 +128,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[InputItemParam]],
         stream: Literal[True],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -147,6 +154,10 @@ class ResponsesResource(SyncAPIResource):
           input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -190,6 +201,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: Union[str, Iterable[InputItemParam]],
         stream: bool,
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -215,6 +227,10 @@ class ResponsesResource(SyncAPIResource):
           input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -257,6 +273,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         *,
         input: Union[str, Iterable[InputItemParam]],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -280,6 +297,7 @@ class ResponsesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "input": input,
+                    "background": background,
                     "instructions": instructions,
                     "language_preference": language_preference,
                     "max_output_tokens": max_output_tokens,
@@ -302,6 +320,40 @@ class ResponsesResource(SyncAPIResource):
             cast_to=ResponseCreateResponse,
             stream=stream or False,
             stream_cls=Stream[ResponseStreamChunk],
+        )
+
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ResponseRetrieveResponse:
+        """Retrieve a response by its ID.
+
+        Use this to poll the status of background tasks.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return self._get(
+            path_template("/v1/responses/{response_id}", response_id=response_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResponseRetrieveResponse,
         )
 
 
@@ -330,6 +382,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         self,
         *,
         input: Union[str, Iterable[InputItemParam]],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -354,6 +407,10 @@ class AsyncResponsesResource(AsyncAPIResource):
 
         Args:
           input: Input content - either a string or array of input items
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -399,6 +456,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[InputItemParam]],
         stream: Literal[True],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -424,6 +482,10 @@ class AsyncResponsesResource(AsyncAPIResource):
           input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -467,6 +529,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         *,
         input: Union[str, Iterable[InputItemParam]],
         stream: bool,
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -492,6 +555,10 @@ class AsyncResponsesResource(AsyncAPIResource):
           input: Input content - either a string or array of input items
 
           stream: If true, returns SSE stream instead of JSON
+
+          background: Run the response asynchronously. When true, the request is queued and the
+              response object's `status` will be `queued` or `in_progress`. Poll GET
+              /v1/responses/{response_id} to retrieve the final result.
 
           instructions: System instructions for the model
 
@@ -534,6 +601,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         self,
         *,
         input: Union[str, Iterable[InputItemParam]],
+        background: Optional[bool] | Omit = omit,
         instructions: str | Omit = omit,
         language_preference: str | Omit = omit,
         max_output_tokens: int | Omit = omit,
@@ -557,6 +625,7 @@ class AsyncResponsesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "input": input,
+                    "background": background,
                     "instructions": instructions,
                     "language_preference": language_preference,
                     "max_output_tokens": max_output_tokens,
@@ -581,6 +650,40 @@ class AsyncResponsesResource(AsyncAPIResource):
             stream_cls=AsyncStream[ResponseStreamChunk],
         )
 
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ResponseRetrieveResponse:
+        """Retrieve a response by its ID.
+
+        Use this to poll the status of background tasks.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return await self._get(
+            path_template("/v1/responses/{response_id}", response_id=response_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResponseRetrieveResponse,
+        )
+
 
 class ResponsesResourceWithRawResponse:
     def __init__(self, responses: ResponsesResource) -> None:
@@ -588,6 +691,9 @@ class ResponsesResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             responses.create,
+        )
+        self.retrieve = to_raw_response_wrapper(
+            responses.retrieve,
         )
 
 
@@ -598,6 +704,9 @@ class AsyncResponsesResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             responses.create,
         )
+        self.retrieve = async_to_raw_response_wrapper(
+            responses.retrieve,
+        )
 
 
 class ResponsesResourceWithStreamingResponse:
@@ -607,6 +716,9 @@ class ResponsesResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             responses.create,
         )
+        self.retrieve = to_streamed_response_wrapper(
+            responses.retrieve,
+        )
 
 
 class AsyncResponsesResourceWithStreamingResponse:
@@ -615,4 +727,7 @@ class AsyncResponsesResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             responses.create,
+        )
+        self.retrieve = async_to_streamed_response_wrapper(
+            responses.retrieve,
         )

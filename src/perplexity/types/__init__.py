@@ -34,6 +34,7 @@ from .embedding_create_params import EmbeddingCreateParams as EmbeddingCreatePar
 from .response_create_response import ResponseCreateResponse as ResponseCreateResponse
 from .embedding_create_response import EmbeddingCreateResponse as EmbeddingCreateResponse
 from .function_call_output_item import FunctionCallOutputItem as FunctionCallOutputItem
+from .response_retrieve_response import ResponseRetrieveResponse as ResponseRetrieveResponse
 from .contextualized_embedding_create_params import (
     ContextualizedEmbeddingCreateParams as ContextualizedEmbeddingCreateParams,
 )

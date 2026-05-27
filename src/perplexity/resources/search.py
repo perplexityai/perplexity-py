@@ -57,6 +57,7 @@ class SearchResource(SyncAPIResource):
         max_tokens_per_page: int | Omit = omit,
         search_after_date_filter: Optional[str] | Omit = omit,
         search_before_date_filter: Optional[str] | Omit = omit,
+        search_context_size: Optional[Literal["low", "medium", "high"]] | Omit = omit,
         search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
@@ -73,6 +74,9 @@ class SearchResource(SyncAPIResource):
         Search the web and retrieve relevant web page contents.
 
         Args:
+          search_context_size: Controls how much search context is retrieved. Higher values return more content
+              per result.
+
           search_type: Search type — "web" for general web search, "people" for people search.
               max_results above 20 is only supported for people search.
 
@@ -98,6 +102,7 @@ class SearchResource(SyncAPIResource):
                     "max_tokens_per_page": max_tokens_per_page,
                     "search_after_date_filter": search_after_date_filter,
                     "search_before_date_filter": search_before_date_filter,
+                    "search_context_size": search_context_size,
                     "search_domain_filter": search_domain_filter,
                     "search_language_filter": search_language_filter,
                     "search_mode": search_mode,
@@ -146,6 +151,7 @@ class AsyncSearchResource(AsyncAPIResource):
         max_tokens_per_page: int | Omit = omit,
         search_after_date_filter: Optional[str] | Omit = omit,
         search_before_date_filter: Optional[str] | Omit = omit,
+        search_context_size: Optional[Literal["low", "medium", "high"]] | Omit = omit,
         search_domain_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_language_filter: Optional[SequenceNotStr[str]] | Omit = omit,
         search_mode: Optional[Literal["web", "academic", "sec"]] | Omit = omit,
@@ -162,6 +168,9 @@ class AsyncSearchResource(AsyncAPIResource):
         Search the web and retrieve relevant web page contents.
 
         Args:
+          search_context_size: Controls how much search context is retrieved. Higher values return more content
+              per result.
+
           search_type: Search type — "web" for general web search, "people" for people search.
               max_results above 20 is only supported for people search.
 
@@ -187,6 +196,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "max_tokens_per_page": max_tokens_per_page,
                     "search_after_date_filter": search_after_date_filter,
                     "search_before_date_filter": search_before_date_filter,
+                    "search_context_size": search_context_size,
                     "search_domain_filter": search_domain_filter,
                     "search_language_filter": search_language_filter,
                     "search_mode": search_mode,

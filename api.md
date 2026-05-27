@@ -62,12 +62,14 @@ from perplexity.types import (
     ResponseCreateParams,
     ResponsesUsage,
     ResponseCreateResponse,
+    ResponseRetrieveResponse,
 )
 ```
 
 Methods:
 
 - <code title="post /v1/responses">client.responses.<a href="./src/perplexity/resources/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
+- <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/perplexity/resources/responses.py">retrieve</a>(response_id) -> <a href="./src/perplexity/types/response_retrieve_response.py">ResponseRetrieveResponse</a></code>
 
 # Embeddings
 
