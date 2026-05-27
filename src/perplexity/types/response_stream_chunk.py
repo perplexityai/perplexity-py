@@ -1,8 +1,9 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from .._utils import PropertyInfo
 from .._models import BaseModel
 from .error_info import ErrorInfo
 from .output_item import OutputItem
@@ -63,23 +64,8 @@ class ResponseCreatedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.created"]
+    """SSE event type discriminator (always "response.created")"""
 
     response: Optional[ResponseCreatedEventResponse] = None
     """Non-streaming response returned when stream is false"""
@@ -116,23 +102,8 @@ class ResponseInProgressEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.in_progress"]
+    """SSE event type discriminator (always "response.in_progress")"""
 
     response: Optional[ResponseInProgressEventResponse] = None
     """Non-streaming response returned when stream is false"""
@@ -169,23 +140,8 @@ class ResponseCompletedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.completed"]
+    """SSE event type discriminator (always "response.completed")"""
 
     response: Optional[ResponseCompletedEventResponse] = None
     """Non-streaming response returned when stream is false"""
@@ -202,23 +158,8 @@ class ResponseFailedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.failed"]
+    """SSE event type discriminator (always "response.failed")"""
 
 
 class OutputItemAddedEvent(BaseModel):
@@ -234,23 +175,8 @@ class OutputItemAddedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.output_item.added"]
+    """SSE event type discriminator (always "response.output_item.added")"""
 
 
 class OutputItemDoneEvent(BaseModel):
@@ -266,23 +192,8 @@ class OutputItemDoneEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.output_item.done"]
+    """SSE event type discriminator (always "response.output_item.done")"""
 
 
 class TextDeltaEvent(BaseModel):
@@ -302,23 +213,8 @@ class TextDeltaEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.output_text.delta"]
+    """SSE event type discriminator (always "response.output_text.delta")"""
 
 
 class TextDoneEvent(BaseModel):
@@ -338,23 +234,8 @@ class TextDoneEvent(BaseModel):
 
     text: str
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.output_text.done"]
+    """SSE event type discriminator (always "response.output_text.done")"""
 
 
 class ReasoningStartedEvent(BaseModel):
@@ -366,23 +247,8 @@ class ReasoningStartedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.started"]
+    """SSE event type discriminator (always "response.reasoning.started")"""
 
     thought: Optional[str] = None
 
@@ -398,23 +264,8 @@ class SearchQueriesEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.search_queries"]
+    """SSE event type discriminator (always "response.reasoning.search_queries")"""
 
     thought: Optional[str] = None
 
@@ -430,23 +281,8 @@ class SearchResultsEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.search_results"]
+    """SSE event type discriminator (always "response.reasoning.search_results")"""
 
     thought: Optional[str] = None
 
@@ -462,23 +298,8 @@ class FetchURLQueriesEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.fetch_url_queries"]
+    """SSE event type discriminator (always "response.reasoning.fetch_url_queries")"""
 
     urls: List[str]
 
@@ -509,23 +330,8 @@ class FetchURLResultsEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.fetch_url_results"]
+    """SSE event type discriminator (always "response.reasoning.fetch_url_results")"""
 
     thought: Optional[str] = None
 
@@ -539,40 +345,28 @@ class ReasoningStoppedEvent(BaseModel):
     sequence_number: int
     """Monotonically increasing sequence number for event ordering"""
 
-    type: Literal[
-        "response.created",
-        "response.in_progress",
-        "response.completed",
-        "response.failed",
-        "response.output_item.added",
-        "response.output_item.done",
-        "response.output_text.delta",
-        "response.output_text.done",
-        "response.reasoning.started",
-        "response.reasoning.search_queries",
-        "response.reasoning.search_results",
-        "response.reasoning.fetch_url_queries",
-        "response.reasoning.fetch_url_results",
-        "response.reasoning.stopped",
-    ]
-    """SSE event type discriminator"""
+    type: Literal["response.reasoning.stopped"]
+    """SSE event type discriminator (always "response.reasoning.stopped")"""
 
     thought: Optional[str] = None
 
 
-ResponseStreamChunk: TypeAlias = Union[
-    ResponseCreatedEvent,
-    ResponseInProgressEvent,
-    ResponseCompletedEvent,
-    ResponseFailedEvent,
-    OutputItemAddedEvent,
-    OutputItemDoneEvent,
-    TextDeltaEvent,
-    TextDoneEvent,
-    ReasoningStartedEvent,
-    SearchQueriesEvent,
-    SearchResultsEvent,
-    FetchURLQueriesEvent,
-    FetchURLResultsEvent,
-    ReasoningStoppedEvent,
+ResponseStreamChunk: TypeAlias = Annotated[
+    Union[
+        ResponseCreatedEvent,
+        ResponseInProgressEvent,
+        ResponseCompletedEvent,
+        ResponseFailedEvent,
+        OutputItemAddedEvent,
+        OutputItemDoneEvent,
+        TextDeltaEvent,
+        TextDoneEvent,
+        ReasoningStartedEvent,
+        SearchQueriesEvent,
+        SearchResultsEvent,
+        FetchURLQueriesEvent,
+        FetchURLResultsEvent,
+        ReasoningStoppedEvent,
+    ],
+    PropertyInfo(discriminator="type"),
 ]
