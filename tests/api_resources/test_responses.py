@@ -9,7 +9,7 @@ import pytest
 
 from perplexity import Perplexity, AsyncPerplexity
 from tests.utils import assert_matches_type
-from perplexity.types import ResponseCreateResponse
+from perplexity.types import ResponseCreateResponse, ResponseRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -30,6 +30,7 @@ class TestResponses:
     def test_method_create_with_all_params_overload_1(self, client: Perplexity) -> None:
         response = client.responses.create(
             input="string",
+            background=True,
             instructions="instructions",
             language_preference="language_preference",
             max_output_tokens=1,
@@ -37,7 +38,7 @@ class TestResponses:
             model="model",
             models=["string"],
             preset="preset",
-            reasoning={"effort": "low"},
+            reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -114,6 +115,7 @@ class TestResponses:
         response_stream = client.responses.create(
             input="string",
             stream=True,
+            background=True,
             instructions="instructions",
             language_preference="language_preference",
             max_output_tokens=1,
@@ -121,7 +123,7 @@ class TestResponses:
             model="model",
             models=["string"],
             preset="preset",
-            reasoning={"effort": "low"},
+            reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -183,6 +185,48 @@ class TestResponses:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve(self, client: Perplexity) -> None:
+        response = client.responses.retrieve(
+            "response_id",
+        )
+        assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve(self, client: Perplexity) -> None:
+        http_response = client.responses.with_raw_response.retrieve(
+            "response_id",
+        )
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = http_response.parse()
+        assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve(self, client: Perplexity) -> None:
+        with client.responses.with_streaming_response.retrieve(
+            "response_id",
+        ) as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = http_response.parse()
+            assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve(self, client: Perplexity) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
+            client.responses.with_raw_response.retrieve(
+                "",
+            )
+
 
 class TestAsyncResponses:
     parametrize = pytest.mark.parametrize(
@@ -202,6 +246,7 @@ class TestAsyncResponses:
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncPerplexity) -> None:
         response = await async_client.responses.create(
             input="string",
+            background=True,
             instructions="instructions",
             language_preference="language_preference",
             max_output_tokens=1,
@@ -209,7 +254,7 @@ class TestAsyncResponses:
             model="model",
             models=["string"],
             preset="preset",
-            reasoning={"effort": "low"},
+            reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -286,6 +331,7 @@ class TestAsyncResponses:
         response_stream = await async_client.responses.create(
             input="string",
             stream=True,
+            background=True,
             instructions="instructions",
             language_preference="language_preference",
             max_output_tokens=1,
@@ -293,7 +339,7 @@ class TestAsyncResponses:
             model="model",
             models=["string"],
             preset="preset",
-            reasoning={"effort": "low"},
+            reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -354,3 +400,45 @@ class TestAsyncResponses:
             await stream.close()
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve(self, async_client: AsyncPerplexity) -> None:
+        response = await async_client.responses.retrieve(
+            "response_id",
+        )
+        assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve(self, async_client: AsyncPerplexity) -> None:
+        http_response = await async_client.responses.with_raw_response.retrieve(
+            "response_id",
+        )
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = await http_response.parse()
+        assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve(self, async_client: AsyncPerplexity) -> None:
+        async with async_client.responses.with_streaming_response.retrieve(
+            "response_id",
+        ) as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = await http_response.parse()
+            assert_matches_type(ResponseRetrieveResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve(self, async_client: AsyncPerplexity) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
+            await async_client.responses.with_raw_response.retrieve(
+                "",
+            )

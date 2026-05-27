@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
@@ -28,6 +28,14 @@ __all__ = [
 class ResponseCreateParamsBase(TypedDict, total=False):
     input: Required[Union[str, Iterable[InputItemParam]]]
     """Input content - either a string or array of input items"""
+
+    background: Optional[bool]
+    """Run the response asynchronously.
+
+    When true, the request is queued and the response object's `status` will be
+    `queued` or `in_progress`. Poll GET /v1/responses/{response_id} to retrieve the
+    final result.
+    """
 
     instructions: str
     """System instructions for the model"""
@@ -76,7 +84,7 @@ class ResponseCreateParamsBase(TypedDict, total=False):
 
 
 class Reasoning(TypedDict, total=False):
-    effort: Literal["low", "medium", "high"]
+    effort: Literal["minimal", "low", "medium", "high", "xhigh"]
     """How much effort the model should spend on reasoning"""
 
 

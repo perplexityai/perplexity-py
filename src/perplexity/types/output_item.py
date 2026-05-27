@@ -26,7 +26,7 @@ class MessageOutputItem(BaseModel):
     role: Literal["assistant"]
     """Role in a message"""
 
-    status: Literal["completed", "failed", "in_progress", "requires_action"]
+    status: Literal["completed", "failed", "in_progress", "queued", "cancelled", "requires_action"]
     """Status of a response or output item"""
 
     type: Literal["message"]

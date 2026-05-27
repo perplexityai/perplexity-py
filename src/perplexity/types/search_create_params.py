@@ -31,6 +31,12 @@ class SearchCreateParams(TypedDict, total=False):
 
     search_before_date_filter: Optional[str]
 
+    search_context_size: Optional[Literal["low", "medium", "high"]]
+    """Controls how much search context is retrieved.
+
+    Higher values return more content per result.
+    """
+
     search_domain_filter: Optional[SequenceNotStr[str]]
 
     search_language_filter: Optional[SequenceNotStr[str]]
