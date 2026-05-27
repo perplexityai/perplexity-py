@@ -8,10 +8,10 @@ from .error_info import ErrorInfo
 from .output_item import OutputItem
 from .responses_usage import ResponsesUsage
 
-__all__ = ["ResponseCreateResponse"]
+__all__ = ["ResponseRetrieveResponse"]
 
 
-class ResponseCreateResponse(BaseModel):
+class ResponseRetrieveResponse(BaseModel):
     """Non-streaming response returned when stream is false"""
 
     id: str
