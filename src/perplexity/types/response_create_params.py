@@ -20,6 +20,7 @@ __all__ = [
     "ToolFetchURLTool",
     "ToolPeopleSearchTool",
     "ToolFinanceSearchTool",
+    "ToolSandboxTool",
     "ResponseCreateParamsNonStreaming",
     "ResponseCreateParamsStreaming",
 ]
@@ -156,8 +157,17 @@ class ToolFinanceSearchTool(TypedDict, total=False):
     """
 
 
+class ToolSandboxTool(TypedDict, total=False):
+    type: Required[Literal["sandbox"]]
+    """Enables the `sandbox` tool.
+
+    The model can execute code in an isolated container during the request and use
+    the result in its final answer.
+    """
+
+
 Tool: TypeAlias = Union[
-    ToolWebSearchTool, ToolFetchURLTool, ToolPeopleSearchTool, FunctionToolParam, ToolFinanceSearchTool
+    ToolWebSearchTool, ToolFetchURLTool, ToolPeopleSearchTool, FunctionToolParam, ToolFinanceSearchTool, ToolSandboxTool
 ]
 
 
