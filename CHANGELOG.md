@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.0 (2026-05-30)
+
+Full Changelog: [v0.35.1...v0.36.0](https://github.com/perplexityai/perplexity-py/compare/v0.35.1...v0.36.0)
+
+### Features
+
+* **responses:** add sandbox built-in tool ([9306b5e](https://github.com/perplexityai/perplexity-py/commit/9306b5eeee047ccce4f63b00a5d858e0dede0772))
+
 ## 0.35.1 (2026-05-27)
 
 Full Changelog: [v0.35.0...v0.35.1](https://github.com/perplexityai/perplexity-py/compare/v0.35.0...v0.35.1)
