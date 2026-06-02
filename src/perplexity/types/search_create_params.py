@@ -31,6 +31,13 @@ class SearchCreateParams(TypedDict, total=False):
 
     search_before_date_filter: Optional[str]
 
+    search_context_size: Literal["low", "medium", "high"]
+    """Controls how much content is retrieved per result.
+
+    Larger sizes return more page content at higher cost. Defaults to "high". Omit
+    when supplying explicit max_tokens / max_tokens_per_page.
+    """
+
     search_domain_filter: Optional[SequenceNotStr[str]]
 
     search_language_filter: Optional[SequenceNotStr[str]]
