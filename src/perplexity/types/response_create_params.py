@@ -131,6 +131,12 @@ class ToolWebSearchTool(TypedDict, total=False):
 
     max_tokens_per_page: int
 
+    search_context_size: Literal["low", "medium", "high"]
+    """Search context size (low, medium, high).
+
+    Omit when supplying explicit max_tokens / max_tokens_per_page.
+    """
+
     user_location: ToolWebSearchToolUserLocation
     """User's geographic location for search personalization"""
 
