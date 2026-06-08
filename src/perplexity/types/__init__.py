@@ -23,8 +23,10 @@ from .error_info import ErrorInfo as ErrorInfo
 from .output_item import OutputItem as OutputItem
 from .content_part import ContentPart as ContentPart
 from .stream_chunk import StreamChunk as StreamChunk
+from .response_file import ResponseFile as ResponseFile
 from .responses_usage import ResponsesUsage as ResponsesUsage
 from .input_item_param import InputItemParam as InputItemParam
+from .response_file_list import ResponseFileList as ResponseFileList
 from .function_tool_param import FunctionToolParam as FunctionToolParam
 from .search_create_params import SearchCreateParams as SearchCreateParams
 from .response_stream_chunk import ResponseStreamChunk as ResponseStreamChunk

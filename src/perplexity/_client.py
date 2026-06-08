@@ -38,10 +38,10 @@ if TYPE_CHECKING:
     from .resources import chat, async_, search, browser, responses, embeddings, contextualized_embeddings
     from .resources.search import SearchResource, AsyncSearchResource
     from .resources.chat.chat import ChatResource, AsyncChatResource
-    from .resources.responses import ResponsesResource, AsyncResponsesResource
     from .resources.embeddings import EmbeddingsResource, AsyncEmbeddingsResource
     from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
     from .resources.browser.browser import BrowserResource, AsyncBrowserResource
+    from .resources.responses.responses import ResponsesResource, AsyncResponsesResource
     from .resources.contextualized_embeddings import (
         ContextualizedEmbeddingsResource,
         AsyncContextualizedEmbeddingsResource,

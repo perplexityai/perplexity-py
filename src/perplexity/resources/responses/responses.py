@@ -7,29 +7,41 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import response_create_params
-from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import path_template, required_args, maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
+from ...types import response_create_params
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._streaming import Stream, AsyncStream
-from .._base_client import make_request_options
-from ..types.input_item_param import InputItemParam
-from ..types.response_stream_chunk import ResponseStreamChunk
-from ..types.response_create_response import ResponseCreateResponse
-from ..types.response_retrieve_response import ResponseRetrieveResponse
-from ..types.shared_params.response_format import ResponseFormat
+from ..._streaming import Stream, AsyncStream
+from ..._base_client import make_request_options
+from ...types.input_item_param import InputItemParam
+from ...types.response_stream_chunk import ResponseStreamChunk
+from ...types.response_create_response import ResponseCreateResponse
+from ...types.response_retrieve_response import ResponseRetrieveResponse
+from ...types.shared_params.response_format import ResponseFormat
 
 __all__ = ["ResponsesResource", "AsyncResponsesResource"]
 
 
 class ResponsesResource(SyncAPIResource):
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> ResponsesResourceWithRawResponse:
         """
@@ -358,6 +370,10 @@ class ResponsesResource(SyncAPIResource):
 
 
 class AsyncResponsesResource(AsyncAPIResource):
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        return AsyncFilesResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncResponsesResourceWithRawResponse:
         """
@@ -696,6 +712,10 @@ class ResponsesResourceWithRawResponse:
             responses.retrieve,
         )
 
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self._responses.files)
+
 
 class AsyncResponsesResourceWithRawResponse:
     def __init__(self, responses: AsyncResponsesResource) -> None:
@@ -707,6 +727,10 @@ class AsyncResponsesResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             responses.retrieve,
         )
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        return AsyncFilesResourceWithRawResponse(self._responses.files)
 
 
 class ResponsesResourceWithStreamingResponse:
@@ -720,6 +744,10 @@ class ResponsesResourceWithStreamingResponse:
             responses.retrieve,
         )
 
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self._responses.files)
+
 
 class AsyncResponsesResourceWithStreamingResponse:
     def __init__(self, responses: AsyncResponsesResource) -> None:
@@ -731,3 +759,7 @@ class AsyncResponsesResourceWithStreamingResponse:
         self.retrieve = async_to_streamed_response_wrapper(
             responses.retrieve,
         )
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        return AsyncFilesResourceWithStreamingResponse(self._responses.files)
