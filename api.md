@@ -58,6 +58,8 @@ from perplexity.types import (
     FunctionToolParam,
     InputItemParam,
     OutputItem,
+    ResponseFile,
+    ResponseFileList,
     ResponseStreamChunk,
     ResponseCreateParams,
     ResponsesUsage,
@@ -68,8 +70,15 @@ from perplexity.types import (
 
 Methods:
 
-- <code title="post /v1/responses">client.responses.<a href="./src/perplexity/resources/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
-- <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/perplexity/resources/responses.py">retrieve</a>(response_id) -> <a href="./src/perplexity/types/response_retrieve_response.py">ResponseRetrieveResponse</a></code>
+- <code title="post /v1/responses">client.responses.<a href="./src/perplexity/resources/responses/responses.py">create</a>(\*\*<a href="src/perplexity/types/response_create_params.py">params</a>) -> <a href="./src/perplexity/types/response_create_response.py">ResponseCreateResponse</a></code>
+- <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/perplexity/resources/responses/responses.py">retrieve</a>(response_id) -> <a href="./src/perplexity/types/response_retrieve_response.py">ResponseRetrieveResponse</a></code>
+
+## Files
+
+Methods:
+
+- <code title="get /v1/responses/{response_id}/files">client.responses.files.<a href="./src/perplexity/resources/responses/files.py">list</a>(response_id) -> <a href="./src/perplexity/types/response_file_list.py">ResponseFileList</a></code>
+- <code title="get /v1/responses/{response_id}/files/{file_id}/content">client.responses.files.<a href="./src/perplexity/resources/responses/files.py">content</a>(file_id, \*, response_id) -> BinaryAPIResponse</code>
 
 # Embeddings
 
