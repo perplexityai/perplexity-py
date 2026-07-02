@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
+from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from .._utils import PropertyInfo
@@ -15,6 +15,9 @@ __all__ = [
     "SearchResultsOutputItem",
     "FetchURLResultsOutputItem",
     "FetchURLResultsOutputItemContent",
+    "McpListToolsOutputItem",
+    "McpListToolsOutputItemTool",
+    "McpCallOutputItem",
 ]
 
 
@@ -59,7 +62,68 @@ class FetchURLResultsOutputItem(BaseModel):
     type: Literal["fetch_url_results"]
 
 
+class McpListToolsOutputItemTool(BaseModel):
+    """One tool discovered on a remote MCP server."""
+
+    input_schema: Dict[str, object]
+    """The server's JSON Schema for the tool, passed through unmodified."""
+
+    name: str
+
+    description: Optional[str] = None
+
+
+class McpListToolsOutputItem(BaseModel):
+    """Tools discovered on one external MCP server at boot.
+
+    Matches OpenAI's mcp_list_tools item.
+    """
+
+    id: str
+
+    server_label: str
+
+    tools: List[McpListToolsOutputItemTool]
+
+    type: Literal["mcp_list_tools"]
+
+    error: Optional[str] = None
+
+
+class McpCallOutputItem(BaseModel):
+    """
+    One tool call executed against an external MCP server, modeled on OpenAI's mcp_call item.
+    """
+
+    id: str
+
+    arguments: str
+    """JSON-encoded arguments the model passed."""
+
+    name: str
+
+    server_label: str
+
+    type: Literal["mcp_call"]
+
+    error: Optional[str] = None
+    """
+    The failure string when the call failed (also returned to the model in-band);
+    null on success, matching OpenAI's mcp_call.
+    """
+
+    output: Optional[str] = None
+    """Tool output text; empty when the call failed."""
+
+
 OutputItem: TypeAlias = Annotated[
-    Union[MessageOutputItem, SearchResultsOutputItem, FetchURLResultsOutputItem, FunctionCallOutputItem],
+    Union[
+        MessageOutputItem,
+        SearchResultsOutputItem,
+        FetchURLResultsOutputItem,
+        FunctionCallOutputItem,
+        McpListToolsOutputItem,
+        McpCallOutputItem,
+    ],
     PropertyInfo(discriminator="type"),
 ]

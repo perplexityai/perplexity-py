@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .._types import SequenceNotStr
@@ -21,6 +21,7 @@ __all__ = [
     "ToolPeopleSearchTool",
     "ToolFinanceSearchTool",
     "ToolSandboxTool",
+    "ToolMcpTool",
     "ResponseCreateParamsNonStreaming",
     "ResponseCreateParamsStreaming",
 ]
@@ -172,8 +173,45 @@ class ToolSandboxTool(TypedDict, total=False):
     """
 
 
+class ToolMcpTool(TypedDict, total=False):
+    """Connects a user-supplied remote MCP server.
+
+    The worker discovers the
+    server's tools at boot and calls them like native tools. Matches
+    OpenAI's mcp tool. `require_approval`, `connector_id`, and
+    `defer_loading` are not supported in v1 and are ignored if sent:
+    every call auto-runs, and only bring-your-own `server_url` is honored.
+    """
+
+    server_label: Required[str]
+    """Unique per request, ^[a-zA-Z0-9_-]{1,64}$. Namespaces the server's tools."""
+
+    server_url: Required[str]
+    """HTTPS URL of the remote MCP server."""
+
+    type: Required[Literal["mcp"]]
+
+    allowed_tools: SequenceNotStr[str]
+    """Optional allowlist of tool names. Empty exposes all discovered tools."""
+
+    authorization: str
+    """
+    An OAuth access token that can be used with a remote MCP server, with a custom
+    MCP server URL. Never logged or echoed.
+    """
+
+    headers: Dict[str, str]
+    """Extra request headers. Never logged or echoed."""
+
+
 Tool: TypeAlias = Union[
-    ToolWebSearchTool, ToolFetchURLTool, ToolPeopleSearchTool, FunctionToolParam, ToolFinanceSearchTool, ToolSandboxTool
+    ToolWebSearchTool,
+    ToolFetchURLTool,
+    ToolPeopleSearchTool,
+    FunctionToolParam,
+    ToolFinanceSearchTool,
+    ToolSandboxTool,
+    ToolMcpTool,
 ]
 
 
