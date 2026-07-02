@@ -6,7 +6,7 @@ Full Changelog: [v0.38.0...v0.39.0](https://github.com/perplexityai/perplexity-p
 
 ### Features
 
-* **api:** manual updates ([52f63d3](https://github.com/perplexityai/perplexity-py/commit/52f63d379a5b871fdffedc3bc38c0d6393f4db54))
+* **responses:** add `mcp` tool and typed `mcp_list_tools`/`mcp_call` output items ([52f63d3](https://github.com/perplexityai/perplexity-py/commit/52f63d379a5b871fdffedc3bc38c0d6393f4db54))
 
 ## 0.38.0 (2026-06-08)
 
