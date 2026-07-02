@@ -178,6 +178,10 @@ class OutputItemAddedEvent(BaseModel):
     """
 
     item: OutputItem
+    """
+    One item in the response output: an assistant message, retrieved tool results,
+    or a record of a tool call.
+    """
 
     output_index: int
 
@@ -195,6 +199,10 @@ class OutputItemDoneEvent(BaseModel):
     """
 
     item: OutputItem
+    """
+    One item in the response output: an assistant message, retrieved tool results,
+    or a record of a tool call.
+    """
 
     output_index: int
 
