@@ -76,10 +76,26 @@ class ResponseCreateParamsBase(TypedDict, total=False):
     provided.
     """
 
+    previous_response_id: str
+    """OpenAI-compatible previous response id for multi-turn response chains.
+
+    When set, the new response continues from the completed prior response using its
+    durable continuation snapshot. The prior response must belong to the same
+    account and have completed.
+    """
+
     reasoning: Reasoning
 
     response_format: ResponseFormat
     """Specifies the desired output format for the model response"""
+
+    store: bool
+    """OpenAI-compatible storage toggle.
+
+    When false, the response is hidden from later retrieve calls, and the echoed
+    response reports `store: false`. It can still be used as a
+    `previous_response_id` continuation source.
+    """
 
     tools: Iterable[Tool]
     """Tools available to the model"""
