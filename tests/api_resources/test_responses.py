@@ -38,6 +38,7 @@ class TestResponses:
             model="model",
             models=["string"],
             preset="preset",
+            previous_response_id="previous_response_id",
             reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
@@ -48,6 +49,7 @@ class TestResponses:
                     "strict": True,
                 },
             },
+            store=True,
             stream=False,
             tools=[
                 {
@@ -124,6 +126,7 @@ class TestResponses:
             model="model",
             models=["string"],
             preset="preset",
+            previous_response_id="previous_response_id",
             reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
@@ -134,6 +137,7 @@ class TestResponses:
                     "strict": True,
                 },
             },
+            store=True,
             tools=[
                 {
                     "type": "web_search",
@@ -256,6 +260,7 @@ class TestAsyncResponses:
             model="model",
             models=["string"],
             preset="preset",
+            previous_response_id="previous_response_id",
             reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
@@ -266,6 +271,7 @@ class TestAsyncResponses:
                     "strict": True,
                 },
             },
+            store=True,
             stream=False,
             tools=[
                 {
@@ -342,6 +348,7 @@ class TestAsyncResponses:
             model="model",
             models=["string"],
             preset="preset",
+            previous_response_id="previous_response_id",
             reasoning={"effort": "minimal"},
             response_format={
                 "type": "json_schema",
@@ -352,6 +359,7 @@ class TestAsyncResponses:
                     "strict": True,
                 },
             },
+            store=True,
             tools=[
                 {
                     "type": "web_search",

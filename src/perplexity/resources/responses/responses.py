@@ -74,8 +74,10 @@ class ResponsesResource(SyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         stream: Literal[False] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -118,7 +120,16 @@ class ResponsesResource(SyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -148,8 +159,10 @@ class ResponsesResource(SyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -193,7 +206,16 @@ class ResponsesResource(SyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           tools: Tools available to the model
 
@@ -221,8 +243,10 @@ class ResponsesResource(SyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -266,7 +290,16 @@ class ResponsesResource(SyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           tools: Tools available to the model
 
@@ -293,8 +326,10 @@ class ResponsesResource(SyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         stream: Literal[False] | Literal[True] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -317,8 +352,10 @@ class ResponsesResource(SyncAPIResource):
                     "model": model,
                     "models": models,
                     "preset": preset,
+                    "previous_response_id": previous_response_id,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "store": store,
                     "stream": stream,
                     "tools": tools,
                 },
@@ -406,8 +443,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         stream: Literal[False] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -450,7 +489,16 @@ class AsyncResponsesResource(AsyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           stream: If true, returns SSE stream instead of JSON
 
@@ -480,8 +528,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -525,7 +575,16 @@ class AsyncResponsesResource(AsyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           tools: Tools available to the model
 
@@ -553,8 +612,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -598,7 +659,16 @@ class AsyncResponsesResource(AsyncAPIResource):
               model with system prompt and search parameters. Required if model is not
               provided.
 
+          previous_response_id: OpenAI-compatible previous response id for multi-turn response chains. When set,
+              the new response continues from the completed prior response using its durable
+              continuation snapshot. The prior response must belong to the same account and
+              have completed.
+
           response_format: Specifies the desired output format for the model response
+
+          store: OpenAI-compatible storage toggle. When false, the response is hidden from later
+              retrieve calls, and the echoed response reports `store: false`. It can still be
+              used as a `previous_response_id` continuation source.
 
           tools: Tools available to the model
 
@@ -625,8 +695,10 @@ class AsyncResponsesResource(AsyncAPIResource):
         model: str | Omit = omit,
         models: SequenceNotStr[str] | Omit = omit,
         preset: str | Omit = omit,
+        previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        store: bool | Omit = omit,
         stream: Literal[False] | Literal[True] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -649,8 +721,10 @@ class AsyncResponsesResource(AsyncAPIResource):
                     "model": model,
                     "models": models,
                     "preset": preset,
+                    "previous_response_id": previous_response_id,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "store": store,
                     "stream": stream,
                     "tools": tools,
                 },
