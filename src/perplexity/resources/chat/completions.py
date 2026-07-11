@@ -19,6 +19,7 @@ from ..._response import (
 )
 from ..._streaming import Stream, AsyncStream
 from ...types.chat import completion_create_params
+from ...lib.model_capabilities import validate_return_images
 from ..._base_client import make_request_options
 from ...types.stream_chunk import StreamChunk
 from ...types.shared_params.chat_message_input import ChatMessageInput
@@ -369,6 +370,7 @@ class CompletionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | Stream[StreamChunk]:
+        validate_return_images(model=model, return_images=return_images)
         return self._post(
             "/chat/completions",
             body=maybe_transform(
@@ -788,6 +790,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | AsyncStream[StreamChunk]:
+        validate_return_images(model=model, return_images=return_images)
         return await self._post(
             "/chat/completions",
             body=await async_maybe_transform(
