@@ -19,6 +19,11 @@ class Cost(BaseModel):
     reasoning_tokens_cost: Optional[float] = None
 
     request_cost: Optional[float] = None
+    """Flat request cost for the chat completion.
+
+    Present on completed (terminal) responses and omitted from the zero cost
+    skeleton on interim streaming chunks.
+    """
 
     search_queries_cost: Optional[float] = None
 
