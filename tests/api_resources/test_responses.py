@@ -9,7 +9,11 @@ import pytest
 
 from perplexity import Perplexity, AsyncPerplexity
 from tests.utils import assert_matches_type
-from perplexity.types import ResponseCreateResponse, ResponseRetrieveResponse
+from perplexity.types import (
+    ResponseCancelResponse,
+    ResponseCreateResponse,
+    ResponseRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -233,6 +237,48 @@ class TestResponses:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_cancel(self, client: Perplexity) -> None:
+        response = client.responses.cancel(
+            "response_id",
+        )
+        assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_cancel(self, client: Perplexity) -> None:
+        http_response = client.responses.with_raw_response.cancel(
+            "response_id",
+        )
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = http_response.parse()
+        assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_cancel(self, client: Perplexity) -> None:
+        with client.responses.with_streaming_response.cancel(
+            "response_id",
+        ) as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = http_response.parse()
+            assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_cancel(self, client: Perplexity) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
+            client.responses.with_raw_response.cancel(
+                "",
+            )
+
 
 class TestAsyncResponses:
     parametrize = pytest.mark.parametrize(
@@ -452,5 +498,47 @@ class TestAsyncResponses:
     async def test_path_params_retrieve(self, async_client: AsyncPerplexity) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
             await async_client.responses.with_raw_response.retrieve(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncPerplexity) -> None:
+        response = await async_client.responses.cancel(
+            "response_id",
+        )
+        assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncPerplexity) -> None:
+        http_response = await async_client.responses.with_raw_response.cancel(
+            "response_id",
+        )
+
+        assert http_response.is_closed is True
+        assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+        response = await http_response.parse()
+        assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncPerplexity) -> None:
+        async with async_client.responses.with_streaming_response.cancel(
+            "response_id",
+        ) as http_response:
+            assert not http_response.is_closed
+            assert http_response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            response = await http_response.parse()
+            assert_matches_type(ResponseCancelResponse, response, path=["response"])
+
+        assert cast(Any, http_response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncPerplexity) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `response_id` but received ''"):
+            await async_client.responses.with_raw_response.cancel(
                 "",
             )

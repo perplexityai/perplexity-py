@@ -55,6 +55,19 @@ class ResponseCreatedEventResponse(BaseModel):
 
     error: Optional[ErrorInfo] = None
 
+    previous_response_id: Optional[str] = None
+    """
+    ID of the previous response in the chain, when the response was created with
+    previous_response_id.
+    """
+
+    store: Optional[bool] = None
+    """Whether the response is stored and visible to later retrieve calls.
+
+    A response created with store=false can still be used as a previous_response_id
+    continuation source.
+    """
+
     usage: Optional[ResponsesUsage] = None
 
 
@@ -96,6 +109,19 @@ class ResponseInProgressEventResponse(BaseModel):
 
     error: Optional[ErrorInfo] = None
 
+    previous_response_id: Optional[str] = None
+    """
+    ID of the previous response in the chain, when the response was created with
+    previous_response_id.
+    """
+
+    store: Optional[bool] = None
+    """Whether the response is stored and visible to later retrieve calls.
+
+    A response created with store=false can still be used as a previous_response_id
+    continuation source.
+    """
+
     usage: Optional[ResponsesUsage] = None
 
 
@@ -136,6 +162,19 @@ class ResponseCompletedEventResponse(BaseModel):
     """Whether the response was created in background mode."""
 
     error: Optional[ErrorInfo] = None
+
+    previous_response_id: Optional[str] = None
+    """
+    ID of the previous response in the chain, when the response was created with
+    previous_response_id.
+    """
+
+    store: Optional[bool] = None
+    """Whether the response is stored and visible to later retrieve calls.
+
+    A response created with store=false can still be used as a previous_response_id
+    continuation source.
+    """
 
     usage: Optional[ResponsesUsage] = None
 

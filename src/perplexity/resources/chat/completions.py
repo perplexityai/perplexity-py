@@ -83,6 +83,7 @@ class CompletionsResource(SyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -121,6 +122,10 @@ class CompletionsResource(SyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -168,6 +173,7 @@ class CompletionsResource(SyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -205,6 +211,10 @@ class CompletionsResource(SyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -252,6 +262,7 @@ class CompletionsResource(SyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -289,6 +300,10 @@ class CompletionsResource(SyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -335,6 +350,7 @@ class CompletionsResource(SyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -405,6 +421,7 @@ class CompletionsResource(SyncAPIResource):
                     "ranking_model": ranking_model,
                     "reasoning_effort": reasoning_effort,
                     "response_format": response_format,
+                    "response_formatting_locale": response_formatting_locale,
                     "response_metadata": response_metadata,
                     "return_images": return_images,
                     "return_related_questions": return_related_questions,
@@ -502,6 +519,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -540,6 +558,10 @@ class AsyncCompletionsResource(AsyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -587,6 +609,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -624,6 +647,10 @@ class AsyncCompletionsResource(AsyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -671,6 +698,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -708,6 +736,10 @@ class AsyncCompletionsResource(AsyncAPIResource):
         Generate a chat completion response for the given conversation.
 
         Args:
+          response_formatting_locale: Optional locale tag used for response formatting conventions. Locale-style
+              values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the canonical
+              form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -754,6 +786,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         ranking_model: Optional[str] | Omit = omit,
         reasoning_effort: Optional[Literal["minimal", "low", "medium", "high"]] | Omit = omit,
         response_format: Optional[completion_create_params.ResponseFormat] | Omit = omit,
+        response_formatting_locale: Optional[str] | Omit = omit,
         response_metadata: Optional[Dict[str, object]] | Omit = omit,
         return_images: Optional[bool] | Omit = omit,
         return_related_questions: Optional[bool] | Omit = omit,
@@ -824,6 +857,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
                     "ranking_model": ranking_model,
                     "reasoning_effort": reasoning_effort,
                     "response_format": response_format,
+                    "response_formatting_locale": response_formatting_locale,
                     "response_metadata": response_metadata,
                     "return_images": return_images,
                     "return_related_questions": return_related_questions,
