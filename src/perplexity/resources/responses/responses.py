@@ -30,6 +30,7 @@ from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
 from ...types.input_item_param import InputItemParam
 from ...types.response_stream_chunk import ResponseStreamChunk
+from ...types.response_cancel_response import ResponseCancelResponse
 from ...types.response_create_response import ResponseCreateResponse
 from ...types.response_retrieve_response import ResponseRetrieveResponse
 from ...types.shared_params.response_format import ResponseFormat
@@ -405,6 +406,46 @@ class ResponsesResource(SyncAPIResource):
             cast_to=ResponseRetrieveResponse,
         )
 
+    def cancel(
+        self,
+        response_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ResponseCancelResponse:
+        """Request cancellation of a response.
+
+        Acts on durable state, so it works for
+        background responses that outlive the client connection as well as durably
+        routed foreground responses. The cancel is asynchronous: a 200 acknowledges the
+        request (status `cancelling`) and the run stops shortly after. Poll the retrieve
+        endpoint for the terminal status. Cancelling a run that is already terminal
+        returns 400. Ownership is enforced server side; an unknown id, or a response
+        belonging to a different account, returns 404.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return self._post(
+            path_template("/v1/responses/{response_id}/cancel", response_id=response_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResponseCancelResponse,
+        )
+
 
 class AsyncResponsesResource(AsyncAPIResource):
     @cached_property
@@ -774,6 +815,46 @@ class AsyncResponsesResource(AsyncAPIResource):
             cast_to=ResponseRetrieveResponse,
         )
 
+    async def cancel(
+        self,
+        response_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ResponseCancelResponse:
+        """Request cancellation of a response.
+
+        Acts on durable state, so it works for
+        background responses that outlive the client connection as well as durably
+        routed foreground responses. The cancel is asynchronous: a 200 acknowledges the
+        request (status `cancelling`) and the run stops shortly after. Poll the retrieve
+        endpoint for the terminal status. Cancelling a run that is already terminal
+        returns 400. Ownership is enforced server side; an unknown id, or a response
+        belonging to a different account, returns 404.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not response_id:
+            raise ValueError(f"Expected a non-empty value for `response_id` but received {response_id!r}")
+        return await self._post(
+            path_template("/v1/responses/{response_id}/cancel", response_id=response_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ResponseCancelResponse,
+        )
+
 
 class ResponsesResourceWithRawResponse:
     def __init__(self, responses: ResponsesResource) -> None:
@@ -784,6 +865,9 @@ class ResponsesResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             responses.retrieve,
+        )
+        self.cancel = to_raw_response_wrapper(
+            responses.cancel,
         )
 
     @cached_property
@@ -801,6 +885,9 @@ class AsyncResponsesResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             responses.retrieve,
         )
+        self.cancel = async_to_raw_response_wrapper(
+            responses.cancel,
+        )
 
     @cached_property
     def files(self) -> AsyncFilesResourceWithRawResponse:
@@ -817,6 +904,9 @@ class ResponsesResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             responses.retrieve,
         )
+        self.cancel = to_streamed_response_wrapper(
+            responses.cancel,
+        )
 
     @cached_property
     def files(self) -> FilesResourceWithStreamingResponse:
@@ -832,6 +922,9 @@ class AsyncResponsesResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             responses.retrieve,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            responses.cancel,
         )
 
     @cached_property

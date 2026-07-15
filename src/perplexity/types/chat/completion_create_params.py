@@ -90,6 +90,13 @@ class CompletionCreateParamsBase(TypedDict, total=False):
 
     response_format: Optional[ResponseFormat]
 
+    response_formatting_locale: Optional[str]
+    """Optional locale tag used for response formatting conventions.
+
+    Locale-style values such as `es_mx`, `EN-us`, and `zh-TW` are normalized to the
+    canonical form (`es-MX`, `en-US`, `zh-TW`). Invalid values are ignored.
+    """
+
     response_metadata: Optional[Dict[str, object]]
 
     return_images: Optional[bool]
