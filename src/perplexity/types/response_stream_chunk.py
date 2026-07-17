@@ -30,6 +30,7 @@ __all__ = [
     "FetchURLResultsEvent",
     "FetchURLResultsEventContent",
     "ReasoningStoppedEvent",
+    "ResponseSkillLoadedEvent",
 ]
 
 
@@ -407,6 +408,22 @@ class ReasoningStoppedEvent(BaseModel):
     thought: Optional[str] = None
 
 
+class ResponseSkillLoadedEvent(BaseModel):
+    """
+    Skill loaded event (type: "response.skill.loaded").
+    Fires when load_skill resolves a known skill. The skill body stays in the model conversation prefix; this event carries only the name for client rendering.
+    """
+
+    name: str
+    """Name of the skill that was loaded."""
+
+    sequence_number: int
+    """Monotonically increasing sequence number for event ordering"""
+
+    type: Literal["response.skill.loaded"]
+    """SSE event type discriminator (always "response.skill.loaded")"""
+
+
 ResponseStreamChunk: TypeAlias = Annotated[
     Union[
         ResponseCreatedEvent,
@@ -423,6 +440,7 @@ ResponseStreamChunk: TypeAlias = Annotated[
         FetchURLQueriesEvent,
         FetchURLResultsEvent,
         ReasoningStoppedEvent,
+        ResponseSkillLoadedEvent,
     ],
     PropertyInfo(discriminator="type"),
 ]

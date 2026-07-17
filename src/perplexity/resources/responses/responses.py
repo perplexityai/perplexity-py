@@ -78,6 +78,7 @@ class ResponsesResource(SyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         stream: Literal[False] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
@@ -106,7 +107,7 @@ class ResponsesResource(SyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -127,6 +128,12 @@ class ResponsesResource(SyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -163,6 +170,7 @@ class ResponsesResource(SyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -192,7 +200,7 @@ class ResponsesResource(SyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -213,6 +221,12 @@ class ResponsesResource(SyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -247,6 +261,7 @@ class ResponsesResource(SyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -276,7 +291,7 @@ class ResponsesResource(SyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -297,6 +312,12 @@ class ResponsesResource(SyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -330,6 +351,7 @@ class ResponsesResource(SyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         stream: Literal[False] | Literal[True] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
@@ -356,6 +378,7 @@ class ResponsesResource(SyncAPIResource):
                     "previous_response_id": previous_response_id,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "skills": skills,
                     "store": store,
                     "stream": stream,
                     "tools": tools,
@@ -487,6 +510,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         stream: Literal[False] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
@@ -515,7 +539,7 @@ class AsyncResponsesResource(AsyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -536,6 +560,12 @@ class AsyncResponsesResource(AsyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -572,6 +602,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -601,7 +632,7 @@ class AsyncResponsesResource(AsyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -622,6 +653,12 @@ class AsyncResponsesResource(AsyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -656,6 +693,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -685,7 +723,7 @@ class AsyncResponsesResource(AsyncAPIResource):
           max_output_tokens: Maximum tokens to generate
 
           max_steps: Maximum number of research loop steps. If provided, overrides the preset's
-              max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+              max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
 
           model: Model ID in provider/model format (e.g., "xai/grok-4-1", "openai/gpt-4o"). If
               models is also provided, models takes precedence. Required if neither models nor
@@ -706,6 +744,12 @@ class AsyncResponsesResource(AsyncAPIResource):
               have completed.
 
           response_format: Specifies the desired output format for the model response
+
+          skills: Built-in and request-scoped inline skills available to the model. Skill metadata
+              is disclosed to the model up front; full instructions are loaded on demand
+              through the `load_skill` tool. Selecting any skill enables the sandbox tool for
+              the request. Requests with skills run on the durable backend and skills are not
+              echoed back on Response objects.
 
           store: OpenAI-compatible storage toggle. When false, the response is hidden from later
               retrieve calls, and the echoed response reports `store: false`. It can still be
@@ -739,6 +783,7 @@ class AsyncResponsesResource(AsyncAPIResource):
         previous_response_id: str | Omit = omit,
         reasoning: response_create_params.Reasoning | Omit = omit,
         response_format: ResponseFormat | Omit = omit,
+        skills: Iterable[response_create_params.Skill] | Omit = omit,
         store: bool | Omit = omit,
         stream: Literal[False] | Literal[True] | Omit = omit,
         tools: Iterable[response_create_params.Tool] | Omit = omit,
@@ -765,6 +810,7 @@ class AsyncResponsesResource(AsyncAPIResource):
                     "previous_response_id": previous_response_id,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "skills": skills,
                     "store": store,
                     "stream": stream,
                     "tools": tools,

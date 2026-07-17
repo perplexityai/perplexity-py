@@ -18,6 +18,18 @@ __all__ = [
     "McpListToolsOutputItem",
     "McpListToolsOutputItemTool",
     "McpCallOutputItem",
+    "SkillLoadedOutputItem",
+    "AdvisorResultOutputItem",
+    "SandboxResultsOutputItem",
+    "SandboxResultsOutputItemResult",
+    "SandboxWriteFileOutputItem",
+    "SandboxReadFileOutputItem",
+    "SandboxEditFileOutputItem",
+    "SandboxGrepOutputItem",
+    "SandboxGlobOutputItem",
+    "SandboxApplyPatchOutputItem",
+    "ShareFileOutputItem",
+    "UnknownOutputItem",
 ]
 
 
@@ -116,6 +128,219 @@ class McpCallOutputItem(BaseModel):
     """Tool output text; empty when the call failed."""
 
 
+class SkillLoadedOutputItem(BaseModel):
+    """Per-call result emitted by the `load_skill` tool.
+
+    Only the resolved skill name is surfaced here; the skill body itself lives in the function_call_output input item the model consumes on its next turn.
+    """
+
+    name: str
+    """Name of the skill that was loaded."""
+
+    type: Literal["skill_loaded"]
+
+
+class AdvisorResultOutputItem(BaseModel):
+    """Preview API.
+
+    Advisor tool invocation emitted in `response.output[]`.
+    The advisor result is server-side guidance consumed by the agent loop;
+    it is not a client-executable function call.
+    """
+
+    call_id: str
+
+    status: Literal["completed", "failed", "in_progress", "queued", "cancelled", "requires_action"]
+    """Status of a response or output item"""
+
+    type: Literal["advisor_result"]
+
+    advice: Optional[str] = None
+    """Guidance returned by the advisor model."""
+
+    arguments: Optional[str] = None
+    """Raw JSON arguments the executor passed to the advisor tool."""
+
+    error_code: Optional[str] = None
+    """Non-fatal advisor error code when the advisor call failed."""
+
+    error_message: Optional[str] = None
+    """Non-fatal advisor error message when the advisor call failed."""
+
+    question: Optional[str] = None
+    """Parsed advisor question when present in arguments."""
+
+
+class SandboxResultsOutputItemResult(BaseModel):
+    """One sandbox execution result.
+
+    `status` describes whether the sandbox
+    runner completed, failed, or timed out. `exit_code` is the program exit
+    code, so `status: completed` can still have a non-zero `exit_code`.
+    """
+
+    duration_ms: int
+
+    exit_code: int
+
+    status: Literal["in_progress", "completed", "failed", "timed_out"]
+
+    stderr: str
+
+    stdout: str
+
+
+class SandboxResultsOutputItem(BaseModel):
+    """Sandbox tool results emitted in `response.output[]`.
+
+    Cost is aggregated
+    into `Usage.tool_calls_details.sandbox.cost_usd`; this item does not
+    carry per-execution cost.
+    """
+
+    call_id: str
+
+    code: str
+
+    language: Literal["python", "bash"]
+
+    results: List[SandboxResultsOutputItemResult]
+
+    status: Literal["in_progress", "completed", "failed", "timed_out"]
+
+    type: Literal["sandbox_results"]
+
+    container_id: Optional[str] = None
+
+
+class SandboxWriteFileOutputItem(BaseModel):
+    """Per-invocation result of the `write` tool inside the sandbox."""
+
+    call_id: str
+
+    file_path: str
+
+    type: Literal["sandbox_write_file"]
+
+    error: Optional[str] = None
+
+    size_bytes: Optional[int] = None
+
+
+class SandboxReadFileOutputItem(BaseModel):
+    """Per-invocation result of the `read` tool inside the sandbox."""
+
+    call_id: str
+
+    file_path: str
+
+    type: Literal["sandbox_read_file"]
+
+    content: Optional[str] = None
+
+    error: Optional[str] = None
+
+    start_line: Optional[int] = None
+
+    total_lines: Optional[int] = None
+
+
+class SandboxEditFileOutputItem(BaseModel):
+    """Per-invocation result of the `edit` tool inside the sandbox."""
+
+    call_id: str
+
+    type: Literal["sandbox_edit_file"]
+
+    error: Optional[str] = None
+
+    file_path: Optional[str] = None
+
+    message: Optional[str] = None
+
+
+class SandboxGrepOutputItem(BaseModel):
+    """Per-invocation result of the `grep` tool inside the sandbox."""
+
+    call_id: str
+
+    type: Literal["sandbox_grep"]
+
+    count: Optional[int] = None
+
+    error: Optional[str] = None
+
+    files: Optional[List[str]] = None
+
+    truncated: Optional[bool] = None
+
+
+class SandboxGlobOutputItem(BaseModel):
+    """Per-invocation result of the `glob` tool inside the sandbox."""
+
+    call_id: str
+
+    type: Literal["sandbox_glob"]
+
+    count: Optional[int] = None
+
+    error: Optional[str] = None
+
+    files: Optional[List[str]] = None
+
+    truncated: Optional[bool] = None
+
+
+class SandboxApplyPatchOutputItem(BaseModel):
+    """Per-invocation result of the `apply_patch` tool inside the sandbox."""
+
+    call_id: str
+
+    type: Literal["sandbox_apply_patch"]
+
+    added: Optional[List[str]] = None
+
+    deleted: Optional[List[str]] = None
+
+    error: Optional[str] = None
+
+    modified: Optional[List[str]] = None
+
+
+class ShareFileOutputItem(BaseModel):
+    """Result of one `share_file` tool call.
+
+    On success, file_id and filename identify a sandbox file downloadable at url.
+    """
+
+    call_id: str
+
+    type: Literal["share_file"]
+
+    error: Optional[str] = None
+
+    file_id: Optional[str] = None
+
+    filename: Optional[str] = None
+
+    size_bytes: Optional[int] = None
+
+    url: Optional[str] = None
+    """Relative download path, /v1/responses/{id}/files/{file_id}/content."""
+
+
+class UnknownOutputItem(BaseModel):
+    """
+    Forward-compat fallback for proto OutputItem variants the gateway does not yet have a typed schema for.
+    """
+
+    item_name: str
+
+    payload: Dict[str, object]
+
+    type: Literal["unknown"]
+
+
 OutputItem: TypeAlias = Annotated[
     Union[
         MessageOutputItem,
@@ -124,6 +349,17 @@ OutputItem: TypeAlias = Annotated[
         FunctionCallOutputItem,
         McpListToolsOutputItem,
         McpCallOutputItem,
+        SkillLoadedOutputItem,
+        AdvisorResultOutputItem,
+        SandboxResultsOutputItem,
+        SandboxWriteFileOutputItem,
+        SandboxReadFileOutputItem,
+        SandboxEditFileOutputItem,
+        SandboxGrepOutputItem,
+        SandboxGlobOutputItem,
+        SandboxApplyPatchOutputItem,
+        ShareFileOutputItem,
+        UnknownOutputItem,
     ],
     PropertyInfo(discriminator="type"),
 ]
