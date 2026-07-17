@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.43.0 (2026-07-17)
+
+Full Changelog: [v0.42.0...v0.43.0](https://github.com/perplexityai/perplexity-py/compare/v0.42.0...v0.43.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([bda0d4e](https://github.com/perplexityai/perplexity-py/commit/bda0d4e7c73fa57a2f233ae6e0dab75d652b4b50))
+
 ## 0.42.0 (2026-07-17)
 
 Full Changelog: [v0.41.0...v0.42.0](https://github.com/perplexityai/perplexity-py/compare/v0.41.0...v0.42.0)
