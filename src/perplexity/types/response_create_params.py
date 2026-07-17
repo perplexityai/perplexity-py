@@ -13,6 +13,9 @@ from .shared_params.response_format import ResponseFormat
 __all__ = [
     "ResponseCreateParamsBase",
     "Reasoning",
+    "Skill",
+    "SkillBuiltinSkill",
+    "SkillInlineSkill",
     "Tool",
     "ToolWebSearchTool",
     "ToolWebSearchToolFilters",
@@ -51,7 +54,7 @@ class ResponseCreateParamsBase(TypedDict, total=False):
     max_steps: int
     """
     Maximum number of research loop steps. If provided, overrides the preset's
-    max_steps value. Must be >= 1 if specified. Maximum allowed is 10.
+    max_steps value. Must be >= 1 if specified. Maximum allowed is 100.
     """
 
     model: str
@@ -89,6 +92,15 @@ class ResponseCreateParamsBase(TypedDict, total=False):
     response_format: ResponseFormat
     """Specifies the desired output format for the model response"""
 
+    skills: Iterable[Skill]
+    """Built-in and request-scoped inline skills available to the model.
+
+    Skill metadata is disclosed to the model up front; full instructions are loaded
+    on demand through the `load_skill` tool. Selecting any skill enables the sandbox
+    tool for the request. Requests with skills run on the durable backend and skills
+    are not echoed back on Response objects.
+    """
+
     store: bool
     """OpenAI-compatible storage toggle.
 
@@ -104,6 +116,44 @@ class ResponseCreateParamsBase(TypedDict, total=False):
 class Reasoning(TypedDict, total=False):
     effort: Literal["minimal", "low", "medium", "high", "xhigh"]
     """How much effort the model should spend on reasoning"""
+
+
+class SkillBuiltinSkill(TypedDict, total=False):
+    """Selects a built-in skill from the catalog by name."""
+
+    name: Required[Literal["office", "office/docx", "office/pdf", "office/pptx", "office/xlsx"]]
+    """Built-in skill to make available to the model.
+
+    office is the full Office bundle (enables all four leaves). office/docx,
+    office/pdf, office/pptx, office/xlsx each create polished documents of that type
+    from scratch, with structural validation and visual QA.
+    """
+
+    type: Required[Literal["builtin"]]
+
+
+class SkillInlineSkill(TypedDict, total=False):
+    """Request-scoped skill defined inline.
+
+    Inline skills have no files or sandbox mounts and are never echoed back in the response.
+    """
+
+    description: Required[str]
+    """Short discovery description, limited to 1,024 UTF-8 bytes."""
+
+    instructions: Required[str]
+    """
+    Instructions returned by `load_skill`, limited to 65,536 UTF-8 bytes per skill
+    and 262,144 bytes across the request.
+    """
+
+    name: Required[str]
+    """Request-scoped lowercase ASCII name separated by single hyphens."""
+
+    type: Required[Literal["inline"]]
+
+
+Skill: TypeAlias = Union[SkillBuiltinSkill, SkillInlineSkill]
 
 
 class ToolWebSearchToolFilters(TypedDict, total=False):
