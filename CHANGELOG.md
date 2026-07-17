@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.42.0 (2026-07-17)
+
+Full Changelog: [v0.41.0...v0.42.0](https://github.com/perplexityai/perplexity-py/compare/v0.41.0...v0.42.0)
+
+### Features
+
+* **responses:** add skills param with built-in and inline skills ([959c524](https://github.com/perplexityai/perplexity-py/commit/959c5244cac7c9c1d3e321732ce9e73e98be662a))
+
 ## 0.41.0 (2026-07-15)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/perplexityai/perplexity-py/compare/v0.40.0...v0.41.0)

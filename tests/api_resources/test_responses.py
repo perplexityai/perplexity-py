@@ -53,6 +53,12 @@ class TestResponses:
                     "strict": True,
                 },
             },
+            skills=[
+                {
+                    "name": "office",
+                    "type": "builtin",
+                }
+            ],
             store=True,
             stream=False,
             tools=[
@@ -141,6 +147,12 @@ class TestResponses:
                     "strict": True,
                 },
             },
+            skills=[
+                {
+                    "name": "office",
+                    "type": "builtin",
+                }
+            ],
             store=True,
             tools=[
                 {
@@ -317,6 +329,12 @@ class TestAsyncResponses:
                     "strict": True,
                 },
             },
+            skills=[
+                {
+                    "name": "office",
+                    "type": "builtin",
+                }
+            ],
             store=True,
             stream=False,
             tools=[
@@ -405,6 +423,12 @@ class TestAsyncResponses:
                     "strict": True,
                 },
             },
+            skills=[
+                {
+                    "name": "office",
+                    "type": "builtin",
+                }
+            ],
             store=True,
             tools=[
                 {
