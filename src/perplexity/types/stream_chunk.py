@@ -22,6 +22,8 @@ class StreamChunk(BaseModel):
 
     citations: Optional[List[str]] = None
 
+    images: Optional[List[str]] = None
+
     object: Optional[str] = None
 
     search_results: Optional[List[APIPublicSearchResult]] = None

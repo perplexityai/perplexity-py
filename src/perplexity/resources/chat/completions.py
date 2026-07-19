@@ -19,6 +19,7 @@ from ..._response import (
 )
 from ..._streaming import Stream, AsyncStream
 from ...types.chat import completion_create_params
+from ...lib.model_capabilities import validate_chat_completion_params
 from ..._base_client import make_request_options
 from ...types.stream_chunk import StreamChunk
 from ...types.shared_params.chat_message_input import ChatMessageInput
@@ -385,6 +386,19 @@ class CompletionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | Stream[StreamChunk]:
+        search_context_size = omit
+        if web_search_options is not omit and web_search_options is not None:
+            if isinstance(web_search_options, dict):
+                search_context_size = web_search_options.get("search_context_size", omit)
+            else:
+                search_context_size = getattr(web_search_options, "search_context_size", omit)
+        validate_chat_completion_params(
+            model=model,
+            return_images=return_images,
+            reasoning_effort=reasoning_effort,
+            search_context_size=search_context_size,
+            search_domain_filter=search_domain_filter,
+        )
         return self._post(
             "/chat/completions",
             body=maybe_transform(
@@ -821,6 +835,19 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> StreamChunk | AsyncStream[StreamChunk]:
+        search_context_size = omit
+        if web_search_options is not omit and web_search_options is not None:
+            if isinstance(web_search_options, dict):
+                search_context_size = web_search_options.get("search_context_size", omit)
+            else:
+                search_context_size = getattr(web_search_options, "search_context_size", omit)
+        validate_chat_completion_params(
+            model=model,
+            return_images=return_images,
+            reasoning_effort=reasoning_effort,
+            search_context_size=search_context_size,
+            search_domain_filter=search_domain_filter,
+        )
         return await self._post(
             "/chat/completions",
             body=await async_maybe_transform(
