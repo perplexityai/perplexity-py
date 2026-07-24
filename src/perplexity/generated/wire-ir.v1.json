@@ -1,0 +1,6376 @@
+{
+  "ir_version": "wire-ir.v1",
+  "operations": [
+    {
+      "method": "POST",
+      "operation_id": "search",
+      "parameters": [],
+      "path": "/search",
+      "request_body": {
+        "content": [
+          {
+            "media_type": "application/json",
+            "schema": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchRequest"
+            }
+          }
+        ],
+        "required": true
+      },
+      "responses": [
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/SearchResponse"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "200"
+        },
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/ApiError"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "400"
+        },
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/ApiError"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "429"
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "servers": [
+        {
+          "description": "Perplexity AI API",
+          "url": "https://api.perplexity.ai"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "operation_id": "chatCompletions",
+      "parameters": [],
+      "path": "/v2/chat/completions",
+      "request_body": {
+        "content": [
+          {
+            "media_type": "application/json",
+            "schema": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/Request"
+            }
+          }
+        ],
+        "required": true
+      },
+      "responses": [
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/Response"
+              }
+            },
+            {
+              "media_type": "text/event-stream",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/StreamEvent"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "200"
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "servers": [
+        {
+          "description": "Perplexity AI API",
+          "url": "https://api.perplexity.ai"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "operation_id": "createResponse",
+      "parameters": [],
+      "path": "/v2/responses",
+      "request_body": {
+        "content": [
+          {
+            "media_type": "application/json",
+            "schema": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ResponsesRequest"
+            }
+          }
+        ],
+        "required": true
+      },
+      "responses": [
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/ResponsesResponse"
+              }
+            },
+            {
+              "media_type": "text/event-stream",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/ResponseStreamEvent"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "200"
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "servers": [
+        {
+          "description": "Perplexity AI API",
+          "url": "https://api.perplexity.ai"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "operation_id": "cancelResponse",
+      "parameters": [
+        {
+          "allow_reserved": false,
+          "explode": false,
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          },
+          "style": "simple"
+        }
+      ],
+      "path": "/v2/responses/{id}/cancel",
+      "responses": [
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "object",
+                "nullable": false,
+                "properties": {
+                  "response_id": {
+                    "name": "response_id",
+                    "required": true,
+                    "schema": {
+                      "default": {
+                        "present": false
+                      },
+                      "direction": "both",
+                      "kind": "scalar",
+                      "nullable": false,
+                      "type": "string"
+                    }
+                  },
+                  "status": {
+                    "name": "status",
+                    "required": true,
+                    "schema": {
+                      "default": {
+                        "present": false
+                      },
+                      "direction": "both",
+                      "enum": [
+                        "cancelling"
+                      ],
+                      "kind": "scalar",
+                      "nullable": false,
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "headers": [],
+          "status": "200"
+        },
+        {
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/ErrorInfo"
+              }
+            }
+          ],
+          "headers": [],
+          "status": "400"
+        },
+        {
+          "content": [],
+          "headers": [],
+          "status": "404"
+        }
+      ],
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "servers": [
+        {
+          "description": "Perplexity AI API",
+          "url": "https://api.perplexity.ai"
+        }
+      ]
+    }
+  ],
+  "schemas": {
+    "Annotation": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "end_index": {
+          "name": "end_index",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "start_index": {
+          "name": "start_index",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "title": {
+          "name": "title",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "url": {
+          "name": "url",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ApiError": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "error": {
+          "name": "error",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {
+              "code": {
+                "name": "code",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              },
+              "message": {
+                "name": "message",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "string"
+                }
+              },
+              "type": {
+                "name": "type",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ChatChoice": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "finish_reason": {
+          "name": "finish_reason",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "index": {
+          "name": "index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "message": {
+          "name": "message",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ChatMessage"
+          }
+        }
+      }
+    },
+    "ChatMessage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content": {
+          "name": "content",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/MessageContent"
+          }
+        },
+        "role": {
+          "name": "role",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "system",
+              "user",
+              "assistant"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CompletionDoneChunk": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "choices": {
+          "name": "choices",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ChatChoice"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "created": {
+          "name": "created",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "images": {
+          "name": "images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ImageResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ObjectType"
+          }
+        },
+        "search_results": {
+          "name": "search_results",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "usage": {
+          "name": "usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Usage"
+          }
+        }
+      }
+    },
+    "CompletionTokensDetails": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "reasoning_tokens": {
+          "name": "reasoning_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ContentBlock": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "image_url": {
+          "name": "image_url",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ImageURL"
+          }
+        },
+        "text": {
+          "name": "text",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "text",
+              "image_url"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ContentPart": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "annotations": {
+          "name": "annotations",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/Annotation"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "text": {
+          "name": "text",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ContentPartType"
+          }
+        }
+      }
+    },
+    "ContentPartType": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "output_text"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "Cost": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "currency": {
+          "name": "currency",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Currency"
+          }
+        },
+        "input_tokens_cost": {
+          "name": "input_tokens_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "output_tokens_cost": {
+          "name": "output_tokens_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "request_cost": {
+          "name": "request_cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "total_cost": {
+          "name": "total_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        }
+      }
+    },
+    "Currency": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "USD"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "Date": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "DateFilters": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "last_updated_after_filter": {
+          "name": "last_updated_after_filter",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "last_updated_before_filter": {
+          "name": "last_updated_before_filter",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "search_after_date_filter": {
+          "name": "search_after_date_filter",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "search_before_date_filter": {
+          "name": "search_before_date_filter",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "search_recency_filter": {
+          "name": "search_recency_filter",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/SearchRecencyFilter"
+          }
+        }
+      }
+    },
+    "ErrorInfo": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "code": {
+          "name": "code",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "message": {
+          "name": "message",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "EventType": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "response.created",
+        "response.in_progress",
+        "response.completed",
+        "response.failed",
+        "response.output_item.added",
+        "response.output_item.done",
+        "response.output_text.delta",
+        "response.output_text.done",
+        "response.reasoning.started",
+        "response.reasoning.search_queries",
+        "response.reasoning.search_results",
+        "response.reasoning.fetch_url_queries",
+        "response.reasoning.fetch_url_results",
+        "response.reasoning.stopped"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "FetchUrlContentData": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "contents": {
+          "name": "contents",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/UrlContent"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "urls": {
+          "name": "urls",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "FetchUrlQueriesEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        },
+        "urls": {
+          "name": "urls",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "FetchUrlResultsEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "contents": {
+          "name": "contents",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/UrlContent"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "FetchUrlResultsOutputItem": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "contents": {
+          "name": "contents",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/UrlContent"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "fetch_url_results"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FetchUrlTool": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "max_urls": {
+          "name": "max_urls",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maximum": 10,
+              "minimum": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "total_budget_tokens": {
+          "name": "total_budget_tokens",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maximum": 120000,
+              "minimum": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "fetch_url"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FlexInt": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "scalar",
+      "nullable": false,
+      "type": "integer"
+    },
+    "ImageResult": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "height": {
+          "name": "height",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "image_url": {
+          "name": "image_url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "origin_url": {
+          "name": "origin_url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "title": {
+          "name": "title",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "width": {
+          "name": "width",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ImageURL": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "url": {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "constraints": {
+              "maxLength": 2048
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ImagesSearchData": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "images": {
+          "name": "images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ImageResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "search_keywords": {
+          "name": "search_keywords",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "Input": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "scalar",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "items": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/InputMessage"
+          },
+          "kind": "array",
+          "nullable": false
+        }
+      ]
+    },
+    "InputContent": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "scalar",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "items": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/InputContentPart"
+          },
+          "kind": "array",
+          "nullable": false
+        }
+      ]
+    },
+    "InputContentPart": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "image_url": {
+          "name": "image_url",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maxLength": 2048
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "text": {
+          "name": "text",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "input_text",
+              "input_image"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "InputMessage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content": {
+          "name": "content",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/InputContent"
+          }
+        },
+        "role": {
+          "name": "role",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "user",
+              "assistant",
+              "system",
+              "developer"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "message"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "JSONSchemaFormat": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "description": {
+          "name": "description",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "name": {
+          "name": "name",
+          "required": true,
+          "schema": {
+            "constraints": {
+              "maxLength": 64,
+              "minLength": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "schema": {
+          "name": "schema",
+          "required": true,
+          "schema": {
+            "additional_properties": true,
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {}
+          }
+        },
+        "strict": {
+          "name": "strict",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "McpCallOutputItem": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "arguments": {
+          "name": "arguments",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "error": {
+          "name": "error",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "name": {
+          "name": "name",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "output": {
+          "name": "output",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "server_label": {
+          "name": "server_label",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "mcp_call"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "McpListToolsOutputItem": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "error": {
+          "name": "error",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "server_label": {
+          "name": "server_label",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "tools": {
+          "name": "tools",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/McpToolDef"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "mcp_list_tools"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "McpTool": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "allowed_tools": {
+          "name": "allowed_tools",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "authorization": {
+          "name": "authorization",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "headers": {
+          "name": "headers",
+          "required": false,
+          "schema": {
+            "additional_properties": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {}
+          }
+        },
+        "server_label": {
+          "name": "server_label",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "server_url": {
+          "name": "server_url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "mcp"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "McpToolDef": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "description": {
+          "name": "description",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "input_schema": {
+          "name": "input_schema",
+          "required": true,
+          "schema": {
+            "additional_properties": true,
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {}
+          }
+        },
+        "name": {
+          "name": "name",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MessageContent": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "scalar",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "items": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ContentBlock"
+          },
+          "kind": "array",
+          "nullable": false
+        }
+      ]
+    },
+    "MessageOutputItem": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content": {
+          "name": "content",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ContentPart"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "role": {
+          "name": "role",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/RoleType"
+          }
+        },
+        "status": {
+          "name": "status",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Status"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "message"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ObjectType": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "chat.completion.chunk",
+        "chat.completion.done",
+        "chat.reasoning",
+        "chat.reasoning.done"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "OutputItem": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "discriminator": {
+        "mapping": {
+          "fetch_url_results": "#/components/schemas/FetchUrlResultsOutputItem",
+          "mcp_call": "#/components/schemas/McpCallOutputItem",
+          "mcp_list_tools": "#/components/schemas/McpListToolsOutputItem",
+          "message": "#/components/schemas/MessageOutputItem",
+          "search_results": "#/components/schemas/SearchResultsOutputItem"
+        },
+        "property_name": "type"
+      },
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/MessageOutputItem"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchResultsOutputItem"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/FetchUrlResultsOutputItem"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/McpListToolsOutputItem"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/McpCallOutputItem"
+        }
+      ]
+    },
+    "OutputItemAddedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "item": {
+          "name": "item",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/OutputItem"
+          }
+        },
+        "output_index": {
+          "name": "output_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "OutputItemDoneEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "item": {
+          "name": "item",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/OutputItem"
+          }
+        },
+        "output_index": {
+          "name": "output_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "QueryField": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "ReasoningChoice": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "delta": {
+          "name": "delta",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ReasoningDelta"
+          }
+        },
+        "finish_reason": {
+          "name": "finish_reason",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "index": {
+          "name": "index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ReasoningChunk": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "choices": {
+          "name": "choices",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ReasoningChoice"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "created": {
+          "name": "created",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ObjectType"
+          }
+        }
+      }
+    },
+    "ReasoningConfig": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "effort": {
+          "name": "effort",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "xhigh"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ReasoningDelta": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content": {
+          "name": "content",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "reasoning_steps": {
+          "name": "reasoning_steps",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ReasoningStep"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "role": {
+          "name": "role",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ReasoningDoneChunk": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "choices": {
+          "name": "choices",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ReasoningChoice"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "created": {
+          "name": "created",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "images": {
+          "name": "images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ImageResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ObjectType"
+          }
+        },
+        "search_results": {
+          "name": "search_results",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "ReasoningStartedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "ReasoningStep": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "fetch_url_content": {
+          "name": "fetch_url_content",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/FetchUrlContentData"
+          }
+        },
+        "images_search": {
+          "name": "images_search",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ImagesSearchData"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "web_search": {
+          "name": "web_search",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/WebSearchData"
+          }
+        }
+      }
+    },
+    "ReasoningStoppedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "Request": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "language_preference": {
+          "name": "language_preference",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "max_tokens": {
+          "name": "max_tokens",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "minimum": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "messages": {
+          "name": "messages",
+          "required": true,
+          "schema": {
+            "constraints": {
+              "minItems": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ChatMessage"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "reasoning_effort": {
+          "name": "reasoning_effort",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "response_format": {
+          "name": "response_format",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponseFormat"
+          }
+        },
+        "response_formatting_locale": {
+          "name": "response_formatting_locale",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "return_images": {
+          "name": "return_images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "boolean"
+          }
+        },
+        "safe_mode": {
+          "name": "safe_mode",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "stream": {
+          "name": "stream",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "boolean"
+          }
+        },
+        "temperature": {
+          "name": "temperature",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maximum": 2,
+              "minimum": 0
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "top_p": {
+          "name": "top_p",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maximum": 1,
+              "minimum": 0
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "web_search_options": {
+          "name": "web_search_options",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/WebSearchOptions"
+          }
+        }
+      }
+    },
+    "Response": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "choices": {
+          "name": "choices",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ChatChoice"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "created": {
+          "name": "created",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "images": {
+          "name": "images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ImageResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ObjectType"
+          }
+        },
+        "search_results": {
+          "name": "search_results",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "usage": {
+          "name": "usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Usage"
+          }
+        }
+      }
+    },
+    "ResponseCompletedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "response": {
+          "name": "response",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesResponse"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "ResponseCreatedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "response": {
+          "name": "response",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesResponse"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "ResponseFailedEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "error": {
+          "name": "error",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ErrorInfo"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "ResponseFormat": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "json_schema": {
+          "name": "json_schema",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/JSONSchemaFormat"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "json_schema"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ResponseInProgressEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "response": {
+          "name": "response",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesResponse"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "ResponseStreamEvent": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "discriminator": {
+        "mapping": {
+          "response.completed": "#/components/schemas/ResponseCompletedEvent",
+          "response.created": "#/components/schemas/ResponseCreatedEvent",
+          "response.failed": "#/components/schemas/ResponseFailedEvent",
+          "response.in_progress": "#/components/schemas/ResponseInProgressEvent",
+          "response.output_item.added": "#/components/schemas/OutputItemAddedEvent",
+          "response.output_item.done": "#/components/schemas/OutputItemDoneEvent",
+          "response.output_text.delta": "#/components/schemas/TextDeltaEvent",
+          "response.output_text.done": "#/components/schemas/TextDoneEvent",
+          "response.reasoning.fetch_url_queries": "#/components/schemas/FetchUrlQueriesEvent",
+          "response.reasoning.fetch_url_results": "#/components/schemas/FetchUrlResultsEvent",
+          "response.reasoning.search_queries": "#/components/schemas/SearchQueriesEvent",
+          "response.reasoning.search_results": "#/components/schemas/SearchResultsEvent",
+          "response.reasoning.started": "#/components/schemas/ReasoningStartedEvent",
+          "response.reasoning.stopped": "#/components/schemas/ReasoningStoppedEvent"
+        },
+        "property_name": "type"
+      },
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ResponseCreatedEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ResponseInProgressEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ResponseCompletedEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ResponseFailedEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/OutputItemAddedEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/OutputItemDoneEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/TextDeltaEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/TextDoneEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ReasoningStartedEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchQueriesEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchResultsEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/FetchUrlQueriesEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/FetchUrlResultsEvent"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ReasoningStoppedEvent"
+        }
+      ]
+    },
+    "ResponsesCost": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "cache_creation_cost": {
+          "name": "cache_creation_cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "cache_read_cost": {
+          "name": "cache_read_cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "currency": {
+          "name": "currency",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Currency"
+          }
+        },
+        "input_cost": {
+          "name": "input_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "output_cost": {
+          "name": "output_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "tool_calls_cost": {
+          "name": "tool_calls_cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "tool_calls_cost_details": {
+          "name": "tool_calls_cost_details",
+          "required": false,
+          "schema": {
+            "additional_properties": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "format": "double",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "number"
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {}
+          }
+        },
+        "total_cost": {
+          "name": "total_cost",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ResponsesObjectType": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "response"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "ResponsesRequest": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "input": {
+          "name": "input",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Input"
+          }
+        },
+        "instructions": {
+          "name": "instructions",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "language_preference": {
+          "name": "language_preference",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "max_output_tokens": {
+          "name": "max_output_tokens",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "minimum": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "max_steps": {
+          "name": "max_steps",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maximum": 100,
+              "minimum": 1
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "preset": {
+          "name": "preset",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "previous_response_id": {
+          "name": "previous_response_id",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "reasoning": {
+          "name": "reasoning",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ReasoningConfig"
+          }
+        },
+        "response_format": {
+          "name": "response_format",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponseFormat"
+          }
+        },
+        "store": {
+          "name": "store",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "boolean"
+          }
+        },
+        "stream": {
+          "name": "stream",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "boolean"
+          }
+        },
+        "tools": {
+          "name": "tools",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/Tool"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "ResponsesResponse": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "created_at": {
+          "name": "created_at",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "error": {
+          "name": "error",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ErrorInfo"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesObjectType"
+          }
+        },
+        "output": {
+          "name": "output",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/OutputItem"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "status": {
+          "name": "status",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Status"
+          }
+        },
+        "usage": {
+          "name": "usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesUsage"
+          }
+        }
+      }
+    },
+    "ResponsesUsage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "cost": {
+          "name": "cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesCost"
+          }
+        },
+        "input_tokens": {
+          "name": "input_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "input_tokens_details": {
+          "name": "input_tokens_details",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {
+              "cache_creation_input_tokens": {
+                "name": "cache_creation_input_tokens",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              },
+              "cache_read_input_tokens": {
+                "name": "cache_read_input_tokens",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "output_tokens": {
+          "name": "output_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "tool_calls_details": {
+          "name": "tool_calls_details",
+          "required": false,
+          "schema": {
+            "additional_properties": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ToolCallDetails"
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {}
+          }
+        },
+        "total_tokens": {
+          "name": "total_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "RoleType": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "assistant"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "SearchContextSize": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "SearchDomainFilter": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "search_domain_filter": {
+          "name": "search_domain_filter",
+          "required": false,
+          "schema": {
+            "constraints": {
+              "maxItems": 20
+            },
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "constraints": {
+                "maxLength": 253
+              },
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "SearchPage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "date": {
+          "name": "date",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "last_updated": {
+          "name": "last_updated",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Date"
+          }
+        },
+        "snippet": {
+          "name": "snippet",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "title": {
+          "name": "title",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "url": {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "uri",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SearchQueriesEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "queries": {
+          "name": "queries",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "SearchRecencyFilter": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "SearchRequest": {
+      "base_type": "object",
+      "composition": "allOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "intersection",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "object",
+          "nullable": false,
+          "properties": {
+            "country": {
+              "name": "country",
+              "required": false,
+              "schema": {
+                "constraints": {
+                  "maxLength": 2,
+                  "minLength": 2
+                },
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "scalar",
+                "nullable": false,
+                "type": "string"
+              }
+            },
+            "display_server_time": {
+              "name": "display_server_time",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": true,
+                  "value": false
+                },
+                "direction": "both",
+                "kind": "scalar",
+                "nullable": false,
+                "type": "boolean"
+              }
+            },
+            "max_results": {
+              "name": "max_results",
+              "required": false,
+              "schema": {
+                "composition": "allOf",
+                "constraints": {
+                  "maximum": 50,
+                  "minimum": 1
+                },
+                "default": {
+                  "present": true,
+                  "value": 10
+                },
+                "direction": "both",
+                "kind": "intersection",
+                "nullable": false,
+                "variants": [
+                  {
+                    "default": {
+                      "present": false
+                    },
+                    "direction": "both",
+                    "kind": "reference",
+                    "nullable": false,
+                    "target": "#/components/schemas/FlexInt"
+                  }
+                ]
+              }
+            },
+            "max_tokens": {
+              "name": "max_tokens",
+              "required": false,
+              "schema": {
+                "composition": "allOf",
+                "constraints": {
+                  "maximum": 1000000,
+                  "minimum": 1
+                },
+                "default": {
+                  "present": true,
+                  "value": 10000
+                },
+                "direction": "both",
+                "kind": "intersection",
+                "nullable": false,
+                "variants": [
+                  {
+                    "default": {
+                      "present": false
+                    },
+                    "direction": "both",
+                    "kind": "reference",
+                    "nullable": false,
+                    "target": "#/components/schemas/FlexInt"
+                  }
+                ]
+              }
+            },
+            "max_tokens_per_page": {
+              "name": "max_tokens_per_page",
+              "required": false,
+              "schema": {
+                "composition": "allOf",
+                "constraints": {
+                  "maximum": 1000000,
+                  "minimum": 1
+                },
+                "default": {
+                  "present": true,
+                  "value": 4096
+                },
+                "direction": "both",
+                "kind": "intersection",
+                "nullable": false,
+                "variants": [
+                  {
+                    "default": {
+                      "present": false
+                    },
+                    "direction": "both",
+                    "kind": "reference",
+                    "nullable": false,
+                    "target": "#/components/schemas/FlexInt"
+                  }
+                ]
+              }
+            },
+            "query": {
+              "name": "query",
+              "required": true,
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/QueryField"
+              }
+            },
+            "search_language_filter": {
+              "name": "search_language_filter",
+              "required": false,
+              "schema": {
+                "constraints": {
+                  "maxItems": 20
+                },
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "items": {
+                  "constraints": {
+                    "maxLength": 2,
+                    "minLength": 2
+                  },
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "string"
+                },
+                "kind": "array",
+                "nullable": false
+              }
+            },
+            "search_mode": {
+              "name": "search_mode",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "scalar",
+                "nullable": false,
+                "type": "string"
+              }
+            },
+            "search_type": {
+              "name": "search_type",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": true,
+                  "value": "web"
+                },
+                "direction": "both",
+                "enum": [
+                  "web",
+                  "people"
+                ],
+                "kind": "scalar",
+                "nullable": false,
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchDomainFilter"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/DateFilters"
+        }
+      ]
+    },
+    "SearchResponse": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "uuid",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "results": {
+          "name": "results",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchPage"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "server_time": {
+          "name": "server_time",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SearchResult": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "date": {
+          "name": "date",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "last_updated": {
+          "name": "last_updated",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "snippet": {
+          "name": "snippet",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "source": {
+          "name": "source",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/SearchSource"
+          }
+        },
+        "title": {
+          "name": "title",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "url": {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SearchResultsEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "results": {
+          "name": "results",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "thought": {
+          "name": "thought",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        },
+        "usage": {
+          "name": "usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ResponsesUsage"
+          }
+        }
+      }
+    },
+    "SearchResultsOutputItem": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "queries": {
+          "name": "queries",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "results": {
+          "name": "results",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "search_results"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SearchSource": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "web"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "Status": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "enum": [
+        "completed",
+        "failed",
+        "in_progress"
+      ],
+      "kind": "scalar",
+      "nullable": false,
+      "type": "string"
+    },
+    "StreamEvent": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "discriminator": {
+        "mapping": {
+          "chat.completion.chunk": "#/components/schemas/TextDeltaChunk",
+          "chat.completion.done": "#/components/schemas/CompletionDoneChunk",
+          "chat.reasoning": "#/components/schemas/ReasoningChunk",
+          "chat.reasoning.done": "#/components/schemas/ReasoningDoneChunk"
+        },
+        "property_name": "object"
+      },
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/TextDeltaChunk"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/CompletionDoneChunk"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ReasoningChunk"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/ReasoningDoneChunk"
+        }
+      ]
+    },
+    "TextDelta": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content": {
+          "name": "content",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "role": {
+          "name": "role",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TextDeltaChoice": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "delta": {
+          "name": "delta",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/TextDelta"
+          }
+        },
+        "finish_reason": {
+          "name": "finish_reason",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "index": {
+          "name": "index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "logprobs": {
+          "name": "logprobs",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "json",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "TextDeltaChunk": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "choices": {
+          "name": "choices",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/TextDeltaChoice"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "created": {
+          "name": "created",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "id": {
+          "name": "id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "images": {
+          "name": "images",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ImageResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "object": {
+          "name": "object",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/ObjectType"
+          }
+        },
+        "search_results": {
+          "name": "search_results",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "usage": {
+          "name": "usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Usage"
+          }
+        }
+      }
+    },
+    "TextDeltaEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content_index": {
+          "name": "content_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "delta": {
+          "name": "delta",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "item_id": {
+          "name": "item_id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "output_index": {
+          "name": "output_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "TextDoneEvent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "content_index": {
+          "name": "content_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "item_id": {
+          "name": "item_id",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "output_index": {
+          "name": "output_index",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "sequence_number": {
+          "name": "sequence_number",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "text": {
+          "name": "text",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/EventType"
+          }
+        }
+      }
+    },
+    "Tool": {
+      "composition": "oneOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "discriminator": {
+        "mapping": {
+          "fetch_url": "#/components/schemas/FetchUrlTool",
+          "mcp": "#/components/schemas/McpTool",
+          "web_search": "#/components/schemas/WebSearchTool"
+        },
+        "property_name": "type"
+      },
+      "kind": "union",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/WebSearchTool"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/FetchUrlTool"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/McpTool"
+        }
+      ]
+    },
+    "ToolCallDetails": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "cost_usd": {
+          "name": "cost_usd",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "duration_ms": {
+          "name": "duration_ms",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "invocation": {
+          "name": "invocation",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "token_usage": {
+          "name": "token_usage",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/ToolCallTokenUsage"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "ToolCallTokenUsage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "input_tokens": {
+          "name": "input_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "input_tokens_details": {
+          "name": "input_tokens_details",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {
+              "cache_creation_input_tokens": {
+                "name": "cache_creation_input_tokens",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              },
+              "cache_read_input_tokens": {
+                "name": "cache_read_input_tokens",
+                "required": false,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              },
+              "cached_tokens": {
+                "name": "cached_tokens",
+                "required": true,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "model": {
+          "name": "model",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "output_tokens": {
+          "name": "output_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "output_tokens_details": {
+          "name": "output_tokens_details",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "object",
+            "nullable": false,
+            "properties": {
+              "reasoning_tokens": {
+                "name": "reasoning_tokens",
+                "required": true,
+                "schema": {
+                  "default": {
+                    "present": false
+                  },
+                  "direction": "both",
+                  "format": "int64",
+                  "kind": "scalar",
+                  "nullable": false,
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "UrlContent": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "snippet": {
+          "name": "snippet",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "title": {
+          "name": "title",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "url": {
+          "name": "url",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Usage": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "completion_tokens": {
+          "name": "completion_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "completion_tokens_details": {
+          "name": "completion_tokens_details",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/CompletionTokensDetails"
+          }
+        },
+        "cost": {
+          "name": "cost",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/Cost"
+          }
+        },
+        "prompt_tokens": {
+          "name": "prompt_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "search_context_size": {
+          "name": "search_context_size",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/SearchContextSize"
+          }
+        },
+        "total_tokens": {
+          "name": "total_tokens",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int64",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "UserLocation": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "city": {
+          "name": "city",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "country": {
+          "name": "country",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "latitude": {
+          "name": "latitude",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "longitude": {
+          "name": "longitude",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "double",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "number"
+          }
+        },
+        "region": {
+          "name": "region",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "WebSearchData": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "search_keywords": {
+          "name": "search_keywords",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "scalar",
+              "nullable": false,
+              "type": "string"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        },
+        "search_results": {
+          "name": "search_results",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "items": {
+              "default": {
+                "present": false
+              },
+              "direction": "both",
+              "kind": "reference",
+              "nullable": false,
+              "target": "#/components/schemas/SearchResult"
+            },
+            "kind": "array",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "WebSearchFilters": {
+      "composition": "allOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "intersection",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchDomainFilter"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/DateFilters"
+        }
+      ]
+    },
+    "WebSearchOptions": {
+      "composition": "allOf",
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "intersection",
+      "nullable": false,
+      "variants": [
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "object",
+          "nullable": false,
+          "properties": {
+            "search_context_size": {
+              "name": "search_context_size",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/SearchContextSize"
+              }
+            },
+            "search_type": {
+              "name": "search_type",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "enum": [
+                  "fast",
+                  "pro",
+                  "auto"
+                ],
+                "kind": "scalar",
+                "nullable": false,
+                "type": "string"
+              }
+            },
+            "user_location": {
+              "name": "user_location",
+              "required": false,
+              "schema": {
+                "default": {
+                  "present": false
+                },
+                "direction": "both",
+                "kind": "reference",
+                "nullable": false,
+                "target": "#/components/schemas/UserLocation"
+              }
+            }
+          }
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/SearchDomainFilter"
+        },
+        {
+          "default": {
+            "present": false
+          },
+          "direction": "both",
+          "kind": "reference",
+          "nullable": false,
+          "target": "#/components/schemas/DateFilters"
+        }
+      ]
+    },
+    "WebSearchTool": {
+      "default": {
+        "present": false
+      },
+      "direction": "both",
+      "kind": "object",
+      "nullable": false,
+      "properties": {
+        "filters": {
+          "name": "filters",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/WebSearchFilters"
+          }
+        },
+        "max_tokens": {
+          "name": "max_tokens",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "max_tokens_per_page": {
+          "name": "max_tokens_per_page",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "format": "int32",
+            "kind": "scalar",
+            "nullable": false,
+            "type": "integer"
+          }
+        },
+        "type": {
+          "name": "type",
+          "required": true,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "enum": [
+              "web_search"
+            ],
+            "kind": "scalar",
+            "nullable": false,
+            "type": "string"
+          }
+        },
+        "user_location": {
+          "name": "user_location",
+          "required": false,
+          "schema": {
+            "default": {
+              "present": false
+            },
+            "direction": "both",
+            "kind": "reference",
+            "nullable": false,
+            "target": "#/components/schemas/UserLocation"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "security_schemes": {
+    "BearerAuth": {
+      "scheme": "bearer",
+      "type": "http"
+    }
+  },
+  "servers": [
+    {
+      "description": "Perplexity AI API",
+      "url": "https://api.perplexity.ai"
+    }
+  ],
+  "source": {
+    "openapi": "3.1.0",
+    "sha256": "9e2b65482ec0295a3ea45f114f51c31ef381af3b947a06f1e8fa22ce1a66235b"
+  }
+}
