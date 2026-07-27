@@ -4,8 +4,8 @@ Install [Bazelisk](https://github.com/bazelbuild/bazelisk), install development
 tools, then enable Git hooks:
 
 ```sh
-npm ci
-npx lefthook install
+pnpm install --frozen-lockfile
+pnpm lefthook install
 ```
 
 Bazel provisions Python and all Python dependencies. No virtual environment is
@@ -47,7 +47,7 @@ bazel test //tests:test_client
 Lefthook runs Gazelle, mypy, and Ruff:
 
 ```sh
-npx lefthook run pre-commit --all-files
+pnpm lefthook run pre-commit --all-files
 ```
 
 Apply Ruff fixes:

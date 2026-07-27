@@ -1,5 +1,6 @@
 {
   "name": "perplexity-py-dev",
+  "packageManager": "pnpm@11.17.0",
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^21.2.1",

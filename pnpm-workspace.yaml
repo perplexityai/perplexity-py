@@ -1,0 +1,11 @@
+autoInstallPeers: false
+
+allowBuilds:
+  lefthook: true
+
+overrides:
+  minimatch: ^9.0.5
+
+minimumReleaseAgeExclude:
+  - conventional-commits-parser@7.1.1
+  - yargs@18.1.0
