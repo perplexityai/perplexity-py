@@ -1,0 +1,17 @@
+load("//:py.bzl", "perplexity_py_library", "pytest_test")
+
+perplexity_py_library(
+    name = "__init__",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+pytest_test(
+    name = "test_completions_test",
+    srcs = ["test_completions.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "//tests:utils",
+    ],
+)

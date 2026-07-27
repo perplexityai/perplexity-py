@@ -167,6 +167,7 @@ def model_dump(
         ),
     )
 
+
 def model_parse(model: type[_ModelT], data: Any) -> _ModelT:
     if PYDANTIC_V1:
         return model.parse_obj(data)  # pyright: ignore[reportDeprecated]

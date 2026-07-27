@@ -1,0 +1,16 @@
+build --registry=https://bcr.bazel.build
+
+common --enable_platform_specific_config
+common:linux --host_platform=@gazelle_py//platforms:local_gnu
+
+common --repo_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+common --repo_env=BAZEL_NO_APPLE_CPP_TOOLCHAIN=1
+common --@llvm//config:experimental_stub_libgcc_s=True
+common --@rules_rust//rust/settings:experimental_use_allocator_libraries_with_mangled_symbols=true
+
+build:linux --linkopt=-no-pie
+build --incompatible_default_to_explicit_init_py=true
+build --show_result=0
+test --test_output=errors
+
+try-import %workspace%/.bazelrc.user

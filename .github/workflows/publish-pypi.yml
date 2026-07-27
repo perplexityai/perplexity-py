@@ -16,16 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Install Rye
-        run: |
-          curl -sSf https://rye.astral.sh/get | bash
-          echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        env:
-          RYE_VERSION: '0.44.0'
-          RYE_INSTALL_OPTION: '--yes'
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@c5acdfb288317d0b5c0bbd7a396a3dc868bb0f86
+        with:
+          bazelisk-cache: true
+          repository-cache: true
 
       - name: Publish to PyPI
-        run: |
-          bash ./bin/publish-pypi
+        run: bazel run //:wheel.publish -- --non-interactive
         env:
-          PYPI_TOKEN: ${{ secrets.PERPLEXITY_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PERPLEXITY_PYPI_TOKEN || secrets.PYPI_TOKEN }}

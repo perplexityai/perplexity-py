@@ -639,9 +639,7 @@ def construct_type(*, value: object, type_: object, metadata: Optional[List[Any]
         not is_literal_type(type_)
         and inspect.isclass(origin)
         and (
-            issubclass(origin, BaseModel)
-            or issubclass(origin, GenericModel)
-            or issubclass(origin, GeneratedBaseModel)
+            issubclass(origin, BaseModel) or issubclass(origin, GenericModel) or issubclass(origin, GeneratedBaseModel)
         )
     ):
         if is_list(value):

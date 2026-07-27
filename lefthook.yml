@@ -1,0 +1,21 @@
+output:
+  - meta
+  - summary
+
+no_auto_install: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: ./node_modules/.bin/commitlint --edit {1}
+
+pre-commit:
+  commands:
+    gazelle:
+      run: bazel run //:gazelle -- -mode=diff
+    mypy:
+      run: bazel test //:mypy_test
+    ruff-check:
+      run: bazel run //:ruff -- check .
+    ruff-format:
+      run: bazel run //:ruff -- format --check .

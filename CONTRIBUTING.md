@@ -1,121 +1,88 @@
-## Setting up the environment
+## Development
 
-### With Rye
-
-We use [Rye](https://rye.astral.sh/) to manage dependencies because it will automatically provision a Python environment with the expected Python version. To set it up, run:
-
-```sh
-$ ./scripts/bootstrap
-```
-
-Or [install Rye manually](https://rye.astral.sh/guide/installation/) and run:
+Install [Bazelisk](https://github.com/bazelbuild/bazelisk), install development
+tools, then enable Git hooks:
 
 ```sh
-$ rye sync --all-features
+pnpm install --frozen-lockfile
+pnpm lefthook install
 ```
 
-You can then run scripts using `rye run python script.py` or by activating the virtual environment:
+Bazel provisions Python and all Python dependencies. No virtual environment is
+required.
+
+## Dependencies and BUILD files
+
+Declare dependencies in `pyproject.toml`. Configure UV in `uv.toml`, then
+update the lock:
 
 ```sh
-# Activate the virtual environment - https://docs.python.org/3/library/venv.html#how-venvs-work
-$ source .venv/bin/activate
-
-# now you can omit the `rye run` prefix
-$ python script.py
+bazel run //:uv_lock.update
 ```
 
-### Without Rye
-
-Alternatively if you don't want to install `Rye`, you can stick with the standard `pip` setup by ensuring you have the Python version specified in `.python-version`, create a virtual environment however you desire and then install dependencies using this command:
+`gazelle_py` owns test BUILD targets:
 
 ```sh
-$ pip install -r requirements-dev.lock
+bazel run //:gazelle
 ```
 
-## Modifying/Adding code
+Commit generated `BUILD.bazel` and `uv.lock` changes.
 
-Most of the SDK is generated code. Modifications to code will be persisted between generations, but may
-result in merge conflicts between manual patches and changes from the generator. The generator will never
-modify the contents of the `src/perplexity/lib/` and `examples/` directories.
+## Tests
 
-## Adding and running examples
-
-All files in the `examples/` directory are not modified by the generator and can be freely edited or added to.
-
-```py
-# add an example to examples/<your-example>.py
-
-#!/usr/bin/env -S rye run python
-…
-```
+Run all tests, including source type checking and wheel construction:
 
 ```sh
-$ chmod +x examples/<your-example>.py
-# run the example against your api
-$ ./examples/<your-example>.py
+bazel test //...
 ```
 
-## Using the repository from source
-
-If you’d like to use the repository from source, you can either install from git or link to a cloned repository:
-
-To install via git:
+Run one test:
 
 ```sh
-$ pip install git+ssh://git@github.com/perplexityai/perplexity-py.git
-```
-
-Alternatively, you can build from source and install the wheel file:
-
-Building this package will create two files in the `dist/` directory, a `.tar.gz` containing the source files and a `.whl` that can be used to install the package efficiently.
-
-To create a distributable version of the library, all you have to do is run this command:
-
-```sh
-$ rye build
-# or
-$ python -m build
-```
-
-Then to install:
-
-```sh
-$ pip install ./path-to-wheel-file.whl
-```
-
-## Running tests
-
-```sh
-$ ./scripts/test
+bazel test //tests:test_client
 ```
 
 ## Linting and formatting
 
-This repository uses [ruff](https://github.com/astral-sh/ruff) and
-[black](https://github.com/psf/black) to format the code in the repository.
-
-To lint:
+Lefthook runs Gazelle, mypy, and Ruff:
 
 ```sh
-$ ./scripts/lint
+pnpm lefthook run pre-commit --all-files
 ```
 
-To format and fix all ruff issues automatically:
+Apply Ruff fixes:
 
 ```sh
-$ ./scripts/format
+bazel run //:ruff -- check --fix .
+bazel run //:ruff -- format .
 ```
 
-## Publishing and releases
+## Building
 
-Changes made to this repository via the automated release PR pipeline should publish to PyPI automatically. If
-the changes aren't made through the automated pipeline, you may want to make releases manually.
+Build the wheel:
 
-### Publish with a GitHub workflow
+```sh
+bazel build //:wheel
+```
 
-You can release to package managers by using [the `Publish PyPI` GitHub action](https://www.github.com/perplexityai/perplexity-py/actions/workflows/publish-pypi.yml). This requires a setup organization or repository secret to be set up.
+The wheel is written beneath `bazel-bin`.
 
-### Publish manually
+## Generated code
 
-If you need to manually release a package, you can run the `bin/publish-pypi` script with a `PYPI_TOKEN` set on
-the environment.
+Most SDK code is generated. Manual changes survive regeneration but may
+conflict with later generator output. The generator does not modify
+`src/perplexity/lib/` or `examples/`.
+
+## Examples
+
+Run examples with any Python environment containing the built package:
+
+```sh
+python examples/<example>.py
+```
+
+## Publishing
+
+Release Please creates release PRs and GitHub releases. A published release
+triggers the `Publish PyPI` workflow, which builds and publishes `//:wheel`.
+The workflow requires `PERPLEXITY_PYPI_TOKEN` or `PYPI_TOKEN`.

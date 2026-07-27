@@ -7,8 +7,6 @@ The Perplexity Python library provides convenient access to the Perplexity REST 
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-It is generated with [Stainless](https://www.stainless.com/).
-
 ## Documentation
 
 The REST API documentation can be found on [docs.perplexity.ai](https://docs.perplexity.ai/). The full API of this library can be found in [api.md](api.md).
@@ -32,10 +30,7 @@ client = Perplexity(
     api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
 )
 
-search = client.search.create(
-    query="latest AI developments 2024",
-    max_results=5
-)
+search = client.search.create(query="latest AI developments 2024", max_results=5)
 
 for result in search.results:
     print(f"{result.title}: {result.url}")
@@ -351,10 +346,10 @@ In an API response, a field may be explicitly `null`, or missing entirely; in ei
 
 ```py
 if response.my_field is None:
-  if 'my_field' not in response.model_fields_set:
-    print('Got json like {}, without a "my_field" key present at all.')
-  else:
-    print('Got json like {"my_field": null}.')
+    if "my_field" not in response.model_fields_set:
+        print('Got json like {}, without a "my_field" key present at all.')
+    else:
+        print('Got json like {"my_field": null}.')
 ```
 
 ### Accessing raw response data (e.g. headers)
@@ -366,13 +361,15 @@ from perplexity import Perplexity
 
 client = Perplexity()
 response = client.chat.completions.with_raw_response.create(
-    messages=[{
-        "role": "user",
-        "content": "What is the capital of France?",
-    }],
+    messages=[
+        {
+            "role": "user",
+            "content": "What is the capital of France?",
+        }
+    ],
     model="sonar",
 )
-print(response.headers.get('X-My-Header'))
+print(response.headers.get("X-My-Header"))
 
 completion = response.parse()  # get the object that `chat.completions.create()` would have returned
 print(completion.id)
@@ -476,8 +473,8 @@ By default the library closes underlying HTTP connections whenever the client is
 from perplexity import Perplexity
 
 with Perplexity() as client:
-  # make requests here
-  ...
+    # make requests here
+    ...
 
 # HTTP client is now closed
 ```
@@ -502,6 +499,7 @@ You can determine the version that is being used at runtime with:
 
 ```py
 import perplexity
+
 print(perplexity.__version__)
 ```
 
