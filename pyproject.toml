@@ -45,7 +45,9 @@ aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
 
 [dependency-groups]
 dev = [
+  "aiohttp",
   "dirty-equals>=0.6.0",
+  "httpx-aiohttp",
   "mypy",
   "pytest",
   "pytest-asyncio",

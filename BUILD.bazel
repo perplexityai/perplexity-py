@@ -20,7 +20,8 @@ exports_files([
     "README.md",
     "pyproject.toml",
     "pytest_main.py",
-    "requirements-dev.txt",
+    "uv.lock",
+    "uv.toml",
 ])
 
 PYTHON_DEPS = [
@@ -35,13 +36,12 @@ PYTHON_DEPS = [
 ]
 
 lock(
-    name = "requirements",
+    name = "uv_lock",
     srcs = [
         "pyproject.toml",
-        "requirements-dev.in",
+        "uv.toml",
     ],
-    out = "requirements-dev.txt",
-    env = {"UV_DEFAULT_INDEX": "https://pypi.org/simple"},
+    out = "uv.lock",
 )
 
 gazelle_binary(

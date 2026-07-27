@@ -1,8 +1,0 @@
-aiohttp
-dirty-equals>=0.6.0
-httpx-aiohttp>=0.1.9
-mypy
-pytest
-pytest-asyncio
-respx
-ruff

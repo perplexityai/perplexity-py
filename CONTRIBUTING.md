@@ -13,11 +13,11 @@ required.
 
 ## Dependencies and BUILD files
 
-Declare development dependencies in `requirements-dev.in`, then update the
-locked requirements:
+Declare dependencies in `pyproject.toml`. Configure UV in `uv.toml`, then
+update the lock:
 
 ```sh
-bazel run //:requirements.update
+bazel run //:uv_lock.update
 ```
 
 `gazelle_py` owns test BUILD targets:
@@ -26,7 +26,7 @@ bazel run //:requirements.update
 bazel run //:gazelle
 ```
 
-Commit generated `BUILD.bazel` and `requirements-dev.txt` changes.
+Commit generated `BUILD.bazel` and `uv.lock` changes.
 
 ## Tests
 

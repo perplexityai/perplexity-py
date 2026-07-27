@@ -24,7 +24,8 @@ pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     hub_name = "pip",
     python_version = "3.14",
-    requirements_lock = "//:requirements-dev.txt",
+    requirements_lock = "//:uv.lock",
+    uv_lock = "//:uv.lock",
 )
 use_repo(pip, "pip")
 
