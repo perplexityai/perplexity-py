@@ -3,24 +3,21 @@
 from __future__ import annotations
 
 from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
 from .completions import (
-    CompletionsResource,
-    AsyncCompletionsResource,
     CompletionsResourceWithRawResponse,
     AsyncCompletionsResourceWithRawResponse,
     CompletionsResourceWithStreamingResponse,
     AsyncCompletionsResourceWithStreamingResponse,
 )
+from ...generated.api import (
+    ChatResource as GeneratedChatResource,
+    AsyncClientChatResource as GeneratedAsyncChatResource,
+)
 
 __all__ = ["ChatResource", "AsyncChatResource"]
 
 
-class ChatResource(SyncAPIResource):
-    @cached_property
-    def completions(self) -> CompletionsResource:
-        return CompletionsResource(self._client)
-
+class ChatResource(GeneratedChatResource):
     @cached_property
     def with_raw_response(self) -> ChatResourceWithRawResponse:
         """
@@ -41,11 +38,7 @@ class ChatResource(SyncAPIResource):
         return ChatResourceWithStreamingResponse(self)
 
 
-class AsyncChatResource(AsyncAPIResource):
-    @cached_property
-    def completions(self) -> AsyncCompletionsResource:
-        return AsyncCompletionsResource(self._client)
-
+class AsyncChatResource(GeneratedAsyncChatResource):
     @cached_property
     def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
         """

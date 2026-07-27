@@ -79,6 +79,7 @@ from ._compat import (
     field_get_default,
 )
 from ._constants import RAW_RESPONSE_HEADER
+from .generated.runtime import BaseModel as GeneratedBaseModel
 
 if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler, ValidatorFunctionWrapHandler
@@ -637,7 +638,11 @@ def construct_type(*, value: object, type_: object, metadata: Optional[List[Any]
     if (
         not is_literal_type(type_)
         and inspect.isclass(origin)
-        and (issubclass(origin, BaseModel) or issubclass(origin, GenericModel))
+        and (
+            issubclass(origin, BaseModel)
+            or issubclass(origin, GenericModel)
+            or issubclass(origin, GeneratedBaseModel)
+        )
     ):
         if is_list(value):
             return [cast(Any, type_).construct(**entry) if is_mapping(entry) else entry for entry in value]
@@ -646,7 +651,7 @@ def construct_type(*, value: object, type_: object, metadata: Optional[List[Any]
             if issubclass(type_, BaseModel):
                 return type_.construct(**value)  # type: ignore[arg-type]
 
-            return cast(Any, type_).construct(**value)
+            return cast(Any, type_).model_construct(**value)
 
     if origin == list:
         if not is_list(value):

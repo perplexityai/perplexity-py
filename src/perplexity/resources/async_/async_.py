@@ -4,23 +4,20 @@ from __future__ import annotations
 
 from ..._compat import cached_property
 from .chat.chat import (
-    ChatResource,
-    AsyncChatResource,
     ChatResourceWithRawResponse,
     AsyncChatResourceWithRawResponse,
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
-from ..._resource import SyncAPIResource, AsyncAPIResource
+from ...generated.api import (
+    AsyncResource as GeneratedAsyncResource,
+    AsyncClientAsyncResource as GeneratedAsyncAsyncResource,
+)
 
 __all__ = ["AsyncResource", "AsyncAsyncResource"]
 
 
-class AsyncResource(SyncAPIResource):
-    @cached_property
-    def chat(self) -> ChatResource:
-        return ChatResource(self._client)
-
+class AsyncResource(GeneratedAsyncResource):
     @cached_property
     def with_raw_response(self) -> AsyncResourceWithRawResponse:
         """
@@ -41,11 +38,7 @@ class AsyncResource(SyncAPIResource):
         return AsyncResourceWithStreamingResponse(self)
 
 
-class AsyncAsyncResource(AsyncAPIResource):
-    @cached_property
-    def chat(self) -> AsyncChatResource:
-        return AsyncChatResource(self._client)
-
+class AsyncAsyncResource(GeneratedAsyncAsyncResource):
     @cached_property
     def with_raw_response(self) -> AsyncAsyncResourceWithRawResponse:
         """

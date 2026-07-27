@@ -3,24 +3,21 @@
 from __future__ import annotations
 
 from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
     SessionsResourceWithRawResponse,
     AsyncSessionsResourceWithRawResponse,
     SessionsResourceWithStreamingResponse,
     AsyncSessionsResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
+from ...generated.api import (
+    BrowserResource as GeneratedBrowserResource,
+    AsyncClientBrowserResource as GeneratedAsyncBrowserResource,
+)
 
 __all__ = ["BrowserResource", "AsyncBrowserResource"]
 
 
-class BrowserResource(SyncAPIResource):
-    @cached_property
-    def sessions(self) -> SessionsResource:
-        return SessionsResource(self._client)
-
+class BrowserResource(GeneratedBrowserResource):
     @cached_property
     def with_raw_response(self) -> BrowserResourceWithRawResponse:
         """
@@ -41,11 +38,7 @@ class BrowserResource(SyncAPIResource):
         return BrowserResourceWithStreamingResponse(self)
 
 
-class AsyncBrowserResource(AsyncAPIResource):
-    @cached_property
-    def sessions(self) -> AsyncSessionsResource:
-        return AsyncSessionsResource(self._client)
-
+class AsyncBrowserResource(GeneratedAsyncBrowserResource):
     @cached_property
     def with_raw_response(self) -> AsyncBrowserResourceWithRawResponse:
         """
