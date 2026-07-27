@@ -1,0 +1,141 @@
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:packaging.bzl", "py_package", "py_wheel")
+load("@rules_python//python/uv:lock.bzl", "lock")
+load("//:py.bzl", "bazel_py_test", "perplexity_py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# gazelle:exclude bazel-*
+# gazelle:exclude dist
+# gazelle:exclude examples
+# gazelle:map_kind py_library perplexity_py_library //:py.bzl
+# gazelle:map_kind py_test pytest_test //:py.bzl
+# gazelle:python_generation_mode off
+# gazelle:python_visibility //visibility:public
+# gazelle:resolve py perplexity //src:perplexity
+
+exports_files([
+    "README.md",
+    "pyproject.toml",
+    "pytest_main.py",
+    "requirements-dev.txt",
+])
+
+PYTHON_DEPS = [
+    "@pip//anyio",
+    "@pip//distro",
+    "@pip//httpx",
+    "@pip//httpx_aiohttp",
+    "@pip//mypy",
+    "@pip//pydantic",
+    "@pip//sniffio",
+    "@pip//typing_extensions",
+]
+
+lock(
+    name = "requirements",
+    srcs = [
+        "pyproject.toml",
+        "requirements-dev.in",
+    ],
+    out = "requirements-dev.txt",
+    env = {"UV_DEFAULT_INDEX": "https://pypi.org/simple"},
+)
+
+gazelle_binary(
+    name = "gazelle_bin",
+    languages = ["@gazelle_py//py"],
+)
+
+gazelle(
+    name = "gazelle",
+    gazelle = ":gazelle_bin",
+)
+
+py_binary(
+    name = "mypy",
+    srcs = ["mypy_main.py"],
+    main = "mypy_main.py",
+    deps = PYTHON_DEPS,
+)
+
+bazel_py_test(
+    name = "mypy_test",
+    srcs = ["mypy_test.py"],
+    args = [
+        "--show-traceback",
+        "src",
+    ],
+    data = [
+        "pyproject.toml",
+        "//src:perplexity",
+    ],
+    deps = PYTHON_DEPS,
+)
+
+py_binary(
+    name = "commitlint",
+    srcs = ["commitlint.py"],
+    main = "commitlint.py",
+)
+
+bazel_py_test(
+    name = "commitlint_test",
+    srcs = [
+        "commitlint.py",
+        "commitlint_test.py",
+    ],
+    main = "commitlint_test.py",
+)
+
+py_binary(
+    name = "ruff",
+    srcs = ["ruff_main.py"],
+    data = ["@pip//ruff:data"],
+    main = "ruff_main.py",
+)
+
+py_package(
+    name = "package",
+    packages = ["src.perplexity"],
+    deps = ["//src:perplexity"],
+)
+
+py_wheel(
+    name = "wheel",
+    author = "Perplexity",
+    author_email = "api@perplexity.ai",
+    classifiers = [
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+        "Typing :: Typed",
+    ],
+    description_file = "README.md",
+    distribution = "perplexityai",
+    homepage = "https://github.com/perplexityai/perplexity-py",
+    license = "Apache-2.0",
+    project_urls = {
+        "Repository": "https://github.com/perplexityai/perplexity-py",
+    },
+    python_requires = ">=3.9",
+    python_tag = "py3",
+    requires = [
+        "anyio>=3.5.0,<5",
+        "distro>=1.7.0,<2",
+        "httpx>=0.23.0,<1",
+        "pydantic>=2,<3",
+        "sniffio",
+        "typing-extensions>=4.14,<5",
+    ],
+    strip_path_prefixes = ["src"],
+    version = "0.42.0",  # x-release-please-version
+    deps = [":package"],
+)
+
+build_test(
+    name = "wheel_test",
+    targets = [":wheel"],
+)

@@ -1,0 +1,22 @@
+# gazelle:ignore
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+py_library(
+    name = "perplexity",
+    srcs = glob(["perplexity/**/*.py"]),
+    data = ["perplexity/py.typed"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@pip//aiohttp",
+        "@pip//anyio",
+        "@pip//distro",
+        "@pip//httpx",
+        "@pip//httpx_aiohttp",
+        "@pip//pydantic",
+        "@pip//pydantic_core",
+        "@pip//sniffio",
+        "@pip//typing_extensions",
+    ],
+)

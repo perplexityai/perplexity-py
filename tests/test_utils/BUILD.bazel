@@ -1,0 +1,38 @@
+load("//:py.bzl", "pytest_test")
+
+pytest_test(
+    name = "test_datetime_parse_test",
+    srcs = ["test_datetime_parse.py"],
+    deps = ["//tests:conftest"],
+)
+
+pytest_test(
+    name = "test_json_test",
+    srcs = ["test_json.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "@pip//pydantic",
+    ],
+)
+
+pytest_test(
+    name = "test_path_test",
+    srcs = ["test_path.py"],
+    deps = ["//tests:conftest"],
+)
+
+pytest_test(
+    name = "test_proxy_test",
+    srcs = ["test_proxy.py"],
+    deps = [
+        "//tests:conftest",
+        "@pip//typing_extensions",
+    ],
+)
+
+pytest_test(
+    name = "test_typing_test",
+    srcs = ["test_typing.py"],
+    deps = ["//tests:conftest"],
+)

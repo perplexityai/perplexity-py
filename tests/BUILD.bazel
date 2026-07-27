@@ -1,0 +1,117 @@
+load("//:py.bzl", "perplexity_py_library", "pytest_test")
+
+# gazelle:python_generation_mode file
+
+perplexity_py_library(
+    name = "__init__",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+perplexity_py_library(
+    name = "conftest",
+    testonly = True,
+    srcs = ["conftest.py"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src:perplexity",
+        "@pip//httpx",
+    ],
+)
+
+perplexity_py_library(
+    name = "utils",
+    srcs = ["utils.py"],
+    visibility = ["//visibility:public"],
+    deps = ["@pip//typing_extensions"],
+)
+
+pytest_test(
+    name = "test_client_test",
+    srcs = ["test_client.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+        "@pip//pydantic",
+        "@pip//typing_extensions",
+    ],
+)
+
+pytest_test(
+    name = "test_extract_files_test",
+    srcs = ["test_extract_files.py"],
+    deps = [":conftest"],
+)
+
+pytest_test(
+    name = "test_files_test",
+    srcs = ["test_files.py"],
+    deps = [
+        ":conftest",
+        "@pip//anyio",
+    ],
+)
+
+pytest_test(
+    name = "test_generated_api_integration_test",
+    srcs = ["test_generated_api_integration.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+    ],
+)
+
+pytest_test(
+    name = "test_models_test",
+    srcs = ["test_models.py"],
+    deps = [
+        ":conftest",
+        "@pip//pydantic",
+        "@pip//typing_extensions",
+    ],
+)
+
+pytest_test(
+    name = "test_qs_test",
+    srcs = ["test_qs.py"],
+    deps = [":conftest"],
+)
+
+pytest_test(
+    name = "test_required_args_test",
+    srcs = ["test_required_args.py"],
+    deps = [":conftest"],
+)
+
+pytest_test(
+    name = "test_response_test",
+    srcs = ["test_response.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+        "@pip//pydantic",
+        "@pip//typing_extensions",
+    ],
+)
+
+pytest_test(
+    name = "test_streaming_test",
+    srcs = ["test_streaming.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+    ],
+)
+
+pytest_test(
+    name = "test_transform_test",
+    srcs = ["test_transform.py"],
+    deps = [
+        ":conftest",
+        "@pip//typing_extensions",
+    ],
+)

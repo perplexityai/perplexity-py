@@ -1,0 +1,7 @@
+load("//:py.bzl", "perplexity_py_library")
+
+perplexity_py_library(
+    name = "__init__",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)

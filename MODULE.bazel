@@ -1,0 +1,75 @@
+module(
+    name = "perplexity_py",
+    bazel_compatibility = [">=9.2.0"],
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.9.2")
+bazel_dep(name = "gazelle", version = "0.52.2")
+bazel_dep(name = "gazelle_py", version = "0.8.10")
+bazel_dep(name = "llvm", version = "0.8.14")
+bazel_dep(name = "platforms", version = "1.1.0")
+bazel_dep(name = "rules_python", version = "2.2.0")
+bazel_dep(name = "rules_rs", version = "0.0.73")
+
+rules_rust = use_extension("@rules_rs//rs:rules_rust.bzl", "rules_rust")
+use_repo(rules_rust, "rules_rust")
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    is_default = True,
+    python_version = "3.14",
+)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.14",
+    requirements_lock = "//:requirements-dev.txt",
+)
+use_repo(pip, "pip")
+
+uv = use_extension("@rules_python//python/uv:uv.bzl", "uv")
+uv.default(
+    base_url = "https://github.com/astral-sh/uv/releases/download",
+    manifest_filename = "dist-manifest.json",
+    version = "0.11.32",
+)
+uv.default(
+    compatible_with = [
+        "@platforms//os:macos",
+        "@platforms//cpu:aarch64",
+    ],
+    platform = "aarch64-apple-darwin",
+)
+uv.default(
+    compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64",
+    ],
+    platform = "aarch64-unknown-linux-gnu",
+)
+uv.default(
+    compatible_with = [
+        "@platforms//os:macos",
+        "@platforms//cpu:x86_64",
+    ],
+    platform = "x86_64-apple-darwin",
+)
+uv.default(
+    compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    platform = "x86_64-unknown-linux-gnu",
+)
+uv.default(
+    compatible_with = [
+        "@platforms//os:windows",
+        "@platforms//cpu:x86_64",
+    ],
+    platform = "x86_64-pc-windows-msvc",
+)
+uv.configure(version = "0.11.32")
+use_repo(uv, "uv")
+
+register_toolchains("@uv//:all")

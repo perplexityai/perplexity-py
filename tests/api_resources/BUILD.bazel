@@ -1,0 +1,47 @@
+load("//:py.bzl", "perplexity_py_library", "pytest_test")
+
+perplexity_py_library(
+    name = "__init__",
+    srcs = ["__init__.py"],
+    visibility = ["//visibility:public"],
+)
+
+pytest_test(
+    name = "test_contextualized_embeddings_test",
+    srcs = ["test_contextualized_embeddings.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "//tests:utils",
+    ],
+)
+
+pytest_test(
+    name = "test_embeddings_test",
+    srcs = ["test_embeddings.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "//tests:utils",
+    ],
+)
+
+pytest_test(
+    name = "test_responses_test",
+    srcs = ["test_responses.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "//tests:utils",
+    ],
+)
+
+pytest_test(
+    name = "test_search_test",
+    srcs = ["test_search.py"],
+    deps = [
+        "//src:perplexity",
+        "//tests:conftest",
+        "//tests:utils",
+    ],
+)
