@@ -7,7 +7,7 @@ no_auto_install: true
 commit-msg:
   commands:
     commitlint:
-      run: bazel run //:commitlint -- {1}
+      run: ./node_modules/.bin/commitlint --edit {1}
 
 pre-commit:
   commands:

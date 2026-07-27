@@ -76,21 +76,6 @@ bazel_py_test(
 )
 
 py_binary(
-    name = "commitlint",
-    srcs = ["commitlint.py"],
-    main = "commitlint.py",
-)
-
-bazel_py_test(
-    name = "commitlint_test",
-    srcs = [
-        "commitlint.py",
-        "commitlint_test.py",
-    ],
-    main = "commitlint_test.py",
-)
-
-py_binary(
     name = "ruff",
     srcs = ["ruff_main.py"],
     data = ["@pip//ruff:data"],

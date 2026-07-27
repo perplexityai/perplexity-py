@@ -1,10 +1,11 @@
 ## Development
 
-Install [Bazelisk](https://github.com/bazelbuild/bazelisk) and
-[Lefthook](https://github.com/evilmartians/lefthook), then enable Git hooks:
+Install [Bazelisk](https://github.com/bazelbuild/bazelisk), install development
+tools, then enable Git hooks:
 
 ```sh
-lefthook install
+npm ci
+npx lefthook install
 ```
 
 Bazel provisions Python and all Python dependencies. No virtual environment is
@@ -46,7 +47,7 @@ bazel test //tests:test_client
 Lefthook runs Gazelle, mypy, and Ruff:
 
 ```sh
-lefthook run pre-commit --all-files
+npx lefthook run pre-commit --all-files
 ```
 
 Apply Ruff fixes:
