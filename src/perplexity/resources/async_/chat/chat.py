@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from ...._compat import cached_property
 from .completions import (
-    CompletionsResource,
-    AsyncCompletionsResource,
     CompletionsResourceWithRawResponse,
     AsyncCompletionsResourceWithRawResponse,
     CompletionsResourceWithStreamingResponse,
@@ -20,10 +18,6 @@ __all__ = ["ChatResource", "AsyncChatResource"]
 
 
 class ChatResource(GeneratedChatResource):
-    @cached_property
-    def completions(self) -> CompletionsResource:
-        return CompletionsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> ChatResourceWithRawResponse:
         """
@@ -46,10 +40,6 @@ class ChatResource(GeneratedChatResource):
 
 class AsyncChatResource(GeneratedAsyncChatResource):
     @cached_property
-    def completions(self) -> AsyncCompletionsResource:
-        return AsyncCompletionsResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -70,7 +60,7 @@ class AsyncChatResource(GeneratedAsyncChatResource):
 
 
 class ChatResourceWithRawResponse:
-    def __init__(self, chat: ChatResource) -> None:
+    def __init__(self, chat: GeneratedChatResource) -> None:
         self._chat = chat
 
     @cached_property
@@ -79,7 +69,7 @@ class ChatResourceWithRawResponse:
 
 
 class AsyncChatResourceWithRawResponse:
-    def __init__(self, chat: AsyncChatResource) -> None:
+    def __init__(self, chat: GeneratedAsyncChatResource) -> None:
         self._chat = chat
 
     @cached_property
@@ -88,7 +78,7 @@ class AsyncChatResourceWithRawResponse:
 
 
 class ChatResourceWithStreamingResponse:
-    def __init__(self, chat: ChatResource) -> None:
+    def __init__(self, chat: GeneratedChatResource) -> None:
         self._chat = chat
 
     @cached_property
@@ -97,7 +87,7 @@ class ChatResourceWithStreamingResponse:
 
 
 class AsyncChatResourceWithStreamingResponse:
-    def __init__(self, chat: AsyncChatResource) -> None:
+    def __init__(self, chat: GeneratedAsyncChatResource) -> None:
         self._chat = chat
 
     @cached_property

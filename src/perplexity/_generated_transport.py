@@ -2,10 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Union, ForwardRef, cast, get_args, get_origin
 
-from pydantic import BaseModel as PydanticBaseModel
-
 import perplexity.generated.api as generated_api
-from perplexity._models import BaseModel
 from perplexity._response import (
     BinaryAPIResponse,
     AsyncBinaryAPIResponse,
@@ -33,7 +30,6 @@ class SyncTransportAdapter:
     def __init__(self, client: Perplexity, mode: str | None = None) -> None:
         self._client = client
         self._mode = mode
-        self._model_types: dict[type[Any], type[Any]] = {}
 
     def with_response_mode(self, mode: str) -> SyncTransportAdapter:
         return SyncTransportAdapter(self._client, mode)
@@ -45,17 +41,7 @@ class SyncTransportAdapter:
             return cast(Any, Union)[tuple(self._cast_type(item) for item in get_args(model))]
         if model is GeneratedBinaryAPIResponse:
             return BinaryAPIResponse
-        if not isinstance(model, type) or not issubclass(model, PydanticBaseModel):
-            return model
-        if issubclass(model, BaseModel):
-            return model
-        if model not in self._model_types:
-            self._model_types[model] = type(
-                model.__name__,
-                (model, BaseModel),
-                {"__module__": model.__module__},
-            )
-        return self._model_types[model]
+        return model
 
     def _options(self, options: dict[str, Any]) -> dict[str, Any]:
         result = dict(options)
@@ -112,7 +98,6 @@ class AsyncTransportAdapter:
     def __init__(self, client: AsyncPerplexity, mode: str | None = None) -> None:
         self._client = client
         self._mode = mode
-        self._model_types: dict[type[Any], type[Any]] = {}
 
     def with_response_mode(self, mode: str) -> AsyncTransportAdapter:
         return AsyncTransportAdapter(self._client, mode)
@@ -124,17 +109,7 @@ class AsyncTransportAdapter:
             return cast(Any, Union)[tuple(self._cast_type(item) for item in get_args(model))]
         if model is GeneratedAsyncBinaryAPIResponse:
             return AsyncBinaryAPIResponse
-        if not isinstance(model, type) or not issubclass(model, PydanticBaseModel):
-            return model
-        if issubclass(model, BaseModel):
-            return model
-        if model not in self._model_types:
-            self._model_types[model] = type(
-                model.__name__,
-                (model, BaseModel),
-                {"__module__": model.__module__},
-            )
-        return self._model_types[model]
+        return model
 
     def _options(self, options: dict[str, Any]) -> dict[str, Any]:
         result = dict(options)

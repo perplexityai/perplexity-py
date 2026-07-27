@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 from .sessions import (
-    SessionsResource,
-    AsyncSessionsResource,
     SessionsResourceWithRawResponse,
     AsyncSessionsResourceWithRawResponse,
     SessionsResourceWithStreamingResponse,
@@ -20,10 +18,6 @@ __all__ = ["BrowserResource", "AsyncBrowserResource"]
 
 
 class BrowserResource(GeneratedBrowserResource):
-    @cached_property
-    def sessions(self) -> SessionsResource:
-        return SessionsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> BrowserResourceWithRawResponse:
         """
@@ -45,10 +39,6 @@ class BrowserResource(GeneratedBrowserResource):
 
 
 class AsyncBrowserResource(GeneratedAsyncBrowserResource):
-    @cached_property
-    def sessions(self) -> AsyncSessionsResource:
-        return AsyncSessionsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncBrowserResourceWithRawResponse:
         """

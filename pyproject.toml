@@ -110,7 +110,6 @@ include = [
   "/*.lock",
   "/*.md",
   "/mypy.ini",
-  "/noxfile.py",
   "bin/*",
   "examples/*",
   "src/*",
@@ -154,6 +153,7 @@ exclude = [
 
 reportImplicitOverride = true
 reportOverlappingOverload = false
+reportUnnecessaryCast = false
 
 reportImportCycles = false
 reportPrivateUsage = false

@@ -30,6 +30,7 @@ from ._models import BaseModel, is_basemodel
 from ._constants import RAW_RESPONSE_HEADER, OVERRIDE_CAST_TO_HEADER
 from ._streaming import Stream, AsyncStream, is_stream_class_type, extract_stream_chunk_type
 from ._exceptions import PerplexityError, APIResponseValidationError
+from .generated.runtime import BaseModel as GeneratedBaseModel
 
 if TYPE_CHECKING:
     from ._models import FinalRequestOptions
@@ -217,7 +218,7 @@ class BaseAPIResponse(Generic[R]):
             inspect.isclass(
                 origin  # pyright: ignore[reportUnknownArgumentType]
             )
-            and not issubclass(origin, BaseModel)
+            and not issubclass(origin, (BaseModel, GeneratedBaseModel))
             and issubclass(origin, pydantic.BaseModel)
         ):
             raise TypeError(
@@ -229,7 +230,7 @@ class BaseAPIResponse(Generic[R]):
             and not origin is list
             and not origin is dict
             and not origin is Union
-            and not issubclass(origin, BaseModel)
+            and not issubclass(origin, (BaseModel, GeneratedBaseModel))
         ):
             raise RuntimeError(
                 f"Unsupported type, expected {cast_to} to be a subclass of {BaseModel}, {dict}, {list}, {Union}, {NoneType}, {str} or {httpx.Response}."
