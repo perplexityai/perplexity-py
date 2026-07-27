@@ -11,12 +11,15 @@ from .completions import (
     CompletionsResourceWithStreamingResponse,
     AsyncCompletionsResourceWithStreamingResponse,
 )
-from ...._resource import SyncAPIResource, AsyncAPIResource
+from ....generated.api import (
+    AsyncChatResource as GeneratedChatResource,
+    AsyncClientAsyncChatResource as GeneratedAsyncChatResource,
+)
 
 __all__ = ["ChatResource", "AsyncChatResource"]
 
 
-class ChatResource(SyncAPIResource):
+class ChatResource(GeneratedChatResource):
     @cached_property
     def completions(self) -> CompletionsResource:
         return CompletionsResource(self._client)
@@ -41,7 +44,7 @@ class ChatResource(SyncAPIResource):
         return ChatResourceWithStreamingResponse(self)
 
 
-class AsyncChatResource(AsyncAPIResource):
+class AsyncChatResource(GeneratedAsyncChatResource):
     @cached_property
     def completions(self) -> AsyncCompletionsResource:
         return AsyncCompletionsResource(self._client)

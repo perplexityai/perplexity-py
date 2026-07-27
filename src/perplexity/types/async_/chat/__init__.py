@@ -1,9 +1,9 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
-from __future__ import annotations
-
-from .completion_get_params import CompletionGetParams as CompletionGetParams
-from .completion_get_response import CompletionGetResponse as CompletionGetResponse
-from .completion_create_params import CompletionCreateParams as CompletionCreateParams
-from .completion_list_response import CompletionListResponse as CompletionListResponse
-from .completion_create_response import CompletionCreateResponse as CompletionCreateResponse
+# ruff: noqa: F401
+# pyright: reportUnusedImport=false
+from perplexity.generated.api import (
+    AsyncChatCompletionsCompletionGetParams as CompletionGetParams,
+    AsyncChatCompletionsCompletionGetResponse as CompletionGetResponse,
+    AsyncChatCompletionsCompletionCreateParams as CompletionCreateParams,
+    AsyncChatCompletionsCompletionListResponse as CompletionListResponse,
+    AsyncChatCompletionsCompletionCreateResponse as CompletionCreateResponse,
+)

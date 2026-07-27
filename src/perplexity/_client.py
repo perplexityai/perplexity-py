@@ -33,6 +33,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from ._generated_transport import SyncTransportAdapter, AsyncTransportAdapter
 
 if TYPE_CHECKING:
     from .resources import chat, async_, search, browser, responses, embeddings, contextualized_embeddings
@@ -129,43 +130,43 @@ class Perplexity(SyncAPIClient):
     def chat(self) -> ChatResource:
         from .resources.chat import ChatResource
 
-        return ChatResource(self)
+        return ChatResource(SyncTransportAdapter(self))
 
     @cached_property
     def search(self) -> SearchResource:
         from .resources.search import SearchResource
 
-        return SearchResource(self)
+        return SearchResource(SyncTransportAdapter(self))
 
     @cached_property
     def responses(self) -> ResponsesResource:
         from .resources.responses import ResponsesResource
 
-        return ResponsesResource(self)
+        return ResponsesResource(SyncTransportAdapter(self))
 
     @cached_property
     def embeddings(self) -> EmbeddingsResource:
         from .resources.embeddings import EmbeddingsResource
 
-        return EmbeddingsResource(self)
+        return EmbeddingsResource(SyncTransportAdapter(self))
 
     @cached_property
     def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
         from .resources.contextualized_embeddings import ContextualizedEmbeddingsResource
 
-        return ContextualizedEmbeddingsResource(self)
+        return ContextualizedEmbeddingsResource(SyncTransportAdapter(self))
 
     @cached_property
     def browser(self) -> BrowserResource:
         from .resources.browser import BrowserResource
 
-        return BrowserResource(self)
+        return BrowserResource(SyncTransportAdapter(self))
 
     @cached_property
     def async_(self) -> AsyncResource:
         from .resources.async_ import AsyncResource
 
-        return AsyncResource(self)
+        return AsyncResource(SyncTransportAdapter(self))
 
     @cached_property
     def with_raw_response(self) -> PerplexityWithRawResponse:
@@ -352,43 +353,43 @@ class AsyncPerplexity(AsyncAPIClient):
     def chat(self) -> AsyncChatResource:
         from .resources.chat import AsyncChatResource
 
-        return AsyncChatResource(self)
+        return AsyncChatResource(AsyncTransportAdapter(self))
 
     @cached_property
     def search(self) -> AsyncSearchResource:
         from .resources.search import AsyncSearchResource
 
-        return AsyncSearchResource(self)
+        return AsyncSearchResource(AsyncTransportAdapter(self))
 
     @cached_property
     def responses(self) -> AsyncResponsesResource:
         from .resources.responses import AsyncResponsesResource
 
-        return AsyncResponsesResource(self)
+        return AsyncResponsesResource(AsyncTransportAdapter(self))
 
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResource:
         from .resources.embeddings import AsyncEmbeddingsResource
 
-        return AsyncEmbeddingsResource(self)
+        return AsyncEmbeddingsResource(AsyncTransportAdapter(self))
 
     @cached_property
     def contextualized_embeddings(self) -> AsyncContextualizedEmbeddingsResource:
         from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResource
 
-        return AsyncContextualizedEmbeddingsResource(self)
+        return AsyncContextualizedEmbeddingsResource(AsyncTransportAdapter(self))
 
     @cached_property
     def browser(self) -> AsyncBrowserResource:
         from .resources.browser import AsyncBrowserResource
 
-        return AsyncBrowserResource(self)
+        return AsyncBrowserResource(AsyncTransportAdapter(self))
 
     @cached_property
     def async_(self) -> AsyncAsyncResource:
         from .resources.async_ import AsyncAsyncResource
 
-        return AsyncAsyncResource(self)
+        return AsyncAsyncResource(AsyncTransportAdapter(self))
 
     @cached_property
     def with_raw_response(self) -> AsyncPerplexityWithRawResponse:

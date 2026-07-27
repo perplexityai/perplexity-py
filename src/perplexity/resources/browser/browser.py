@@ -11,12 +11,15 @@ from .sessions import (
     AsyncSessionsResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
+from ...generated.api import (
+    BrowserResource as GeneratedBrowserResource,
+    AsyncClientBrowserResource as GeneratedAsyncBrowserResource,
+)
 
 __all__ = ["BrowserResource", "AsyncBrowserResource"]
 
 
-class BrowserResource(SyncAPIResource):
+class BrowserResource(GeneratedBrowserResource):
     @cached_property
     def sessions(self) -> SessionsResource:
         return SessionsResource(self._client)
@@ -41,7 +44,7 @@ class BrowserResource(SyncAPIResource):
         return BrowserResourceWithStreamingResponse(self)
 
 
-class AsyncBrowserResource(AsyncAPIResource):
+class AsyncBrowserResource(GeneratedAsyncBrowserResource):
     @cached_property
     def sessions(self) -> AsyncSessionsResource:
         return AsyncSessionsResource(self._client)
