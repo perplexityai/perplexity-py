@@ -115,7 +115,7 @@ ignore_errors = true
 
 
 [tool.ruff]
-extend-exclude = ["src/perplexity/generated"]
+extend-exclude = ["src/perplexity/generated", "src/perplexity/resources"]
 line-length = 120
 output-format = "grouped"
 target-version = "py38"
