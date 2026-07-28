@@ -2,16 +2,16 @@ from perplexity.generated.api import (
     EmbeddingsResource,
     AsyncClientEmbeddingsResource as AsyncEmbeddingsResource,
     EmbeddingsResourceWithRawResponse,
-    EmbeddingsResourceWithStreamingResponse,
     AsyncClientEmbeddingsResourceWithRawResponse as AsyncEmbeddingsResourceWithRawResponse,
+    EmbeddingsResourceWithStreamingResponse,
     AsyncClientEmbeddingsResourceWithStreamingResponse as AsyncEmbeddingsResourceWithStreamingResponse,
 )
 
 __all__ = [
     "EmbeddingsResource",
-    "EmbeddingsResourceWithRawResponse",
-    "EmbeddingsResourceWithStreamingResponse",
     "AsyncEmbeddingsResource",
+    "EmbeddingsResourceWithRawResponse",
     "AsyncEmbeddingsResourceWithRawResponse",
+    "EmbeddingsResourceWithStreamingResponse",
     "AsyncEmbeddingsResourceWithStreamingResponse",
 ]

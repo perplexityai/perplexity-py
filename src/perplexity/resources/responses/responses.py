@@ -2,16 +2,16 @@ from perplexity.generated.api import (
     ResponsesResource,
     AsyncClientResponsesResource as AsyncResponsesResource,
     ResponsesResourceWithRawResponse,
-    ResponsesResourceWithStreamingResponse,
     AsyncClientResponsesResourceWithRawResponse as AsyncResponsesResourceWithRawResponse,
+    ResponsesResourceWithStreamingResponse,
     AsyncClientResponsesResourceWithStreamingResponse as AsyncResponsesResourceWithStreamingResponse,
 )
 
 __all__ = [
     "ResponsesResource",
-    "ResponsesResourceWithRawResponse",
-    "ResponsesResourceWithStreamingResponse",
     "AsyncResponsesResource",
+    "ResponsesResourceWithRawResponse",
     "AsyncResponsesResourceWithRawResponse",
+    "ResponsesResourceWithStreamingResponse",
     "AsyncResponsesResourceWithStreamingResponse",
 ]

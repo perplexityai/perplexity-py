@@ -2,16 +2,16 @@ from perplexity.generated.api import (
     SearchResource,
     AsyncClientSearchResource as AsyncSearchResource,
     SearchResourceWithRawResponse,
-    SearchResourceWithStreamingResponse,
     AsyncClientSearchResourceWithRawResponse as AsyncSearchResourceWithRawResponse,
+    SearchResourceWithStreamingResponse,
     AsyncClientSearchResourceWithStreamingResponse as AsyncSearchResourceWithStreamingResponse,
 )
 
 __all__ = [
     "SearchResource",
-    "SearchResourceWithRawResponse",
-    "SearchResourceWithStreamingResponse",
     "AsyncSearchResource",
+    "SearchResourceWithRawResponse",
     "AsyncSearchResourceWithRawResponse",
+    "SearchResourceWithStreamingResponse",
     "AsyncSearchResourceWithStreamingResponse",
 ]
