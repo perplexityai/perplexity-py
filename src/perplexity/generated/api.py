@@ -2525,6 +2525,7 @@ class AsyncChatCompletionsCompletionGetParams(BaseModel):
     x_request_time: Optional[str] = Field(None, alias="x-request-time")
     x_usage_tier: Optional[str] = Field(None, alias="x-usage-tier")
     x_user_id: Optional[str] = Field(None, alias="x-user-id")
+    api_request: str
     local_mode: Optional[bool] = None
 
 
@@ -2548,7 +2549,8 @@ ErrorInfo: TypeAlias = ErrorInfoOutput
 
 
 class ResponsesFilesFileContentParams(BaseModel):
-    pass
+    file_id: str
+    response_id: str
 
 
 FunctionCallOutputItem: TypeAlias = FunctionCallOutputItemOutput
@@ -2741,6 +2743,14 @@ class AsyncChatCompletionsResource(SyncAPIResource):
 
 
 class AsyncChatResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncChatResourceWithRawResponse:
+        return AsyncChatResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncChatResourceWithStreamingResponse:
+        return AsyncChatResourceWithStreamingResponse(self)
+
     @cached_property
     def completions(self) -> AsyncChatCompletionsResource:
         return AsyncChatCompletionsResource(self._client)
@@ -3255,17 +3265,41 @@ class ResponsesFilesResource(SyncAPIResource):
 
 class AsyncResource(SyncAPIResource):
     @cached_property
+    def with_raw_response(self) -> AsyncResourceWithRawResponse:
+        return AsyncResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncResourceWithStreamingResponse:
+        return AsyncResourceWithStreamingResponse(self)
+
+    @cached_property
     def chat(self) -> AsyncChatResource:
         return AsyncChatResource(self._client)
 
 
 class BrowserResource(SyncAPIResource):
     @cached_property
+    def with_raw_response(self) -> BrowserResourceWithRawResponse:
+        return BrowserResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> BrowserResourceWithStreamingResponse:
+        return BrowserResourceWithStreamingResponse(self)
+
+    @cached_property
     def sessions(self) -> BrowserSessionsResource:
         return BrowserSessionsResource(self._client)
 
 
 class ChatResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ChatResourceWithRawResponse:
+        return ChatResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ChatResourceWithStreamingResponse:
+        return ChatResourceWithStreamingResponse(self)
+
     @cached_property
     def completions(self) -> ChatCompletionsResource:
         return ChatCompletionsResource(self._client)
@@ -3673,6 +3707,26 @@ class AsyncChatCompletionsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(resource, "list")
 
 
+class AsyncChatResourceWithRawResponse:
+    def __init__(self, resource: AsyncChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> AsyncChatCompletionsResourceWithRawResponse:
+        return AsyncChatCompletionsResourceWithRawResponse(self._resource.completions)
+
+
+class AsyncChatResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> AsyncChatCompletionsResourceWithStreamingResponse:
+        return AsyncChatCompletionsResourceWithStreamingResponse(
+            self._resource.completions
+        )
+
+
 class BrowserSessionsResourceWithRawResponse:
     def __init__(self, resource: BrowserSessionsResource) -> None:
         self._resource = resource
@@ -3713,6 +3767,60 @@ class ResponsesFilesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(resource, "list")
 
 
+class AsyncResourceWithRawResponse:
+    def __init__(self, resource: AsyncResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def chat(self) -> AsyncChatResourceWithRawResponse:
+        return AsyncChatResourceWithRawResponse(self._resource.chat)
+
+
+class AsyncResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def chat(self) -> AsyncChatResourceWithStreamingResponse:
+        return AsyncChatResourceWithStreamingResponse(self._resource.chat)
+
+
+class BrowserResourceWithRawResponse:
+    def __init__(self, resource: BrowserResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def sessions(self) -> BrowserSessionsResourceWithRawResponse:
+        return BrowserSessionsResourceWithRawResponse(self._resource.sessions)
+
+
+class BrowserResourceWithStreamingResponse:
+    def __init__(self, resource: BrowserResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def sessions(self) -> BrowserSessionsResourceWithStreamingResponse:
+        return BrowserSessionsResourceWithStreamingResponse(self._resource.sessions)
+
+
+class ChatResourceWithRawResponse:
+    def __init__(self, resource: ChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> ChatCompletionsResourceWithRawResponse:
+        return ChatCompletionsResourceWithRawResponse(self._resource.completions)
+
+
+class ChatResourceWithStreamingResponse:
+    def __init__(self, resource: ChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> ChatCompletionsResourceWithStreamingResponse:
+        return ChatCompletionsResourceWithStreamingResponse(self._resource.completions)
+
+
 class ContextualizedEmbeddingsResourceWithRawResponse:
     def __init__(self, resource: ContextualizedEmbeddingsResource) -> None:
         self._resource = resource
@@ -3744,6 +3852,10 @@ class ResponsesResourceWithRawResponse:
         self.create = to_raw_response_wrapper(resource, "create")
         self.retrieve = to_raw_response_wrapper(resource, "retrieve")
 
+    @cached_property
+    def files(self) -> ResponsesFilesResourceWithRawResponse:
+        return ResponsesFilesResourceWithRawResponse(self._resource.files)
+
 
 class ResponsesResourceWithStreamingResponse:
     def __init__(self, resource: ResponsesResource) -> None:
@@ -3751,6 +3863,10 @@ class ResponsesResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(resource, "cancel")
         self.create = to_streamed_response_wrapper(resource, "create")
         self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
+
+    @cached_property
+    def files(self) -> ResponsesFilesResourceWithStreamingResponse:
+        return ResponsesFilesResourceWithStreamingResponse(self._resource.files)
 
 
 class SearchResourceWithRawResponse:
@@ -3914,6 +4030,16 @@ class AsyncClientAsyncChatCompletionsResource(AsyncAPIResource):
 
 
 class AsyncClientAsyncChatResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientAsyncChatResourceWithRawResponse:
+        return AsyncClientAsyncChatResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientAsyncChatResourceWithStreamingResponse:
+        return AsyncClientAsyncChatResourceWithStreamingResponse(self)
+
     @cached_property
     def completions(self) -> AsyncClientAsyncChatCompletionsResource:
         return AsyncClientAsyncChatCompletionsResource(self._client)
@@ -4434,17 +4560,43 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
 
 class AsyncClientAsyncResource(AsyncAPIResource):
     @cached_property
+    def with_raw_response(self) -> AsyncClientAsyncResourceWithRawResponse:
+        return AsyncClientAsyncResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncClientAsyncResourceWithStreamingResponse:
+        return AsyncClientAsyncResourceWithStreamingResponse(self)
+
+    @cached_property
     def chat(self) -> AsyncClientAsyncChatResource:
         return AsyncClientAsyncChatResource(self._client)
 
 
 class AsyncClientBrowserResource(AsyncAPIResource):
     @cached_property
+    def with_raw_response(self) -> AsyncClientBrowserResourceWithRawResponse:
+        return AsyncClientBrowserResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientBrowserResourceWithStreamingResponse:
+        return AsyncClientBrowserResourceWithStreamingResponse(self)
+
+    @cached_property
     def sessions(self) -> AsyncClientBrowserSessionsResource:
         return AsyncClientBrowserSessionsResource(self._client)
 
 
 class AsyncClientChatResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientChatResourceWithRawResponse:
+        return AsyncClientChatResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncClientChatResourceWithStreamingResponse:
+        return AsyncClientChatResourceWithStreamingResponse(self)
+
     @cached_property
     def completions(self) -> AsyncClientChatCompletionsResource:
         return AsyncClientChatCompletionsResource(self._client)
@@ -4858,6 +5010,30 @@ class AsyncClientAsyncChatCompletionsResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(resource, "list")
 
 
+class AsyncClientAsyncChatResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientAsyncChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> AsyncClientAsyncChatCompletionsResourceWithRawResponse:
+        return AsyncClientAsyncChatCompletionsResourceWithRawResponse(
+            self._resource.completions
+        )
+
+
+class AsyncClientAsyncChatResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientAsyncChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(
+        self,
+    ) -> AsyncClientAsyncChatCompletionsResourceWithStreamingResponse:
+        return AsyncClientAsyncChatCompletionsResourceWithStreamingResponse(
+            self._resource.completions
+        )
+
+
 class AsyncClientBrowserSessionsResourceWithRawResponse:
     def __init__(self, resource: AsyncClientBrowserSessionsResource) -> None:
         self._resource = resource
@@ -4898,6 +5074,68 @@ class AsyncClientResponsesFilesResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(resource, "list")
 
 
+class AsyncClientAsyncResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientAsyncResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def chat(self) -> AsyncClientAsyncChatResourceWithRawResponse:
+        return AsyncClientAsyncChatResourceWithRawResponse(self._resource.chat)
+
+
+class AsyncClientAsyncResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientAsyncResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def chat(self) -> AsyncClientAsyncChatResourceWithStreamingResponse:
+        return AsyncClientAsyncChatResourceWithStreamingResponse(self._resource.chat)
+
+
+class AsyncClientBrowserResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientBrowserResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def sessions(self) -> AsyncClientBrowserSessionsResourceWithRawResponse:
+        return AsyncClientBrowserSessionsResourceWithRawResponse(
+            self._resource.sessions
+        )
+
+
+class AsyncClientBrowserResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientBrowserResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def sessions(self) -> AsyncClientBrowserSessionsResourceWithStreamingResponse:
+        return AsyncClientBrowserSessionsResourceWithStreamingResponse(
+            self._resource.sessions
+        )
+
+
+class AsyncClientChatResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> AsyncClientChatCompletionsResourceWithRawResponse:
+        return AsyncClientChatCompletionsResourceWithRawResponse(
+            self._resource.completions
+        )
+
+
+class AsyncClientChatResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientChatResource) -> None:
+        self._resource = resource
+
+    @cached_property
+    def completions(self) -> AsyncClientChatCompletionsResourceWithStreamingResponse:
+        return AsyncClientChatCompletionsResourceWithStreamingResponse(
+            self._resource.completions
+        )
+
+
 class AsyncClientContextualizedEmbeddingsResourceWithRawResponse:
     def __init__(self, resource: AsyncClientContextualizedEmbeddingsResource) -> None:
         self._resource = resource
@@ -4929,6 +5167,10 @@ class AsyncClientResponsesResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(resource, "create")
         self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
 
+    @cached_property
+    def files(self) -> AsyncClientResponsesFilesResourceWithRawResponse:
+        return AsyncClientResponsesFilesResourceWithRawResponse(self._resource.files)
+
 
 class AsyncClientResponsesResourceWithStreamingResponse:
     def __init__(self, resource: AsyncClientResponsesResource) -> None:
@@ -4936,6 +5178,12 @@ class AsyncClientResponsesResourceWithStreamingResponse:
         self.cancel = async_to_streamed_response_wrapper(resource, "cancel")
         self.create = async_to_streamed_response_wrapper(resource, "create")
         self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
+
+    @cached_property
+    def files(self) -> AsyncClientResponsesFilesResourceWithStreamingResponse:
+        return AsyncClientResponsesFilesResourceWithStreamingResponse(
+            self._resource.files
+        )
 
 
 class AsyncClientSearchResourceWithRawResponse:
