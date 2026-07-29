@@ -649,6 +649,9 @@ def construct_type(*, value: object, type_: object, metadata: Optional[List[Any]
             if issubclass(type_, BaseModel):
                 return type_.construct(**value)  # type: ignore[arg-type]
 
+            if issubclass(type_, GeneratedBaseModel):
+                return cast(Any, BaseModel.construct).__func__(type_, **value)
+
             return cast(Any, type_).model_construct(**value)
 
     if origin == list:
