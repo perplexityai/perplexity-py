@@ -4,7 +4,7 @@ import importlib
 
 import pytest
 
-from perplexity import Perplexity
+from perplexity import Perplexity, AsyncPerplexity
 from perplexity.generated import api as generated
 
 RESOURCE_MODULES = [
@@ -72,3 +72,22 @@ def test_client_resource_graph_uses_generated_resources() -> None:
         assert isinstance(client.responses.files, generated.ResponsesFilesResource)
         assert isinstance(client.browser.sessions, generated.BrowserSessionsResource)
         assert isinstance(client.async_.chat.completions, generated.AsyncChatCompletionsResource)
+        assert isinstance(client.with_raw_response.chat, generated.ChatResourceWithRawResponse)
+        assert isinstance(
+            client.with_streaming_response.responses,
+            generated.ResponsesResourceWithStreamingResponse,
+        )
+
+
+@pytest.mark.asyncio
+async def test_async_client_resource_graph_uses_generated_resources() -> None:
+    async with AsyncPerplexity(api_key="test", base_url="https://example.test") as client:
+        assert isinstance(client.chat, generated.AsyncClientChatResource)
+        assert isinstance(
+            client.with_raw_response.chat,
+            generated.AsyncClientChatResourceWithRawResponse,
+        )
+        assert isinstance(
+            client.with_streaming_response.responses,
+            generated.AsyncClientResponsesResourceWithStreamingResponse,
+        )
