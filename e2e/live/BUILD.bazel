@@ -1,0 +1,11 @@
+load("//:py.bzl", "pytest_test")
+
+pytest_test(
+    name = "live_test",
+    timeout = "long",
+    srcs = ["test_live_sdk.py"],
+    tags = [
+        "functional_test",
+        "manual",
+    ],
+)
