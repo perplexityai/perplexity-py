@@ -1,0 +1,15 @@
+load("//:py.bzl", "pytest_test")
+
+pytest_test(
+    name = "wheel_conformance_test",
+    srcs = ["wheel_conformance_test.py"],
+    data = ["//:wheel"],
+    deps = [
+        "@pip//anyio",
+        "@pip//distro",
+        "@pip//httpx",
+        "@pip//pydantic",
+        "@pip//sniffio",
+        "@pip//typing_extensions",
+    ],
+)

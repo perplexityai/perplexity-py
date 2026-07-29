@@ -1,0 +1,44 @@
+name: Functional tests
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '17 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: functional-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  functional-tests:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@c5acdfb288317d0b5c0bbd7a396a3dc868bb0f86
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}-functional-tests
+          repository-cache: true
+
+      - name: Run functional tests
+        env:
+          PPLX_API_TOKEN: ${{ secrets.PPLX_API_TOKEN }}
+        run: |
+          mapfile -t functional_tests < <(
+            bazel query 'attr(tags, functional_test, tests(//e2e/...))' --output=label
+          )
+          if (( ${#functional_tests[@]} == 0 )); then
+            echo "No functional tests found" >&2
+            exit 1
+          fi
+          bazel test "${functional_tests[@]}" --test_env=PPLX_API_TOKEN

@@ -86,6 +86,15 @@ pytest_test(
 )
 
 pytest_test(
+    name = "test_resource_compatibility_test",
+    srcs = ["test_resource_compatibility.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+    ],
+)
+
+pytest_test(
     name = "test_response_test",
     srcs = ["test_response.py"],
     deps = [

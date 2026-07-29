@@ -1,0 +1,11 @@
+load("//:py.bzl", "perplexity_py_library")
+load(":live_tests.bzl", "live_tests")
+
+live_tests()
+
+perplexity_py_library(
+    name = "helpers",
+    testonly = True,
+    srcs = ["helpers.py"],
+    visibility = ["//visibility:private"],
+)
