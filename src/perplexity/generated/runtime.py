@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # isort: skip_file
 # ruff: noqa: ANN401
-from collections.abc import AsyncIterator, Awaitable, Callable, Iterator, Mapping
+from collections.abc import AsyncIterator, Callable, Iterator, Mapping
 from functools import wraps
 from typing import Any, Generic, Literal, Optional, Protocol, TypeVar
 
@@ -94,13 +94,6 @@ class AsyncStreamResponse(Protocol):
     async def aclose(self) -> None: ...
 
 
-class AsyncClosableResponse(Protocol):
-    async def close(self) -> None: ...
-
-
-_AsyncResponseT = TypeVar("_AsyncResponseT", bound=AsyncClosableResponse)
-
-
 class BinaryAPIResponse(Protocol):
     @property
     def is_closed(self) -> bool: ...
@@ -119,12 +112,12 @@ class AsyncBinaryAPIResponse(Protocol):
     async def read(self) -> bytes: ...
 
 
-class AsyncResponseContextManager(Generic[_AsyncResponseT]):
-    def __init__(self, response: Awaitable[_AsyncResponseT]) -> None:
+class AsyncResponseContextManager:
+    def __init__(self, response: Any) -> None:
         self._response = response
-        self._context: _AsyncResponseT | None = None
+        self._context: Any = None
 
-    async def __aenter__(self) -> _AsyncResponseT:
+    async def __aenter__(self) -> Any:
         self._context = await self._response
         return self._context
 
@@ -135,8 +128,7 @@ class AsyncResponseContextManager(Generic[_AsyncResponseT]):
         traceback: Any,
     ) -> None:
         del exc_type, exc, traceback
-        if self._context is not None:
-            await self._context.close()
+        await self._context.aclose()
 
 
 class SyncTransport(Protocol):
