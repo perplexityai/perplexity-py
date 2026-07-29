@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Any, Mapping
+from typing import Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -33,20 +33,15 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources._client import (
+    SyncClientResources,
+    AsyncClientResources,
+    SyncClientWithRawResponse,
+    AsyncClientWithRawResponse,
+    SyncClientWithStreamingResponse,
+    AsyncClientWithStreamingResponse,
+)
 from ._generated_transport import SyncTransportAdapter, AsyncTransportAdapter
-
-if TYPE_CHECKING:
-    from .resources import chat, async_, search, browser, responses, embeddings, contextualized_embeddings
-    from .resources.search import SearchResource, AsyncSearchResource
-    from .resources.chat.chat import ChatResource, AsyncChatResource
-    from .resources.embeddings import EmbeddingsResource, AsyncEmbeddingsResource
-    from .resources.async_.async_ import AsyncResource, AsyncAsyncResource
-    from .resources.browser.browser import BrowserResource, AsyncBrowserResource
-    from .resources.responses.responses import ResponsesResource, AsyncResponsesResource
-    from .resources.contextualized_embeddings import (
-        ContextualizedEmbeddingsResource,
-        AsyncContextualizedEmbeddingsResource,
-    )
 
 __all__ = [
     "Timeout",
@@ -60,7 +55,7 @@ __all__ = [
 ]
 
 
-class Perplexity(SyncAPIClient):
+class Perplexity(SyncClientResources, SyncAPIClient):
     # client options
     api_key: str
 
@@ -125,48 +120,7 @@ class Perplexity(SyncAPIClient):
         )
 
         self._default_stream_cls = Stream
-
-    @cached_property
-    def chat(self) -> ChatResource:
-        from .resources.chat import ChatResource
-
-        return ChatResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def search(self) -> SearchResource:
-        from .resources.search import SearchResource
-
-        return SearchResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def responses(self) -> ResponsesResource:
-        from .resources.responses import ResponsesResource
-
-        return ResponsesResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def embeddings(self) -> EmbeddingsResource:
-        from .resources.embeddings import EmbeddingsResource
-
-        return EmbeddingsResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
-        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResource
-
-        return ContextualizedEmbeddingsResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def browser(self) -> BrowserResource:
-        from .resources.browser import BrowserResource
-
-        return BrowserResource(SyncTransportAdapter(self))
-
-    @cached_property
-    def async_(self) -> AsyncResource:
-        from .resources.async_ import AsyncResource
-
-        return AsyncResource(SyncTransportAdapter(self))
+        self._sdk_transport = SyncTransportAdapter(self)
 
     @cached_property
     def with_raw_response(self) -> PerplexityWithRawResponse:
@@ -283,7 +237,7 @@ class Perplexity(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncPerplexity(AsyncAPIClient):
+class AsyncPerplexity(AsyncClientResources, AsyncAPIClient):
     # client options
     api_key: str
 
@@ -348,48 +302,7 @@ class AsyncPerplexity(AsyncAPIClient):
         )
 
         self._default_stream_cls = AsyncStream
-
-    @cached_property
-    def chat(self) -> AsyncChatResource:
-        from .resources.chat import AsyncChatResource
-
-        return AsyncChatResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def search(self) -> AsyncSearchResource:
-        from .resources.search import AsyncSearchResource
-
-        return AsyncSearchResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def responses(self) -> AsyncResponsesResource:
-        from .resources.responses import AsyncResponsesResource
-
-        return AsyncResponsesResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def embeddings(self) -> AsyncEmbeddingsResource:
-        from .resources.embeddings import AsyncEmbeddingsResource
-
-        return AsyncEmbeddingsResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def contextualized_embeddings(self) -> AsyncContextualizedEmbeddingsResource:
-        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResource
-
-        return AsyncContextualizedEmbeddingsResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def browser(self) -> AsyncBrowserResource:
-        from .resources.browser import AsyncBrowserResource
-
-        return AsyncBrowserResource(AsyncTransportAdapter(self))
-
-    @cached_property
-    def async_(self) -> AsyncAsyncResource:
-        from .resources.async_ import AsyncAsyncResource
-
-        return AsyncAsyncResource(AsyncTransportAdapter(self))
+        self._sdk_transport = AsyncTransportAdapter(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncPerplexityWithRawResponse:
@@ -506,206 +419,24 @@ class AsyncPerplexity(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class PerplexityWithRawResponse:
-    _client: Perplexity
-
+class PerplexityWithRawResponse(SyncClientWithRawResponse):
     def __init__(self, client: Perplexity) -> None:
-        self._client = client
-
-    @cached_property
-    def chat(self) -> chat.ChatResourceWithRawResponse:
-        from .resources.chat import ChatResourceWithRawResponse
-
-        return ChatResourceWithRawResponse(self._client.chat)
-
-    @cached_property
-    def search(self) -> search.SearchResourceWithRawResponse:
-        from .resources.search import SearchResourceWithRawResponse
-
-        return SearchResourceWithRawResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.ResponsesResourceWithRawResponse:
-        from .resources.responses import ResponsesResourceWithRawResponse
-
-        return ResponsesResourceWithRawResponse(self._client.responses)
-
-    @cached_property
-    def embeddings(self) -> embeddings.EmbeddingsResourceWithRawResponse:
-        from .resources.embeddings import EmbeddingsResourceWithRawResponse
-
-        return EmbeddingsResourceWithRawResponse(self._client.embeddings)
-
-    @cached_property
-    def contextualized_embeddings(self) -> contextualized_embeddings.ContextualizedEmbeddingsResourceWithRawResponse:
-        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResourceWithRawResponse
-
-        return ContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
-
-    @cached_property
-    def browser(self) -> browser.BrowserResourceWithRawResponse:
-        from .resources.browser import BrowserResourceWithRawResponse
-
-        return BrowserResourceWithRawResponse(self._client.browser)
-
-    @cached_property
-    def async_(self) -> async_.AsyncResourceWithRawResponse:
-        from .resources.async_ import AsyncResourceWithRawResponse
-
-        return AsyncResourceWithRawResponse(self._client.async_)
+        super().__init__(client)
 
 
-class AsyncPerplexityWithRawResponse:
-    _client: AsyncPerplexity
-
+class AsyncPerplexityWithRawResponse(AsyncClientWithRawResponse):
     def __init__(self, client: AsyncPerplexity) -> None:
-        self._client = client
-
-    @cached_property
-    def chat(self) -> chat.AsyncChatResourceWithRawResponse:
-        from .resources.chat import AsyncChatResourceWithRawResponse
-
-        return AsyncChatResourceWithRawResponse(self._client.chat)
-
-    @cached_property
-    def search(self) -> search.AsyncSearchResourceWithRawResponse:
-        from .resources.search import AsyncSearchResourceWithRawResponse
-
-        return AsyncSearchResourceWithRawResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.AsyncResponsesResourceWithRawResponse:
-        from .resources.responses import AsyncResponsesResourceWithRawResponse
-
-        return AsyncResponsesResourceWithRawResponse(self._client.responses)
-
-    @cached_property
-    def embeddings(self) -> embeddings.AsyncEmbeddingsResourceWithRawResponse:
-        from .resources.embeddings import AsyncEmbeddingsResourceWithRawResponse
-
-        return AsyncEmbeddingsResourceWithRawResponse(self._client.embeddings)
-
-    @cached_property
-    def contextualized_embeddings(
-        self,
-    ) -> contextualized_embeddings.AsyncContextualizedEmbeddingsResourceWithRawResponse:
-        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithRawResponse
-
-        return AsyncContextualizedEmbeddingsResourceWithRawResponse(self._client.contextualized_embeddings)
-
-    @cached_property
-    def browser(self) -> browser.AsyncBrowserResourceWithRawResponse:
-        from .resources.browser import AsyncBrowserResourceWithRawResponse
-
-        return AsyncBrowserResourceWithRawResponse(self._client.browser)
-
-    @cached_property
-    def async_(self) -> async_.AsyncAsyncResourceWithRawResponse:
-        from .resources.async_ import AsyncAsyncResourceWithRawResponse
-
-        return AsyncAsyncResourceWithRawResponse(self._client.async_)
+        super().__init__(client)
 
 
-class PerplexityWithStreamedResponse:
-    _client: Perplexity
-
+class PerplexityWithStreamedResponse(SyncClientWithStreamingResponse):
     def __init__(self, client: Perplexity) -> None:
-        self._client = client
-
-    @cached_property
-    def chat(self) -> chat.ChatResourceWithStreamingResponse:
-        from .resources.chat import ChatResourceWithStreamingResponse
-
-        return ChatResourceWithStreamingResponse(self._client.chat)
-
-    @cached_property
-    def search(self) -> search.SearchResourceWithStreamingResponse:
-        from .resources.search import SearchResourceWithStreamingResponse
-
-        return SearchResourceWithStreamingResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.ResponsesResourceWithStreamingResponse:
-        from .resources.responses import ResponsesResourceWithStreamingResponse
-
-        return ResponsesResourceWithStreamingResponse(self._client.responses)
-
-    @cached_property
-    def embeddings(self) -> embeddings.EmbeddingsResourceWithStreamingResponse:
-        from .resources.embeddings import EmbeddingsResourceWithStreamingResponse
-
-        return EmbeddingsResourceWithStreamingResponse(self._client.embeddings)
-
-    @cached_property
-    def contextualized_embeddings(
-        self,
-    ) -> contextualized_embeddings.ContextualizedEmbeddingsResourceWithStreamingResponse:
-        from .resources.contextualized_embeddings import ContextualizedEmbeddingsResourceWithStreamingResponse
-
-        return ContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
-
-    @cached_property
-    def browser(self) -> browser.BrowserResourceWithStreamingResponse:
-        from .resources.browser import BrowserResourceWithStreamingResponse
-
-        return BrowserResourceWithStreamingResponse(self._client.browser)
-
-    @cached_property
-    def async_(self) -> async_.AsyncResourceWithStreamingResponse:
-        from .resources.async_ import AsyncResourceWithStreamingResponse
-
-        return AsyncResourceWithStreamingResponse(self._client.async_)
+        super().__init__(client)
 
 
-class AsyncPerplexityWithStreamedResponse:
-    _client: AsyncPerplexity
-
+class AsyncPerplexityWithStreamedResponse(AsyncClientWithStreamingResponse):
     def __init__(self, client: AsyncPerplexity) -> None:
-        self._client = client
-
-    @cached_property
-    def chat(self) -> chat.AsyncChatResourceWithStreamingResponse:
-        from .resources.chat import AsyncChatResourceWithStreamingResponse
-
-        return AsyncChatResourceWithStreamingResponse(self._client.chat)
-
-    @cached_property
-    def search(self) -> search.AsyncSearchResourceWithStreamingResponse:
-        from .resources.search import AsyncSearchResourceWithStreamingResponse
-
-        return AsyncSearchResourceWithStreamingResponse(self._client.search)
-
-    @cached_property
-    def responses(self) -> responses.AsyncResponsesResourceWithStreamingResponse:
-        from .resources.responses import AsyncResponsesResourceWithStreamingResponse
-
-        return AsyncResponsesResourceWithStreamingResponse(self._client.responses)
-
-    @cached_property
-    def embeddings(self) -> embeddings.AsyncEmbeddingsResourceWithStreamingResponse:
-        from .resources.embeddings import AsyncEmbeddingsResourceWithStreamingResponse
-
-        return AsyncEmbeddingsResourceWithStreamingResponse(self._client.embeddings)
-
-    @cached_property
-    def contextualized_embeddings(
-        self,
-    ) -> contextualized_embeddings.AsyncContextualizedEmbeddingsResourceWithStreamingResponse:
-        from .resources.contextualized_embeddings import AsyncContextualizedEmbeddingsResourceWithStreamingResponse
-
-        return AsyncContextualizedEmbeddingsResourceWithStreamingResponse(self._client.contextualized_embeddings)
-
-    @cached_property
-    def browser(self) -> browser.AsyncBrowserResourceWithStreamingResponse:
-        from .resources.browser import AsyncBrowserResourceWithStreamingResponse
-
-        return AsyncBrowserResourceWithStreamingResponse(self._client.browser)
-
-    @cached_property
-    def async_(self) -> async_.AsyncAsyncResourceWithStreamingResponse:
-        from .resources.async_ import AsyncAsyncResourceWithStreamingResponse
-
-        return AsyncAsyncResourceWithStreamingResponse(self._client.async_)
+        super().__init__(client)
 
 
 Client = Perplexity

@@ -7,7 +7,7 @@ def test_responses() -> None:
     with create_client() as client:
         response = client.responses.create(
             input="Reply with only the word pong.",
-            max_output_tokens=16,
+            max_output_tokens=128,
             preset="pro-search",
         )
 

@@ -6,7 +6,10 @@ import httpx
 
 from perplexity import Perplexity
 from perplexity.types import SearchCreateResponse
-from perplexity.generated.api import SearchCreateResponse as GeneratedSearchCreateResponse
+from perplexity.generated.api import (
+    ApiSearchPageOutput,
+    SearchCreateResponse as GeneratedSearchCreateResponse,
+)
 
 
 def test_client_uses_generated_api_and_model() -> None:
@@ -16,7 +19,16 @@ def test_client_uses_generated_api_and_model() -> None:
         requests.append(request)
         return httpx.Response(
             200,
-            json={"id": "search-1", "results": []},
+            json={
+                "id": "search-1",
+                "results": [
+                    {
+                        "snippet": "An answer engine.",
+                        "title": "Perplexity",
+                        "url": "https://www.perplexity.ai",
+                    }
+                ],
+            },
             request=request,
         )
 
@@ -29,5 +41,7 @@ def test_client_uses_generated_api_and_model() -> None:
 
     assert SearchCreateResponse is GeneratedSearchCreateResponse
     assert isinstance(response, GeneratedSearchCreateResponse)
+    assert isinstance(response.results[0], ApiSearchPageOutput)
+    assert response.results[0].title == "Perplexity"
     assert requests[0].url == "https://example.test/search"
     assert json.loads(requests[0].content) == {"query": "perplexity"}

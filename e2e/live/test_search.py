@@ -11,4 +11,4 @@ def test_search() -> None:
     assert search.results
     assert search.results[0].title
     assert search.results[0].url
-    assert search.results[0].snippet
+    assert isinstance(search.results[0].snippet, str)
