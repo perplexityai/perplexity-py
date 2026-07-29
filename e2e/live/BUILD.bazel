@@ -1,11 +1,11 @@
-load("//:py.bzl", "pytest_test")
+load("//:py.bzl", "perplexity_py_library")
+load(":live_tests.bzl", "live_tests")
 
-pytest_test(
-    name = "live_test",
-    timeout = "long",
-    srcs = ["test_live_sdk.py"],
-    tags = [
-        "functional_test",
-        "manual",
-    ],
+live_tests()
+
+perplexity_py_library(
+    name = "helpers",
+    testonly = True,
+    srcs = ["helpers.py"],
+    visibility = ["//visibility:private"],
 )
