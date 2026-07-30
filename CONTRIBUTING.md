@@ -6,6 +6,7 @@ Install Node 26 and [Bazelisk](https://github.com/bazelbuild/bazelisk), then
 enable the repository's pinned `pnpm`:
 
 ```sh
+npm install --global corepack@latest
 corepack enable pnpm
 pnpm install --frozen-lockfile
 pnpm lefthook install
@@ -25,7 +26,8 @@ small and deterministic.
 
 For a dependency change:
 
-1. Update `pyproject.toml`.
+1. Update dependencies in `pyproject.toml`. Change `uv.toml` only for UV
+   resolver or index configuration.
 2. Keep the `py_wheel.requires` metadata in `BUILD.bazel` aligned.
 3. Update the lock and BUILD files:
 
