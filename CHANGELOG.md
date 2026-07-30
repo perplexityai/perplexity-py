@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.43.1](https://github.com/perplexityai/perplexity-py/compare/v0.43.0...v0.43.1) (2026-07-30)
+
+
+### Bug Fixes
+
+* publish stable GitHub releases ([#85](https://github.com/perplexityai/perplexity-py/issues/85)) ([269fe36](https://github.com/perplexityai/perplexity-py/commit/269fe36884e6dd904bac4ebc2f5340c3b5d8b7d6))
+
 ## [0.43.0](https://github.com/perplexityai/perplexity-py/compare/v0.42.0...v0.43.0) (2026-07-30)
 
 
