@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.43.0](https://github.com/perplexityai/perplexity-py/compare/v0.42.0...v0.43.0) (2026-07-30)
+
+
+### Features
+
+* use generated API resources and models ([#72](https://github.com/perplexityai/perplexity-py/issues/72)) ([4e419c3](https://github.com/perplexityai/perplexity-py/commit/4e419c32e93c5be845d438038390d1fff2766017))
+
+
+### Bug Fixes
+
+* restore generated SDK conformance ([#77](https://github.com/perplexityai/perplexity-py/issues/77)) ([1b47517](https://github.com/perplexityai/perplexity-py/commit/1b4751775e0ebbb7cb407d76fa9abc17ae827626))
+
+
+### Chores
+
+* sync generated API and resource facade ([#75](https://github.com/perplexityai/perplexity-py/issues/75)) ([523cf0f](https://github.com/perplexityai/perplexity-py/commit/523cf0f971187a9d93fb4abe96acb1238c73838e))
+* sync generated API SDKs ([#71](https://github.com/perplexityai/perplexity-py/issues/71)) ([6e9311d](https://github.com/perplexityai/perplexity-py/commit/6e9311d50d776a0496271020a0d68287db3e3b0e))
+
+
+### Documentation
+
+* add coding agent guidance ([#82](https://github.com/perplexityai/perplexity-py/issues/82)) ([927df4f](https://github.com/perplexityai/perplexity-py/commit/927df4fdb5d3cdb9d8f59558cdac41f37f8a66c6))
+* document development and release workflow ([#81](https://github.com/perplexityai/perplexity-py/issues/81)) ([5cc0393](https://github.com/perplexityai/perplexity-py/commit/5cc0393dfc7fb501941ac4575648752ed2355a46))
+
+
+### Build System
+
+* migrate Python SDK to Bazel ([#73](https://github.com/perplexityai/perplexity-py/issues/73)) ([7b9b2af](https://github.com/perplexityai/perplexity-py/commit/7b9b2af1f52cfd24ec005db7fba19866b202d85e))
+
 ## 0.42.0 (2026-07-17)
 
 Full Changelog: [v0.41.0...v0.42.0](https://github.com/perplexityai/perplexity-py/compare/v0.41.0...v0.42.0)
