@@ -93,10 +93,10 @@ Do not bump versions or publish from a development branch.
    Commits.
 3. Review and merge that PR. It updates the changelog and version files, then
    creates the `v<version>` tag and GitHub release.
-4. The published GitHub release triggers `Publish PyPI`, which runs
-   `bazel run //:wheel.publish`.
+4. The published GitHub release triggers `Publish PyPI`, which builds `//:wheel`
+   and uploads it through PyPI Trusted Publishing.
 
-Release automation requires `RELEASE_TOKEN`. PyPI publishing currently uses
-`PERPLEXITY_PYPI_TOKEN`, with `PYPI_TOKEN` as a fallback. For a failed upload,
-rerun `Publish PyPI` against the existing release tag; do not create a new
-version.
+Release automation requires `RELEASE_TOKEN`. PyPI trusts `publish-pypi.yml`
+through GitHub Actions OIDC; no PyPI token is stored in GitHub. For a failed
+upload, rerun `Publish PyPI` against the existing release tag; do not create a
+new version.

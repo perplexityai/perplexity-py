@@ -12,6 +12,9 @@ jobs:
   publish:
     name: publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -22,8 +25,13 @@ jobs:
           bazelisk-cache: true
           repository-cache: true
 
+      - name: Build wheel
+        run: |
+          bazel build //:wheel
+          mkdir -p dist
+          cp "$(bazel cquery --output=files //:wheel)" dist/
+
       - name: Publish to PyPI
-        run: bazel run //:wheel.publish -- --non-interactive
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PERPLEXITY_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+        with:
+          packages-dir: dist
