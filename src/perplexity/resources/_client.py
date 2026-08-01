@@ -269,4 +269,3 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def search(self) -> AsyncSearchResourceWithStreamingResponse:
         return AsyncSearchResourceWithStreamingResponse(self._client.search)
-

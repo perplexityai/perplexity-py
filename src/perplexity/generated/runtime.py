@@ -4,11 +4,27 @@ from __future__ import annotations
 # ruff: noqa: ANN401
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterator, Mapping
 from functools import wraps
-from typing import Any, Generic, Literal, Optional, Protocol, TypeVar
+from types import UnionType
+from typing import (
+    Annotated,
+    Any,
+    Generic,
+    Literal,
+    Optional,
+    Protocol,
+    TypeVar,
+    Union,
+    get_args,
+    get_origin,
+)
 
 import httpx
-from pydantic import BaseModel as PydanticBaseModel, ConfigDict
-from typing_extensions import TypeAlias
+from pydantic import (
+    BaseModel as PydanticBaseModel,
+    ConfigDict,
+    ValidationError,
+)
+from typing_extensions import Self, TypeAlias
 
 _T_co = TypeVar("_T_co", covariant=True)
 
@@ -30,8 +46,61 @@ Query: TypeAlias = Mapping[str, object]
 Timeout: TypeAlias = httpx.Timeout
 
 
+def _construct_value(value: object, annotation: object) -> object:
+    origin = get_origin(annotation)
+    arguments = get_args(annotation)
+
+    if origin is Annotated:
+        return _construct_value(value, arguments[0])
+    if origin in (Union, UnionType):
+        if isinstance(value, Mapping):
+            model_variants = [
+                variant
+                for variant in arguments
+                if isinstance(variant, type) and issubclass(variant, BaseModel)
+            ]
+            for variant in model_variants:
+                try:
+                    return variant.model_validate(value)
+                except ValidationError:
+                    continue
+            if model_variants:
+                return model_variants[0].model_construct(**value)
+        for variant in arguments:
+            if variant is NoneType:
+                continue
+            constructed = _construct_value(value, variant)
+            if constructed is not value:
+                return constructed
+        return value
+    if origin is list and isinstance(value, list):
+        return [_construct_value(item, arguments[0]) for item in value]
+    if origin is dict and isinstance(value, Mapping):
+        return {
+            key: _construct_value(item, arguments[1]) for key, item in value.items()
+        }
+    if (
+        isinstance(annotation, type)
+        and issubclass(annotation, BaseModel)
+        and isinstance(value, Mapping)
+    ):
+        return annotation.model_construct(**value)
+    return value
+
+
 class BaseModel(PydanticBaseModel):
     model_config = ConfigDict(extra="allow", defer_build=True, populate_by_name=True)
+
+    @classmethod
+    def model_construct(  # type: ignore[override]
+        cls, _fields_set: set[str] | None = None, **values: Any
+    ) -> Self:
+        constructed = dict(values)
+        for name, field in cls.model_fields.items():
+            key = field.alias if field.alias in constructed else name
+            if key in constructed:
+                constructed[key] = _construct_value(constructed[key], field.annotation)
+        return super().model_construct(_fields_set=_fields_set, **constructed)
 
     def to_dict(
         self,
