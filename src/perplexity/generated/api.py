@@ -1080,6 +1080,7 @@ class McpListToolsOutputItemOutput(BaseModel):
 class McpToolInput(BaseModel):
     allowed_tools: Optional[list[str]] = None
     authorization: Optional[str] = None
+    defer_loading: Optional[bool] = None
     headers: Optional[dict[str, str]] = None
     server_label: str
     server_url: str
@@ -1089,6 +1090,7 @@ class McpToolInput(BaseModel):
 class McpToolOutput(BaseModel):
     allowed_tools: Optional[list[str]] = None
     authorization: Optional[str] = None
+    defer_loading: Optional[bool] = None
     headers: Optional[dict[str, str]] = None
     server_label: str
     server_url: str
@@ -1491,7 +1493,9 @@ class ResponsesRequestInput(BaseModel):
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
+    temperature: Optional[float] = None
     tools: Optional[list["ToolInput"]] = None
+    top_p: Optional[float] = None
 
 
 class ResponsesRequestOutput(BaseModel):
@@ -1510,7 +1514,9 @@ class ResponsesRequestOutput(BaseModel):
     skills: Optional[list["SkillOutput"]] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
+    temperature: Optional[float] = None
     tools: Optional[list["ToolOutput"]] = None
+    top_p: Optional[float] = None
 
 
 class ResponsesResponseInput(BaseModel):
@@ -2578,7 +2584,9 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Literal[False] = False
+    temperature: Optional[float] = None
     tools: Optional[list["ToolInput"]] = None
+    top_p: Optional[float] = None
 
 
 class ResponsesResponseCreateParamsStreaming(BaseModel):
@@ -2597,7 +2605,9 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Literal[True]
+    temperature: Optional[float] = None
     tools: Optional[list["ToolInput"]] = None
+    top_p: Optional[float] = None
 
 
 ResponseCreateResponse: TypeAlias = ResponsesResponseOutput
@@ -3472,7 +3482,9 @@ class ResponsesResource(SyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -3501,7 +3513,9 @@ class ResponsesResource(SyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -3529,7 +3543,9 @@ class ResponsesResource(SyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -3553,7 +3569,9 @@ class ResponsesResource(SyncAPIResource):
                     "skills": skills,
                     "store": store,
                     "stream": stream,
+                    "temperature": temperature,
                     "tools": tools,
+                    "top_p": top_p,
                 }
             )
         )
@@ -4775,7 +4793,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4804,7 +4824,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4832,7 +4854,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
+        temperature: Union[float, Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
+        top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4856,7 +4880,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     "skills": skills,
                     "store": store,
                     "stream": stream,
+                    "temperature": temperature,
                     "tools": tools,
+                    "top_p": top_p,
                 }
             )
         )
