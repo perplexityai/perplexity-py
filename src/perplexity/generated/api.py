@@ -569,6 +569,22 @@ CompletionResponseTypeInput: TypeAlias = Literal["message", "info", "end_of_stre
 CompletionResponseTypeOutput: TypeAlias = Literal["message", "info", "end_of_stream"]
 
 
+class ConnectorToolInput(BaseModel):
+    allowed_tools: Optional[list[str]] = None
+    id: str
+    server_description: Optional[str] = None
+    server_label: str
+    type: Literal["connector"]
+
+
+class ConnectorToolOutput(BaseModel):
+    allowed_tools: Optional[list[str]] = None
+    id: str
+    server_description: Optional[str] = None
+    server_label: str
+    type: Literal["connector"]
+
+
 class ContentPartInput(BaseModel):
     annotations: Optional[list["AnnotationInput"]] = None
     text: str
@@ -1043,6 +1059,7 @@ class ListAsyncApiChatCompletionsResponseOutput(BaseModel):
 
 class McpCallOutputItemInput(BaseModel):
     arguments: str
+    connector_id: Optional[str] = None
     error: Union[str, None] = None
     id: str
     name: str
@@ -1053,6 +1070,7 @@ class McpCallOutputItemInput(BaseModel):
 
 class McpCallOutputItemOutput(BaseModel):
     arguments: str
+    connector_id: Optional[str] = None
     error: Union[str, None] = None
     id: str
     name: str
@@ -1062,6 +1080,7 @@ class McpCallOutputItemOutput(BaseModel):
 
 
 class McpListToolsOutputItemInput(BaseModel):
+    connector_id: Optional[str] = None
     error: Optional[str] = None
     id: str
     server_label: str
@@ -1070,6 +1089,7 @@ class McpListToolsOutputItemInput(BaseModel):
 
 
 class McpListToolsOutputItemOutput(BaseModel):
+    connector_id: Optional[str] = None
     error: Optional[str] = None
     id: str
     server_label: str
@@ -1125,6 +1145,34 @@ class MessageOutputItemOutput(BaseModel):
     type: Literal["message"]
 
 
+class NamespaceToolInput(BaseModel):
+    description: str
+    name: str
+    tools: list["NamespaceToolDefInput"]
+    type: Literal["namespace"]
+
+
+class NamespaceToolOutput(BaseModel):
+    description: str
+    name: str
+    tools: list["NamespaceToolDefOutput"]
+    type: Literal["namespace"]
+
+
+class NamespaceToolDefInput(BaseModel):
+    description: Optional[str] = None
+    name: str
+    parameters: Optional[dict[str, Any]] = None
+    type: Literal["function"]
+
+
+class NamespaceToolDefOutput(BaseModel):
+    description: Optional[str] = None
+    name: str
+    parameters: Optional[dict[str, Any]] = None
+    type: Literal["function"]
+
+
 OutputItemInput: TypeAlias = Union[
     "MessageOutputItemInput",
     "SearchResultsOutputItemInput",
@@ -1132,6 +1180,7 @@ OutputItemInput: TypeAlias = Union[
     "FunctionCallOutputItemInput",
     "McpListToolsOutputItemInput",
     "McpCallOutputItemInput",
+    "ToolSearchOutputItemInput",
     "SkillLoadedOutputItemInput",
     "AdvisorResultOutputItemInput",
     "SandboxResultsOutputItemInput",
@@ -1151,6 +1200,7 @@ OutputItemOutput: TypeAlias = Union[
     "FunctionCallOutputItemOutput",
     "McpListToolsOutputItemOutput",
     "McpCallOutputItemOutput",
+    "ToolSearchOutputItemOutput",
     "SkillLoadedOutputItemOutput",
     "AdvisorResultOutputItemOutput",
     "SandboxResultsOutputItemOutput",
@@ -1552,7 +1602,7 @@ class ResponsesResponseOutput(BaseModel):
             content.text
             for item in self.output
             if isinstance(item, MessageOutputItemOutput)
-            for content in item.content
+            for content in (item.content or [])
             if content.type == "output_text"
         )
 
@@ -1903,6 +1953,7 @@ ToolInput: TypeAlias = Union[
     "FinanceSearchToolInput",
     "SandboxToolInput",
     "McpToolInput",
+    "ConnectorToolInput",
 ]
 ToolOutput: TypeAlias = Union[
     "WebSearchToolOutput",
@@ -1912,6 +1963,7 @@ ToolOutput: TypeAlias = Union[
     "FinanceSearchToolOutput",
     "SandboxToolOutput",
     "McpToolOutput",
+    "ConnectorToolOutput",
 ]
 
 
@@ -1943,6 +1995,26 @@ class ToolCallFunctionInput(BaseModel):
 class ToolCallFunctionOutput(BaseModel):
     arguments: Union[str, None] = None
     name: Union[str, None] = None
+
+
+class ToolSearchOutputItemInput(BaseModel):
+    arguments: Optional[str] = None
+    call_id: Union[str, None]
+    execution: str
+    id: str
+    status: str
+    tools: list["NamespaceToolInput"]
+    type: Literal["tool_search_output"]
+
+
+class ToolSearchOutputItemOutput(BaseModel):
+    arguments: Optional[str] = None
+    call_id: Union[str, None] = None
+    execution: str
+    id: str
+    status: str
+    tools: list["NamespaceToolOutput"]
+    type: Literal["tool_search_output"]
 
 
 class ToolSpecInput(BaseModel):
@@ -2170,6 +2242,8 @@ ChoiceInput.model_rebuild(_types_namespace=globals())
 ChoiceOutput.model_rebuild(_types_namespace=globals())
 CompletionResponseInput.model_rebuild(_types_namespace=globals())
 CompletionResponseOutput.model_rebuild(_types_namespace=globals())
+ConnectorToolInput.model_rebuild(_types_namespace=globals())
+ConnectorToolOutput.model_rebuild(_types_namespace=globals())
 ContentPartInput.model_rebuild(_types_namespace=globals())
 ContentPartOutput.model_rebuild(_types_namespace=globals())
 ContextualizedEmbeddingObjectInput.model_rebuild(_types_namespace=globals())
@@ -2244,6 +2318,10 @@ McpToolDefInput.model_rebuild(_types_namespace=globals())
 McpToolDefOutput.model_rebuild(_types_namespace=globals())
 MessageOutputItemInput.model_rebuild(_types_namespace=globals())
 MessageOutputItemOutput.model_rebuild(_types_namespace=globals())
+NamespaceToolInput.model_rebuild(_types_namespace=globals())
+NamespaceToolOutput.model_rebuild(_types_namespace=globals())
+NamespaceToolDefInput.model_rebuild(_types_namespace=globals())
+NamespaceToolDefOutput.model_rebuild(_types_namespace=globals())
 OutputItemAddedEventInput.model_rebuild(_types_namespace=globals())
 OutputItemAddedEventOutput.model_rebuild(_types_namespace=globals())
 OutputItemDoneEventInput.model_rebuild(_types_namespace=globals())
@@ -2338,6 +2416,8 @@ ToolCallDetailsInput.model_rebuild(_types_namespace=globals())
 ToolCallDetailsOutput.model_rebuild(_types_namespace=globals())
 ToolCallFunctionInput.model_rebuild(_types_namespace=globals())
 ToolCallFunctionOutput.model_rebuild(_types_namespace=globals())
+ToolSearchOutputItemInput.model_rebuild(_types_namespace=globals())
+ToolSearchOutputItemOutput.model_rebuild(_types_namespace=globals())
 ToolSpecInput.model_rebuild(_types_namespace=globals())
 ToolSpecOutput.model_rebuild(_types_namespace=globals())
 ToolUserLocationInput.model_rebuild(_types_namespace=globals())
