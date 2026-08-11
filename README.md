@@ -13,8 +13,9 @@ The REST API documentation can be found on [docs.perplexity.ai](https://docs.per
 
 ## Installation
 
+Install the package from PyPI:
+
 ```sh
-# install from PyPI
 pip install perplexityai
 ```
 
