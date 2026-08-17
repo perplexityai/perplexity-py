@@ -893,18 +893,46 @@ class FunctionCallInputOutput(BaseModel):
     type: Literal["function_call"]
 
 
+class FunctionCallOutputImagePartInput(BaseModel):
+    detail: Optional[Literal["low", "high", "auto"]] = None
+    image_url: str
+    type: Literal["input_image"]
+
+
+class FunctionCallOutputImagePartOutput(BaseModel):
+    detail: Optional[Literal["low", "high", "auto"]] = None
+    image_url: str
+    type: Literal["input_image"]
+
+
 class FunctionCallOutputInputInput(BaseModel):
     call_id: str
+    id: Optional[str] = None
     name: Optional[str] = None
-    output: str
+    output: Union[
+        str,
+        list[
+            Union["FunctionCallOutputTextPartInput", "FunctionCallOutputImagePartInput"]
+        ],
+    ]
+    status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
     thought_signature: Optional[str] = None
     type: Literal["function_call_output"]
 
 
 class FunctionCallOutputInputOutput(BaseModel):
     call_id: str
+    id: Optional[str] = None
     name: Optional[str] = None
-    output: str
+    output: Union[
+        str,
+        list[
+            Union[
+                "FunctionCallOutputTextPartOutput", "FunctionCallOutputImagePartOutput"
+            ]
+        ],
+    ]
+    status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
     thought_signature: Optional[str] = None
     type: Literal["function_call_output"]
 
@@ -927,6 +955,16 @@ class FunctionCallOutputItemOutput(BaseModel):
     status: "StatusOutput"
     thought_signature: Optional[str] = None
     type: Literal["function_call"]
+
+
+class FunctionCallOutputTextPartInput(BaseModel):
+    text: str
+    type: Literal["input_text"]
+
+
+class FunctionCallOutputTextPartOutput(BaseModel):
+    text: str
+    type: Literal["input_text"]
 
 
 class FunctionSpecInput(BaseModel):
@@ -1000,10 +1038,16 @@ class InputContentPartOutput(BaseModel):
 
 
 InputItemInput: TypeAlias = Union[
-    "InputMessageInput", "FunctionCallOutputInputInput", "FunctionCallInputInput"
+    "InputMessageInput",
+    "FunctionCallOutputInputInput",
+    "FunctionCallInputInput",
+    "ReasoningInputItemInput",
 ]
 InputItemOutput: TypeAlias = Union[
-    "InputMessageOutput", "FunctionCallOutputInputOutput", "FunctionCallInputOutput"
+    "InputMessageOutput",
+    "FunctionCallOutputInputOutput",
+    "FunctionCallInputOutput",
+    "ReasoningInputItemOutput",
 ]
 
 
@@ -1273,6 +1317,24 @@ class ReasoningConfigOutput(BaseModel):
     effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
 
 
+class ReasoningInputItemInput(BaseModel):
+    content: Optional[list["ReasoningTextInputInput"]] = None
+    encrypted_content: Optional[str] = None
+    id: Optional[str] = None
+    status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
+    summary: list["ReasoningSummaryInputInput"]
+    type: Literal["reasoning"]
+
+
+class ReasoningInputItemOutput(BaseModel):
+    content: Optional[list["ReasoningTextInputOutput"]] = None
+    encrypted_content: Optional[str] = None
+    id: Optional[str] = None
+    status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
+    summary: list["ReasoningSummaryInputOutput"]
+    type: Literal["reasoning"]
+
+
 class ReasoningStartedEventInput(BaseModel):
     sequence_number: int
     thought: Optional[str] = None
@@ -1327,6 +1389,26 @@ class ReasoningStoppedEventOutput(BaseModel):
     sequence_number: int
     thought: Optional[str] = None
     type: Literal["response.reasoning.stopped"]
+
+
+class ReasoningSummaryInputInput(BaseModel):
+    text: str
+    type: Literal["summary_text"]
+
+
+class ReasoningSummaryInputOutput(BaseModel):
+    text: str
+    type: Literal["summary_text"]
+
+
+class ReasoningTextInputInput(BaseModel):
+    text: str
+    type: Literal["reasoning_text"]
+
+
+class ReasoningTextInputOutput(BaseModel):
+    text: str
+    type: Literal["reasoning_text"]
 
 
 class RegexSchemaInput(BaseModel):
@@ -2286,10 +2368,14 @@ FinanceSearchToolInput.model_rebuild(_types_namespace=globals())
 FinanceSearchToolOutput.model_rebuild(_types_namespace=globals())
 FunctionCallInputInput.model_rebuild(_types_namespace=globals())
 FunctionCallInputOutput.model_rebuild(_types_namespace=globals())
+FunctionCallOutputImagePartInput.model_rebuild(_types_namespace=globals())
+FunctionCallOutputImagePartOutput.model_rebuild(_types_namespace=globals())
 FunctionCallOutputInputInput.model_rebuild(_types_namespace=globals())
 FunctionCallOutputInputOutput.model_rebuild(_types_namespace=globals())
 FunctionCallOutputItemInput.model_rebuild(_types_namespace=globals())
 FunctionCallOutputItemOutput.model_rebuild(_types_namespace=globals())
+FunctionCallOutputTextPartInput.model_rebuild(_types_namespace=globals())
+FunctionCallOutputTextPartOutput.model_rebuild(_types_namespace=globals())
 FunctionSpecInput.model_rebuild(_types_namespace=globals())
 FunctionSpecOutput.model_rebuild(_types_namespace=globals())
 FunctionToolInput.model_rebuild(_types_namespace=globals())
@@ -2332,6 +2418,8 @@ PeopleSearchToolInput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolOutput.model_rebuild(_types_namespace=globals())
 ReasoningConfigInput.model_rebuild(_types_namespace=globals())
 ReasoningConfigOutput.model_rebuild(_types_namespace=globals())
+ReasoningInputItemInput.model_rebuild(_types_namespace=globals())
+ReasoningInputItemOutput.model_rebuild(_types_namespace=globals())
 ReasoningStartedEventInput.model_rebuild(_types_namespace=globals())
 ReasoningStartedEventOutput.model_rebuild(_types_namespace=globals())
 ReasoningStepInputInput.model_rebuild(_types_namespace=globals())
@@ -2340,6 +2428,10 @@ ReasoningStepOutputInput.model_rebuild(_types_namespace=globals())
 ReasoningStepOutputOutput.model_rebuild(_types_namespace=globals())
 ReasoningStoppedEventInput.model_rebuild(_types_namespace=globals())
 ReasoningStoppedEventOutput.model_rebuild(_types_namespace=globals())
+ReasoningSummaryInputInput.model_rebuild(_types_namespace=globals())
+ReasoningSummaryInputOutput.model_rebuild(_types_namespace=globals())
+ReasoningTextInputInput.model_rebuild(_types_namespace=globals())
+ReasoningTextInputOutput.model_rebuild(_types_namespace=globals())
 RegexSchemaInput.model_rebuild(_types_namespace=globals())
 RegexSchemaOutput.model_rebuild(_types_namespace=globals())
 ResponseCompletedEventInput.model_rebuild(_types_namespace=globals())
