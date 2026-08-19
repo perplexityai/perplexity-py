@@ -150,7 +150,7 @@ stream = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "Tell me about the latest developments in AI",
+            "content": "What is the capital of France?",
         }
     ],
     model="sonar",
@@ -171,7 +171,7 @@ stream = await client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "Tell me about the latest developments in AI",
+            "content": "What is the capital of France?",
         }
     ],
     model="sonar",
@@ -243,7 +243,7 @@ except perplexity.APIConnectionError as e:
 except perplexity.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
 except perplexity.APIStatusError as e:
-    print("Another non-200-range status code was received")
+    print("Another non-2xx status code was received")
     print(e.status_code)
     print(e.response)
 ```
@@ -439,7 +439,7 @@ can also get all the extra fields on the Pydantic model as a dict with
 
 ### Configuring the HTTP client
 
-You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
+You can directly override the [httpx client](https://www.python-httpx.org/api/client) to customize it for your use case, including:
 
 - Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
 - Custom [transports](https://www.python-httpx.org/advanced/transports/)
