@@ -14,6 +14,7 @@ The REST API documentation can be found on [docs.perplexity.ai](https://docs.per
 ## Installation
 
 ```sh
+# requires Python 3.9 or later
 # install from PyPI
 pip install perplexityai
 ```
