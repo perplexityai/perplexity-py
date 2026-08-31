@@ -203,7 +203,6 @@ class AsyncResponseContextManager(Generic[_AsyncResponseT]):
         exc: BaseException | None,
         traceback: Any,
     ) -> None:
-        del exc_type, exc, traceback
         if self._context is not None:
             await self._context.close()
 
