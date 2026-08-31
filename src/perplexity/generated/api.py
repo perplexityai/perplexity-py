@@ -1336,11 +1336,11 @@ class ProfileReferenceOutput(BaseModel):
 
 
 class ReasoningConfigInput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh", "none"]] = None
 
 
 class ReasoningConfigOutput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh", "none"]] = None
 
 
 class ReasoningInputItemInput(BaseModel):
