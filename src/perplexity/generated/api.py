@@ -671,6 +671,20 @@ class CreateBrowserSessionRequestOutput(BaseModel):
 
 CurrencyInput: TypeAlias = Literal["USD"]
 CurrencyOutput: TypeAlias = Literal["USD"]
+
+
+class CustomSkillInput(BaseModel):
+    id: str
+    type: Literal["custom"]
+    version: Optional[str] = None
+
+
+class CustomSkillOutput(BaseModel):
+    id: str
+    type: Literal["custom"]
+    version: Optional[str] = None
+
+
 DateInput: TypeAlias = str
 DateOutput: TypeAlias = str
 
@@ -1969,8 +1983,12 @@ class ShareFileOutputItemOutput(BaseModel):
     url: Optional[str] = None
 
 
-SkillInput: TypeAlias = Union["BuiltinSkillInput", "InlineSkillInput"]
-SkillOutput: TypeAlias = Union["BuiltinSkillOutput", "InlineSkillOutput"]
+SkillInput: TypeAlias = Union[
+    "BuiltinSkillInput", "InlineSkillInput", "CustomSkillInput"
+]
+SkillOutput: TypeAlias = Union[
+    "BuiltinSkillOutput", "InlineSkillOutput", "CustomSkillOutput"
+]
 
 
 class SkillLoadedOutputItemInput(BaseModel):
@@ -2338,6 +2356,8 @@ CostInput.model_rebuild(_types_namespace=globals())
 CostOutput.model_rebuild(_types_namespace=globals())
 CreateBrowserSessionRequestInput.model_rebuild(_types_namespace=globals())
 CreateBrowserSessionRequestOutput.model_rebuild(_types_namespace=globals())
+CustomSkillInput.model_rebuild(_types_namespace=globals())
+CustomSkillOutput.model_rebuild(_types_namespace=globals())
 DateFiltersInput.model_rebuild(_types_namespace=globals())
 DateFiltersOutput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectInput.model_rebuild(_types_namespace=globals())
