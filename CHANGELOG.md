@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.43.4](https://github.com/perplexityai/perplexity-py/compare/v0.43.3...v0.43.4) (2026-08-31)
+
+
+### Chores
+
+* sync generated API SDKs ([#102](https://github.com/perplexityai/perplexity-py/issues/102)) ([66b15bb](https://github.com/perplexityai/perplexity-py/commit/66b15bbfacf77c4372085c9c5bf881d51db795d0))
+* sync generated API SDKs ([#105](https://github.com/perplexityai/perplexity-py/issues/105)) ([6746486](https://github.com/perplexityai/perplexity-py/commit/6746486eb6b73b89a1562b13aa19d84c545339ee))
+
 ## [0.43.3](https://github.com/perplexityai/perplexity-py/compare/v0.43.2...v0.43.3) (2026-08-11)
 
 
