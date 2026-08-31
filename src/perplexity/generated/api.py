@@ -1323,6 +1323,18 @@ class PeopleSearchToolOutput(BaseModel):
     type: Literal["people_search"]
 
 
+class ProfileReferenceInput(BaseModel):
+    id: str
+    type: Literal["custom"]
+    version: Optional[str] = None
+
+
+class ProfileReferenceOutput(BaseModel):
+    id: str
+    type: Literal["custom"]
+    version: Optional[str] = None
+
+
 class ReasoningConfigInput(BaseModel):
     effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
 
@@ -1634,6 +1646,7 @@ class ResponsesRequestInput(BaseModel):
     models: Optional[list[str]] = None
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
+    profile: Optional["ProfileReferenceInput"] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
@@ -1655,6 +1668,7 @@ class ResponsesRequestOutput(BaseModel):
     models: Optional[list[str]] = None
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
+    profile: Optional["ProfileReferenceOutput"] = None
     reasoning: Optional["ReasoningConfigOutput"] = None
     response_format: Optional["ResponseFormatOutput"] = None
     skills: Optional[list["SkillOutput"]] = None
@@ -2436,6 +2450,8 @@ ParameterSpecInput.model_rebuild(_types_namespace=globals())
 ParameterSpecOutput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolInput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolOutput.model_rebuild(_types_namespace=globals())
+ProfileReferenceInput.model_rebuild(_types_namespace=globals())
+ProfileReferenceOutput.model_rebuild(_types_namespace=globals())
 ReasoningConfigInput.model_rebuild(_types_namespace=globals())
 ReasoningConfigOutput.model_rebuild(_types_namespace=globals())
 ReasoningInputItemInput.model_rebuild(_types_namespace=globals())
@@ -2771,6 +2787,7 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     models: Optional[list[str]] = None
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
+    profile: Optional["ProfileReferenceInput"] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
@@ -2792,6 +2809,7 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
     models: Optional[list[str]] = None
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
+    profile: Optional["ProfileReferenceInput"] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
@@ -3665,6 +3683,7 @@ class ResponsesResource(SyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -3696,6 +3715,7 @@ class ResponsesResource(SyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -3726,6 +3746,7 @@ class ResponsesResource(SyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -3756,6 +3777,7 @@ class ResponsesResource(SyncAPIResource):
                     "models": models,
                     "preset": preset,
                     "previous_response_id": previous_response_id,
+                    "profile": profile,
                     "reasoning": reasoning,
                     "response_format": response_format,
                     "skills": skills,
@@ -4976,6 +4998,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -5007,6 +5030,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -5037,6 +5061,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         models: Union[Sequence[str], Omit] = omit,
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
+        profile: Union["ProfileReferenceInput", Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
@@ -5067,6 +5092,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     "models": models,
                     "preset": preset,
                     "previous_response_id": previous_response_id,
+                    "profile": profile,
                     "reasoning": reasoning,
                     "response_format": response_format,
                     "skills": skills,
