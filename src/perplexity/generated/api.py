@@ -1336,11 +1336,15 @@ class ProfileReferenceOutput(BaseModel):
 
 
 class ReasoningConfigInput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["none", "minimal", "low", "medium", "high", "xhigh"]] = (
+        None
+    )
 
 
 class ReasoningConfigOutput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["none", "minimal", "low", "medium", "high", "xhigh"]] = (
+        None
+    )
 
 
 class ReasoningInputItemInput(BaseModel):
@@ -2296,6 +2300,7 @@ class WebSearchToolInput(BaseModel):
     max_tokens: Optional[int] = None
     max_tokens_per_page: Optional[int] = None
     search_context_size: Optional[Literal["low", "medium", "high"]] = None
+    search_type: Optional[Literal["web", "fast"]] = None
     type: Literal["web_search"]
     user_location: Optional["ToolUserLocationInput"] = None
 
@@ -2305,6 +2310,7 @@ class WebSearchToolOutput(BaseModel):
     max_tokens: Optional[int] = None
     max_tokens_per_page: Optional[int] = None
     search_context_size: Optional[Literal["low", "medium", "high"]] = None
+    search_type: Optional[Literal["web", "fast"]] = None
     type: Literal["web_search"]
     user_location: Optional["ToolUserLocationOutput"] = None
 
