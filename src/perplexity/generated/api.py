@@ -269,7 +269,7 @@ class ApiSearchRequestInput(BaseModel):
     search_recency_filter: Union[
         Literal["hour", "day", "week", "month", "year"], None
     ] = None
-    search_type: Union[Literal["web", "people"], None] = None
+    search_type: Union[Literal["web", "fast", "people"], None] = None
 
 
 class ApiSearchRequestOutput(BaseModel):
@@ -290,7 +290,7 @@ class ApiSearchRequestOutput(BaseModel):
     search_recency_filter: Union[
         Literal["hour", "day", "week", "month", "year"], None
     ] = None
-    search_type: Union[Literal["web", "people"], None] = None
+    search_type: Union[Literal["web", "fast", "people"], None] = None
 
 
 class ApiSearchResponseInput(BaseModel):
@@ -1336,11 +1336,15 @@ class ProfileReferenceOutput(BaseModel):
 
 
 class ReasoningConfigInput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["none", "minimal", "low", "medium", "high", "xhigh"]] = (
+        None
+    )
 
 
 class ReasoningConfigOutput(BaseModel):
-    effort: Optional[Literal["minimal", "low", "medium", "high", "xhigh"]] = None
+    effort: Optional[Literal["none", "minimal", "low", "medium", "high", "xhigh"]] = (
+        None
+    )
 
 
 class ReasoningInputItemInput(BaseModel):
@@ -2296,6 +2300,7 @@ class WebSearchToolInput(BaseModel):
     max_tokens: Optional[int] = None
     max_tokens_per_page: Optional[int] = None
     search_context_size: Optional[Literal["low", "medium", "high"]] = None
+    search_type: Optional[Literal["web", "fast"]] = None
     type: Literal["web_search"]
     user_location: Optional["ToolUserLocationInput"] = None
 
@@ -2305,6 +2310,7 @@ class WebSearchToolOutput(BaseModel):
     max_tokens: Optional[int] = None
     max_tokens_per_page: Optional[int] = None
     search_context_size: Optional[Literal["low", "medium", "high"]] = None
+    search_type: Optional[Literal["web", "fast"]] = None
     type: Literal["web_search"]
     user_location: Optional["ToolUserLocationOutput"] = None
 
@@ -3875,7 +3881,7 @@ class SearchResource(SyncAPIResource):
         search_recency_filter: Union[
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
-        search_type: Union[Union[Literal["web", "people"], None], Omit] = omit,
+        search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -5190,7 +5196,7 @@ class AsyncClientSearchResource(AsyncAPIResource):
         search_recency_filter: Union[
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
-        search_type: Union[Union[Literal["web", "people"], None], Omit] = omit,
+        search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
