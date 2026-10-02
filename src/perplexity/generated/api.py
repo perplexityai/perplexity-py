@@ -793,6 +793,8 @@ EventTypeInput: TypeAlias = Literal[
     "response.reasoning.started",
     "response.reasoning.search_queries",
     "response.reasoning.search_results",
+    "response.reasoning.image_search_queries",
+    "response.reasoning.image_search_results",
     "response.reasoning.fetch_url_queries",
     "response.reasoning.fetch_url_results",
     "response.reasoning.stopped",
@@ -810,6 +812,8 @@ EventTypeOutput: TypeAlias = Literal[
     "response.reasoning.started",
     "response.reasoning.search_queries",
     "response.reasoning.search_results",
+    "response.reasoning.image_search_queries",
+    "response.reasoning.image_search_results",
     "response.reasoning.fetch_url_queries",
     "response.reasoning.fetch_url_results",
     "response.reasoning.stopped",
@@ -1019,6 +1023,98 @@ class HTTPValidationErrorOutput(BaseModel):
     detail: Optional[list["ValidationErrorOutput"]] = None
 
 
+class ImageResultInput(BaseModel):
+    height: int
+    image_url: str
+    origin_url: str
+    title: Optional[str] = None
+    width: int
+
+
+class ImageResultOutput(BaseModel):
+    height: int
+    image_url: str
+    origin_url: str
+    title: Optional[str] = None
+    width: int
+
+
+class ImageSearchFiltersInput(BaseModel):
+    domain_filter: Optional[list[str]] = None
+    format_filter: Optional[
+        list[Literal["bmp", "gif", "jpeg", "png", "webp", "svg"]]
+    ] = None
+    safe_search: Optional[bool] = None
+
+
+class ImageSearchFiltersOutput(BaseModel):
+    domain_filter: Optional[list[str]] = None
+    format_filter: Optional[
+        list[Literal["bmp", "gif", "jpeg", "png", "webp", "svg"]]
+    ] = None
+    safe_search: Optional[bool] = None
+
+
+class ImageSearchQueriesEventInput(BaseModel):
+    call_id: str
+    queries: list[str]
+    sequence_number: int
+    thought: Optional[str] = None
+    type: Literal["response.reasoning.image_search_queries"]
+
+
+class ImageSearchQueriesEventOutput(BaseModel):
+    call_id: str
+    queries: list[str]
+    sequence_number: int
+    thought: Optional[str] = None
+    type: Literal["response.reasoning.image_search_queries"]
+
+
+class ImageSearchResultsEventInput(BaseModel):
+    call_id: str
+    results: list["ImageResultInput"]
+    sequence_number: int
+    thought: Optional[str] = None
+    type: Literal["response.reasoning.image_search_results"]
+    usage: Optional["ResponsesUsageInput"] = None
+
+
+class ImageSearchResultsEventOutput(BaseModel):
+    call_id: str
+    results: list["ImageResultOutput"]
+    sequence_number: int
+    thought: Optional[str] = None
+    type: Literal["response.reasoning.image_search_results"]
+    usage: Optional["ResponsesUsageOutput"] = None
+
+
+class ImageSearchResultsOutputItemInput(BaseModel):
+    error: Optional[str] = None
+    queries: Optional[list[str]] = None
+    results: list["ImageResultInput"]
+    type: Literal["image_search_results"]
+
+
+class ImageSearchResultsOutputItemOutput(BaseModel):
+    error: Optional[str] = None
+    queries: Optional[list[str]] = None
+    results: list["ImageResultOutput"]
+    type: Literal["image_search_results"]
+
+
+class ImageSearchToolInput(BaseModel):
+    filters: Optional["ImageSearchFiltersInput"] = None
+    max_results: Optional[int] = None
+    type: Literal["image_search"]
+
+
+class ImageSearchToolOutput(BaseModel):
+    filters: Optional["ImageSearchFiltersOutput"] = None
+    max_results: Optional[int] = None
+    type: Literal["image_search"]
+
+
 class InlineSkillInput(BaseModel):
     description: str
     instructions: str
@@ -1040,15 +1136,21 @@ InputContentOutput: TypeAlias = Union[str, list["InputContentPartOutput"]]
 
 
 class InputContentPartInput(BaseModel):
+    file_data: Optional[str] = None
+    file_url: Optional[str] = None
+    filename: Optional[str] = None
     image_url: Optional[str] = None
     text: Optional[str] = None
-    type: Literal["input_text", "input_image"]
+    type: Literal["input_text", "input_image", "input_file"]
 
 
 class InputContentPartOutput(BaseModel):
+    file_data: Optional[str] = None
+    file_url: Optional[str] = None
+    filename: Optional[str] = None
     image_url: Optional[str] = None
     text: Optional[str] = None
-    type: Literal["input_text", "input_image"]
+    type: Literal["input_text", "input_image", "input_file"]
 
 
 InputItemInput: TypeAlias = Union[
@@ -1234,6 +1336,7 @@ class NamespaceToolDefOutput(BaseModel):
 OutputItemInput: TypeAlias = Union[
     "MessageOutputItemInput",
     "SearchResultsOutputItemInput",
+    "ImageSearchResultsOutputItemInput",
     "FetchUrlResultsOutputItemInput",
     "FunctionCallOutputItemInput",
     "McpListToolsOutputItemInput",
@@ -1254,6 +1357,7 @@ OutputItemInput: TypeAlias = Union[
 OutputItemOutput: TypeAlias = Union[
     "MessageOutputItemOutput",
     "SearchResultsOutputItemOutput",
+    "ImageSearchResultsOutputItemOutput",
     "FetchUrlResultsOutputItemOutput",
     "FunctionCallOutputItemOutput",
     "McpListToolsOutputItemOutput",
@@ -1591,6 +1695,8 @@ ResponseStreamEventInput: TypeAlias = Union[
     "ReasoningStartedEventInput",
     "SearchQueriesEventInput",
     "SearchResultsEventInput",
+    "ImageSearchQueriesEventInput",
+    "ImageSearchResultsEventInput",
     "FetchUrlQueriesEventInput",
     "FetchUrlResultsEventInput",
     "ReasoningStoppedEventInput",
@@ -1608,6 +1714,8 @@ ResponseStreamEventOutput: TypeAlias = Union[
     "ReasoningStartedEventOutput",
     "SearchQueriesEventOutput",
     "SearchResultsEventOutput",
+    "ImageSearchQueriesEventOutput",
+    "ImageSearchResultsEventOutput",
     "FetchUrlQueriesEventOutput",
     "FetchUrlResultsEventOutput",
     "ReasoningStoppedEventOutput",
@@ -1654,9 +1762,11 @@ class ResponsesRequestInput(BaseModel):
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
     temperature: Optional[float] = None
+    tool_choice: Optional["ToolChoiceInput"] = None
     tools: Optional[list["ToolInput"]] = None
     top_p: Optional[float] = None
 
@@ -1676,9 +1786,11 @@ class ResponsesRequestOutput(BaseModel):
     reasoning: Optional["ReasoningConfigOutput"] = None
     response_format: Optional["ResponseFormatOutput"] = None
     skills: Optional[list["SkillOutput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
     temperature: Optional[float] = None
+    tool_choice: Optional["ToolChoiceOutput"] = None
     tools: Optional[list["ToolOutput"]] = None
     top_p: Optional[float] = None
 
@@ -2065,6 +2177,7 @@ class TextDoneEventOutput(BaseModel):
 
 ToolInput: TypeAlias = Union[
     "WebSearchToolInput",
+    "ImageSearchToolInput",
     "FetchUrlToolInput",
     "PeopleSearchToolInput",
     "FunctionToolInput",
@@ -2075,6 +2188,7 @@ ToolInput: TypeAlias = Union[
 ]
 ToolOutput: TypeAlias = Union[
     "WebSearchToolOutput",
+    "ImageSearchToolOutput",
     "FetchUrlToolOutput",
     "PeopleSearchToolOutput",
     "FunctionToolOutput",
@@ -2113,6 +2227,10 @@ class ToolCallFunctionInput(BaseModel):
 class ToolCallFunctionOutput(BaseModel):
     arguments: Union[str, None] = None
     name: Union[str, None] = None
+
+
+ToolChoiceInput: TypeAlias = Union[Literal["none", "auto", "required"], dict[str, Any]]
+ToolChoiceOutput: TypeAlias = Union[Literal["none", "auto", "required"], dict[str, Any]]
 
 
 class ToolSearchOutputItemInput(BaseModel):
@@ -2422,6 +2540,18 @@ FunctionToolInput.model_rebuild(_types_namespace=globals())
 FunctionToolOutput.model_rebuild(_types_namespace=globals())
 HTTPValidationErrorInput.model_rebuild(_types_namespace=globals())
 HTTPValidationErrorOutput.model_rebuild(_types_namespace=globals())
+ImageResultInput.model_rebuild(_types_namespace=globals())
+ImageResultOutput.model_rebuild(_types_namespace=globals())
+ImageSearchFiltersInput.model_rebuild(_types_namespace=globals())
+ImageSearchFiltersOutput.model_rebuild(_types_namespace=globals())
+ImageSearchQueriesEventInput.model_rebuild(_types_namespace=globals())
+ImageSearchQueriesEventOutput.model_rebuild(_types_namespace=globals())
+ImageSearchResultsEventInput.model_rebuild(_types_namespace=globals())
+ImageSearchResultsEventOutput.model_rebuild(_types_namespace=globals())
+ImageSearchResultsOutputItemInput.model_rebuild(_types_namespace=globals())
+ImageSearchResultsOutputItemOutput.model_rebuild(_types_namespace=globals())
+ImageSearchToolInput.model_rebuild(_types_namespace=globals())
+ImageSearchToolOutput.model_rebuild(_types_namespace=globals())
 InlineSkillInput.model_rebuild(_types_namespace=globals())
 InlineSkillOutput.model_rebuild(_types_namespace=globals())
 InputContentPartInput.model_rebuild(_types_namespace=globals())
@@ -2775,6 +2905,9 @@ class ResponsesFilesFileContentParams(BaseModel):
 
 FunctionCallOutputItem: TypeAlias = FunctionCallOutputItemOutput
 FunctionTool: TypeAlias = FunctionToolInput
+ImageResult: TypeAlias = ImageResultOutput
+ImageSearchResultsOutputItem: TypeAlias = ImageSearchResultsOutputItemOutput
+ImageSearchTool: TypeAlias = ImageSearchToolInput
 InputItem: TypeAlias = InputItemInput
 JsonSchemaFormat: TypeAlias = JSONSchemaFormatInput
 OutputItem: TypeAlias = OutputItemOutput
@@ -2797,9 +2930,11 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Literal[False] = False
     temperature: Optional[float] = None
+    tool_choice: Optional["ToolChoiceInput"] = None
     tools: Optional[list["ToolInput"]] = None
     top_p: Optional[float] = None
 
@@ -2819,9 +2954,11 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Literal[True]
     temperature: Optional[float] = None
+    tool_choice: Optional["ToolChoiceInput"] = None
     tools: Optional[list["ToolInput"]] = None
     top_p: Optional[float] = None
 
@@ -3697,9 +3834,11 @@ class ResponsesResource(SyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -3729,9 +3868,11 @@ class ResponsesResource(SyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -3760,9 +3901,11 @@ class ResponsesResource(SyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -3787,9 +3930,11 @@ class ResponsesResource(SyncAPIResource):
                     "reasoning": reasoning,
                     "response_format": response_format,
                     "skills": skills,
+                    "step_budget_reminder": step_budget_reminder,
                     "store": store,
                     "stream": stream,
                     "temperature": temperature,
+                    "tool_choice": tool_choice,
                     "tools": tools,
                     "top_p": top_p,
                 }
@@ -5012,9 +5157,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -5044,9 +5191,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -5075,9 +5224,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Union["ResponseFormatInput", Mapping[str, object]], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         temperature: Union[float, Omit] = omit,
+        tool_choice: Union["ToolChoiceInput", Omit] = omit,
         tools: Union[Sequence[Union["ToolInput", Mapping[str, object]]], Omit] = omit,
         top_p: Union[float, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -5102,9 +5253,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     "reasoning": reasoning,
                     "response_format": response_format,
                     "skills": skills,
+                    "step_budget_reminder": step_budget_reminder,
                     "store": store,
                     "stream": stream,
                     "temperature": temperature,
+                    "tool_choice": tool_choice,
                     "tools": tools,
                     "top_p": top_p,
                 }
