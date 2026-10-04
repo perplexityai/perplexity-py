@@ -305,6 +305,26 @@ class ApiSearchResponseOutput(BaseModel):
     server_time: Union[str, None] = None
 
 
+class ApprovalFilterInput(BaseModel):
+    read_only: Optional[bool] = None
+    tool_names: Optional[list[str]] = None
+
+
+class ApprovalFilterOutput(BaseModel):
+    read_only: Optional[bool] = None
+    tool_names: Optional[list[str]] = None
+
+
+class ApprovalFiltersInput(BaseModel):
+    always: Optional["ApprovalFilterInput"] = None
+    never: Optional["ApprovalFilterInput"] = None
+
+
+class ApprovalFiltersOutput(BaseModel):
+    always: Optional["ApprovalFilterOutput"] = None
+    never: Optional["ApprovalFilterOutput"] = None
+
+
 class AsyncApiChatCompletionsRequestInput(BaseModel):
     idempotency_key: Union[str, None] = None
     request: "ApiChatCompletionsRequestInput"
@@ -572,6 +592,7 @@ CompletionResponseTypeOutput: TypeAlias = Literal["message", "info", "end_of_str
 class ConnectorToolInput(BaseModel):
     allowed_tools: Optional[list[str]] = None
     id: str
+    require_approval: Optional["RequireApprovalInput"] = None
     server_description: Optional[str] = None
     server_label: str
     type: Literal["connector"]
@@ -580,6 +601,7 @@ class ConnectorToolInput(BaseModel):
 class ConnectorToolOutput(BaseModel):
     allowed_tools: Optional[list[str]] = None
     id: str
+    require_approval: Optional["RequireApprovalOutput"] = None
     server_description: Optional[str] = None
     server_label: str
     type: Literal["connector"]
@@ -1158,12 +1180,20 @@ InputItemInput: TypeAlias = Union[
     "FunctionCallOutputInputInput",
     "FunctionCallInputInput",
     "ReasoningInputItemInput",
+    "McpApprovalResponseInputInput",
+    "McpApprovalRequestInputInput",
+    "McpCallInputInput",
+    "McpListToolsInputInput",
 ]
 InputItemOutput: TypeAlias = Union[
     "InputMessageOutput",
     "FunctionCallOutputInputOutput",
     "FunctionCallInputOutput",
     "ReasoningInputItemOutput",
+    "McpApprovalResponseInputOutput",
+    "McpApprovalRequestInputOutput",
+    "McpCallInputOutput",
+    "McpListToolsInputOutput",
 ]
 
 
@@ -1217,7 +1247,88 @@ class ListAsyncApiChatCompletionsResponseOutput(BaseModel):
     requests: list["AsyncApiChatCompletionsResponseSummaryOutput"]
 
 
+class McpApprovalRequestInputInput(BaseModel):
+    arguments: str
+    connector_id: Optional[str] = None
+    id: str
+    name: str
+    server_label: str
+    thought_signature: Optional[str] = None
+    type: Literal["mcp_approval_request"]
+
+
+class McpApprovalRequestInputOutput(BaseModel):
+    arguments: str
+    connector_id: Optional[str] = None
+    id: str
+    name: str
+    server_label: str
+    thought_signature: Optional[str] = None
+    type: Literal["mcp_approval_request"]
+
+
+class McpApprovalRequestOutputItemInput(BaseModel):
+    arguments: str
+    connector_id: Optional[str] = None
+    id: str
+    name: str
+    server_label: str
+    thought_signature: Optional[str] = None
+    type: Literal["mcp_approval_request"]
+
+
+class McpApprovalRequestOutputItemOutput(BaseModel):
+    arguments: str
+    connector_id: Optional[str] = None
+    id: str
+    name: str
+    server_label: str
+    thought_signature: Optional[str] = None
+    type: Literal["mcp_approval_request"]
+
+
+class McpApprovalResponseInputInput(BaseModel):
+    approval_request_id: str
+    approve: bool
+    id: Optional[str] = None
+    reason: Optional[str] = None
+    type: Literal["mcp_approval_response"]
+
+
+class McpApprovalResponseInputOutput(BaseModel):
+    approval_request_id: str
+    approve: bool
+    id: Optional[str] = None
+    reason: Optional[str] = None
+    type: Literal["mcp_approval_response"]
+
+
+class McpCallInputInput(BaseModel):
+    approval_request_id: Optional[str] = None
+    arguments: str
+    connector_id: Optional[str] = None
+    error: Optional[str] = None
+    id: str
+    name: str
+    output: Optional[str] = None
+    server_label: str
+    type: Literal["mcp_call"]
+
+
+class McpCallInputOutput(BaseModel):
+    approval_request_id: Optional[str] = None
+    arguments: str
+    connector_id: Optional[str] = None
+    error: Optional[str] = None
+    id: str
+    name: str
+    output: Optional[str] = None
+    server_label: str
+    type: Literal["mcp_call"]
+
+
 class McpCallOutputItemInput(BaseModel):
+    approval_request_id: Optional[str] = None
     arguments: str
     connector_id: Optional[str] = None
     error: Union[str, None] = None
@@ -1229,6 +1340,7 @@ class McpCallOutputItemInput(BaseModel):
 
 
 class McpCallOutputItemOutput(BaseModel):
+    approval_request_id: Optional[str] = None
     arguments: str
     connector_id: Optional[str] = None
     error: Union[str, None] = None
@@ -1237,6 +1349,22 @@ class McpCallOutputItemOutput(BaseModel):
     output: Optional[str] = None
     server_label: str
     type: Literal["mcp_call"]
+
+
+class McpListToolsInputInput(BaseModel):
+    error: Optional[str] = None
+    id: Optional[str] = None
+    server_label: Optional[str] = None
+    tools: Optional[list["McpToolDefInput"]] = None
+    type: Literal["mcp_list_tools"]
+
+
+class McpListToolsInputOutput(BaseModel):
+    error: Optional[str] = None
+    id: Optional[str] = None
+    server_label: Optional[str] = None
+    tools: Optional[list["McpToolDefOutput"]] = None
+    type: Literal["mcp_list_tools"]
 
 
 class McpListToolsOutputItemInput(BaseModel):
@@ -1262,6 +1390,7 @@ class McpToolInput(BaseModel):
     authorization: Optional[str] = None
     defer_loading: Optional[bool] = None
     headers: Optional[dict[str, str]] = None
+    require_approval: Optional["RequireApprovalInput"] = None
     server_label: str
     server_url: str
     type: Literal["mcp"]
@@ -1272,21 +1401,32 @@ class McpToolOutput(BaseModel):
     authorization: Optional[str] = None
     defer_loading: Optional[bool] = None
     headers: Optional[dict[str, str]] = None
+    require_approval: Optional["RequireApprovalOutput"] = None
     server_label: str
     server_url: str
     type: Literal["mcp"]
 
 
 class McpToolDefInput(BaseModel):
+    annotations: Optional["McpToolDefAnnotationsInput"] = None
     description: Optional[str] = None
     input_schema: dict[str, Any]
     name: str
 
 
 class McpToolDefOutput(BaseModel):
+    annotations: Optional["McpToolDefAnnotationsOutput"] = None
     description: Optional[str] = None
     input_schema: dict[str, Any]
     name: str
+
+
+class McpToolDefAnnotationsInput(BaseModel):
+    read_only: Optional[bool] = None
+
+
+class McpToolDefAnnotationsOutput(BaseModel):
+    read_only: Optional[bool] = None
 
 
 class MessageOutputItemInput(BaseModel):
@@ -1341,6 +1481,7 @@ OutputItemInput: TypeAlias = Union[
     "FunctionCallOutputItemInput",
     "McpListToolsOutputItemInput",
     "McpCallOutputItemInput",
+    "McpApprovalRequestOutputItemInput",
     "ToolSearchOutputItemInput",
     "SkillLoadedOutputItemInput",
     "AdvisorResultOutputItemInput",
@@ -1362,6 +1503,7 @@ OutputItemOutput: TypeAlias = Union[
     "FunctionCallOutputItemOutput",
     "McpListToolsOutputItemOutput",
     "McpCallOutputItemOutput",
+    "McpApprovalRequestOutputItemOutput",
     "ToolSearchOutputItemOutput",
     "SkillLoadedOutputItemOutput",
     "AdvisorResultOutputItemOutput",
@@ -1557,6 +1699,14 @@ class RegexSchemaOutput(BaseModel):
     name: Union[str, None] = None
     regex: str
     strict: Union[bool, None] = None
+
+
+RequireApprovalInput: TypeAlias = Union[
+    Literal["always", "never"], "ApprovalFiltersInput"
+]
+RequireApprovalOutput: TypeAlias = Union[
+    Literal["always", "never"], "ApprovalFiltersOutput"
+]
 
 
 class ResponseCompletedEventInput(BaseModel):
@@ -2452,6 +2602,10 @@ ApiSearchRequestInput.model_rebuild(_types_namespace=globals())
 ApiSearchRequestOutput.model_rebuild(_types_namespace=globals())
 ApiSearchResponseInput.model_rebuild(_types_namespace=globals())
 ApiSearchResponseOutput.model_rebuild(_types_namespace=globals())
+ApprovalFilterInput.model_rebuild(_types_namespace=globals())
+ApprovalFilterOutput.model_rebuild(_types_namespace=globals())
+ApprovalFiltersInput.model_rebuild(_types_namespace=globals())
+ApprovalFiltersOutput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsRequestInput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsRequestOutput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsResponseInput.model_rebuild(_types_namespace=globals())
@@ -2564,14 +2718,26 @@ JSONSchemaFormatInput.model_rebuild(_types_namespace=globals())
 JSONSchemaFormatOutput.model_rebuild(_types_namespace=globals())
 ListAsyncApiChatCompletionsResponseInput.model_rebuild(_types_namespace=globals())
 ListAsyncApiChatCompletionsResponseOutput.model_rebuild(_types_namespace=globals())
+McpApprovalRequestInputInput.model_rebuild(_types_namespace=globals())
+McpApprovalRequestInputOutput.model_rebuild(_types_namespace=globals())
+McpApprovalRequestOutputItemInput.model_rebuild(_types_namespace=globals())
+McpApprovalRequestOutputItemOutput.model_rebuild(_types_namespace=globals())
+McpApprovalResponseInputInput.model_rebuild(_types_namespace=globals())
+McpApprovalResponseInputOutput.model_rebuild(_types_namespace=globals())
+McpCallInputInput.model_rebuild(_types_namespace=globals())
+McpCallInputOutput.model_rebuild(_types_namespace=globals())
 McpCallOutputItemInput.model_rebuild(_types_namespace=globals())
 McpCallOutputItemOutput.model_rebuild(_types_namespace=globals())
+McpListToolsInputInput.model_rebuild(_types_namespace=globals())
+McpListToolsInputOutput.model_rebuild(_types_namespace=globals())
 McpListToolsOutputItemInput.model_rebuild(_types_namespace=globals())
 McpListToolsOutputItemOutput.model_rebuild(_types_namespace=globals())
 McpToolInput.model_rebuild(_types_namespace=globals())
 McpToolOutput.model_rebuild(_types_namespace=globals())
 McpToolDefInput.model_rebuild(_types_namespace=globals())
 McpToolDefOutput.model_rebuild(_types_namespace=globals())
+McpToolDefAnnotationsInput.model_rebuild(_types_namespace=globals())
+McpToolDefAnnotationsOutput.model_rebuild(_types_namespace=globals())
 MessageOutputItemInput.model_rebuild(_types_namespace=globals())
 MessageOutputItemOutput.model_rebuild(_types_namespace=globals())
 NamespaceToolInput.model_rebuild(_types_namespace=globals())
