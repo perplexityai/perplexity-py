@@ -36,6 +36,20 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
+## Tarot-style oracle
+
+The SDK includes a dependency-free three-card reading. The reading is text
+first; pass an application-owned text-to-speech function to `render_audio` when
+audio is needed.
+
+```python
+from perplexity import TarotOracle
+
+reading = TarotOracle().read("What should I focus on today?")
+print(reading.text)
+audio_bytes = reading.render_audio(my_text_to_speech_function)
+```
+
 ## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).

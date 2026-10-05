@@ -38,6 +38,7 @@ from ._exceptions import (
 )
 from ._base_client import DefaultHttpxClient, DefaultAioHttpClient, DefaultAsyncHttpxClient
 from ._utils._logs import setup_logging as _setup_logging
+from .oracle import OracleCard, OracleReading, TarotOracle
 
 __all__ = [
     "types",
@@ -81,6 +82,9 @@ __all__ = [
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
     "DefaultAioHttpClient",
+    "OracleCard",
+    "OracleReading",
+    "TarotOracle",
 ]
 
 if not _t.TYPE_CHECKING:
