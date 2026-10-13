@@ -30,6 +30,14 @@ from .contextualized_embeddings import (
     ContextualizedEmbeddingsResourceWithStreamingResponse,
     AsyncContextualizedEmbeddingsResourceWithStreamingResponse,
 )
+from .decisions import (
+    DecisionsResource,
+    AsyncDecisionsResource,
+    DecisionsResourceWithRawResponse,
+    AsyncDecisionsResourceWithRawResponse,
+    DecisionsResourceWithStreamingResponse,
+    AsyncDecisionsResourceWithStreamingResponse,
+)
 from .embeddings import (
     EmbeddingsResource,
     AsyncEmbeddingsResource,
@@ -88,6 +96,12 @@ __all__ = [
     "AsyncContextualizedEmbeddingsResourceWithRawResponse",
     "ContextualizedEmbeddingsResourceWithStreamingResponse",
     "AsyncContextualizedEmbeddingsResourceWithStreamingResponse",
+    "DecisionsResource",
+    "AsyncDecisionsResource",
+    "DecisionsResourceWithRawResponse",
+    "AsyncDecisionsResourceWithRawResponse",
+    "DecisionsResourceWithStreamingResponse",
+    "AsyncDecisionsResourceWithStreamingResponse",
     "EmbeddingsResource",
     "AsyncEmbeddingsResource",
     "EmbeddingsResourceWithRawResponse",
