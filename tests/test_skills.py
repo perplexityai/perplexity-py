@@ -3,10 +3,12 @@ from __future__ import annotations
 import io
 import zipfile
 from email import policy
+from typing import Any, cast
 from email.parser import BytesParser
 
 import httpx
 import pytest
+from pydantic import ValidationError
 
 from perplexity import Perplexity, AsyncPerplexity
 from perplexity.types import ManagedSkill, SkillListResponse, SkillDownloadResponse, SkillRevisionListResponse
@@ -17,6 +19,27 @@ def bundle() -> bytes:
     with zipfile.ZipFile(output, "w") as archive:
         archive.writestr("SKILL.md", "---\nname: example\ndescription: Example\n---\n")
     return output.getvalue()
+
+
+@pytest.mark.parametrize(
+    "invalid_file",
+    ["bundle.zip", ("bundle.zip", "not bytes"), ("bundle.zip", "not bytes", "application/zip")],
+)
+def test_upload_rejects_strings_without_sending_a_request(invalid_file: object) -> None:
+    requests: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return httpx.Response(201, json={"skill_id": "example"})
+
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(handler)),
+    ) as client:
+        with pytest.raises(ValidationError):
+            client.skills.create(file=cast(Any, invalid_file))
+    assert requests == []
 
 
 @pytest.mark.parametrize("asynchronous", [False, True])

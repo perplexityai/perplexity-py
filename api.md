@@ -162,7 +162,8 @@ skill = client.skills.retrieve(skill.skill_id)
 if skill.revision is None:
     raise ValueError("A current revision is required to update")
 skill = client.skills.update(
-    skill.skill_id, expected_revision=skill.revision,
+    skill.skill_id,
+    expected_revision=skill.revision,
     file=("bundle.zip", zip_bytes, "application/zip"),
 )
 if skill.revision is None:
