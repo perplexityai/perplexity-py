@@ -1209,6 +1209,18 @@ class InputMessageOutput(BaseModel):
     type: Optional[Literal["message"]] = None
 
 
+class InputTokensDetailsInput(BaseModel):
+    cache_creation_input_tokens: Optional[int] = None
+    cache_read_input_tokens: Optional[int] = None
+    cached_tokens: int
+
+
+class InputTokensDetailsOutput(BaseModel):
+    cache_creation_input_tokens: Optional[int] = None
+    cache_read_input_tokens: Optional[int] = None
+    cached_tokens: int
+
+
 class JSONSchemaInput(BaseModel):
     description: Union[str, None] = None
     name: Union[str, None] = None
@@ -1545,6 +1557,14 @@ class OutputItemDoneEventOutput(BaseModel):
     output_index: int
     sequence_number: int
     type: Literal["response.output_item.done"]
+
+
+class OutputTokensDetailsInput(BaseModel):
+    reasoning_tokens: int
+
+
+class OutputTokensDetailsOutput(BaseModel):
+    reasoning_tokens: int
 
 
 class ParameterSpecInput(BaseModel):
@@ -2395,38 +2415,18 @@ class ToolCallFunctionOutput(BaseModel):
 
 class ToolCallTokenUsageInput(BaseModel):
     input_tokens: int
-    input_tokens_details: "ToolCallTokenUsageInputTokensDetailsInput"
+    input_tokens_details: "InputTokensDetailsInput"
     model: Optional[str] = None
     output_tokens: int
-    output_tokens_details: "ToolCallTokenUsageOutputTokensDetailsInput"
+    output_tokens_details: "OutputTokensDetailsInput"
 
 
 class ToolCallTokenUsageOutput(BaseModel):
     input_tokens: int
-    input_tokens_details: "ToolCallTokenUsageInputTokensDetailsOutput"
+    input_tokens_details: "InputTokensDetailsOutput"
     model: Optional[str] = None
     output_tokens: int
-    output_tokens_details: "ToolCallTokenUsageOutputTokensDetailsOutput"
-
-
-class ToolCallTokenUsageInputTokensDetailsInput(BaseModel):
-    cache_creation_input_tokens: Optional[int] = None
-    cache_read_input_tokens: Optional[int] = None
-    cached_tokens: int
-
-
-class ToolCallTokenUsageInputTokensDetailsOutput(BaseModel):
-    cache_creation_input_tokens: Optional[int] = None
-    cache_read_input_tokens: Optional[int] = None
-    cached_tokens: int
-
-
-class ToolCallTokenUsageOutputTokensDetailsInput(BaseModel):
-    reasoning_tokens: int
-
-
-class ToolCallTokenUsageOutputTokensDetailsOutput(BaseModel):
-    reasoning_tokens: int
+    output_tokens_details: "OutputTokensDetailsOutput"
 
 
 ToolChoiceInput: TypeAlias = Union[Literal["none", "auto", "required"], dict[str, Any]]
@@ -2762,6 +2762,8 @@ InputContentPartInput.model_rebuild(_types_namespace=globals())
 InputContentPartOutput.model_rebuild(_types_namespace=globals())
 InputMessageInput.model_rebuild(_types_namespace=globals())
 InputMessageOutput.model_rebuild(_types_namespace=globals())
+InputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+InputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 JSONSchemaInput.model_rebuild(_types_namespace=globals())
 JSONSchemaOutput.model_rebuild(_types_namespace=globals())
 JSONSchemaFormatInput.model_rebuild(_types_namespace=globals())
@@ -2798,6 +2800,8 @@ OutputItemAddedEventInput.model_rebuild(_types_namespace=globals())
 OutputItemAddedEventOutput.model_rebuild(_types_namespace=globals())
 OutputItemDoneEventInput.model_rebuild(_types_namespace=globals())
 OutputItemDoneEventOutput.model_rebuild(_types_namespace=globals())
+OutputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+OutputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 ParameterSpecInput.model_rebuild(_types_namespace=globals())
 ParameterSpecOutput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolInput.model_rebuild(_types_namespace=globals())
@@ -2898,10 +2902,6 @@ ToolCallFunctionInput.model_rebuild(_types_namespace=globals())
 ToolCallFunctionOutput.model_rebuild(_types_namespace=globals())
 ToolCallTokenUsageInput.model_rebuild(_types_namespace=globals())
 ToolCallTokenUsageOutput.model_rebuild(_types_namespace=globals())
-ToolCallTokenUsageInputTokensDetailsInput.model_rebuild(_types_namespace=globals())
-ToolCallTokenUsageInputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
-ToolCallTokenUsageOutputTokensDetailsInput.model_rebuild(_types_namespace=globals())
-ToolCallTokenUsageOutputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 ToolSearchOutputItemInput.model_rebuild(_types_namespace=globals())
 ToolSearchOutputItemOutput.model_rebuild(_types_namespace=globals())
 ToolSpecInput.model_rebuild(_types_namespace=globals())
