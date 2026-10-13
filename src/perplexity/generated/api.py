@@ -4473,27 +4473,69 @@ class ResponsesResource(SyncAPIResource):
         )
         return _result
 
+    @overload
     def retrieve(
         self,
         response_id: str,
         *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
-    ) -> "ResponsesResponseOutput":
+    ) -> ResponsesResponseOutput: ...
+    @overload
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Literal[True],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Stream["ResponseStreamEventOutput"]: ...
+    @overload
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]: ...
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]:
         if not response_id:
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        _query_parameters = _without_omitted({})
+        _query_parameters = _without_omitted(
+            {"starting_after": starting_after, "stream": stream}
+        )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
-            "ResponsesResponseOutput",
+            Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]],
             self._get(
                 "/v1/responses/{response_id}".format(response_id=response_id),
                 cast_to=ResponsesResponseOutput,
+                stream=stream is True,
+                stream_cls=Stream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
@@ -5918,27 +5960,69 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         )
         return _result
 
+    @overload
     async def retrieve(
         self,
         response_id: str,
         *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
-    ) -> "ResponsesResponseOutput":
+    ) -> ResponsesResponseOutput: ...
+    @overload
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Literal[True],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> AsyncStream["ResponseStreamEventOutput"]: ...
+    @overload
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]: ...
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]:
         if not response_id:
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        _query_parameters = _without_omitted({})
+        _query_parameters = _without_omitted(
+            {"starting_after": starting_after, "stream": stream}
+        )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
-            "ResponsesResponseOutput",
+            Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]],
             await self._get(
                 "/v1/responses/{response_id}".format(response_id=response_id),
                 cast_to=ResponsesResponseOutput,
+                stream=stream is True,
+                stream_cls=AsyncStream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
