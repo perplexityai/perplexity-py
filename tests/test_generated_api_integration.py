@@ -4,8 +4,8 @@ import json
 
 import httpx
 
-from perplexity import Perplexity
-from perplexity.types import SearchCreateResponse
+from perplexity import Perplexity, AsyncPerplexity
+from perplexity.types import Model, ModelListResponse, SearchCreateResponse
 from perplexity.generated.api import (
     ApiSearchPageOutput,
     SearchCreateResponse as GeneratedSearchCreateResponse,
@@ -114,3 +114,47 @@ def test_responses_cache_controls_and_tool_usage() -> None:
     assert usage.input_tokens_details.cached_tokens == 40
     assert usage.input_tokens_details.cache_read_input_tokens == 40
     assert usage.output_tokens_details.reasoning_tokens == 5
+
+
+def model_catalog_handler(request: httpx.Request) -> httpx.Response:
+    assert request.method == "GET"
+    assert request.url == "https://example.test/v1/models"
+    assert request.headers["authorization"] == "Bearer test"
+    assert not request.content
+    return httpx.Response(
+        200,
+        json={
+            "object": "list",
+            "data": [{"id": "provider/model", "object": "model", "created": 0, "owned_by": "provider"}],
+        },
+    )
+
+
+def test_model_catalog() -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(model_catalog_handler)),
+    ) as client:
+        response = client.models.list()
+        assert isinstance(response, ModelListResponse)
+        assert isinstance(response.data[0], Model)
+        assert response.object == "list"
+        assert response.data[0].id == "provider/model"
+        assert client.models.with_raw_response.list().parse().data[0].created == 0
+        with client.models.with_streaming_response.list() as raw:
+            assert raw.parse().data[0].owned_by == "provider"
+
+
+async def test_async_model_catalog() -> None:
+    async with AsyncPerplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(model_catalog_handler)),
+    ) as client:
+        response = await client.models.list()
+        assert response.data[0].id == "provider/model"
+        raw = await client.models.with_raw_response.list()
+        assert (await raw.parse()).data[0].created == 0
+        async with client.models.with_streaming_response.list() as streamed:
+            assert (await streamed.parse()).data[0].owned_by == "provider"

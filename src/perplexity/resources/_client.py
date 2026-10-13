@@ -41,6 +41,14 @@ from .embeddings import (
     EmbeddingsResourceWithStreamingResponse,
     AsyncEmbeddingsResourceWithStreamingResponse,
 )
+from .models import (
+    ModelsResource,
+    AsyncModelsResource,
+    ModelsResourceWithRawResponse,
+    AsyncModelsResourceWithRawResponse,
+    ModelsResourceWithStreamingResponse,
+    AsyncModelsResourceWithStreamingResponse,
+)
 from .responses import (
     ResponsesResource,
     AsyncResponsesResource,
@@ -83,6 +91,10 @@ class SyncClientResources:
         return EmbeddingsResource(self._sdk_transport)
 
     @cached_property
+    def models(self) -> ModelsResource:
+        return ModelsResource(self._sdk_transport)
+
+    @cached_property
     def responses(self) -> ResponsesResource:
         return ResponsesResource(self._sdk_transport)
 
@@ -113,6 +125,10 @@ class AsyncClientResources:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResource:
         return AsyncEmbeddingsResource(self._sdk_transport)
+
+    @cached_property
+    def models(self) -> AsyncModelsResource:
+        return AsyncModelsResource(self._sdk_transport)
 
     @cached_property
     def responses(self) -> AsyncResponsesResource:
@@ -152,6 +168,10 @@ class SyncClientWithRawResponse:
         return EmbeddingsResourceWithRawResponse(self._client.embeddings)
 
     @cached_property
+    def models(self) -> ModelsResourceWithRawResponse:
+        return ModelsResourceWithRawResponse(self._client.models)
+
+    @cached_property
     def responses(self) -> ResponsesResourceWithRawResponse:
         return ResponsesResourceWithRawResponse(self._client.responses)
 
@@ -187,6 +207,10 @@ class AsyncClientWithRawResponse:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithRawResponse:
         return AsyncEmbeddingsResourceWithRawResponse(self._client.embeddings)
+
+    @cached_property
+    def models(self) -> AsyncModelsResourceWithRawResponse:
+        return AsyncModelsResourceWithRawResponse(self._client.models)
 
     @cached_property
     def responses(self) -> AsyncResponsesResourceWithRawResponse:
@@ -226,6 +250,10 @@ class SyncClientWithStreamingResponse:
         return EmbeddingsResourceWithStreamingResponse(self._client.embeddings)
 
     @cached_property
+    def models(self) -> ModelsResourceWithStreamingResponse:
+        return ModelsResourceWithStreamingResponse(self._client.models)
+
+    @cached_property
     def responses(self) -> ResponsesResourceWithStreamingResponse:
         return ResponsesResourceWithStreamingResponse(self._client.responses)
 
@@ -261,6 +289,10 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithStreamingResponse:
         return AsyncEmbeddingsResourceWithStreamingResponse(self._client.embeddings)
+
+    @cached_property
+    def models(self) -> AsyncModelsResourceWithStreamingResponse:
+        return AsyncModelsResourceWithStreamingResponse(self._client.models)
 
     @cached_property
     def responses(self) -> AsyncResponsesResourceWithStreamingResponse:

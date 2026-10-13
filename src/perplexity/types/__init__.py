@@ -1,6 +1,7 @@
 # ruff: noqa: F401
 # pyright: reportUnusedImport=false
 from perplexity.generated.api import (
+    Model,
     Choice,
     ErrorInfo,
     InputItem as InputItemParam,
@@ -22,6 +23,7 @@ from perplexity.generated.api import (
     ResponseFileList,
     WebSearchOptions,
     ChatMessageOutput,
+    ModelListResponse,
     SearchCreateParams,
     ResponseStreamChunk,
     ResponseCreateParams,
