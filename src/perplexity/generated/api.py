@@ -2,6 +2,7 @@
 # Generated from SDK OpenAPI. Do not edit.
 from __future__ import annotations
 from functools import cached_property
+from urllib.parse import quote
 from pydantic import Field
 from typing import Any, Mapping, Optional, Sequence, Union, cast, overload
 from typing_extensions import Literal, TypeAlias
@@ -13,6 +14,7 @@ from .runtime import (
     BaseModel,
     BinaryAPIResponse,
     Body,
+    FileInput,
     Headers,
     NoneType,
     NotGiven,
@@ -1401,6 +1403,26 @@ class ListAsyncApiChatCompletionsResponseOutput(BaseModel):
     requests: list["AsyncApiChatCompletionsResponseSummaryOutput"]
 
 
+class ManagedSkillInput(BaseModel):
+    created_at: Optional[str] = None
+    description: Optional[str] = None
+    latest_revision: Optional[str] = None
+    name: Optional[str] = None
+    revision: Optional[str] = None
+    skill_id: str
+    updated_at: Optional[str] = None
+
+
+class ManagedSkillOutput(BaseModel):
+    created_at: Optional[str] = None
+    description: Optional[str] = None
+    latest_revision: Optional[str] = None
+    name: Optional[str] = None
+    revision: Optional[str] = None
+    skill_id: str
+    updated_at: Optional[str] = None
+
+
 class McpApprovalRequestInputInput(BaseModel):
     arguments: str
     connector_id: Optional[str] = None
@@ -2467,6 +2489,36 @@ SkillOutput: TypeAlias = Union[
 ]
 
 
+class SkillBundleInput(BaseModel):
+    file: FileInput
+
+
+class SkillBundleOutput(BaseModel):
+    file: str
+
+
+class SkillDownloadInput(BaseModel):
+    download_url: str
+    name: Optional[str] = None
+    revision: Optional[str] = None
+
+
+class SkillDownloadOutput(BaseModel):
+    download_url: str
+    name: Optional[str] = None
+    revision: Optional[str] = None
+
+
+class SkillListInput(BaseModel):
+    next_page_token: Optional[str] = None
+    skills: list["SkillSummaryInput"]
+
+
+class SkillListOutput(BaseModel):
+    next_page_token: Optional[str] = None
+    skills: list["SkillSummaryOutput"]
+
+
 class SkillLoadedOutputItemInput(BaseModel):
     name: str
     type: Literal["skill_loaded"]
@@ -2475,6 +2527,44 @@ class SkillLoadedOutputItemInput(BaseModel):
 class SkillLoadedOutputItemOutput(BaseModel):
     name: str
     type: Literal["skill_loaded"]
+
+
+class SkillRevisionInput(BaseModel):
+    created_at: Optional[str] = None
+    name: Optional[str] = None
+    revision: str
+
+
+class SkillRevisionOutput(BaseModel):
+    created_at: Optional[str] = None
+    name: Optional[str] = None
+    revision: str
+
+
+class SkillRevisionListInput(BaseModel):
+    next_page_token: Optional[str] = None
+    revisions: list["SkillRevisionInput"]
+
+
+class SkillRevisionListOutput(BaseModel):
+    next_page_token: Optional[str] = None
+    revisions: list["SkillRevisionOutput"]
+
+
+class SkillSummaryInput(BaseModel):
+    created_at: Optional[str] = None
+    name: Optional[str] = None
+    revision: Optional[str] = None
+    skill_id: str
+    updated_at: Optional[str] = None
+
+
+class SkillSummaryOutput(BaseModel):
+    created_at: Optional[str] = None
+    name: Optional[str] = None
+    revision: Optional[str] = None
+    skill_id: str
+    updated_at: Optional[str] = None
 
 
 StatusInput: TypeAlias = Literal[
@@ -2956,6 +3046,8 @@ JSONSchemaFormatInput.model_rebuild(_types_namespace=globals())
 JSONSchemaFormatOutput.model_rebuild(_types_namespace=globals())
 ListAsyncApiChatCompletionsResponseInput.model_rebuild(_types_namespace=globals())
 ListAsyncApiChatCompletionsResponseOutput.model_rebuild(_types_namespace=globals())
+ManagedSkillInput.model_rebuild(_types_namespace=globals())
+ManagedSkillOutput.model_rebuild(_types_namespace=globals())
 McpApprovalRequestInputInput.model_rebuild(_types_namespace=globals())
 McpApprovalRequestInputOutput.model_rebuild(_types_namespace=globals())
 McpApprovalRequestOutputItemInput.model_rebuild(_types_namespace=globals())
@@ -3078,8 +3170,20 @@ SearchResultsOutputItemInput.model_rebuild(_types_namespace=globals())
 SearchResultsOutputItemOutput.model_rebuild(_types_namespace=globals())
 ShareFileOutputItemInput.model_rebuild(_types_namespace=globals())
 ShareFileOutputItemOutput.model_rebuild(_types_namespace=globals())
+SkillBundleInput.model_rebuild(_types_namespace=globals())
+SkillBundleOutput.model_rebuild(_types_namespace=globals())
+SkillDownloadInput.model_rebuild(_types_namespace=globals())
+SkillDownloadOutput.model_rebuild(_types_namespace=globals())
+SkillListInput.model_rebuild(_types_namespace=globals())
+SkillListOutput.model_rebuild(_types_namespace=globals())
 SkillLoadedOutputItemInput.model_rebuild(_types_namespace=globals())
 SkillLoadedOutputItemOutput.model_rebuild(_types_namespace=globals())
+SkillRevisionInput.model_rebuild(_types_namespace=globals())
+SkillRevisionOutput.model_rebuild(_types_namespace=globals())
+SkillRevisionListInput.model_rebuild(_types_namespace=globals())
+SkillRevisionListOutput.model_rebuild(_types_namespace=globals())
+SkillSummaryInput.model_rebuild(_types_namespace=globals())
+SkillSummaryOutput.model_rebuild(_types_namespace=globals())
 TextDeltaEventInput.model_rebuild(_types_namespace=globals())
 TextDeltaEventOutput.model_rebuild(_types_namespace=globals())
 TextDoneEventInput.model_rebuild(_types_namespace=globals())
@@ -3326,6 +3430,7 @@ ImageSearchResultsOutputItem: TypeAlias = ImageSearchResultsOutputItemOutput
 ImageSearchTool: TypeAlias = ImageSearchToolInput
 InputItem: TypeAlias = InputItemInput
 JsonSchemaFormat: TypeAlias = JSONSchemaFormatInput
+ManagedSkill: TypeAlias = ManagedSkillOutput
 Model: TypeAlias = ModelOutput
 ModelListResponse: TypeAlias = ModelListOutput
 OutputItem: TypeAlias = OutputItemOutput
@@ -3399,6 +3504,11 @@ SearchCreateParams: TypeAlias = ApiSearchRequestInput
 SearchCreateResponse: TypeAlias = ApiSearchResponseOutput
 SearchResult: TypeAlias = SearchResultOutput
 BrowserSessionsSessionCreateParams: TypeAlias = CreateBrowserSessionRequestInput
+SkillDownloadResponse: TypeAlias = SkillDownloadOutput
+SkillListResponse: TypeAlias = SkillListOutput
+SkillRevision: TypeAlias = SkillRevisionOutput
+SkillRevisionListResponse: TypeAlias = SkillRevisionListOutput
+SkillUploadParams: TypeAlias = SkillBundleInput
 StreamChunk: TypeAlias = CompletionResponseOutput
 UsageInfo: TypeAlias = UsageInfoOutput
 UserLocation: TypeAlias = UserLocationInput
@@ -3491,7 +3601,9 @@ class AsyncChatCompletionsResource(SyncAPIResource):
         _result = cast(
             "AsyncApiChatCompletionsResponseOutput",
             self._get(
-                "/async/chat/completions/{api_request}".format(api_request=api_request),
+                "/async/chat/completions/{api_request}".format(
+                    api_request=quote(str(api_request), safe="")
+                ),
                 cast_to=AsyncApiChatCompletionsResponseOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -3599,7 +3711,9 @@ class BrowserSessionsResource(SyncAPIResource):
         _result = cast(
             None,
             self._delete(
-                "/v1/browser/sessions/{session_id}".format(session_id=session_id),
+                "/v1/browser/sessions/{session_id}".format(
+                    session_id=quote(str(session_id), safe="")
+                ),
                 cast_to=NoneType,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -4005,7 +4119,8 @@ class ResponsesFilesResource(SyncAPIResource):
             BinaryAPIResponse,
             self._get(
                 "/v1/responses/{response_id}/files/{file_id}/content".format(
-                    file_id=file_id, response_id=response_id
+                    file_id=quote(str(file_id), safe=""),
+                    response_id=quote(str(response_id), safe=""),
                 ),
                 cast_to=BinaryAPIResponse,
                 options=make_request_options(
@@ -4037,8 +4152,55 @@ class ResponsesFilesResource(SyncAPIResource):
         _result = cast(
             "ResponseFileListOutput",
             self._get(
-                "/v1/responses/{response_id}/files".format(response_id=response_id),
+                "/v1/responses/{response_id}/files".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponseFileListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class SkillsRevisionsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> SkillsRevisionsResourceWithRawResponse:
+        return SkillsRevisionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> SkillsRevisionsResourceWithStreamingResponse:
+        return SkillsRevisionsResourceWithStreamingResponse(self)
+
+    def list(
+        self,
+        skill_id: str,
+        *,
+        limit: Union[int, Omit] = omit,
+        page_token: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillRevisionListOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"limit": limit, "page_token": page_token})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillRevisionListOutput",
+            self._get(
+                "/v1/skills/{skill_id}/revisions".format(
+                    skill_id=quote(str(skill_id), safe="")
+                ),
+                cast_to=SkillRevisionListOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
@@ -4302,7 +4464,9 @@ class ResponsesResource(SyncAPIResource):
         _result = cast(
             "ResponsesCancelResponseOutput",
             self._post(
-                "/v1/responses/{response_id}/cancel".format(response_id=response_id),
+                "/v1/responses/{response_id}/cancel".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponsesCancelResponseOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -4558,7 +4722,9 @@ class ResponsesResource(SyncAPIResource):
         _result = cast(
             Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]],
             self._get(
-                "/v1/responses/{response_id}".format(response_id=response_id),
+                "/v1/responses/{response_id}".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponsesResponseOutput,
                 stream=stream is True,
                 stream_cls=Stream["ResponseStreamEventOutput"],
@@ -4661,6 +4827,218 @@ class SearchResource(SyncAPIResource):
         return _result
 
 
+class SkillsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> SkillsResourceWithRawResponse:
+        return SkillsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> SkillsResourceWithStreamingResponse:
+        return SkillsResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        file: FileInput,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        _body = SkillBundleInput.model_validate(_without_omitted({"file": file}))
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "ManagedSkillOutput",
+            self._post(
+                "/v1/skills",
+                cast_to=ManagedSkillOutput,
+                files=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def delete(
+        self,
+        skill_id: str,
+        *,
+        expected_revision: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> None:
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"expected_revision": expected_revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            None,
+            self._delete(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=NoneType,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def download(
+        self,
+        skill_id: str,
+        *,
+        revision: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillDownloadOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"revision": revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillDownloadOutput",
+            self._get(
+                "/v1/skills/{skill_id}/download".format(
+                    skill_id=quote(str(skill_id), safe="")
+                ),
+                cast_to=SkillDownloadOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def list(
+        self,
+        *,
+        limit: Union[int, Omit] = omit,
+        page_token: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillListOutput":
+        _query_parameters = _without_omitted({"limit": limit, "page_token": page_token})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillListOutput",
+            self._get(
+                "/v1/skills",
+                cast_to=SkillListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def retrieve(
+        self,
+        skill_id: str,
+        *,
+        revision: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"revision": revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ManagedSkillOutput",
+            self._get(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=ManagedSkillOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def update(
+        self,
+        skill_id: str,
+        *,
+        expected_revision: str,
+        file: FileInput,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _body = SkillBundleInput.model_validate(_without_omitted({"file": file}))
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({"expected_revision": expected_revision})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "ManagedSkillOutput",
+            self._put(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=ManagedSkillOutput,
+                files=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    @cached_property
+    def revisions(self) -> SkillsRevisionsResource:
+        return SkillsRevisionsResource(self._client)
+
+
 class AsyncChatCompletionsResourceWithRawResponse:
     def __init__(self, resource: AsyncChatCompletionsResource) -> None:
         self._resource = resource
@@ -4734,6 +5112,18 @@ class ResponsesFilesResourceWithStreamingResponse:
     def __init__(self, resource: ResponsesFilesResource) -> None:
         self._resource = resource
         self.content = to_streamed_response_wrapper(resource, "content")
+        self.list = to_streamed_response_wrapper(resource, "list")
+
+
+class SkillsRevisionsResourceWithRawResponse:
+    def __init__(self, resource: SkillsRevisionsResource) -> None:
+        self._resource = resource
+        self.list = to_raw_response_wrapper(resource, "list")
+
+
+class SkillsRevisionsResourceWithStreamingResponse:
+    def __init__(self, resource: SkillsRevisionsResource) -> None:
+        self._resource = resource
         self.list = to_streamed_response_wrapper(resource, "list")
 
 
@@ -4875,6 +5265,36 @@ class SearchResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(resource, "create")
 
 
+class SkillsResourceWithRawResponse:
+    def __init__(self, resource: SkillsResource) -> None:
+        self._resource = resource
+        self.create = to_raw_response_wrapper(resource, "create")
+        self.delete = to_raw_response_wrapper(resource, "delete")
+        self.download = to_raw_response_wrapper(resource, "download")
+        self.list = to_raw_response_wrapper(resource, "list")
+        self.retrieve = to_raw_response_wrapper(resource, "retrieve")
+        self.update = to_raw_response_wrapper(resource, "update")
+
+    @cached_property
+    def revisions(self) -> SkillsRevisionsResourceWithRawResponse:
+        return SkillsRevisionsResourceWithRawResponse(self._resource.revisions)
+
+
+class SkillsResourceWithStreamingResponse:
+    def __init__(self, resource: SkillsResource) -> None:
+        self._resource = resource
+        self.create = to_streamed_response_wrapper(resource, "create")
+        self.delete = to_streamed_response_wrapper(resource, "delete")
+        self.download = to_streamed_response_wrapper(resource, "download")
+        self.list = to_streamed_response_wrapper(resource, "list")
+        self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
+        self.update = to_streamed_response_wrapper(resource, "update")
+
+    @cached_property
+    def revisions(self) -> SkillsRevisionsResourceWithStreamingResponse:
+        return SkillsRevisionsResourceWithStreamingResponse(self._resource.revisions)
+
+
 class PerplexitySdk(SyncAPIResource):
     @cached_property
     def async_(self) -> AsyncResource:
@@ -4911,6 +5331,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def search(self) -> SearchResource:
         return SearchResource(self._client)
+
+    @cached_property
+    def skills(self) -> SkillsResource:
+        return SkillsResource(self._client)
 
 
 class AsyncClientAsyncChatCompletionsResource(AsyncAPIResource):
@@ -4993,7 +5417,9 @@ class AsyncClientAsyncChatCompletionsResource(AsyncAPIResource):
         _result = cast(
             "AsyncApiChatCompletionsResponseOutput",
             await self._get(
-                "/async/chat/completions/{api_request}".format(api_request=api_request),
+                "/async/chat/completions/{api_request}".format(
+                    api_request=quote(str(api_request), safe="")
+                ),
                 cast_to=AsyncApiChatCompletionsResponseOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -5105,7 +5531,9 @@ class AsyncClientBrowserSessionsResource(AsyncAPIResource):
         _result = cast(
             None,
             await self._delete(
-                "/v1/browser/sessions/{session_id}".format(session_id=session_id),
+                "/v1/browser/sessions/{session_id}".format(
+                    session_id=quote(str(session_id), safe="")
+                ),
                 cast_to=NoneType,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -5515,7 +5943,8 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
             AsyncBinaryAPIResponse,
             await self._get(
                 "/v1/responses/{response_id}/files/{file_id}/content".format(
-                    file_id=file_id, response_id=response_id
+                    file_id=quote(str(file_id), safe=""),
+                    response_id=quote(str(response_id), safe=""),
                 ),
                 cast_to=AsyncBinaryAPIResponse,
                 options=make_request_options(
@@ -5547,8 +5976,57 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
         _result = cast(
             "ResponseFileListOutput",
             await self._get(
-                "/v1/responses/{response_id}/files".format(response_id=response_id),
+                "/v1/responses/{response_id}/files".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponseFileListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class AsyncClientSkillsRevisionsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientSkillsRevisionsResourceWithRawResponse:
+        return AsyncClientSkillsRevisionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientSkillsRevisionsResourceWithStreamingResponse:
+        return AsyncClientSkillsRevisionsResourceWithStreamingResponse(self)
+
+    async def list(
+        self,
+        skill_id: str,
+        *,
+        limit: Union[int, Omit] = omit,
+        page_token: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillRevisionListOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"limit": limit, "page_token": page_token})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillRevisionListOutput",
+            await self._get(
+                "/v1/skills/{skill_id}/revisions".format(
+                    skill_id=quote(str(skill_id), safe="")
+                ),
+                cast_to=SkillRevisionListOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
@@ -5822,7 +6300,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         _result = cast(
             "ResponsesCancelResponseOutput",
             await self._post(
-                "/v1/responses/{response_id}/cancel".format(response_id=response_id),
+                "/v1/responses/{response_id}/cancel".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponsesCancelResponseOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -6078,7 +6558,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         _result = cast(
             Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]],
             await self._get(
-                "/v1/responses/{response_id}".format(response_id=response_id),
+                "/v1/responses/{response_id}".format(
+                    response_id=quote(str(response_id), safe="")
+                ),
                 cast_to=ResponsesResponseOutput,
                 stream=stream is True,
                 stream_cls=AsyncStream["ResponseStreamEventOutput"],
@@ -6181,6 +6663,218 @@ class AsyncClientSearchResource(AsyncAPIResource):
         return _result
 
 
+class AsyncClientSkillsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientSkillsResourceWithRawResponse:
+        return AsyncClientSkillsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncClientSkillsResourceWithStreamingResponse:
+        return AsyncClientSkillsResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        file: FileInput,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        _body = SkillBundleInput.model_validate(_without_omitted({"file": file}))
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "ManagedSkillOutput",
+            await self._post(
+                "/v1/skills",
+                cast_to=ManagedSkillOutput,
+                files=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def delete(
+        self,
+        skill_id: str,
+        *,
+        expected_revision: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> None:
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"expected_revision": expected_revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            None,
+            await self._delete(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=NoneType,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def download(
+        self,
+        skill_id: str,
+        *,
+        revision: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillDownloadOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"revision": revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillDownloadOutput",
+            await self._get(
+                "/v1/skills/{skill_id}/download".format(
+                    skill_id=quote(str(skill_id), safe="")
+                ),
+                cast_to=SkillDownloadOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def list(
+        self,
+        *,
+        limit: Union[int, Omit] = omit,
+        page_token: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "SkillListOutput":
+        _query_parameters = _without_omitted({"limit": limit, "page_token": page_token})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "SkillListOutput",
+            await self._get(
+                "/v1/skills",
+                cast_to=SkillListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def retrieve(
+        self,
+        skill_id: str,
+        *,
+        revision: Union[str, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _query_parameters = _without_omitted({"revision": revision})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ManagedSkillOutput",
+            await self._get(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=ManagedSkillOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def update(
+        self,
+        skill_id: str,
+        *,
+        expected_revision: str,
+        file: FileInput,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ManagedSkillOutput":
+        if not skill_id:
+            raise ValueError(
+                "Expected a non-empty value for `skill_id` but received "
+                + repr(skill_id)
+            )
+        _body = SkillBundleInput.model_validate(_without_omitted({"file": file}))
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({"expected_revision": expected_revision})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "ManagedSkillOutput",
+            await self._put(
+                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                cast_to=ManagedSkillOutput,
+                files=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    @cached_property
+    def revisions(self) -> AsyncClientSkillsRevisionsResource:
+        return AsyncClientSkillsRevisionsResource(self._client)
+
+
 class AsyncClientAsyncChatCompletionsResourceWithRawResponse:
     def __init__(self, resource: AsyncClientAsyncChatCompletionsResource) -> None:
         self._resource = resource
@@ -6258,6 +6952,18 @@ class AsyncClientResponsesFilesResourceWithStreamingResponse:
     def __init__(self, resource: AsyncClientResponsesFilesResource) -> None:
         self._resource = resource
         self.content = async_to_streamed_response_wrapper(resource, "content")
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+
+
+class AsyncClientSkillsRevisionsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientSkillsRevisionsResource) -> None:
+        self._resource = resource
+        self.list = async_to_raw_response_wrapper(resource, "list")
+
+
+class AsyncClientSkillsRevisionsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientSkillsRevisionsResource) -> None:
+        self._resource = resource
         self.list = async_to_streamed_response_wrapper(resource, "list")
 
 
@@ -6409,6 +7115,40 @@ class AsyncClientSearchResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(resource, "create")
 
 
+class AsyncClientSkillsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientSkillsResource) -> None:
+        self._resource = resource
+        self.create = async_to_raw_response_wrapper(resource, "create")
+        self.delete = async_to_raw_response_wrapper(resource, "delete")
+        self.download = async_to_raw_response_wrapper(resource, "download")
+        self.list = async_to_raw_response_wrapper(resource, "list")
+        self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
+        self.update = async_to_raw_response_wrapper(resource, "update")
+
+    @cached_property
+    def revisions(self) -> AsyncClientSkillsRevisionsResourceWithRawResponse:
+        return AsyncClientSkillsRevisionsResourceWithRawResponse(
+            self._resource.revisions
+        )
+
+
+class AsyncClientSkillsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientSkillsResource) -> None:
+        self._resource = resource
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+        self.delete = async_to_streamed_response_wrapper(resource, "delete")
+        self.download = async_to_streamed_response_wrapper(resource, "download")
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+        self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
+        self.update = async_to_streamed_response_wrapper(resource, "update")
+
+    @cached_property
+    def revisions(self) -> AsyncClientSkillsRevisionsResourceWithStreamingResponse:
+        return AsyncClientSkillsRevisionsResourceWithStreamingResponse(
+            self._resource.revisions
+        )
+
+
 class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def async_(self) -> AsyncClientAsyncResource:
@@ -6445,3 +7185,7 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def search(self) -> AsyncClientSearchResource:
         return AsyncClientSearchResource(self._client)
+
+    @cached_property
+    def skills(self) -> AsyncClientSkillsResource:
+        return AsyncClientSkillsResource(self._client)

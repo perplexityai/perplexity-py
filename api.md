@@ -149,6 +149,32 @@ Methods:
 
 - <code title="post /v1/contextualizedembeddings">client.contextualized_embeddings.<a href="./src/perplexity/resources/contextualized_embeddings.py">create</a>(\*\*<a href="src/perplexity/types/contextualized_embedding_create_params.py">params</a>) -> <a href="./src/perplexity/types/contextualized_embedding_create_response.py">ContextualizedEmbeddingCreateResponse</a></code>
 
+# Skills
+
+Upload custom Skill ZIP bundles using bytes or `(filename, bytes, content_type)`.
+Updates and deletion require the current `expected_revision`. List responses expose
+`next_page_token`; pass it as `page_token` to request another page.
+
+```python
+skill = client.skills.create(file=("bundle.zip", zip_bytes, "application/zip"))
+page = client.skills.list(limit=20)
+skill = client.skills.retrieve(skill.skill_id)
+if skill.revision is None:
+    raise ValueError("A current revision is required to update")
+skill = client.skills.update(
+    skill.skill_id, expected_revision=skill.revision,
+    file=("bundle.zip", zip_bytes, "application/zip"),
+)
+if skill.revision is None:
+    raise ValueError("A current revision is required to delete")
+revisions = client.skills.revisions.list(skill.skill_id)
+download = client.skills.download(skill.skill_id, revision=skill.revision)
+client.skills.delete(skill.skill_id, expected_revision=skill.revision)
+```
+
+`download` returns a signed URL and revision; it does not fetch the ZIP.
+The same methods are available on `AsyncPerplexity`.
+
 # Browser
 
 ## Sessions
