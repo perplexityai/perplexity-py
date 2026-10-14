@@ -4527,7 +4527,11 @@ class ResponsesResource(SyncAPIResource):
             )
         if cast(object, stream) is None:
             stream = omit
-        if stream is not omit and not isinstance(stream, bool):
+        if (
+            stream is not omit
+            and cast(object, stream) is not True
+            and cast(object, stream) is not False
+        ):
             raise TypeError("stream must be a bool")
         _extra_query: dict[str, object] = {}
         for _key, _value in (extra_query or {}).items():
@@ -6043,7 +6047,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             )
         if cast(object, stream) is None:
             stream = omit
-        if stream is not omit and not isinstance(stream, bool):
+        if (
+            stream is not omit
+            and cast(object, stream) is not True
+            and cast(object, stream) is not False
+        ):
             raise TypeError("stream must be a bool")
         _extra_query: dict[str, object] = {}
         for _key, _value in (extra_query or {}).items():
