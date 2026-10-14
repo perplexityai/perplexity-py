@@ -35,7 +35,7 @@ from .runtime import (
 
 def _path_segment(value: object) -> str:
     text = str(value)
-    if text in (".", ".."):
+    if text in ("", ".", ".."):
         raise ValueError(f"Value {text!r} cannot be used as a path parameter")
     return quote(text, safe="")
 
