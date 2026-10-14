@@ -168,6 +168,7 @@ async def test_async_model_catalog() -> None:
         async with client.models.with_streaming_response.list() as streamed:
             assert (await streamed.parse()).data[0].owned_by == "provider"
 
+
 DECISION_REQUEST = {
     "model": "pplx-decider-v1.1-27b",
     "state": {"review": "The battery stopped charging."},
