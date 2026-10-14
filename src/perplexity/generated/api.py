@@ -4490,7 +4490,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
-        starting_after: Union[int, Omit] = omit,
+        starting_after: int,
         stream: Literal[True],
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -4525,6 +4525,8 @@ class ResponsesResource(SyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
+        if stream is True and starting_after is omit:
+            raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
             {"starting_after": starting_after, "stream": stream}
         )
@@ -4538,7 +4540,14 @@ class ResponsesResource(SyncAPIResource):
                 stream_cls=Stream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
-                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_query={
+                        **{
+                            key: value
+                            for key, value in (extra_query or {}).items()
+                            if key != "stream"
+                        },
+                        **_query_parameters,
+                    },
                     extra_body=extra_body,
                     timeout=timeout,
                 ),
@@ -5977,7 +5986,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
-        starting_after: Union[int, Omit] = omit,
+        starting_after: int,
         stream: Literal[True],
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -6012,6 +6021,8 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
+        if stream is True and starting_after is omit:
+            raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
             {"starting_after": starting_after, "stream": stream}
         )
@@ -6025,7 +6036,14 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                 stream_cls=AsyncStream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
-                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_query={
+                        **{
+                            key: value
+                            for key, value in (extra_query or {}).items()
+                            if key != "stream"
+                        },
+                        **_query_parameters,
+                    },
                     extra_body=extra_body,
                     timeout=timeout,
                 ),

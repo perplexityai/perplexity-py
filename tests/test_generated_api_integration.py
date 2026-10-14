@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import httpx
+import pytest
 
 import perplexity.generated.api as generated
 from perplexity import Stream, Perplexity, AsyncStream, AsyncPerplexity
@@ -285,3 +286,29 @@ async def test_async_response_stream_reconnection() -> None:
         assert isinstance(stream, AsyncStream)
         events = [event async for event in stream]
     assert [event.to_dict(mode="json") for event in events] == [RESUMED_EVENT]
+
+
+def test_response_stream_reconnection_requires_cursor_and_ignores_extra_query_stream() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert dict(request.url.params) == {"starting_after": "3", "stream": "false"}
+        return httpx.Response(
+            200,
+            json={
+                "id": "resp-1",
+                "object": "response",
+                "created_at": 0,
+                "model": "openai/gpt-5.4",
+                "status": "completed",
+                "output": [],
+            },
+        )
+
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(handler)),
+    ) as client:
+        with pytest.raises(TypeError, match="stream=True requires starting_after"):
+            client.responses.retrieve("resp-1", stream=True)  # type: ignore[call-overload]
+        response = client.responses.retrieve("resp-1", stream=False, starting_after=3, extra_query={"stream": True})
+        assert not isinstance(response, Stream)
