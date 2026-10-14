@@ -45,3 +45,72 @@ def test_client_uses_generated_api_and_model() -> None:
     assert response.results[0].title == "Perplexity"
     assert requests[0].url == "https://example.test/search"
     assert json.loads(requests[0].content) == {"query": "perplexity"}
+
+
+def test_responses_cache_controls_and_tool_usage() -> None:
+    requests: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return httpx.Response(
+            200,
+            json={
+                "id": "resp-1",
+                "object": "response",
+                "created_at": 0,
+                "model": "openai/gpt-5.4",
+                "status": "completed",
+                "output": [],
+                "service_tier": "priority",
+                "prompt_cache_key": "doc-1",
+                "usage": {
+                    "input_tokens": 10,
+                    "output_tokens": 2,
+                    "total_tokens": 12,
+                    "tool_calls_details": {
+                        "fetch_url": {
+                            "invocation": 1,
+                            "cost_usd": 0.0025,
+                            "token_usage": [
+                                {
+                                    "model": "extractor",
+                                    "input_tokens": 100,
+                                    "input_tokens_details": {"cached_tokens": 40, "cache_read_input_tokens": 40},
+                                    "output_tokens": 20,
+                                    "output_tokens_details": {"reasoning_tokens": 5},
+                                }
+                            ],
+                        }
+                    },
+                },
+            },
+            request=request,
+        )
+
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(handler)),
+    ) as client:
+        response = client.responses.create(
+            input=[{"role": "user", "content": "Summarize the file."}],
+            service_tier="priority",
+            prompt_cache_key="doc-1",
+        )
+
+    assert json.loads(requests[0].content) == {
+        "input": [{"role": "user", "content": "Summarize the file."}],
+        "service_tier": "priority",
+        "prompt_cache_key": "doc-1",
+    }
+    assert response.service_tier == "priority"
+    assert response.prompt_cache_key == "doc-1"
+    assert response.usage is not None
+    assert response.usage.tool_calls_details is not None
+    details = response.usage.tool_calls_details["fetch_url"]
+    assert details.cost_usd == 0.0025
+    assert details.token_usage is not None
+    usage = details.token_usage[0]
+    assert usage.input_tokens_details.cached_tokens == 40
+    assert usage.input_tokens_details.cache_read_input_tokens == 40
+    assert usage.output_tokens_details.reasoning_tokens == 5
