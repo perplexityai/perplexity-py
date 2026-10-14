@@ -3600,7 +3600,9 @@ class AsyncChatCompletionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "AsyncApiChatCompletionsResponseOutput":
-        if not api_request:
+        if api_request is None or (
+            isinstance(api_request, str) and not str.__str__(api_request)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `api_request` but received "
                 + repr(api_request)
@@ -3719,7 +3721,9 @@ class BrowserSessionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> None:
-        if not session_id:
+        if session_id is None or (
+            isinstance(session_id, str) and not str.__str__(session_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `session_id` but received "
                 + repr(session_id)
@@ -4120,11 +4124,13 @@ class ResponsesFilesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        if not file_id:
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
             raise ValueError(
                 "Expected a non-empty value for `file_id` but received " + repr(file_id)
             )
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -4160,7 +4166,9 @@ class ResponsesFilesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ResponseFileListOutput":
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -4205,7 +4213,9 @@ class SkillsRevisionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "SkillRevisionListOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -4472,7 +4482,9 @@ class ResponsesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ResponsesCancelResponseOutput":
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -4702,7 +4714,9 @@ class ResponsesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]:
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -4897,7 +4911,9 @@ class SkillsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> None:
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -4929,7 +4945,9 @@ class SkillsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "SkillDownloadOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -4990,7 +5008,9 @@ class SkillsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ManagedSkillOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -5023,7 +5043,9 @@ class SkillsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ManagedSkillOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -5416,7 +5438,9 @@ class AsyncClientAsyncChatCompletionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "AsyncApiChatCompletionsResponseOutput":
-        if not api_request:
+        if api_request is None or (
+            isinstance(api_request, str) and not str.__str__(api_request)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `api_request` but received "
                 + repr(api_request)
@@ -5539,7 +5563,9 @@ class AsyncClientBrowserSessionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> None:
-        if not session_id:
+        if session_id is None or (
+            isinstance(session_id, str) and not str.__str__(session_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `session_id` but received "
                 + repr(session_id)
@@ -5944,11 +5970,13 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        if not file_id:
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
             raise ValueError(
                 "Expected a non-empty value for `file_id` but received " + repr(file_id)
             )
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -5984,7 +6012,9 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ResponseFileListOutput":
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -6031,7 +6061,9 @@ class AsyncClientSkillsRevisionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "SkillRevisionListOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -6308,7 +6340,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ResponsesCancelResponseOutput":
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -6538,7 +6572,9 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]:
-        if not response_id:
+        if response_id is None or (
+            isinstance(response_id, str) and not str.__str__(response_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
@@ -6733,7 +6769,9 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> None:
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -6765,7 +6803,9 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "SkillDownloadOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -6826,7 +6866,9 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ManagedSkillOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
@@ -6859,7 +6901,9 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> "ManagedSkillOutput":
-        if not skill_id:
+        if skill_id is None or (
+            isinstance(skill_id, str) and not str.__str__(skill_id)
+        ):
             raise ValueError(
                 "Expected a non-empty value for `skill_id` but received "
                 + repr(skill_id)
