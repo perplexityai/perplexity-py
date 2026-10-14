@@ -170,7 +170,7 @@ skill = client.skills.update(
 if skill.latest_revision is None:
     raise ValueError("A current revision is required to delete")
 revisions = client.skills.revisions.list(skill.skill_id)
-download = client.skills.download(skill.skill_id, revision=skill.revision)
+download = client.skills.download(skill.skill_id, revision=skill.latest_revision)
 client.skills.delete(skill.skill_id, expected_revision=skill.latest_revision)
 ```
 

@@ -47,7 +47,7 @@ def test_upload_rejects_strings_without_sending_a_request(invalid_file: object) 
 async def test_skill_lifecycle(asynchronous: bool) -> None:
     payload = bundle()
     revision = "rev+a/b="
-    skill = {"skill_id": "skill/id", "name": "example", "revision": revision}
+    skill = {"skill_id": "skill/id", "name": "example", "revision": revision, "latest_revision": revision}
     calls: list[httpx.Request] = []
     responses = [
         skill,
@@ -110,12 +110,16 @@ async def test_skill_lifecycle(asynchronous: bool) -> None:
             created = await client.skills.create(file=("bundle.zip", payload, "application/zip"))
             page = await client.skills.list(limit=20, page_token="next+a/b=")
             retrieved = await client.skills.retrieve(created.skill_id)
+            assert retrieved.latest_revision is not None
             updated = await client.skills.update(
-                created.skill_id, expected_revision=revision, file=("bundle.zip", payload, "application/zip")
+                created.skill_id,
+                expected_revision=retrieved.latest_revision,
+                file=("bundle.zip", payload, "application/zip"),
             )
             revisions = await client.skills.revisions.list(created.skill_id, limit=20, page_token="next+a/b=")
             download = await client.skills.download(created.skill_id, revision=revision)
-            deleted = await client.skills.delete(created.skill_id, expected_revision=revision)
+            assert updated.latest_revision is not None
+            deleted = await client.skills.delete(created.skill_id, expected_revision=updated.latest_revision)
     else:
         with Perplexity(
             api_key="test",
@@ -125,12 +129,16 @@ async def test_skill_lifecycle(asynchronous: bool) -> None:
             created = sync.skills.create(file=("bundle.zip", payload, "application/zip"))
             page = sync.skills.list(limit=20, page_token="next+a/b=")
             retrieved = sync.skills.retrieve(created.skill_id)
+            assert retrieved.latest_revision is not None
             updated = sync.skills.update(
-                created.skill_id, expected_revision=revision, file=("bundle.zip", payload, "application/zip")
+                created.skill_id,
+                expected_revision=retrieved.latest_revision,
+                file=("bundle.zip", payload, "application/zip"),
             )
             revisions = sync.skills.revisions.list(created.skill_id, limit=20, page_token="next+a/b=")
             download = sync.skills.download(created.skill_id, revision=revision)
-            deleted = sync.skills.delete(created.skill_id, expected_revision=revision)
+            assert updated.latest_revision is not None
+            deleted = sync.skills.delete(created.skill_id, expected_revision=updated.latest_revision)
     assert isinstance(created, ManagedSkill)
     assert isinstance(retrieved, ManagedSkill)
     assert isinstance(updated, ManagedSkill)
