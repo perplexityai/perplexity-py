@@ -4527,10 +4527,11 @@ class ResponsesResource(SyncAPIResource):
             )
         if stream is not omit and not isinstance(stream, bool):
             raise TypeError("stream must be a bool")
+        _extra_query = dict(extra_query or {})
         if (
             stream is True
             and (starting_after is omit or starting_after is None)
-            and (extra_query or {}).get("starting_after") is None
+            and _extra_query.get("starting_after") is None
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
@@ -4549,7 +4550,7 @@ class ResponsesResource(SyncAPIResource):
                     extra_query={
                         **{
                             key: value
-                            for key, value in (extra_query or {}).items()
+                            for key, value in _extra_query.items()
                             if key != "stream"
                         },
                         **{
@@ -6033,10 +6034,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             )
         if stream is not omit and not isinstance(stream, bool):
             raise TypeError("stream must be a bool")
+        _extra_query = dict(extra_query or {})
         if (
             stream is True
             and (starting_after is omit or starting_after is None)
-            and (extra_query or {}).get("starting_after") is None
+            and _extra_query.get("starting_after") is None
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
@@ -6055,7 +6057,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     extra_query={
                         **{
                             key: value
-                            for key, value in (extra_query or {}).items()
+                            for key, value in _extra_query.items()
                             if key != "stream"
                         },
                         **{
