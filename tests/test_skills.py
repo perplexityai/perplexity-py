@@ -47,7 +47,7 @@ def test_upload_rejects_strings_without_sending_a_request(invalid_file: object) 
 async def test_skill_lifecycle(asynchronous: bool) -> None:
     payload = bundle()
     revision = "rev+a/b="
-    skill = {"skill_id": "skill/id", "name": "example", "revision": revision, "latest_revision": revision}
+    skill = {"skill_id": "skill/id", "name": "example", "revision": "rev-old", "latest_revision": revision}
     calls: list[httpx.Request] = []
     responses = [
         skill,
@@ -117,7 +117,7 @@ async def test_skill_lifecycle(asynchronous: bool) -> None:
                 file=("bundle.zip", payload, "application/zip"),
             )
             revisions = await client.skills.revisions.list(created.skill_id, limit=20, page_token="next+a/b=")
-            download = await client.skills.download(created.skill_id, revision=revision)
+            download = await client.skills.download(created.skill_id, revision=retrieved.latest_revision)
             assert updated.latest_revision is not None
             deleted = await client.skills.delete(created.skill_id, expected_revision=updated.latest_revision)
     else:
@@ -136,7 +136,7 @@ async def test_skill_lifecycle(asynchronous: bool) -> None:
                 file=("bundle.zip", payload, "application/zip"),
             )
             revisions = sync.skills.revisions.list(created.skill_id, limit=20, page_token="next+a/b=")
-            download = sync.skills.download(created.skill_id, revision=revision)
+            download = sync.skills.download(created.skill_id, revision=retrieved.latest_revision)
             assert updated.latest_revision is not None
             deleted = sync.skills.delete(created.skill_id, expected_revision=updated.latest_revision)
     assert isinstance(created, ManagedSkill)
