@@ -349,3 +349,13 @@ async def test_async_response_stream_reconnection_requires_cursor_and_strips_ext
             await client.responses.retrieve("resp-1", stream=True)
         response = await client.responses.retrieve("resp-1", starting_after=3, extra_query={"stream": True})
         assert not isinstance(response, AsyncStream)
+
+
+def test_response_retrieve_rejects_non_bool_stream() -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(plain_response_handler)),
+    ) as client:
+        with pytest.raises(TypeError, match="stream must be a bool"):
+            client.responses.retrieve("resp-1", stream="true", starting_after=3)  # type: ignore[call-overload]

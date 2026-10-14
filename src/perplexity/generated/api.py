@@ -4502,8 +4502,8 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
-        starting_after: Union[int, Omit] = omit,
-        stream: Union[bool, Omit] = omit,
+        starting_after: int,
+        stream: bool,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4525,7 +4525,13 @@ class ResponsesResource(SyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        if stream is True and starting_after is omit:
+        if stream is not omit and not isinstance(stream, bool):
+            raise TypeError("stream must be a bool")
+        if (
+            stream is True
+            and (starting_after is omit or starting_after is None)
+            and (extra_query or {}).get("starting_after") is None
+        ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
             {"starting_after": starting_after, "stream": stream}
@@ -4546,7 +4552,11 @@ class ResponsesResource(SyncAPIResource):
                             for key, value in (extra_query or {}).items()
                             if key != "stream"
                         },
-                        **_query_parameters,
+                        **{
+                            key: value
+                            for key, value in _query_parameters.items()
+                            if value is not None
+                        },
                     },
                     extra_body=extra_body,
                     timeout=timeout,
@@ -5998,8 +6008,8 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
-        starting_after: Union[int, Omit] = omit,
-        stream: Union[bool, Omit] = omit,
+        starting_after: int,
+        stream: bool,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -6021,7 +6031,13 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        if stream is True and starting_after is omit:
+        if stream is not omit and not isinstance(stream, bool):
+            raise TypeError("stream must be a bool")
+        if (
+            stream is True
+            and (starting_after is omit or starting_after is None)
+            and (extra_query or {}).get("starting_after") is None
+        ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
             {"starting_after": starting_after, "stream": stream}
@@ -6042,7 +6058,11 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                             for key, value in (extra_query or {}).items()
                             if key != "stream"
                         },
-                        **_query_parameters,
+                        **{
+                            key: value
+                            for key, value in _query_parameters.items()
+                            if value is not None
+                        },
                     },
                     extra_body=extra_body,
                     timeout=timeout,
