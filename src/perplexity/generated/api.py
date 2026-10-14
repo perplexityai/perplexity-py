@@ -2,6 +2,7 @@
 # Generated from SDK OpenAPI. Do not edit.
 from __future__ import annotations
 from functools import cached_property
+import uuid as _uuid
 from urllib.parse import quote
 from pydantic import Field
 from typing import Any, Mapping, Optional, Sequence, Union, cast, overload
@@ -34,11 +35,17 @@ from .runtime import (
 
 
 def _path_segment(value: object) -> str:
-    if value is None or isinstance(value, bool):
+    # Format through the base types so subclasses cannot change the text.
+    if isinstance(value, str):
+        text = str.__str__(value)
+    elif isinstance(value, int) and not isinstance(value, bool):
+        text = int.__repr__(value)
+    elif isinstance(value, _uuid.UUID):
+        text = _uuid.UUID.__str__(value)
+    else:
         raise TypeError(
             f"Value of type {type(value).__name__} cannot be used as a path parameter"
         )
-    text = str.__str__(value) if isinstance(value, str) else str(value)
     if text in ("", ".", ".."):
         raise ValueError(f"Value {text!r} cannot be used as a path parameter")
     return quote(text, safe="")

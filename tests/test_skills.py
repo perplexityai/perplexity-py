@@ -180,8 +180,8 @@ def test_path_segment_guard_rejects_empty_and_dot_segments(identifier: str) -> N
     assert _path_segment("a/../b") == "a%2F..%2Fb"
 
 
-@pytest.mark.parametrize("identifier", [True, False, None])
-def test_path_segment_guard_rejects_none_and_bool(identifier: object) -> None:
+@pytest.mark.parametrize("identifier", [True, False, None, object(), 1.5])
+def test_path_segment_guard_rejects_unsupported_types(identifier: object) -> None:
     from perplexity.generated.api import _path_segment
 
     with pytest.raises(TypeError, match="cannot be used as a path parameter"):
@@ -189,3 +189,13 @@ def test_path_segment_guard_rejects_none_and_bool(identifier: object) -> None:
     assert _path_segment(7) == "7"
     identifier_value = uuid.UUID(int=1)
     assert _path_segment(identifier_value) == str(identifier_value)
+
+
+def test_path_segment_guard_formats_through_base_types() -> None:
+    from perplexity.generated.api import _path_segment
+
+    class Tricky(str):
+        def __str__(self) -> str:
+            return ".."
+
+    assert _path_segment(Tricky("skill-1")) == "skill-1"
