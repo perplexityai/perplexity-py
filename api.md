@@ -152,25 +152,26 @@ Methods:
 # Skills
 
 Upload custom Skill ZIP bundles using bytes or `(filename, bytes, content_type)`.
-Updates and deletion require the current `expected_revision`. List responses expose
+Updates and deletion require `expected_revision` set to the Skill's current
+`latest_revision`. List responses expose
 `next_page_token`; pass it as `page_token` to request another page.
 
 ```python
 skill = client.skills.create(file=("bundle.zip", zip_bytes, "application/zip"))
 page = client.skills.list(limit=20)
 skill = client.skills.retrieve(skill.skill_id)
-if skill.revision is None:
+if skill.latest_revision is None:
     raise ValueError("A current revision is required to update")
 skill = client.skills.update(
     skill.skill_id,
-    expected_revision=skill.revision,
+    expected_revision=skill.latest_revision,
     file=("bundle.zip", zip_bytes, "application/zip"),
 )
-if skill.revision is None:
+if skill.latest_revision is None:
     raise ValueError("A current revision is required to delete")
 revisions = client.skills.revisions.list(skill.skill_id)
 download = client.skills.download(skill.skill_id, revision=skill.revision)
-client.skills.delete(skill.skill_id, expected_revision=skill.revision)
+client.skills.delete(skill.skill_id, expected_revision=skill.latest_revision)
 ```
 
 `download` returns a signed URL and revision; it does not fetch the ZIP.
