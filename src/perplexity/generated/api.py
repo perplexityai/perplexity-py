@@ -4525,13 +4525,26 @@ class ResponsesResource(SyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
+        if cast(object, stream) is None:
+            stream = omit
         if stream is not omit and not isinstance(stream, bool):
             raise TypeError("stream must be a bool")
-        _extra_query = dict(extra_query or {})
-        if (
-            stream is True
-            and (starting_after is omit or starting_after is None)
-            and _extra_query.get("starting_after") is None
+        _extra_query: dict[str, object] = {}
+        for _key, _value in (extra_query or {}).items():
+            if type(_key) is not str:
+                raise TypeError("extra_query keys must be str")
+            if _key not in ("starting_after", "stream"):
+                _extra_query[_key] = _value
+        if starting_after is not omit and cast(object, starting_after) is not None:
+            if (
+                not isinstance(starting_after, int)
+                or isinstance(starting_after, bool)
+                or not 0 <= int.__index__(starting_after) <= 9007199254740991
+            ):
+                raise TypeError("starting_after must be a non-negative integer")
+            starting_after = int.__index__(starting_after)
+        if stream is True and (
+            starting_after is omit or cast(object, starting_after) is None
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
@@ -4548,11 +4561,7 @@ class ResponsesResource(SyncAPIResource):
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={
-                        **{
-                            key: value
-                            for key, value in _extra_query.items()
-                            if key != "stream"
-                        },
+                        **_extra_query,
                         **{
                             key: value
                             for key, value in _query_parameters.items()
@@ -6032,13 +6041,26 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
+        if cast(object, stream) is None:
+            stream = omit
         if stream is not omit and not isinstance(stream, bool):
             raise TypeError("stream must be a bool")
-        _extra_query = dict(extra_query or {})
-        if (
-            stream is True
-            and (starting_after is omit or starting_after is None)
-            and _extra_query.get("starting_after") is None
+        _extra_query: dict[str, object] = {}
+        for _key, _value in (extra_query or {}).items():
+            if type(_key) is not str:
+                raise TypeError("extra_query keys must be str")
+            if _key not in ("starting_after", "stream"):
+                _extra_query[_key] = _value
+        if starting_after is not omit and cast(object, starting_after) is not None:
+            if (
+                not isinstance(starting_after, int)
+                or isinstance(starting_after, bool)
+                or not 0 <= int.__index__(starting_after) <= 9007199254740991
+            ):
+                raise TypeError("starting_after must be a non-negative integer")
+            starting_after = int.__index__(starting_after)
+        if stream is True and (
+            starting_after is omit or cast(object, starting_after) is None
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
@@ -6055,11 +6077,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={
-                        **{
-                            key: value
-                            for key, value in _extra_query.items()
-                            if key != "stream"
-                        },
+                        **_extra_query,
                         **{
                             key: value
                             for key, value in _query_parameters.items()

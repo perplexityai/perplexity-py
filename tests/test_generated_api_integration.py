@@ -309,7 +309,7 @@ def test_response_stream_reconnection_requires_cursor_and_ignores_extra_query_st
         http_client=httpx.Client(transport=httpx.MockTransport(handler)),
     ) as client:
         with pytest.raises(TypeError, match="stream=True requires starting_after"):
-            client.responses.retrieve("resp-1", stream=True)
+            client.responses.retrieve("resp-1", stream=True)  # type: ignore[call-overload]
         response = client.responses.retrieve("resp-1", stream=False, starting_after=3, extra_query={"stream": True})
         assert not isinstance(response, Stream)
 
@@ -346,7 +346,7 @@ async def test_async_response_stream_reconnection_requires_cursor_and_strips_ext
         http_client=httpx.AsyncClient(transport=httpx.MockTransport(plain_response_handler)),
     ) as client:
         with pytest.raises(TypeError, match="stream=True requires starting_after"):
-            await client.responses.retrieve("resp-1", stream=True)
+            await client.responses.retrieve("resp-1", stream=True)  # type: ignore[call-overload]
         response = await client.responses.retrieve("resp-1", starting_after=3, extra_query={"stream": True})
         assert not isinstance(response, AsyncStream)
 
@@ -359,3 +359,26 @@ def test_response_retrieve_rejects_non_bool_stream() -> None:
     ) as client:
         with pytest.raises(TypeError, match="stream must be a bool"):
             client.responses.retrieve("resp-1", stream="true", starting_after=3)  # type: ignore[call-overload]
+
+
+@pytest.mark.parametrize("starting_after", [-1, True, 2**53, 1.5])
+def test_response_retrieve_rejects_invalid_cursor(starting_after: object) -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(plain_response_handler)),
+    ) as client:
+        with pytest.raises(TypeError, match="starting_after must be a non-negative integer"):
+            client.responses.retrieve("resp-1", stream=True, starting_after=starting_after)  # type: ignore[call-overload]
+
+
+def test_response_retrieve_rejects_non_str_extra_query_keys_and_drops_cursor_overrides() -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(plain_response_handler)),
+    ) as client:
+        with pytest.raises(TypeError, match="extra_query keys must be str"):
+            client.responses.retrieve("resp-1", starting_after=3, extra_query={1: "x"})  # type: ignore[dict-item]
+        response = client.responses.retrieve("resp-1", starting_after=3, extra_query={"starting_after": 9})
+        assert not isinstance(response, Stream)
