@@ -68,28 +68,14 @@ bazel_py_test(
         "--show-traceback",
         "src",
         "typing_decisions.py",
+        "typing_responses.py",
     ],
     data = [
         "pyproject.toml",
         "typing_decisions.py",
+        "typing_responses.py",
         "//src:perplexity",
     ],
-    deps = PYTHON_DEPS,
-)
-
-bazel_py_test(
-    name = "mypy_retrieve_test",
-    srcs = ["mypy_test.py"],
-    args = [
-        "src",
-        "response_retrieve_typecheck.py",
-    ],
-    data = [
-        "pyproject.toml",
-        "response_retrieve_typecheck.py",
-        "//src:perplexity",
-    ],
-    main = "mypy_test.py",
     deps = PYTHON_DEPS,
 )
 

@@ -5,7 +5,7 @@ import json
 import httpx
 
 import perplexity.generated.api as generated
-from perplexity import Perplexity, AsyncPerplexity
+from perplexity import Stream, Perplexity, AsyncStream, AsyncPerplexity
 from perplexity.types import (
     Model,
     DecisionAnswer,
@@ -240,3 +240,48 @@ async def test_async_decisions() -> None:
         assert response.usage.output_tokens == 3
         async with client.decisions.with_streaming_response.create(**DECISION_REQUEST) as raw:
             assert (await raw.parse()).to_dict(mode="json") == DECISION_RESPONSE
+
+
+RESUMED_EVENT = {
+    "type": "response.output_text.delta",
+    "sequence_number": 4,
+    "item_id": "msg-1",
+    "output_index": 0,
+    "content_index": 0,
+    "delta": "resumed",
+}
+
+
+def response_reconnect_handler(request: httpx.Request) -> httpx.Response:
+    assert request.method == "GET"
+    assert request.url.path == "/v1/responses/resp-1"
+    assert dict(request.url.params) == {"starting_after": "3", "stream": "true"}
+    return httpx.Response(
+        200,
+        headers={"content-type": "text/event-stream"},
+        content=f"data: {json.dumps(RESUMED_EVENT)}\n\n".encode(),
+    )
+
+
+def test_response_stream_reconnection() -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(response_reconnect_handler)),
+    ) as client:
+        stream = client.responses.retrieve("resp-1", stream=True, starting_after=3)
+        assert isinstance(stream, Stream)
+        events = list(stream)
+    assert [event.to_dict(mode="json") for event in events] == [RESUMED_EVENT]
+
+
+async def test_async_response_stream_reconnection() -> None:
+    async with AsyncPerplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(response_reconnect_handler)),
+    ) as client:
+        stream = await client.responses.retrieve("resp-1", stream=True, starting_after=3)
+        assert isinstance(stream, AsyncStream)
+        events = [event async for event in stream]
+    assert [event.to_dict(mode="json") for event in events] == [RESUMED_EVENT]
