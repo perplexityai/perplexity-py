@@ -309,6 +309,43 @@ def test_response_stream_reconnection_requires_cursor_and_ignores_extra_query_st
         http_client=httpx.Client(transport=httpx.MockTransport(handler)),
     ) as client:
         with pytest.raises(TypeError, match="stream=True requires starting_after"):
-            client.responses.retrieve("resp-1", stream=True)  # type: ignore[call-overload]
+            client.responses.retrieve("resp-1", stream=True)
         response = client.responses.retrieve("resp-1", stream=False, starting_after=3, extra_query={"stream": True})
         assert not isinstance(response, Stream)
+
+
+def plain_response_handler(request: httpx.Request) -> httpx.Response:
+    assert dict(request.url.params) == {"starting_after": "3"}
+    return httpx.Response(
+        200,
+        json={
+            "id": "resp-1",
+            "object": "response",
+            "created_at": 0,
+            "model": "openai/gpt-5.4",
+            "status": "completed",
+            "output": [],
+        },
+    )
+
+
+def test_response_retrieve_strips_stream_from_extra_query() -> None:
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(plain_response_handler)),
+    ) as client:
+        response = client.responses.retrieve("resp-1", starting_after=3, extra_query={"stream": True})
+        assert not isinstance(response, Stream)
+
+
+async def test_async_response_stream_reconnection_requires_cursor_and_strips_extra_query_stream() -> None:
+    async with AsyncPerplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(plain_response_handler)),
+    ) as client:
+        with pytest.raises(TypeError, match="stream=True requires starting_after"):
+            await client.responses.retrieve("resp-1", stream=True)
+        response = await client.responses.retrieve("resp-1", starting_after=3, extra_query={"stream": True})
+        assert not isinstance(response, AsyncStream)
