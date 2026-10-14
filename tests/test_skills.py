@@ -177,3 +177,12 @@ def test_path_segment_guard_rejects_empty_and_dot_segments(identifier: str) -> N
     with pytest.raises(ValueError, match="cannot be used as a path parameter"):
         _path_segment(identifier)
     assert _path_segment("a/../b") == "a%2F..%2Fb"
+
+
+@pytest.mark.parametrize("identifier", [True, None, object()])
+def test_path_segment_guard_rejects_non_string_values(identifier: object) -> None:
+    from perplexity.generated.api import _path_segment
+
+    with pytest.raises(TypeError, match="cannot be used as a path parameter"):
+        _path_segment(identifier)
+    assert _path_segment(7) == "7"

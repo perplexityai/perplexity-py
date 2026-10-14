@@ -34,6 +34,10 @@ from .runtime import (
 
 
 def _path_segment(value: object) -> str:
+    if isinstance(value, bool) or not isinstance(value, (str, int)):
+        raise TypeError(
+            f"Value of type {type(value).__name__} cannot be used as a path parameter"
+        )
     text = str(value)
     if text in ("", ".", ".."):
         raise ValueError(f"Value {text!r} cannot be used as a path parameter")
