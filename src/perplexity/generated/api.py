@@ -33,6 +33,13 @@ from .runtime import (
 )
 
 
+def _path_segment(value: object) -> str:
+    text = str(value)
+    if text in (".", ".."):
+        raise ValueError(f"Value {text!r} cannot be used as a path parameter")
+    return quote(text, safe="")
+
+
 def _without_omitted(values: Mapping[str, object]) -> dict[str, object]:
     return {key: value for key, value in values.items() if value is not omit}
 
@@ -3602,7 +3609,7 @@ class AsyncChatCompletionsResource(SyncAPIResource):
             "AsyncApiChatCompletionsResponseOutput",
             self._get(
                 "/async/chat/completions/{api_request}".format(
-                    api_request=quote(str(api_request), safe="")
+                    api_request=_path_segment(api_request)
                 ),
                 cast_to=AsyncApiChatCompletionsResponseOutput,
                 options=make_request_options(
@@ -3712,7 +3719,7 @@ class BrowserSessionsResource(SyncAPIResource):
             None,
             self._delete(
                 "/v1/browser/sessions/{session_id}".format(
-                    session_id=quote(str(session_id), safe="")
+                    session_id=_path_segment(session_id)
                 ),
                 cast_to=NoneType,
                 options=make_request_options(
@@ -4119,8 +4126,8 @@ class ResponsesFilesResource(SyncAPIResource):
             BinaryAPIResponse,
             self._get(
                 "/v1/responses/{response_id}/files/{file_id}/content".format(
-                    file_id=quote(str(file_id), safe=""),
-                    response_id=quote(str(response_id), safe=""),
+                    file_id=_path_segment(file_id),
+                    response_id=_path_segment(response_id),
                 ),
                 cast_to=BinaryAPIResponse,
                 options=make_request_options(
@@ -4153,7 +4160,7 @@ class ResponsesFilesResource(SyncAPIResource):
             "ResponseFileListOutput",
             self._get(
                 "/v1/responses/{response_id}/files".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponseFileListOutput,
                 options=make_request_options(
@@ -4198,7 +4205,7 @@ class SkillsRevisionsResource(SyncAPIResource):
             "SkillRevisionListOutput",
             self._get(
                 "/v1/skills/{skill_id}/revisions".format(
-                    skill_id=quote(str(skill_id), safe="")
+                    skill_id=_path_segment(skill_id)
                 ),
                 cast_to=SkillRevisionListOutput,
                 options=make_request_options(
@@ -4465,7 +4472,7 @@ class ResponsesResource(SyncAPIResource):
             "ResponsesCancelResponseOutput",
             self._post(
                 "/v1/responses/{response_id}/cancel".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponsesCancelResponseOutput,
                 options=make_request_options(
@@ -4723,7 +4730,7 @@ class ResponsesResource(SyncAPIResource):
             Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]],
             self._get(
                 "/v1/responses/{response_id}".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponsesResponseOutput,
                 stream=stream is True,
@@ -4889,7 +4896,7 @@ class SkillsResource(SyncAPIResource):
         _result = cast(
             None,
             self._delete(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=NoneType,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -4922,7 +4929,7 @@ class SkillsResource(SyncAPIResource):
             "SkillDownloadOutput",
             self._get(
                 "/v1/skills/{skill_id}/download".format(
-                    skill_id=quote(str(skill_id), safe="")
+                    skill_id=_path_segment(skill_id)
                 ),
                 cast_to=SkillDownloadOutput,
                 options=make_request_options(
@@ -4982,7 +4989,7 @@ class SkillsResource(SyncAPIResource):
         _result = cast(
             "ManagedSkillOutput",
             self._get(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=ManagedSkillOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -5021,7 +5028,7 @@ class SkillsResource(SyncAPIResource):
         _result = cast(
             "ManagedSkillOutput",
             self._put(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=ManagedSkillOutput,
                 files=_body_data,
                 options=make_request_options(
@@ -5418,7 +5425,7 @@ class AsyncClientAsyncChatCompletionsResource(AsyncAPIResource):
             "AsyncApiChatCompletionsResponseOutput",
             await self._get(
                 "/async/chat/completions/{api_request}".format(
-                    api_request=quote(str(api_request), safe="")
+                    api_request=_path_segment(api_request)
                 ),
                 cast_to=AsyncApiChatCompletionsResponseOutput,
                 options=make_request_options(
@@ -5532,7 +5539,7 @@ class AsyncClientBrowserSessionsResource(AsyncAPIResource):
             None,
             await self._delete(
                 "/v1/browser/sessions/{session_id}".format(
-                    session_id=quote(str(session_id), safe="")
+                    session_id=_path_segment(session_id)
                 ),
                 cast_to=NoneType,
                 options=make_request_options(
@@ -5943,8 +5950,8 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
             AsyncBinaryAPIResponse,
             await self._get(
                 "/v1/responses/{response_id}/files/{file_id}/content".format(
-                    file_id=quote(str(file_id), safe=""),
-                    response_id=quote(str(response_id), safe=""),
+                    file_id=_path_segment(file_id),
+                    response_id=_path_segment(response_id),
                 ),
                 cast_to=AsyncBinaryAPIResponse,
                 options=make_request_options(
@@ -5977,7 +5984,7 @@ class AsyncClientResponsesFilesResource(AsyncAPIResource):
             "ResponseFileListOutput",
             await self._get(
                 "/v1/responses/{response_id}/files".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponseFileListOutput,
                 options=make_request_options(
@@ -6024,7 +6031,7 @@ class AsyncClientSkillsRevisionsResource(AsyncAPIResource):
             "SkillRevisionListOutput",
             await self._get(
                 "/v1/skills/{skill_id}/revisions".format(
-                    skill_id=quote(str(skill_id), safe="")
+                    skill_id=_path_segment(skill_id)
                 ),
                 cast_to=SkillRevisionListOutput,
                 options=make_request_options(
@@ -6301,7 +6308,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             "ResponsesCancelResponseOutput",
             await self._post(
                 "/v1/responses/{response_id}/cancel".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponsesCancelResponseOutput,
                 options=make_request_options(
@@ -6559,7 +6566,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]],
             await self._get(
                 "/v1/responses/{response_id}".format(
-                    response_id=quote(str(response_id), safe="")
+                    response_id=_path_segment(response_id)
                 ),
                 cast_to=ResponsesResponseOutput,
                 stream=stream is True,
@@ -6725,7 +6732,7 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         _result = cast(
             None,
             await self._delete(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=NoneType,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -6758,7 +6765,7 @@ class AsyncClientSkillsResource(AsyncAPIResource):
             "SkillDownloadOutput",
             await self._get(
                 "/v1/skills/{skill_id}/download".format(
-                    skill_id=quote(str(skill_id), safe="")
+                    skill_id=_path_segment(skill_id)
                 ),
                 cast_to=SkillDownloadOutput,
                 options=make_request_options(
@@ -6818,7 +6825,7 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         _result = cast(
             "ManagedSkillOutput",
             await self._get(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=ManagedSkillOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
@@ -6857,7 +6864,7 @@ class AsyncClientSkillsResource(AsyncAPIResource):
         _result = cast(
             "ManagedSkillOutput",
             await self._put(
-                "/v1/skills/{skill_id}".format(skill_id=quote(str(skill_id), safe="")),
+                "/v1/skills/{skill_id}".format(skill_id=_path_segment(skill_id)),
                 cast_to=ManagedSkillOutput,
                 files=_body_data,
                 options=make_request_options(

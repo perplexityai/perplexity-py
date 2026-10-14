@@ -150,3 +150,21 @@ async def test_skill_lifecycle(asynchronous: bool) -> None:
     assert download.revision == revision
     assert deleted is None
     assert len(calls) == 7
+
+
+@pytest.mark.parametrize("identifier", [".", ".."])
+def test_path_parameters_reject_dot_segments(identifier: str) -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        raise AssertionError(f"unexpected request to {request.url}")
+
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(handler)),
+    ) as client:
+        with pytest.raises(ValueError, match="cannot be used as a path parameter"):
+            client.skills.retrieve(identifier)
+        with pytest.raises(ValueError, match="cannot be used as a path parameter"):
+            client.skills.delete(identifier, expected_revision="rev")
+        with pytest.raises(ValueError, match="cannot be used as a path parameter"):
+            client.responses.retrieve(identifier)
