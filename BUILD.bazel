@@ -69,11 +69,13 @@ bazel_py_test(
         "src",
         "typing_decisions.py",
         "typing_responses.py",
+        "typing_skills.py",
     ],
     data = [
         "pyproject.toml",
         "typing_decisions.py",
         "typing_responses.py",
+        "typing_skills.py",
         "//src:perplexity",
     ],
     deps = PYTHON_DEPS,

@@ -22,6 +22,7 @@ import httpx
 from pydantic import (
     BaseModel as PydanticBaseModel,
     ConfigDict,
+    StrictBytes,
     ValidationError,
 )
 from typing_extensions import Self, TypeAlias
@@ -41,6 +42,9 @@ omit = Omit()
 not_given = NotGiven()
 NoneType = type(None)
 Body: TypeAlias = Mapping[str, object]
+FileInput: TypeAlias = (
+    StrictBytes | tuple[str, StrictBytes] | tuple[str, StrictBytes, str]
+)
 Headers: TypeAlias = Mapping[str, Optional[str]]  # noqa: UP045
 Query: TypeAlias = Mapping[str, object]
 Timeout: TypeAlias = httpx.Timeout

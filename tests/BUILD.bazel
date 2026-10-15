@@ -124,3 +124,14 @@ pytest_test(
         "@pip//typing_extensions",
     ],
 )
+
+pytest_test(
+    name = "test_skills_test",
+    srcs = ["test_skills.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+        "@pip//pydantic",
+    ],
+)

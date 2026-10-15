@@ -73,6 +73,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .skills import (
+    SkillsResource,
+    AsyncSkillsResource,
+    SkillsResourceWithRawResponse,
+    AsyncSkillsResourceWithRawResponse,
+    SkillsResourceWithStreamingResponse,
+    AsyncSkillsResourceWithStreamingResponse,
+)
 
 
 class SyncClientResources:
@@ -114,6 +122,10 @@ class SyncClientResources:
     def search(self) -> SearchResource:
         return SearchResource(self._sdk_transport)
 
+    @cached_property
+    def skills(self) -> SkillsResource:
+        return SkillsResource(self._sdk_transport)
+
 
 class AsyncClientResources:
     _sdk_transport: AsyncTransport
@@ -153,6 +165,10 @@ class AsyncClientResources:
     @cached_property
     def search(self) -> AsyncSearchResource:
         return AsyncSearchResource(self._sdk_transport)
+
+    @cached_property
+    def skills(self) -> AsyncSkillsResource:
+        return AsyncSkillsResource(self._sdk_transport)
 
 
 class SyncClientWithRawResponse:
@@ -199,6 +215,10 @@ class SyncClientWithRawResponse:
     def search(self) -> SearchResourceWithRawResponse:
         return SearchResourceWithRawResponse(self._client.search)
 
+    @cached_property
+    def skills(self) -> SkillsResourceWithRawResponse:
+        return SkillsResourceWithRawResponse(self._client.skills)
+
 
 class AsyncClientWithRawResponse:
     def __init__(self, client: AsyncClientResources) -> None:
@@ -243,6 +263,10 @@ class AsyncClientWithRawResponse:
     @cached_property
     def search(self) -> AsyncSearchResourceWithRawResponse:
         return AsyncSearchResourceWithRawResponse(self._client.search)
+
+    @cached_property
+    def skills(self) -> AsyncSkillsResourceWithRawResponse:
+        return AsyncSkillsResourceWithRawResponse(self._client.skills)
 
 
 class SyncClientWithStreamingResponse:
@@ -289,6 +313,10 @@ class SyncClientWithStreamingResponse:
     def search(self) -> SearchResourceWithStreamingResponse:
         return SearchResourceWithStreamingResponse(self._client.search)
 
+    @cached_property
+    def skills(self) -> SkillsResourceWithStreamingResponse:
+        return SkillsResourceWithStreamingResponse(self._client.skills)
+
 
 class AsyncClientWithStreamingResponse:
     def __init__(self, client: AsyncClientResources) -> None:
@@ -333,3 +361,7 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def search(self) -> AsyncSearchResourceWithStreamingResponse:
         return AsyncSearchResourceWithStreamingResponse(self._client.search)
+
+    @cached_property
+    def skills(self) -> AsyncSkillsResourceWithStreamingResponse:
+        return AsyncSkillsResourceWithStreamingResponse(self._client.skills)

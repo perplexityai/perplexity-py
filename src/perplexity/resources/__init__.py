@@ -70,6 +70,14 @@ from .search import (
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
 )
+from .skills import (
+    SkillsResource,
+    AsyncSkillsResource,
+    SkillsResourceWithRawResponse,
+    AsyncSkillsResourceWithRawResponse,
+    SkillsResourceWithStreamingResponse,
+    AsyncSkillsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "AsyncResource",
@@ -126,4 +134,10 @@ __all__ = [
     "AsyncSearchResourceWithRawResponse",
     "SearchResourceWithStreamingResponse",
     "AsyncSearchResourceWithStreamingResponse",
+    "SkillsResource",
+    "AsyncSkillsResource",
+    "SkillsResourceWithRawResponse",
+    "AsyncSkillsResourceWithRawResponse",
+    "SkillsResourceWithStreamingResponse",
+    "AsyncSkillsResourceWithStreamingResponse",
 ]
