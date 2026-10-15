@@ -1,3 +1,15 @@
+# Models
+
+```python
+from perplexity.types import Model, ModelListResponse
+
+models = client.models.list()
+```
+
+`client.models.list()` sends `GET /v1/models` and returns a `ModelListResponse`
+containing the models available for the Agent API. `AsyncPerplexity` exposes
+the same method with `await`.
+
 # Shared Types
 
 ```python

@@ -38,6 +38,14 @@ from .embeddings import (
     EmbeddingsResourceWithStreamingResponse,
     AsyncEmbeddingsResourceWithStreamingResponse,
 )
+from .models import (
+    ModelsResource,
+    AsyncModelsResource,
+    ModelsResourceWithRawResponse,
+    AsyncModelsResourceWithRawResponse,
+    ModelsResourceWithStreamingResponse,
+    AsyncModelsResourceWithStreamingResponse,
+)
 from .responses import (
     ResponsesResource,
     AsyncResponsesResource,
@@ -86,6 +94,12 @@ __all__ = [
     "AsyncEmbeddingsResourceWithRawResponse",
     "EmbeddingsResourceWithStreamingResponse",
     "AsyncEmbeddingsResourceWithStreamingResponse",
+    "ModelsResource",
+    "AsyncModelsResource",
+    "ModelsResourceWithRawResponse",
+    "AsyncModelsResourceWithRawResponse",
+    "ModelsResourceWithStreamingResponse",
+    "AsyncModelsResourceWithStreamingResponse",
     "ResponsesResource",
     "AsyncResponsesResource",
     "ResponsesResourceWithRawResponse",

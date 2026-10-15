@@ -1457,6 +1457,30 @@ class MessageOutputItemOutput(BaseModel):
     type: Literal["message"]
 
 
+class ModelInput(BaseModel):
+    created: int
+    id: str
+    object: Literal["model"]
+    owned_by: str
+
+
+class ModelOutput(BaseModel):
+    created: int
+    id: str
+    object: Literal["model"]
+    owned_by: str
+
+
+class ModelListInput(BaseModel):
+    data: list["ModelInput"]
+    object: Literal["list"]
+
+
+class ModelListOutput(BaseModel):
+    data: list["ModelOutput"]
+    object: Literal["list"]
+
+
 class NamespaceToolInput(BaseModel):
     description: str
     name: str
@@ -2792,6 +2816,10 @@ McpToolDefAnnotationsInput.model_rebuild(_types_namespace=globals())
 McpToolDefAnnotationsOutput.model_rebuild(_types_namespace=globals())
 MessageOutputItemInput.model_rebuild(_types_namespace=globals())
 MessageOutputItemOutput.model_rebuild(_types_namespace=globals())
+ModelInput.model_rebuild(_types_namespace=globals())
+ModelOutput.model_rebuild(_types_namespace=globals())
+ModelListInput.model_rebuild(_types_namespace=globals())
+ModelListOutput.model_rebuild(_types_namespace=globals())
 NamespaceToolInput.model_rebuild(_types_namespace=globals())
 NamespaceToolOutput.model_rebuild(_types_namespace=globals())
 NamespaceToolDefInput.model_rebuild(_types_namespace=globals())
@@ -3132,6 +3160,8 @@ ImageSearchResultsOutputItem: TypeAlias = ImageSearchResultsOutputItemOutput
 ImageSearchTool: TypeAlias = ImageSearchToolInput
 InputItem: TypeAlias = InputItemInput
 JsonSchemaFormat: TypeAlias = JSONSchemaFormatInput
+Model: TypeAlias = ModelOutput
+ModelListResponse: TypeAlias = ModelListOutput
 OutputItem: TypeAlias = OutputItemOutput
 ResponseCancelResponse: TypeAlias = ResponsesCancelResponseOutput
 ResponseCreateParams: TypeAlias = ResponsesRequestInput
@@ -4000,6 +4030,41 @@ class EmbeddingsResource(SyncAPIResource):
         return _result
 
 
+class ModelsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ModelsResourceWithRawResponse:
+        return ModelsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ModelsResourceWithStreamingResponse:
+        return ModelsResourceWithStreamingResponse(self)
+
+    def list(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ModelListOutput":
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ModelListOutput",
+            self._get(
+                "/v1/models",
+                cast_to=ModelListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class ResponsesResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> ResponsesResourceWithRawResponse:
@@ -4466,6 +4531,18 @@ class EmbeddingsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(resource, "create")
 
 
+class ModelsResourceWithRawResponse:
+    def __init__(self, resource: ModelsResource) -> None:
+        self._resource = resource
+        self.list = to_raw_response_wrapper(resource, "list")
+
+
+class ModelsResourceWithStreamingResponse:
+    def __init__(self, resource: ModelsResource) -> None:
+        self._resource = resource
+        self.list = to_streamed_response_wrapper(resource, "list")
+
+
 class ResponsesResourceWithRawResponse:
     def __init__(self, resource: ResponsesResource) -> None:
         self._resource = resource
@@ -4522,6 +4599,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def embeddings(self) -> EmbeddingsResource:
         return EmbeddingsResource(self._client)
+
+    @cached_property
+    def models(self) -> ModelsResource:
+        return ModelsResource(self._client)
 
     @cached_property
     def responses(self) -> ResponsesResource:
@@ -5331,6 +5412,41 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
         return _result
 
 
+class AsyncClientModelsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientModelsResourceWithRawResponse:
+        return AsyncClientModelsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncClientModelsResourceWithStreamingResponse:
+        return AsyncClientModelsResourceWithStreamingResponse(self)
+
+    async def list(
+        self,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ModelListOutput":
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ModelListOutput",
+            await self._get(
+                "/v1/models",
+                cast_to=ModelListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class AsyncClientResponsesResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncClientResponsesResourceWithRawResponse:
@@ -5811,6 +5927,18 @@ class AsyncClientEmbeddingsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(resource, "create")
 
 
+class AsyncClientModelsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientModelsResource) -> None:
+        self._resource = resource
+        self.list = async_to_raw_response_wrapper(resource, "list")
+
+
+class AsyncClientModelsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientModelsResource) -> None:
+        self._resource = resource
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+
+
 class AsyncClientResponsesResourceWithRawResponse:
     def __init__(self, resource: AsyncClientResponsesResource) -> None:
         self._resource = resource
@@ -5869,6 +5997,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def embeddings(self) -> AsyncClientEmbeddingsResource:
         return AsyncClientEmbeddingsResource(self._client)
+
+    @cached_property
+    def models(self) -> AsyncClientModelsResource:
+        return AsyncClientModelsResource(self._client)
 
     @cached_property
     def responses(self) -> AsyncClientResponsesResource:
