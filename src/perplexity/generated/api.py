@@ -1200,13 +1200,25 @@ InputItemOutput: TypeAlias = Union[
 class InputMessageInput(BaseModel):
     content: "InputContentInput"
     role: Literal["user", "assistant", "system", "developer"]
-    type: Literal["message"]
+    type: Optional[Literal["message"]] = None
 
 
 class InputMessageOutput(BaseModel):
     content: "InputContentOutput"
     role: Literal["user", "assistant", "system", "developer"]
-    type: Literal["message"]
+    type: Optional[Literal["message"]] = None
+
+
+class InputTokensDetailsInput(BaseModel):
+    cache_creation_input_tokens: Optional[int] = None
+    cache_read_input_tokens: Optional[int] = None
+    cached_tokens: int
+
+
+class InputTokensDetailsOutput(BaseModel):
+    cache_creation_input_tokens: Optional[int] = None
+    cache_read_input_tokens: Optional[int] = None
+    cached_tokens: int
 
 
 class JSONSchemaInput(BaseModel):
@@ -1545,6 +1557,14 @@ class OutputItemDoneEventOutput(BaseModel):
     output_index: int
     sequence_number: int
     type: Literal["response.output_item.done"]
+
+
+class OutputTokensDetailsInput(BaseModel):
+    reasoning_tokens: int
+
+
+class OutputTokensDetailsOutput(BaseModel):
+    reasoning_tokens: int
 
 
 class ParameterSpecInput(BaseModel):
@@ -1909,8 +1929,12 @@ class ResponsesRequestInput(BaseModel):
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
+    prompt_cache_key: Optional[str] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
+    service_tier: Optional[Literal["auto", "default", "flex", "priority", "fast"]] = (
+        None
+    )
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
@@ -1932,8 +1956,12 @@ class ResponsesRequestOutput(BaseModel):
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceOutput"] = None
+    prompt_cache_key: Optional[str] = None
     reasoning: Optional["ReasoningConfigOutput"] = None
     response_format: Optional["ResponseFormatOutput"] = None
+    service_tier: Optional[Literal["auto", "default", "flex", "priority", "fast"]] = (
+        None
+    )
     skills: Optional[list["SkillOutput"]] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
@@ -1952,6 +1980,8 @@ class ResponsesResponseInput(BaseModel):
     object: "ResponsesObjectTypeInput"
     output: list["OutputItemInput"]
     previous_response_id: Union[str, None] = None
+    prompt_cache_key: Union[str, None] = None
+    service_tier: Optional[str] = None
     status: "StatusInput"
     store: Optional[bool] = None
     usage: Optional["ResponsesUsageInput"] = None
@@ -1966,6 +1996,8 @@ class ResponsesResponseOutput(BaseModel):
     object: "ResponsesObjectTypeOutput"
     output: list["OutputItemOutput"]
     previous_response_id: Union[str, None] = None
+    prompt_cache_key: Union[str, None] = None
+    service_tier: Optional[str] = None
     status: "StatusOutput"
     store: Optional[bool] = None
     usage: Optional["ResponsesUsageOutput"] = None
@@ -2360,11 +2392,15 @@ class ToolCallOutput(BaseModel):
 
 
 class ToolCallDetailsInput(BaseModel):
+    cost_usd: Optional[float] = None
     invocation: Optional[int] = None
+    token_usage: Optional[list["ToolCallTokenUsageInput"]] = None
 
 
 class ToolCallDetailsOutput(BaseModel):
+    cost_usd: Optional[float] = None
     invocation: Optional[int] = None
+    token_usage: Optional[list["ToolCallTokenUsageOutput"]] = None
 
 
 class ToolCallFunctionInput(BaseModel):
@@ -2375,6 +2411,22 @@ class ToolCallFunctionInput(BaseModel):
 class ToolCallFunctionOutput(BaseModel):
     arguments: Union[str, None] = None
     name: Union[str, None] = None
+
+
+class ToolCallTokenUsageInput(BaseModel):
+    input_tokens: int
+    input_tokens_details: "InputTokensDetailsInput"
+    model: Optional[str] = None
+    output_tokens: int
+    output_tokens_details: "OutputTokensDetailsInput"
+
+
+class ToolCallTokenUsageOutput(BaseModel):
+    input_tokens: int
+    input_tokens_details: "InputTokensDetailsOutput"
+    model: Optional[str] = None
+    output_tokens: int
+    output_tokens_details: "OutputTokensDetailsOutput"
 
 
 ToolChoiceInput: TypeAlias = Union[Literal["none", "auto", "required"], dict[str, Any]]
@@ -2710,6 +2762,8 @@ InputContentPartInput.model_rebuild(_types_namespace=globals())
 InputContentPartOutput.model_rebuild(_types_namespace=globals())
 InputMessageInput.model_rebuild(_types_namespace=globals())
 InputMessageOutput.model_rebuild(_types_namespace=globals())
+InputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+InputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 JSONSchemaInput.model_rebuild(_types_namespace=globals())
 JSONSchemaOutput.model_rebuild(_types_namespace=globals())
 JSONSchemaFormatInput.model_rebuild(_types_namespace=globals())
@@ -2746,6 +2800,8 @@ OutputItemAddedEventInput.model_rebuild(_types_namespace=globals())
 OutputItemAddedEventOutput.model_rebuild(_types_namespace=globals())
 OutputItemDoneEventInput.model_rebuild(_types_namespace=globals())
 OutputItemDoneEventOutput.model_rebuild(_types_namespace=globals())
+OutputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+OutputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 ParameterSpecInput.model_rebuild(_types_namespace=globals())
 ParameterSpecOutput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolInput.model_rebuild(_types_namespace=globals())
@@ -2844,6 +2900,8 @@ ToolCallDetailsInput.model_rebuild(_types_namespace=globals())
 ToolCallDetailsOutput.model_rebuild(_types_namespace=globals())
 ToolCallFunctionInput.model_rebuild(_types_namespace=globals())
 ToolCallFunctionOutput.model_rebuild(_types_namespace=globals())
+ToolCallTokenUsageInput.model_rebuild(_types_namespace=globals())
+ToolCallTokenUsageOutput.model_rebuild(_types_namespace=globals())
 ToolSearchOutputItemInput.model_rebuild(_types_namespace=globals())
 ToolSearchOutputItemOutput.model_rebuild(_types_namespace=globals())
 ToolSpecInput.model_rebuild(_types_namespace=globals())
@@ -3091,8 +3149,12 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
+    prompt_cache_key: Optional[str] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
+    service_tier: Optional[Literal["auto", "default", "flex", "priority", "fast"]] = (
+        None
+    )
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Literal[False] = False
@@ -3114,8 +3176,12 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
     preset: Optional[str] = None
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
+    prompt_cache_key: Optional[str] = None
     reasoning: Optional["ReasoningConfigInput"] = None
     response_format: Optional["ResponseFormatInput"] = None
+    service_tier: Optional[Literal["auto", "default", "flex", "priority", "fast"]] = (
+        None
+    )
     skills: Optional[list["SkillInput"]] = None
     store: Optional[bool] = None
     stream: Literal[True]
@@ -3989,11 +4055,15 @@ class ResponsesResource(SyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -4022,11 +4092,15 @@ class ResponsesResource(SyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -4054,11 +4128,15 @@ class ResponsesResource(SyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -4086,8 +4164,10 @@ class ResponsesResource(SyncAPIResource):
                     "preset": preset,
                     "previous_response_id": previous_response_id,
                     "profile": profile,
+                    "prompt_cache_key": prompt_cache_key,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "service_tier": service_tier,
                     "skills": skills,
                     "store": store,
                     "stream": stream,
@@ -5308,11 +5388,15 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -5341,11 +5425,15 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -5373,11 +5461,15 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         preset: Union[str, Omit] = omit,
         previous_response_id: Union[str, Omit] = omit,
         profile: Union["ProfileReferenceInput", Omit] = omit,
+        prompt_cache_key: Union[str, Omit] = omit,
         reasoning: Union[
             Union["ReasoningConfigInput", Mapping[str, object]], Omit
         ] = omit,
         response_format: Union[
             Union["ResponseFormatInput", Mapping[str, object]], Omit
+        ] = omit,
+        service_tier: Union[
+            Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
         store: Union[bool, Omit] = omit,
@@ -5405,8 +5497,10 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     "preset": preset,
                     "previous_response_id": previous_response_id,
                     "profile": profile,
+                    "prompt_cache_key": prompt_cache_key,
                     "reasoning": reasoning,
                     "response_format": response_format,
+                    "service_tier": service_tier,
                     "skills": skills,
                     "store": store,
                     "stream": stream,
