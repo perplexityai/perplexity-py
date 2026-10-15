@@ -33,6 +33,14 @@ from .contextualized_embeddings import (
     ContextualizedEmbeddingsResourceWithStreamingResponse,
     AsyncContextualizedEmbeddingsResourceWithStreamingResponse,
 )
+from .decisions import (
+    DecisionsResource,
+    AsyncDecisionsResource,
+    DecisionsResourceWithRawResponse,
+    AsyncDecisionsResourceWithRawResponse,
+    DecisionsResourceWithStreamingResponse,
+    AsyncDecisionsResourceWithStreamingResponse,
+)
 from .embeddings import (
     EmbeddingsResource,
     AsyncEmbeddingsResource,
@@ -87,6 +95,10 @@ class SyncClientResources:
         return ContextualizedEmbeddingsResource(self._sdk_transport)
 
     @cached_property
+    def decisions(self) -> DecisionsResource:
+        return DecisionsResource(self._sdk_transport)
+
+    @cached_property
     def embeddings(self) -> EmbeddingsResource:
         return EmbeddingsResource(self._sdk_transport)
 
@@ -121,6 +133,10 @@ class AsyncClientResources:
     @cached_property
     def contextualized_embeddings(self) -> AsyncContextualizedEmbeddingsResource:
         return AsyncContextualizedEmbeddingsResource(self._sdk_transport)
+
+    @cached_property
+    def decisions(self) -> AsyncDecisionsResource:
+        return AsyncDecisionsResource(self._sdk_transport)
 
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResource:
@@ -164,6 +180,10 @@ class SyncClientWithRawResponse:
         )
 
     @cached_property
+    def decisions(self) -> DecisionsResourceWithRawResponse:
+        return DecisionsResourceWithRawResponse(self._client.decisions)
+
+    @cached_property
     def embeddings(self) -> EmbeddingsResourceWithRawResponse:
         return EmbeddingsResourceWithRawResponse(self._client.embeddings)
 
@@ -203,6 +223,10 @@ class AsyncClientWithRawResponse:
         return AsyncContextualizedEmbeddingsResourceWithRawResponse(
             self._client.contextualized_embeddings
         )
+
+    @cached_property
+    def decisions(self) -> AsyncDecisionsResourceWithRawResponse:
+        return AsyncDecisionsResourceWithRawResponse(self._client.decisions)
 
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithRawResponse:
@@ -246,6 +270,10 @@ class SyncClientWithStreamingResponse:
         )
 
     @cached_property
+    def decisions(self) -> DecisionsResourceWithStreamingResponse:
+        return DecisionsResourceWithStreamingResponse(self._client.decisions)
+
+    @cached_property
     def embeddings(self) -> EmbeddingsResourceWithStreamingResponse:
         return EmbeddingsResourceWithStreamingResponse(self._client.embeddings)
 
@@ -285,6 +313,10 @@ class AsyncClientWithStreamingResponse:
         return AsyncContextualizedEmbeddingsResourceWithStreamingResponse(
             self._client.contextualized_embeddings
         )
+
+    @cached_property
+    def decisions(self) -> AsyncDecisionsResourceWithStreamingResponse:
+        return AsyncDecisionsResourceWithStreamingResponse(self._client.decisions)
 
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithStreamingResponse:

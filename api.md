@@ -10,6 +10,26 @@ models = client.models.list()
 containing the models available for the Agent API. `AsyncPerplexity` exposes
 the same method with `await`.
 
+# Decisions
+
+```python
+from perplexity.types import (
+    DecisionAnswer,
+    DecisionCreateParams,
+    DecisionCreateResponse,
+    DecisionQuestion,
+)
+
+response = client.decisions.create(
+    model="pplx-decider-v1.1-27b",
+    state="The battery stopped charging.",
+    questions={"defect": {"type": "noul", "instructions": "Does this report a defect?"}},
+)
+```
+
+`client.decisions.create(...)` sends `POST /v1/decisions` and returns a
+`DecisionCreateResponse`. `AsyncPerplexity` exposes the same method with `await`.
+
 # Shared Types
 
 ```python

@@ -4,8 +4,17 @@ import json
 
 import httpx
 
+import perplexity.generated.api as generated
 from perplexity import Perplexity, AsyncPerplexity
-from perplexity.types import Model, ModelListResponse, SearchCreateResponse
+from perplexity.types import (
+    Model,
+    DecisionAnswer,
+    DecisionQuestion,
+    ModelListResponse,
+    DecisionCreateParams,
+    SearchCreateResponse,
+    DecisionCreateResponse,
+)
 from perplexity.generated.api import (
     ApiSearchPageOutput,
     SearchCreateResponse as GeneratedSearchCreateResponse,
@@ -158,3 +167,76 @@ async def test_async_model_catalog() -> None:
         assert (await raw.parse()).data[0].created == 0
         async with client.models.with_streaming_response.list() as streamed:
             assert (await streamed.parse()).data[0].owned_by == "provider"
+
+
+DECISION_REQUEST = {
+    "model": "pplx-decider-v1.1-27b",
+    "state": {"review": "The battery stopped charging."},
+    "questions": {
+        "defect": {"type": "noul", "criteria": {"true": "Broken", "false": None}},
+        "sentiment": {"type": "choice", "criteria": {"positive": None, "negative": "Dissatisfied"}},
+        "severity": {"type": "score", "criteria": ["Cosmetic", {"description": "Unusable"}]},
+    },
+}
+DECISION_RESPONSE = {
+    "model": "pplx-decider-v1.1-27b",
+    "answers": {
+        "defect": {"type": "noul", "noul": 0.95},
+        "sentiment": {
+            "type": "choice",
+            "choice": "negative",
+            "confidence": 0.9,
+            "probabilities": {"positive": 0.1, "negative": 0.9},
+        },
+        "severity": {
+            "type": "score",
+            "score": 0.9,
+            "confidence": 0.9,
+            "legend": {"0": "Cosmetic", "1": {"description": "Unusable"}},
+            "probabilities": {"0": 0.1, "1": 0.9},
+        },
+    },
+    "usage": {"input_tokens": 100, "output_tokens": 3},
+}
+
+
+def decision_handler(request: httpx.Request) -> httpx.Response:
+    assert request.method == "POST"
+    assert request.url == "https://example.test/v1/decisions"
+    assert request.headers["authorization"] == "Bearer test"
+    assert json.loads(request.content) == DECISION_REQUEST
+    return httpx.Response(200, json=DECISION_RESPONSE)
+
+
+def test_decisions() -> None:
+    assert DecisionAnswer is generated.DecisionAnswer
+    assert DecisionQuestion is generated.DecisionQuestion
+    assert DecisionCreateParams is generated.DecisionCreateParams
+    with Perplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.Client(transport=httpx.MockTransport(decision_handler)),
+    ) as client:
+        response = client.decisions.create(**DECISION_REQUEST)
+        assert isinstance(response, DecisionCreateResponse)
+        assert response.answers["defect"].noul == 0.95
+        assert response.answers["sentiment"].choice == "negative"
+        assert response.answers["severity"].score == 0.9
+        assert response.usage.output_tokens == 3
+        raw = client.decisions.with_raw_response.create(**DECISION_REQUEST)
+        assert raw.parse().to_dict(mode="json") == DECISION_RESPONSE
+
+
+async def test_async_decisions() -> None:
+    async with AsyncPerplexity(
+        api_key="test",
+        base_url="https://example.test",
+        http_client=httpx.AsyncClient(transport=httpx.MockTransport(decision_handler)),
+    ) as client:
+        response = await client.decisions.create(**DECISION_REQUEST)
+        assert response.answers["defect"].noul == 0.95
+        assert response.answers["sentiment"].choice == "negative"
+        assert response.answers["severity"].score == 0.9
+        assert response.usage.output_tokens == 3
+        async with client.decisions.with_streaming_response.create(**DECISION_REQUEST) as raw:
+            assert (await raw.parse()).to_dict(mode="json") == DECISION_RESPONSE

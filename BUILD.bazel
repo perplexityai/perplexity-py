@@ -67,9 +67,11 @@ bazel_py_test(
     args = [
         "--show-traceback",
         "src",
+        "typing_decisions.py",
     ],
     data = [
         "pyproject.toml",
+        "typing_decisions.py",
         "//src:perplexity",
     ],
     deps = PYTHON_DEPS,

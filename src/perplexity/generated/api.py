@@ -727,6 +727,148 @@ class DateFiltersOutput(BaseModel):
     search_recency_filter: Optional["SearchRecencyFilterOutput"] = None
 
 
+DecisionAnswerInput: TypeAlias = Union[
+    "DecisionNoulAnswerInput", "DecisionScoreAnswerInput", "DecisionChoiceAnswerInput"
+]
+DecisionAnswerOutput: TypeAlias = Union[
+    "DecisionNoulAnswerOutput",
+    "DecisionScoreAnswerOutput",
+    "DecisionChoiceAnswerOutput",
+]
+
+
+class DecisionChoiceAnswerInput(BaseModel):
+    choice: str
+    confidence: float
+    probabilities: dict[str, float]
+    type: Literal["choice"]
+
+
+class DecisionChoiceAnswerOutput(BaseModel):
+    choice: str
+    confidence: float
+    probabilities: dict[str, float]
+    type: Literal["choice"]
+
+
+class DecisionChoiceQuestionInput(BaseModel):
+    criteria: dict[str, Union[str, dict[str, Any], list[Any], None]]
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["choice"]
+
+
+class DecisionChoiceQuestionOutput(BaseModel):
+    criteria: dict[str, Union[str, dict[str, Any], list[Any], None]]
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["choice"]
+
+
+class DecisionNoulAnswerInput(BaseModel):
+    noul: float
+    type: Literal["noul"]
+
+
+class DecisionNoulAnswerOutput(BaseModel):
+    noul: float
+    type: Literal["noul"]
+
+
+class DecisionNoulCriteriaInput(BaseModel):
+    false: Union[str, dict[str, Any], list[Any], None] = None
+    true: Union[str, dict[str, Any], list[Any], None] = None
+
+
+class DecisionNoulCriteriaOutput(BaseModel):
+    false: Union[str, dict[str, Any], list[Any], None] = None
+    true: Union[str, dict[str, Any], list[Any], None] = None
+
+
+class DecisionNoulQuestionInput(BaseModel):
+    criteria: Optional["DecisionNoulCriteriaInput"] = None
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["noul"]
+
+
+class DecisionNoulQuestionOutput(BaseModel):
+    criteria: Optional["DecisionNoulCriteriaOutput"] = None
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["noul"]
+
+
+DecisionQuestionInput: TypeAlias = Union[
+    "DecisionNoulQuestionInput",
+    "DecisionChoiceQuestionInput",
+    "DecisionScoreQuestionInput",
+]
+DecisionQuestionOutput: TypeAlias = Union[
+    "DecisionNoulQuestionOutput",
+    "DecisionChoiceQuestionOutput",
+    "DecisionScoreQuestionOutput",
+]
+
+
+class DecisionScoreAnswerInput(BaseModel):
+    confidence: float
+    legend: dict[str, Union[str, dict[str, Any], list[Any]]]
+    probabilities: dict[str, float]
+    score: float
+    type: Literal["score"]
+
+
+class DecisionScoreAnswerOutput(BaseModel):
+    confidence: float
+    legend: dict[str, Union[str, dict[str, Any], list[Any]]]
+    probabilities: dict[str, float]
+    score: float
+    type: Literal["score"]
+
+
+class DecisionScoreQuestionInput(BaseModel):
+    criteria: list[Union[str, dict[str, Any], list[Any]]]
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["score"]
+
+
+class DecisionScoreQuestionOutput(BaseModel):
+    criteria: list[Union[str, dict[str, Any], list[Any]]]
+    instructions: Union[str, dict[str, Any], list[Any], None] = None
+    type: Literal["score"]
+
+
+class DecisionUsageInput(BaseModel):
+    input_tokens: int
+    output_tokens: int
+
+
+class DecisionUsageOutput(BaseModel):
+    input_tokens: int
+    output_tokens: int
+
+
+class DecisionsRequestInput(BaseModel):
+    model: str
+    questions: dict[str, "DecisionQuestionInput"]
+    state: Union[str, dict[str, Any], list[Any]]
+
+
+class DecisionsRequestOutput(BaseModel):
+    model: str
+    questions: dict[str, "DecisionQuestionOutput"]
+    state: Union[str, dict[str, Any], list[Any]]
+
+
+class DecisionsResponseInput(BaseModel):
+    answers: dict[str, "DecisionAnswerInput"]
+    model: str
+    usage: "DecisionUsageInput"
+
+
+class DecisionsResponseOutput(BaseModel):
+    answers: dict[str, "DecisionAnswerOutput"]
+    model: str
+    usage: "DecisionUsageOutput"
+
+
 class EmbeddingObjectInput(BaseModel):
     embedding: Optional[str] = None
     index: Optional[int] = None
@@ -2726,6 +2868,26 @@ CustomSkillInput.model_rebuild(_types_namespace=globals())
 CustomSkillOutput.model_rebuild(_types_namespace=globals())
 DateFiltersInput.model_rebuild(_types_namespace=globals())
 DateFiltersOutput.model_rebuild(_types_namespace=globals())
+DecisionChoiceAnswerInput.model_rebuild(_types_namespace=globals())
+DecisionChoiceAnswerOutput.model_rebuild(_types_namespace=globals())
+DecisionChoiceQuestionInput.model_rebuild(_types_namespace=globals())
+DecisionChoiceQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionNoulAnswerInput.model_rebuild(_types_namespace=globals())
+DecisionNoulAnswerOutput.model_rebuild(_types_namespace=globals())
+DecisionNoulCriteriaInput.model_rebuild(_types_namespace=globals())
+DecisionNoulCriteriaOutput.model_rebuild(_types_namespace=globals())
+DecisionNoulQuestionInput.model_rebuild(_types_namespace=globals())
+DecisionNoulQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionScoreAnswerInput.model_rebuild(_types_namespace=globals())
+DecisionScoreAnswerOutput.model_rebuild(_types_namespace=globals())
+DecisionScoreQuestionInput.model_rebuild(_types_namespace=globals())
+DecisionScoreQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionUsageInput.model_rebuild(_types_namespace=globals())
+DecisionUsageOutput.model_rebuild(_types_namespace=globals())
+DecisionsRequestInput.model_rebuild(_types_namespace=globals())
+DecisionsRequestOutput.model_rebuild(_types_namespace=globals())
+DecisionsResponseInput.model_rebuild(_types_namespace=globals())
+DecisionsResponseOutput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectInput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsRequestInput.model_rebuild(_types_namespace=globals())
@@ -3141,6 +3303,10 @@ ContextualizedEmbeddingCreateResponse: TypeAlias = (
     ContextualizedEmbeddingsResponseOutput
 )
 ContextualizedEmbeddingObject: TypeAlias = ContextualizedEmbeddingObjectOutput
+DecisionAnswer: TypeAlias = DecisionAnswerOutput
+DecisionCreateParams: TypeAlias = DecisionsRequestInput
+DecisionCreateResponse: TypeAlias = DecisionsResponseOutput
+DecisionQuestion: TypeAlias = DecisionQuestionInput
 EmbeddingCreateParams: TypeAlias = EmbeddingsRequestInput
 EmbeddingCreateResponse: TypeAlias = EmbeddingsResponseOutput
 EmbeddingObject: TypeAlias = EmbeddingObjectOutput
@@ -3979,6 +4145,49 @@ class ContextualizedEmbeddingsResource(SyncAPIResource):
         return _result
 
 
+class DecisionsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> DecisionsResourceWithRawResponse:
+        return DecisionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> DecisionsResourceWithStreamingResponse:
+        return DecisionsResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        model: str,
+        questions: Mapping[str, Union["DecisionQuestionInput", Mapping[str, object]]],
+        state: Union[str, dict[str, Any], Sequence[Any]],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "DecisionsResponseOutput":
+        _body = DecisionsRequestInput.model_validate(
+            _without_omitted({"model": model, "questions": questions, "state": state})
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "DecisionsResponseOutput",
+            self._post(
+                "/v1/decisions",
+                cast_to=DecisionsResponseOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class EmbeddingsResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> EmbeddingsResourceWithRawResponse:
@@ -4519,6 +4728,18 @@ class ContextualizedEmbeddingsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(resource, "create")
 
 
+class DecisionsResourceWithRawResponse:
+    def __init__(self, resource: DecisionsResource) -> None:
+        self._resource = resource
+        self.create = to_raw_response_wrapper(resource, "create")
+
+
+class DecisionsResourceWithStreamingResponse:
+    def __init__(self, resource: DecisionsResource) -> None:
+        self._resource = resource
+        self.create = to_streamed_response_wrapper(resource, "create")
+
+
 class EmbeddingsResourceWithRawResponse:
     def __init__(self, resource: EmbeddingsResource) -> None:
         self._resource = resource
@@ -4595,6 +4816,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
         return ContextualizedEmbeddingsResource(self._client)
+
+    @cached_property
+    def decisions(self) -> DecisionsResource:
+        return DecisionsResource(self._client)
 
     @cached_property
     def embeddings(self) -> EmbeddingsResource:
@@ -5359,6 +5584,51 @@ class AsyncClientContextualizedEmbeddingsResource(AsyncAPIResource):
         return _result
 
 
+class AsyncClientDecisionsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientDecisionsResourceWithRawResponse:
+        return AsyncClientDecisionsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientDecisionsResourceWithStreamingResponse:
+        return AsyncClientDecisionsResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        model: str,
+        questions: Mapping[str, Union["DecisionQuestionInput", Mapping[str, object]]],
+        state: Union[str, dict[str, Any], Sequence[Any]],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "DecisionsResponseOutput":
+        _body = DecisionsRequestInput.model_validate(
+            _without_omitted({"model": model, "questions": questions, "state": state})
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "DecisionsResponseOutput",
+            await self._post(
+                "/v1/decisions",
+                cast_to=DecisionsResponseOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class AsyncClientEmbeddingsResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncClientEmbeddingsResourceWithRawResponse:
@@ -5915,6 +6185,18 @@ class AsyncClientContextualizedEmbeddingsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(resource, "create")
 
 
+class AsyncClientDecisionsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientDecisionsResource) -> None:
+        self._resource = resource
+        self.create = async_to_raw_response_wrapper(resource, "create")
+
+
+class AsyncClientDecisionsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientDecisionsResource) -> None:
+        self._resource = resource
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+
+
 class AsyncClientEmbeddingsResourceWithRawResponse:
     def __init__(self, resource: AsyncClientEmbeddingsResource) -> None:
         self._resource = resource
@@ -5993,6 +6275,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def contextualized_embeddings(self) -> AsyncClientContextualizedEmbeddingsResource:
         return AsyncClientContextualizedEmbeddingsResource(self._client)
+
+    @cached_property
+    def decisions(self) -> AsyncClientDecisionsResource:
+        return AsyncClientDecisionsResource(self._client)
 
     @cached_property
     def embeddings(self) -> AsyncClientEmbeddingsResource:
