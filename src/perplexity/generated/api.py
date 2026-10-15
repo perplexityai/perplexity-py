@@ -4473,30 +4473,105 @@ class ResponsesResource(SyncAPIResource):
         )
         return _result
 
+    @overload
     def retrieve(
         self,
         response_id: str,
         *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
-    ) -> "ResponsesResponseOutput":
+    ) -> ResponsesResponseOutput: ...
+    @overload
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: int,
+        stream: Literal[True],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Stream["ResponseStreamEventOutput"]: ...
+    @overload
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: int,
+        stream: bool,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]: ...
+    def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]:
         if not response_id:
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        _query_parameters = _without_omitted({})
+        if cast(object, stream) is None:
+            stream = omit
+        if (
+            stream is not omit
+            and cast(object, stream) is not True
+            and cast(object, stream) is not False
+        ):
+            raise TypeError("stream must be a bool")
+        _extra_query: dict[str, object] = {}
+        for _key, _value in (extra_query or {}).items():
+            if type(_key) is not str:
+                raise TypeError("extra_query keys must be str")
+            if _key not in ("starting_after", "stream"):
+                _extra_query[_key] = _value
+        if starting_after is not omit and cast(object, starting_after) is not None:
+            if (
+                not isinstance(starting_after, int)
+                or isinstance(starting_after, bool)
+                or not 0 <= int.__index__(starting_after) <= 9007199254740991
+            ):
+                raise TypeError("starting_after must be a non-negative integer")
+            starting_after = int.__index__(starting_after)
+        if stream is True and (
+            starting_after is omit or cast(object, starting_after) is None
+        ):
+            raise TypeError("stream=True requires starting_after")
+        _query_parameters = _without_omitted(
+            {"starting_after": starting_after, "stream": stream}
+        )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
-            "ResponsesResponseOutput",
+            Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]],
             self._get(
                 "/v1/responses/{response_id}".format(response_id=response_id),
                 cast_to=ResponsesResponseOutput,
+                stream=stream is True,
+                stream_cls=Stream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
-                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_query={
+                        **_extra_query,
+                        **{
+                            key: value
+                            for key, value in _query_parameters.items()
+                            if value is not None
+                        },
+                    },
                     extra_body=extra_body,
                     timeout=timeout,
                 ),
@@ -5918,30 +5993,105 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         )
         return _result
 
+    @overload
     async def retrieve(
         self,
         response_id: str,
         *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
-    ) -> "ResponsesResponseOutput":
+    ) -> ResponsesResponseOutput: ...
+    @overload
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: int,
+        stream: Literal[True],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> AsyncStream["ResponseStreamEventOutput"]: ...
+    @overload
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: int,
+        stream: bool,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]: ...
+    async def retrieve(
+        self,
+        response_id: str,
+        *,
+        starting_after: Union[int, Omit] = omit,
+        stream: Union[bool, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]:
         if not response_id:
             raise ValueError(
                 "Expected a non-empty value for `response_id` but received "
                 + repr(response_id)
             )
-        _query_parameters = _without_omitted({})
+        if cast(object, stream) is None:
+            stream = omit
+        if (
+            stream is not omit
+            and cast(object, stream) is not True
+            and cast(object, stream) is not False
+        ):
+            raise TypeError("stream must be a bool")
+        _extra_query: dict[str, object] = {}
+        for _key, _value in (extra_query or {}).items():
+            if type(_key) is not str:
+                raise TypeError("extra_query keys must be str")
+            if _key not in ("starting_after", "stream"):
+                _extra_query[_key] = _value
+        if starting_after is not omit and cast(object, starting_after) is not None:
+            if (
+                not isinstance(starting_after, int)
+                or isinstance(starting_after, bool)
+                or not 0 <= int.__index__(starting_after) <= 9007199254740991
+            ):
+                raise TypeError("starting_after must be a non-negative integer")
+            starting_after = int.__index__(starting_after)
+        if stream is True and (
+            starting_after is omit or cast(object, starting_after) is None
+        ):
+            raise TypeError("stream=True requires starting_after")
+        _query_parameters = _without_omitted(
+            {"starting_after": starting_after, "stream": stream}
+        )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
-            "ResponsesResponseOutput",
+            Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]],
             await self._get(
                 "/v1/responses/{response_id}".format(response_id=response_id),
                 cast_to=ResponsesResponseOutput,
+                stream=stream is True,
+                stream_cls=AsyncStream["ResponseStreamEventOutput"],
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
-                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_query={
+                        **_extra_query,
+                        **{
+                            key: value
+                            for key, value in _query_parameters.items()
+                            if value is not None
+                        },
+                    },
                     extra_body=extra_body,
                     timeout=timeout,
                 ),

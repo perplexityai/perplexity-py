@@ -107,6 +107,17 @@ Methods:
 - <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/perplexity/resources/responses/responses.py">retrieve</a>(response_id) -> <a href="./src/perplexity/types/response_retrieve_response.py">ResponseRetrieveResponse</a></code>
 - <code title="post /v1/responses/{response_id}/cancel">client.responses.<a href="./src/perplexity/resources/responses/responses.py">cancel</a>(response_id) -> <a href="./src/perplexity/types/response_cancel_response.py">ResponseCancelResponse</a></code>
 
+To reconnect to a background response's event stream, supply the last event
+sequence number received:
+
+```python
+stream = client.responses.retrieve(response_id, stream=True, starting_after=last_sequence_number)
+```
+
+Streaming retrieval requires `starting_after`. If the API returns HTTP 400 because
+the cursor has expired, call `client.responses.retrieve(response_id)` without
+streaming parameters to obtain the current JSON snapshot.
+
 ## Files
 
 Methods:
