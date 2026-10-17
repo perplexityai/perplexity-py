@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.44.0](https://github.com/perplexityai/perplexity-py/compare/v0.43.8...v0.44.0) (2026-10-15)
+
+
+### Features
+
+* add Agent model catalog ([a950dfa](https://github.com/perplexityai/perplexity-py/commit/a950dfaaeca9f3c4b0f72525e0554949a216cf96))
+* add Decisions API ([acb52e6](https://github.com/perplexityai/perplexity-py/commit/acb52e69fd8dcccd1b146e4b3493e8afa0ecf48a))
+* **api:** add custom Skill management ([7f94e25](https://github.com/perplexityai/perplexity-py/commit/7f94e2541afba4fa797cbb7916a3ab9c2377d933))
+
+
+### Bug Fixes
+
+* support Agent cache controls and extraction usage ([66b1061](https://github.com/perplexityai/perplexity-py/commit/66b10616f4982f58e3b29b78eccff7ea4fb2b2aa))
+* type background response stream reconnection ([12037dd](https://github.com/perplexityai/perplexity-py/commit/12037dd726af889c69b8cd7c240b80d5ffe7e2d2))
+
 ## [0.43.8](https://github.com/perplexityai/perplexity-py/compare/v0.43.7...v0.43.8) (2026-10-07)
 
 
