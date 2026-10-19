@@ -2142,6 +2142,7 @@ class ResponsesRequestInput(BaseModel):
         None
     )
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
     temperature: Optional[float] = None
@@ -2169,6 +2170,7 @@ class ResponsesRequestOutput(BaseModel):
         None
     )
     skills: Optional[list["SkillOutput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Optional[bool] = None
     temperature: Optional[float] = None
@@ -2185,6 +2187,7 @@ class ResponsesResponseInput(BaseModel):
     model: str
     object: "ResponsesObjectTypeInput"
     output: list["OutputItemInput"]
+    preset: Optional[str] = None
     previous_response_id: Union[str, None] = None
     prompt_cache_key: Union[str, None] = None
     service_tier: Optional[str] = None
@@ -2201,6 +2204,7 @@ class ResponsesResponseOutput(BaseModel):
     model: str
     object: "ResponsesObjectTypeOutput"
     output: list["OutputItemOutput"]
+    preset: Optional[str] = None
     previous_response_id: Union[str, None] = None
     prompt_cache_key: Union[str, None] = None
     service_tier: Optional[str] = None
@@ -3475,6 +3479,7 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
         None
     )
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Literal[False] = False
     temperature: Optional[float] = None
@@ -3502,6 +3507,7 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
         None
     )
     skills: Optional[list["SkillInput"]] = None
+    step_budget_reminder: Optional[bool] = None
     store: Optional[bool] = None
     stream: Literal[True]
     temperature: Optional[float] = None
@@ -4534,6 +4540,7 @@ class ResponsesResource(SyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         temperature: Union[float, Omit] = omit,
@@ -4571,6 +4578,7 @@ class ResponsesResource(SyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
         temperature: Union[float, Omit] = omit,
@@ -4607,6 +4615,7 @@ class ResponsesResource(SyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         temperature: Union[float, Omit] = omit,
@@ -4637,6 +4646,7 @@ class ResponsesResource(SyncAPIResource):
                     "response_format": response_format,
                     "service_tier": service_tier,
                     "skills": skills,
+                    "step_budget_reminder": step_budget_reminder,
                     "store": store,
                     "stream": stream,
                     "temperature": temperature,
@@ -4672,6 +4682,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: Union[int, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
@@ -4684,6 +4695,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: int,
         stream: Literal[True],
         extra_headers: Headers | None = None,
@@ -4696,6 +4708,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: int,
         stream: bool,
         extra_headers: Headers | None = None,
@@ -4707,6 +4720,7 @@ class ResponsesResource(SyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: Union[int, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -4733,7 +4747,7 @@ class ResponsesResource(SyncAPIResource):
         for _key, _value in (extra_query or {}).items():
             if type(_key) is not str:
                 raise TypeError("extra_query keys must be str")
-            if _key not in ("starting_after", "stream"):
+            if _key not in ("format", "starting_after", "stream"):
                 _extra_query[_key] = _value
         if starting_after is not omit and cast(object, starting_after) is not None:
             if (
@@ -4748,7 +4762,7 @@ class ResponsesResource(SyncAPIResource):
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
-            {"starting_after": starting_after, "stream": stream}
+            {"format": format, "starting_after": starting_after, "stream": stream}
         )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
@@ -6392,6 +6406,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         temperature: Union[float, Omit] = omit,
@@ -6429,6 +6444,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Literal[True],
         temperature: Union[float, Omit] = omit,
@@ -6465,6 +6481,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             Literal["auto", "default", "flex", "priority", "fast"], Omit
         ] = omit,
         skills: Union[Sequence[Union["SkillInput", Mapping[str, object]]], Omit] = omit,
+        step_budget_reminder: Union[bool, Omit] = omit,
         store: Union[bool, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         temperature: Union[float, Omit] = omit,
@@ -6495,6 +6512,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
                     "response_format": response_format,
                     "service_tier": service_tier,
                     "skills": skills,
+                    "step_budget_reminder": step_budget_reminder,
                     "store": store,
                     "stream": stream,
                     "temperature": temperature,
@@ -6530,6 +6548,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: Union[int, Omit] = omit,
         stream: Union[Literal[False], Omit] = omit,
         extra_headers: Headers | None = None,
@@ -6542,6 +6561,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: int,
         stream: Literal[True],
         extra_headers: Headers | None = None,
@@ -6554,6 +6574,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: int,
         stream: bool,
         extra_headers: Headers | None = None,
@@ -6565,6 +6586,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         self,
         response_id: str,
         *,
+        format: Union[Literal["default", "short"], Omit] = omit,
         starting_after: Union[int, Omit] = omit,
         stream: Union[bool, Omit] = omit,
         extra_headers: Headers | None = None,
@@ -6591,7 +6613,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         for _key, _value in (extra_query or {}).items():
             if type(_key) is not str:
                 raise TypeError("extra_query keys must be str")
-            if _key not in ("starting_after", "stream"):
+            if _key not in ("format", "starting_after", "stream"):
                 _extra_query[_key] = _value
         if starting_after is not omit and cast(object, starting_after) is not None:
             if (
@@ -6606,7 +6628,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         ):
             raise TypeError("stream=True requires starting_after")
         _query_parameters = _without_omitted(
-            {"starting_after": starting_after, "stream": stream}
+            {"format": format, "starting_after": starting_after, "stream": stream}
         )
         _header_parameters = _without_omitted_headers({})
         _result = cast(
