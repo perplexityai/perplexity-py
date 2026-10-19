@@ -2079,3 +2079,51 @@ class TestAsyncPerplexity:
 
         assert exc_info.value.response.status_code == 302
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
+
+
+@pytest.mark.parametrize(
+    "custom_base", ["https://proxy.test", "https://proxy.test/api/", "https://proxy.test/tenant%2Fname"]
+)
+@pytest.mark.parametrize("base_query", ["", "?route=base&tag=a%2Fb"])
+@pytest.mark.parametrize("use_setter", [False, True])
+def test_search_preserves_base_url_query(custom_base: str, base_query: str, use_setter: bool) -> None:
+    seen: list[httpx.Request] = []
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={"results": []})
+
+    with httpx.Client(transport=httpx.MockTransport(handle)) as transport:
+        with Perplexity(api_key="test-key", base_url=custom_base + base_query, http_client=transport) as client:
+            if use_setter:
+                client.base_url = httpx.URL(custom_base + base_query)
+            client.search.create(query="test", extra_query={"request": "yes"})
+    expected = httpx.URL(custom_base).raw_path.rstrip(b"/") + b"/search"
+    assert seen[0].url.copy_with(query=None).raw_path == expected
+    assert dict(seen[0].url.params) == {**dict(httpx.URL(custom_base + base_query).params), "request": "yes"}
+    assert seen[0].headers["authorization"] == "Bearer test-key"
+
+
+@pytest.mark.parametrize(
+    "custom_base", ["https://proxy.test", "https://proxy.test/api/", "https://proxy.test/tenant%2Fname"]
+)
+@pytest.mark.parametrize("base_query", ["", "?route=base&tag=a%2Fb"])
+@pytest.mark.parametrize("use_setter", [False, True])
+async def test_async_search_preserves_base_url_query(custom_base: str, base_query: str, use_setter: bool) -> None:
+    seen: list[httpx.Request] = []
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={"results": []})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as transport:
+        async with AsyncPerplexity(
+            api_key="test-key", base_url=custom_base + base_query, http_client=transport
+        ) as client:
+            if use_setter:
+                client.base_url = httpx.URL(custom_base + base_query)
+            await client.search.create(query="test", extra_query={"request": "yes"})
+    expected = httpx.URL(custom_base).raw_path.rstrip(b"/") + b"/search"
+    assert seen[0].url.copy_with(query=None).raw_path == expected
+    assert dict(seen[0].url.params) == {**dict(httpx.URL(custom_base + base_query).params), "request": "yes"}
+    assert seen[0].headers["authorization"] == "Bearer test-key"
