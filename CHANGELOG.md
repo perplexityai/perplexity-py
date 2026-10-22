@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.45.0](https://github.com/perplexityai/perplexity-py/compare/v0.44.0...v0.45.0) (2026-10-22)
+
+
+### Features
+
+* add batches and files resources ([#141](https://github.com/perplexityai/perplexity-py/issues/141)) ([794b6a1](https://github.com/perplexityai/perplexity-py/commit/794b6a14d1d0e3324a785eb9ee3c12cb73795373))
+
+
+### Bug Fixes
+
+* preserve base URL query parameters when joining paths ([#139](https://github.com/perplexityai/perplexity-py/issues/139)) ([1d4ba52](https://github.com/perplexityai/perplexity-py/commit/1d4ba52e875a858a12fc26f854ae9470b8496835))
+
+
+### Chores
+
+* sync generated API SDKs ([#137](https://github.com/perplexityai/perplexity-py/issues/137)) ([5a8e883](https://github.com/perplexityai/perplexity-py/commit/5a8e88374cd566ce7c909de9ddd103ea0b6ba513))
+
 ## [0.44.0](https://github.com/perplexityai/perplexity-py/compare/v0.43.8...v0.44.0) (2026-10-15)
 
 
