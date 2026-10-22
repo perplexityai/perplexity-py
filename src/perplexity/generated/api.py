@@ -2325,6 +2325,7 @@ ResponsesObjectTypeOutput: TypeAlias = Literal["response"]
 
 class ResponsesRequestInput(BaseModel):
     background: Union[bool, None] = None
+    effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
     language_preference: Optional[str] = None
@@ -2333,6 +2334,7 @@ class ResponsesRequestInput(BaseModel):
     model: Optional[str] = None
     models: Optional[list[str]] = None
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. If both are supplied, effort takes precedence when non-null."
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
     prompt_cache_key: Optional[str] = None
@@ -2353,6 +2355,7 @@ class ResponsesRequestInput(BaseModel):
 
 class ResponsesRequestOutput(BaseModel):
     background: Union[bool, None] = None
+    effort: Optional[str] = None
     input: "InputOutput"
     instructions: Optional[str] = None
     language_preference: Optional[str] = None
@@ -2361,6 +2364,7 @@ class ResponsesRequestOutput(BaseModel):
     model: Optional[str] = None
     models: Optional[list[str]] = None
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. If both are supplied, effort takes precedence when non-null."
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceOutput"] = None
     prompt_cache_key: Optional[str] = None
@@ -2382,12 +2386,14 @@ class ResponsesRequestOutput(BaseModel):
 class ResponsesResponseInput(BaseModel):
     background: Optional[bool] = None
     created_at: int
+    effort: Optional[str] = None
     error: Optional["ErrorInfoInput"] = None
     id: str
     model: str
     object: "ResponsesObjectTypeInput"
     output: list["OutputItemInput"]
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. Contains the same configuration and version."
     previous_response_id: Union[str, None] = None
     prompt_cache_key: Union[str, None] = None
     service_tier: Optional[str] = None
@@ -2399,12 +2405,14 @@ class ResponsesResponseInput(BaseModel):
 class ResponsesResponseOutput(BaseModel):
     background: Optional[bool] = None
     created_at: int
+    effort: Optional[str] = None
     error: Optional["ErrorInfoOutput"] = None
     id: str
     model: str
     object: "ResponsesObjectTypeOutput"
     output: list["OutputItemOutput"]
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. Contains the same configuration and version."
     previous_response_id: Union[str, None] = None
     prompt_cache_key: Union[str, None] = None
     service_tier: Optional[str] = None
@@ -3693,6 +3701,7 @@ ResponseCreateParams: TypeAlias = ResponsesRequestInput
 
 class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     background: Union[bool, None] = None
+    effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
     language_preference: Optional[str] = None
@@ -3701,6 +3710,7 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     model: Optional[str] = None
     models: Optional[list[str]] = None
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. If both are supplied, effort takes precedence when non-null."
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
     prompt_cache_key: Optional[str] = None
@@ -3721,6 +3731,7 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
 
 class ResponsesResponseCreateParamsStreaming(BaseModel):
     background: Union[bool, None] = None
+    effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
     language_preference: Optional[str] = None
@@ -3729,6 +3740,7 @@ class ResponsesResponseCreateParamsStreaming(BaseModel):
     model: Optional[str] = None
     models: Optional[list[str]] = None
     preset: Optional[str] = None
+    "Deprecated: Use effort instead. If both are supplied, effort takes precedence when non-null."
     previous_response_id: Optional[str] = None
     profile: Optional["ProfileReferenceInput"] = None
     prompt_cache_key: Optional[str] = None
@@ -5072,6 +5084,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -5110,6 +5123,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -5147,6 +5161,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -5179,10 +5194,12 @@ class ResponsesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> Union["ResponsesResponseOutput", Stream["ResponseStreamEventOutput"]]:
+        "Deprecated parameters:\npreset: Use effort instead. If both are supplied, effort takes precedence when non-null."
         _body = ResponsesRequestInput.model_validate(
             _without_omitted(
                 {
                     "background": background,
+                    "effort": effort,
                     "input": input,
                     "instructions": instructions,
                     "language_preference": language_preference,
@@ -7307,6 +7324,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -7345,6 +7363,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -7382,6 +7401,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
         max_output_tokens: Union[int, Omit] = omit,
@@ -7414,10 +7434,12 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> Union["ResponsesResponseOutput", AsyncStream["ResponseStreamEventOutput"]]:
+        "Deprecated parameters:\npreset: Use effort instead. If both are supplied, effort takes precedence when non-null."
         _body = ResponsesRequestInput.model_validate(
             _without_omitted(
                 {
                     "background": background,
+                    "effort": effort,
                     "input": input,
                     "instructions": instructions,
                     "language_preference": language_preference,
