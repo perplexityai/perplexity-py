@@ -9,6 +9,14 @@ from .async_ import (
     AsyncResourceWithStreamingResponse,
     AsyncAsyncResourceWithStreamingResponse,
 )
+from .batches import (
+    BatchesResource,
+    AsyncBatchesResource,
+    BatchesResourceWithRawResponse,
+    AsyncBatchesResourceWithRawResponse,
+    BatchesResourceWithStreamingResponse,
+    AsyncBatchesResourceWithStreamingResponse,
+)
 from .browser import (
     BrowserResource,
     AsyncBrowserResource,
@@ -48,6 +56,14 @@ from .embeddings import (
     AsyncEmbeddingsResourceWithRawResponse,
     EmbeddingsResourceWithStreamingResponse,
     AsyncEmbeddingsResourceWithStreamingResponse,
+)
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
 )
 from .models import (
     ModelsResource,
@@ -91,6 +107,10 @@ class SyncClientResources:
         return AsyncResource(self._sdk_transport)
 
     @cached_property
+    def batches(self) -> BatchesResource:
+        return BatchesResource(self._sdk_transport)
+
+    @cached_property
     def browser(self) -> BrowserResource:
         return BrowserResource(self._sdk_transport)
 
@@ -109,6 +129,10 @@ class SyncClientResources:
     @cached_property
     def embeddings(self) -> EmbeddingsResource:
         return EmbeddingsResource(self._sdk_transport)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._sdk_transport)
 
     @cached_property
     def models(self) -> ModelsResource:
@@ -135,6 +159,10 @@ class AsyncClientResources:
         return AsyncAsyncResource(self._sdk_transport)
 
     @cached_property
+    def batches(self) -> AsyncBatchesResource:
+        return AsyncBatchesResource(self._sdk_transport)
+
+    @cached_property
     def browser(self) -> AsyncBrowserResource:
         return AsyncBrowserResource(self._sdk_transport)
 
@@ -153,6 +181,10 @@ class AsyncClientResources:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResource:
         return AsyncEmbeddingsResource(self._sdk_transport)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        return AsyncFilesResource(self._sdk_transport)
 
     @cached_property
     def models(self) -> AsyncModelsResource:
@@ -180,6 +212,10 @@ class SyncClientWithRawResponse:
         return AsyncResourceWithRawResponse(self._client.async_)
 
     @cached_property
+    def batches(self) -> BatchesResourceWithRawResponse:
+        return BatchesResourceWithRawResponse(self._client.batches)
+
+    @cached_property
     def browser(self) -> BrowserResourceWithRawResponse:
         return BrowserResourceWithRawResponse(self._client.browser)
 
@@ -202,6 +238,10 @@ class SyncClientWithRawResponse:
     @cached_property
     def embeddings(self) -> EmbeddingsResourceWithRawResponse:
         return EmbeddingsResourceWithRawResponse(self._client.embeddings)
+
+    @cached_property
+    def files(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self._client.files)
 
     @cached_property
     def models(self) -> ModelsResourceWithRawResponse:
@@ -229,6 +269,10 @@ class AsyncClientWithRawResponse:
         return AsyncAsyncResourceWithRawResponse(self._client.async_)
 
     @cached_property
+    def batches(self) -> AsyncBatchesResourceWithRawResponse:
+        return AsyncBatchesResourceWithRawResponse(self._client.batches)
+
+    @cached_property
     def browser(self) -> AsyncBrowserResourceWithRawResponse:
         return AsyncBrowserResourceWithRawResponse(self._client.browser)
 
@@ -251,6 +295,10 @@ class AsyncClientWithRawResponse:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithRawResponse:
         return AsyncEmbeddingsResourceWithRawResponse(self._client.embeddings)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithRawResponse:
+        return AsyncFilesResourceWithRawResponse(self._client.files)
 
     @cached_property
     def models(self) -> AsyncModelsResourceWithRawResponse:
@@ -278,6 +326,10 @@ class SyncClientWithStreamingResponse:
         return AsyncResourceWithStreamingResponse(self._client.async_)
 
     @cached_property
+    def batches(self) -> BatchesResourceWithStreamingResponse:
+        return BatchesResourceWithStreamingResponse(self._client.batches)
+
+    @cached_property
     def browser(self) -> BrowserResourceWithStreamingResponse:
         return BrowserResourceWithStreamingResponse(self._client.browser)
 
@@ -300,6 +352,10 @@ class SyncClientWithStreamingResponse:
     @cached_property
     def embeddings(self) -> EmbeddingsResourceWithStreamingResponse:
         return EmbeddingsResourceWithStreamingResponse(self._client.embeddings)
+
+    @cached_property
+    def files(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self._client.files)
 
     @cached_property
     def models(self) -> ModelsResourceWithStreamingResponse:
@@ -327,6 +383,10 @@ class AsyncClientWithStreamingResponse:
         return AsyncAsyncResourceWithStreamingResponse(self._client.async_)
 
     @cached_property
+    def batches(self) -> AsyncBatchesResourceWithStreamingResponse:
+        return AsyncBatchesResourceWithStreamingResponse(self._client.batches)
+
+    @cached_property
     def browser(self) -> AsyncBrowserResourceWithStreamingResponse:
         return AsyncBrowserResourceWithStreamingResponse(self._client.browser)
 
@@ -349,6 +409,10 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def embeddings(self) -> AsyncEmbeddingsResourceWithStreamingResponse:
         return AsyncEmbeddingsResourceWithStreamingResponse(self._client.embeddings)
+
+    @cached_property
+    def files(self) -> AsyncFilesResourceWithStreamingResponse:
+        return AsyncFilesResourceWithStreamingResponse(self._client.files)
 
     @cached_property
     def models(self) -> AsyncModelsResourceWithStreamingResponse:

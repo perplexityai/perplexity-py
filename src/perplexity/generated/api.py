@@ -59,28 +59,6 @@ def _without_omitted_headers(values: Mapping[str, object]) -> dict[str, str]:
     return {key: str(value) for key, value in values.items() if value is not omit}
 
 
-class AdvisorResultOutputItemInput(BaseModel):
-    advice: Optional[str] = None
-    arguments: Optional[str] = None
-    call_id: str
-    error_code: Optional[str] = None
-    error_message: Optional[str] = None
-    question: Optional[str] = None
-    status: "StatusInput"
-    type: Literal["advisor_result"]
-
-
-class AdvisorResultOutputItemOutput(BaseModel):
-    advice: Optional[str] = None
-    arguments: Optional[str] = None
-    call_id: str
-    error_code: Optional[str] = None
-    error_message: Optional[str] = None
-    question: Optional[str] = None
-    status: "StatusOutput"
-    type: Literal["advisor_result"]
-
-
 class AnnotationInput(BaseModel):
     end_index: Optional[int] = None
     start_index: Optional[int] = None
@@ -405,6 +383,168 @@ AsyncProcessingStatusInput: TypeAlias = Literal[
 AsyncProcessingStatusOutput: TypeAlias = Literal[
     "CREATED", "IN_PROGRESS", "COMPLETED", "FAILED"
 ]
+
+
+class BatchInput(BaseModel):
+    cancelled_at: Union[int, None] = None
+    cancelling_at: Union[int, None] = None
+    completed_at: Union[int, None] = None
+    completion_window: str
+    created_at: int
+    endpoint: str
+    error_file_id: Union[str, None] = None
+    errors: Union["BatchErrorsInput", None] = None
+    expired_at: Union[int, None] = None
+    expires_at: Union[int, None] = None
+    failed_at: Union[int, None] = None
+    finalizing_at: Union[int, None] = None
+    id: str
+    in_progress_at: Union[int, None] = None
+    input_file_id: str
+    metadata: Union[dict[str, str], None] = None
+    object: Literal["batch"]
+    output_file_id: Union[str, None] = None
+    request_counts: "BatchRequestCountsInput"
+    status: Literal[
+        "validating",
+        "in_progress",
+        "finalizing",
+        "completed",
+        "expired",
+        "cancelling",
+        "cancelled",
+        "failed",
+    ]
+    usage: "BatchUsageInput"
+
+
+class BatchOutput(BaseModel):
+    cancelled_at: Union[int, None] = None
+    cancelling_at: Union[int, None] = None
+    completed_at: Union[int, None] = None
+    completion_window: str
+    created_at: int
+    endpoint: str
+    error_file_id: Union[str, None] = None
+    errors: Union["BatchErrorsOutput", None] = None
+    expired_at: Union[int, None] = None
+    expires_at: Union[int, None] = None
+    failed_at: Union[int, None] = None
+    finalizing_at: Union[int, None] = None
+    id: str
+    in_progress_at: Union[int, None] = None
+    input_file_id: str
+    metadata: Union[dict[str, str], None] = None
+    object: Literal["batch"]
+    output_file_id: Union[str, None] = None
+    request_counts: "BatchRequestCountsOutput"
+    status: Literal[
+        "validating",
+        "in_progress",
+        "finalizing",
+        "completed",
+        "expired",
+        "cancelling",
+        "cancelled",
+        "failed",
+    ]
+    usage: "BatchUsageOutput"
+
+
+class BatchCreateRequestInput(BaseModel):
+    completion_window: Optional[Literal["24h"]] = None
+    endpoint: Literal["/v1/responses"]
+    input_file_id: str
+    metadata: Union[dict[str, str], None] = None
+
+
+class BatchCreateRequestOutput(BaseModel):
+    completion_window: Optional[Literal["24h"]] = None
+    endpoint: Literal["/v1/responses"]
+    input_file_id: str
+    metadata: Union[dict[str, str], None] = None
+
+
+class BatchErrorInput(BaseModel):
+    code: str
+    line: Union[int, None] = None
+    message: str
+
+
+class BatchErrorOutput(BaseModel):
+    code: str
+    line: Union[int, None] = None
+    message: str
+
+
+class BatchErrorsInput(BaseModel):
+    data: list["BatchErrorInput"]
+    object: Literal["list"]
+
+
+class BatchErrorsOutput(BaseModel):
+    data: list["BatchErrorOutput"]
+    object: Literal["list"]
+
+
+class BatchListInput(BaseModel):
+    data: list["BatchInput"]
+    first_id: Union[str, None] = None
+    has_more: bool
+    last_id: Union[str, None] = None
+    object: Literal["list"]
+
+
+class BatchListOutput(BaseModel):
+    data: list["BatchOutput"]
+    first_id: Union[str, None] = None
+    has_more: bool
+    last_id: Union[str, None] = None
+    object: Literal["list"]
+
+
+class BatchRequestCountsInput(BaseModel):
+    completed: int
+    failed: int
+    total: int
+
+
+class BatchRequestCountsOutput(BaseModel):
+    completed: int
+    failed: int
+    total: int
+
+
+class BatchUsageInput(BaseModel):
+    input_tokens: int
+    input_tokens_details: "BatchUsageInputTokensDetailsInput"
+    output_tokens: int
+    output_tokens_details: "BatchUsageOutputTokensDetailsInput"
+    total_tokens: int
+
+
+class BatchUsageOutput(BaseModel):
+    input_tokens: int
+    input_tokens_details: "BatchUsageInputTokensDetailsOutput"
+    output_tokens: int
+    output_tokens_details: "BatchUsageOutputTokensDetailsOutput"
+    total_tokens: int
+
+
+class BatchUsageInputTokensDetailsInput(BaseModel):
+    cached_tokens: int
+
+
+class BatchUsageInputTokensDetailsOutput(BaseModel):
+    cached_tokens: int
+
+
+class BatchUsageOutputTokensDetailsInput(BaseModel):
+    reasoning_tokens: int
+
+
+class BatchUsageOutputTokensDetailsOutput(BaseModel):
+    reasoning_tokens: int
 
 
 class BrowserSessionResponseInput(BaseModel):
@@ -1071,6 +1211,68 @@ class FetchUrlToolOutput(BaseModel):
     type: Literal["fetch_url"]
 
 
+class FileDeletedInput(BaseModel):
+    deleted: bool
+    id: str
+    object: Literal["file"]
+
+
+class FileDeletedOutput(BaseModel):
+    deleted: bool
+    id: str
+    object: Literal["file"]
+
+
+class FileObjectInput(BaseModel):
+    bytes: int
+    created_at: int
+    expires_at: Union[int, None] = None
+    filename: str
+    id: str
+    object: Literal["file"]
+    purpose: "FilePurposeInput"
+
+
+class FileObjectOutput(BaseModel):
+    bytes: int
+    created_at: int
+    expires_at: Union[int, None] = None
+    filename: str
+    id: str
+    object: Literal["file"]
+    purpose: "FilePurposeOutput"
+
+
+class FileObjectListInput(BaseModel):
+    data: list["FileObjectInput"]
+    first_id: Union[str, None] = None
+    has_more: bool
+    last_id: Union[str, None] = None
+    object: Literal["list"]
+
+
+class FileObjectListOutput(BaseModel):
+    data: list["FileObjectOutput"]
+    first_id: Union[str, None] = None
+    has_more: bool
+    last_id: Union[str, None] = None
+    object: Literal["list"]
+
+
+FilePurposeInput: TypeAlias = Literal["batch", "batch_output"]
+FilePurposeOutput: TypeAlias = Literal["batch", "batch_output"]
+
+
+class FileUploadInput(BaseModel):
+    file: FileInput
+    purpose: Literal["batch"]
+
+
+class FileUploadOutput(BaseModel):
+    file: str
+    purpose: Literal["batch"]
+
+
 class FinanceSearchToolInput(BaseModel):
     type: Literal["finance_search"]
 
@@ -1702,7 +1904,6 @@ OutputItemInput: TypeAlias = Union[
     "McpApprovalRequestOutputItemInput",
     "ToolSearchOutputItemInput",
     "SkillLoadedOutputItemInput",
-    "AdvisorResultOutputItemInput",
     "SandboxResultsOutputItemInput",
     "SandboxWriteFileOutputItemInput",
     "SandboxReadFileOutputItemInput",
@@ -1724,7 +1925,6 @@ OutputItemOutput: TypeAlias = Union[
     "McpApprovalRequestOutputItemOutput",
     "ToolSearchOutputItemOutput",
     "SkillLoadedOutputItemOutput",
-    "AdvisorResultOutputItemOutput",
     "SandboxResultsOutputItemOutput",
     "SandboxWriteFileOutputItemOutput",
     "SandboxReadFileOutputItemOutput",
@@ -2916,8 +3116,6 @@ class ResponsesCancelResponseOutput(BaseModel):
     status: Literal["cancelling"]
 
 
-AdvisorResultOutputItemInput.model_rebuild(_types_namespace=globals())
-AdvisorResultOutputItemOutput.model_rebuild(_types_namespace=globals())
 AnnotationInput.model_rebuild(_types_namespace=globals())
 AnnotationOutput.model_rebuild(_types_namespace=globals())
 ApiChatCompletionsRequestInput.model_rebuild(_types_namespace=globals())
@@ -2940,6 +3138,24 @@ AsyncApiChatCompletionsResponseInput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsResponseOutput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsResponseSummaryInput.model_rebuild(_types_namespace=globals())
 AsyncApiChatCompletionsResponseSummaryOutput.model_rebuild(_types_namespace=globals())
+BatchInput.model_rebuild(_types_namespace=globals())
+BatchOutput.model_rebuild(_types_namespace=globals())
+BatchCreateRequestInput.model_rebuild(_types_namespace=globals())
+BatchCreateRequestOutput.model_rebuild(_types_namespace=globals())
+BatchErrorInput.model_rebuild(_types_namespace=globals())
+BatchErrorOutput.model_rebuild(_types_namespace=globals())
+BatchErrorsInput.model_rebuild(_types_namespace=globals())
+BatchErrorsOutput.model_rebuild(_types_namespace=globals())
+BatchListInput.model_rebuild(_types_namespace=globals())
+BatchListOutput.model_rebuild(_types_namespace=globals())
+BatchRequestCountsInput.model_rebuild(_types_namespace=globals())
+BatchRequestCountsOutput.model_rebuild(_types_namespace=globals())
+BatchUsageInput.model_rebuild(_types_namespace=globals())
+BatchUsageOutput.model_rebuild(_types_namespace=globals())
+BatchUsageInputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+BatchUsageInputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
+BatchUsageOutputTokensDetailsInput.model_rebuild(_types_namespace=globals())
+BatchUsageOutputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 BrowserSessionResponseInput.model_rebuild(_types_namespace=globals())
 BrowserSessionResponseOutput.model_rebuild(_types_namespace=globals())
 BuiltinSkillInput.model_rebuild(_types_namespace=globals())
@@ -3024,6 +3240,14 @@ FetchUrlResultsOutputItemInput.model_rebuild(_types_namespace=globals())
 FetchUrlResultsOutputItemOutput.model_rebuild(_types_namespace=globals())
 FetchUrlToolInput.model_rebuild(_types_namespace=globals())
 FetchUrlToolOutput.model_rebuild(_types_namespace=globals())
+FileDeletedInput.model_rebuild(_types_namespace=globals())
+FileDeletedOutput.model_rebuild(_types_namespace=globals())
+FileObjectInput.model_rebuild(_types_namespace=globals())
+FileObjectOutput.model_rebuild(_types_namespace=globals())
+FileObjectListInput.model_rebuild(_types_namespace=globals())
+FileObjectListOutput.model_rebuild(_types_namespace=globals())
+FileUploadInput.model_rebuild(_types_namespace=globals())
+FileUploadOutput.model_rebuild(_types_namespace=globals())
 FinanceSearchToolInput.model_rebuild(_types_namespace=globals())
 FinanceSearchToolOutput.model_rebuild(_types_namespace=globals())
 FunctionCallInputInput.model_rebuild(_types_namespace=globals())
@@ -3249,6 +3473,9 @@ WebSearchToolOutput.model_rebuild(_types_namespace=globals())
 ResponsesCancelResponseOutput.model_rebuild(_types_namespace=globals())
 APIPublicSearchResult: TypeAlias = ApiPublicSearchResultOutput
 Annotation: TypeAlias = AnnotationOutput
+Batch: TypeAlias = BatchOutput
+BatchCreateParams: TypeAlias = BatchCreateRequestInput
+BatchListResponse: TypeAlias = BatchListOutput
 BrowserSessionResponse: TypeAlias = BrowserSessionResponseOutput
 ChatMessageInput: TypeAlias = ChatMessageInputInput
 ChatMessageOutput: TypeAlias = ChatMessageOutputOutput
@@ -3445,6 +3672,10 @@ class ResponsesFilesFileContentParams(BaseModel):
     response_id: str
 
 
+FileCreateParams: TypeAlias = FileUploadInput
+FileDeleted: TypeAlias = FileDeletedOutput
+FileListResponse: TypeAlias = FileObjectListOutput
+FileObject: TypeAlias = FileObjectOutput
 FunctionCallOutputItem: TypeAlias = FunctionCallOutputItemOutput
 FunctionTool: TypeAlias = FunctionToolInput
 ImageResult: TypeAlias = ImageResultOutput
@@ -4260,6 +4491,155 @@ class AsyncResource(SyncAPIResource):
         return AsyncChatResource(self._client)
 
 
+class BatchesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> BatchesResourceWithRawResponse:
+        return BatchesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> BatchesResourceWithStreamingResponse:
+        return BatchesResourceWithStreamingResponse(self)
+
+    def cancel(
+        self,
+        batch_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        if batch_id is None or (
+            isinstance(batch_id, str) and not str.__str__(batch_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `batch_id` but received "
+                + repr(batch_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchOutput",
+            self._post(
+                "/v1/batches/{batch_id}/cancel".format(
+                    batch_id=_path_segment(batch_id)
+                ),
+                cast_to=BatchOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def create(
+        self,
+        *,
+        endpoint: Literal["/v1/responses"],
+        input_file_id: str,
+        idempotency_key: Union[str, Omit] = omit,
+        completion_window: Union[Literal["24h"], Omit] = omit,
+        metadata: Union[Union[dict[str, str], None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        _body = BatchCreateRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "completion_window": completion_window,
+                    "endpoint": endpoint,
+                    "input_file_id": input_file_id,
+                    "metadata": metadata,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Idempotency-Key": idempotency_key}
+        )
+        _result = cast(
+            "BatchOutput",
+            self._post(
+                "/v1/batches",
+                cast_to=BatchOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchListOutput":
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchListOutput",
+            self._get(
+                "/v1/batches",
+                cast_to=BatchListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def retrieve(
+        self,
+        batch_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        if batch_id is None or (
+            isinstance(batch_id, str) and not str.__str__(batch_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `batch_id` but received "
+                + repr(batch_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchOutput",
+            self._get(
+                "/v1/batches/{batch_id}".format(batch_id=_path_segment(batch_id)),
+                cast_to=BatchOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class BrowserResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> BrowserResourceWithRawResponse:
@@ -4424,6 +4804,178 @@ class EmbeddingsResource(SyncAPIResource):
                 "/v1/embeddings",
                 cast_to=EmbeddingsResponseOutput,
                 body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class FilesResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> FilesResourceWithRawResponse:
+        return FilesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> FilesResourceWithStreamingResponse:
+        return FilesResourceWithStreamingResponse(self)
+
+    def content(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> BinaryAPIResponse:
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Accept": "application/octet-stream"}
+        )
+        _result = cast(
+            BinaryAPIResponse,
+            self._get(
+                "/v1/files/{file_id}/content".format(file_id=_path_segment(file_id)),
+                cast_to=BinaryAPIResponse,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def create(
+        self,
+        *,
+        file: FileInput,
+        purpose: Literal["batch"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectOutput":
+        _body = FileUploadInput.model_validate(
+            _without_omitted({"file": file, "purpose": purpose})
+        )
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "FileObjectOutput",
+            self._post(
+                "/v1/files",
+                cast_to=FileObjectOutput,
+                files={
+                    _k: _v for _k, _v in _body_data.items() if _k not in ("purpose",)
+                },
+                body={_k: _v for _k, _v in _body_data.items() if _k in ("purpose",)},
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def delete(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileDeletedOutput":
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileDeletedOutput",
+            self._delete(
+                "/v1/files/{file_id}".format(file_id=_path_segment(file_id)),
+                cast_to=FileDeletedOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        order: Union[Literal["asc", "desc"], Omit] = omit,
+        purpose: Union["FilePurposeInput", Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectListOutput":
+        _query_parameters = _without_omitted(
+            {"after": after, "limit": limit, "order": order, "purpose": purpose}
+        )
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileObjectListOutput",
+            self._get(
+                "/v1/files",
+                cast_to=FileObjectListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def retrieve(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectOutput":
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileObjectOutput",
+            self._get(
+                "/v1/files/{file_id}".format(file_id=_path_segment(file_id)),
+                cast_to=FileObjectOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
@@ -5199,6 +5751,24 @@ class AsyncResourceWithStreamingResponse:
         return AsyncChatResourceWithStreamingResponse(self._resource.chat)
 
 
+class BatchesResourceWithRawResponse:
+    def __init__(self, resource: BatchesResource) -> None:
+        self._resource = resource
+        self.cancel = to_raw_response_wrapper(resource, "cancel")
+        self.create = to_raw_response_wrapper(resource, "create")
+        self.list = to_raw_response_wrapper(resource, "list")
+        self.retrieve = to_raw_response_wrapper(resource, "retrieve")
+
+
+class BatchesResourceWithStreamingResponse:
+    def __init__(self, resource: BatchesResource) -> None:
+        self._resource = resource
+        self.cancel = to_streamed_response_wrapper(resource, "cancel")
+        self.create = to_streamed_response_wrapper(resource, "create")
+        self.list = to_streamed_response_wrapper(resource, "list")
+        self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
+
+
 class BrowserResourceWithRawResponse:
     def __init__(self, resource: BrowserResource) -> None:
         self._resource = resource
@@ -5269,6 +5839,26 @@ class EmbeddingsResourceWithStreamingResponse:
     def __init__(self, resource: EmbeddingsResource) -> None:
         self._resource = resource
         self.create = to_streamed_response_wrapper(resource, "create")
+
+
+class FilesResourceWithRawResponse:
+    def __init__(self, resource: FilesResource) -> None:
+        self._resource = resource
+        self.content = to_raw_response_wrapper(resource, "content")
+        self.create = to_raw_response_wrapper(resource, "create")
+        self.delete = to_raw_response_wrapper(resource, "delete")
+        self.list = to_raw_response_wrapper(resource, "list")
+        self.retrieve = to_raw_response_wrapper(resource, "retrieve")
+
+
+class FilesResourceWithStreamingResponse:
+    def __init__(self, resource: FilesResource) -> None:
+        self._resource = resource
+        self.content = to_streamed_response_wrapper(resource, "content")
+        self.create = to_streamed_response_wrapper(resource, "create")
+        self.delete = to_streamed_response_wrapper(resource, "delete")
+        self.list = to_streamed_response_wrapper(resource, "list")
+        self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
 
 
 class ModelsResourceWithRawResponse:
@@ -5355,6 +5945,10 @@ class PerplexitySdk(SyncAPIResource):
         return AsyncResource(self._client)
 
     @cached_property
+    def batches(self) -> BatchesResource:
+        return BatchesResource(self._client)
+
+    @cached_property
     def browser(self) -> BrowserResource:
         return BrowserResource(self._client)
 
@@ -5373,6 +5967,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def embeddings(self) -> EmbeddingsResource:
         return EmbeddingsResource(self._client)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        return FilesResource(self._client)
 
     @cached_property
     def models(self) -> ModelsResource:
@@ -6116,6 +6714,157 @@ class AsyncClientAsyncResource(AsyncAPIResource):
         return AsyncClientAsyncChatResource(self._client)
 
 
+class AsyncClientBatchesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientBatchesResourceWithRawResponse:
+        return AsyncClientBatchesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientBatchesResourceWithStreamingResponse:
+        return AsyncClientBatchesResourceWithStreamingResponse(self)
+
+    async def cancel(
+        self,
+        batch_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        if batch_id is None or (
+            isinstance(batch_id, str) and not str.__str__(batch_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `batch_id` but received "
+                + repr(batch_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchOutput",
+            await self._post(
+                "/v1/batches/{batch_id}/cancel".format(
+                    batch_id=_path_segment(batch_id)
+                ),
+                cast_to=BatchOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def create(
+        self,
+        *,
+        endpoint: Literal["/v1/responses"],
+        input_file_id: str,
+        idempotency_key: Union[str, Omit] = omit,
+        completion_window: Union[Literal["24h"], Omit] = omit,
+        metadata: Union[Union[dict[str, str], None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        _body = BatchCreateRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "completion_window": completion_window,
+                    "endpoint": endpoint,
+                    "input_file_id": input_file_id,
+                    "metadata": metadata,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Idempotency-Key": idempotency_key}
+        )
+        _result = cast(
+            "BatchOutput",
+            await self._post(
+                "/v1/batches",
+                cast_to=BatchOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchListOutput":
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchListOutput",
+            await self._get(
+                "/v1/batches",
+                cast_to=BatchListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def retrieve(
+        self,
+        batch_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "BatchOutput":
+        if batch_id is None or (
+            isinstance(batch_id, str) and not str.__str__(batch_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `batch_id` but received "
+                + repr(batch_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "BatchOutput",
+            await self._get(
+                "/v1/batches/{batch_id}".format(batch_id=_path_segment(batch_id)),
+                cast_to=BatchOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class AsyncClientBrowserResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncClientBrowserResourceWithRawResponse:
@@ -6288,6 +7037,178 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
                 "/v1/embeddings",
                 cast_to=EmbeddingsResponseOutput,
                 body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class AsyncClientFilesResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientFilesResourceWithRawResponse:
+        return AsyncClientFilesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncClientFilesResourceWithStreamingResponse:
+        return AsyncClientFilesResourceWithStreamingResponse(self)
+
+    async def content(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> AsyncBinaryAPIResponse:
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Accept": "application/octet-stream"}
+        )
+        _result = cast(
+            AsyncBinaryAPIResponse,
+            await self._get(
+                "/v1/files/{file_id}/content".format(file_id=_path_segment(file_id)),
+                cast_to=AsyncBinaryAPIResponse,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def create(
+        self,
+        *,
+        file: FileInput,
+        purpose: Literal["batch"],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectOutput":
+        _body = FileUploadInput.model_validate(
+            _without_omitted({"file": file, "purpose": purpose})
+        )
+        _body_data = _body.model_dump(mode="python", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {
+                "Content-Type": "multipart/form-data",
+            }
+        )
+        _result = cast(
+            "FileObjectOutput",
+            await self._post(
+                "/v1/files",
+                cast_to=FileObjectOutput,
+                files={
+                    _k: _v for _k, _v in _body_data.items() if _k not in ("purpose",)
+                },
+                body={_k: _v for _k, _v in _body_data.items() if _k in ("purpose",)},
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def delete(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileDeletedOutput":
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileDeletedOutput",
+            await self._delete(
+                "/v1/files/{file_id}".format(file_id=_path_segment(file_id)),
+                cast_to=FileDeletedOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        order: Union[Literal["asc", "desc"], Omit] = omit,
+        purpose: Union["FilePurposeInput", Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectListOutput":
+        _query_parameters = _without_omitted(
+            {"after": after, "limit": limit, "order": order, "purpose": purpose}
+        )
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileObjectListOutput",
+            await self._get(
+                "/v1/files",
+                cast_to=FileObjectListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def retrieve(
+        self,
+        file_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "FileObjectOutput":
+        if file_id is None or (isinstance(file_id, str) and not str.__str__(file_id)):
+            raise ValueError(
+                "Expected a non-empty value for `file_id` but received " + repr(file_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "FileObjectOutput",
+            await self._get(
+                "/v1/files/{file_id}".format(file_id=_path_segment(file_id)),
+                cast_to=FileObjectOutput,
                 options=make_request_options(
                     extra_headers={**_header_parameters, **(extra_headers or {})},
                     extra_query={**_query_parameters, **(extra_query or {})},
@@ -7069,6 +7990,24 @@ class AsyncClientAsyncResourceWithStreamingResponse:
         return AsyncClientAsyncChatResourceWithStreamingResponse(self._resource.chat)
 
 
+class AsyncClientBatchesResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientBatchesResource) -> None:
+        self._resource = resource
+        self.cancel = async_to_raw_response_wrapper(resource, "cancel")
+        self.create = async_to_raw_response_wrapper(resource, "create")
+        self.list = async_to_raw_response_wrapper(resource, "list")
+        self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
+
+
+class AsyncClientBatchesResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientBatchesResource) -> None:
+        self._resource = resource
+        self.cancel = async_to_streamed_response_wrapper(resource, "cancel")
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+        self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
+
+
 class AsyncClientBrowserResourceWithRawResponse:
     def __init__(self, resource: AsyncClientBrowserResource) -> None:
         self._resource = resource
@@ -7147,6 +8086,26 @@ class AsyncClientEmbeddingsResourceWithStreamingResponse:
     def __init__(self, resource: AsyncClientEmbeddingsResource) -> None:
         self._resource = resource
         self.create = async_to_streamed_response_wrapper(resource, "create")
+
+
+class AsyncClientFilesResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientFilesResource) -> None:
+        self._resource = resource
+        self.content = async_to_raw_response_wrapper(resource, "content")
+        self.create = async_to_raw_response_wrapper(resource, "create")
+        self.delete = async_to_raw_response_wrapper(resource, "delete")
+        self.list = async_to_raw_response_wrapper(resource, "list")
+        self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
+
+
+class AsyncClientFilesResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientFilesResource) -> None:
+        self._resource = resource
+        self.content = async_to_streamed_response_wrapper(resource, "content")
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+        self.delete = async_to_streamed_response_wrapper(resource, "delete")
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+        self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
 
 
 class AsyncClientModelsResourceWithRawResponse:
@@ -7239,6 +8198,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
         return AsyncClientAsyncResource(self._client)
 
     @cached_property
+    def batches(self) -> AsyncClientBatchesResource:
+        return AsyncClientBatchesResource(self._client)
+
+    @cached_property
     def browser(self) -> AsyncClientBrowserResource:
         return AsyncClientBrowserResource(self._client)
 
@@ -7257,6 +8220,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def embeddings(self) -> AsyncClientEmbeddingsResource:
         return AsyncClientEmbeddingsResource(self._client)
+
+    @cached_property
+    def files(self) -> AsyncClientFilesResource:
+        return AsyncClientFilesResource(self._client)
 
     @cached_property
     def models(self) -> AsyncClientModelsResource:
