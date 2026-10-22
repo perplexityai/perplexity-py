@@ -6,6 +6,14 @@ from .async_ import (
     AsyncResourceWithStreamingResponse,
     AsyncAsyncResourceWithStreamingResponse,
 )
+from .batches import (
+    BatchesResource,
+    AsyncBatchesResource,
+    BatchesResourceWithRawResponse,
+    AsyncBatchesResourceWithRawResponse,
+    BatchesResourceWithStreamingResponse,
+    AsyncBatchesResourceWithStreamingResponse,
+)
 from .browser import (
     BrowserResource,
     AsyncBrowserResource,
@@ -45,6 +53,14 @@ from .embeddings import (
     AsyncEmbeddingsResourceWithRawResponse,
     EmbeddingsResourceWithStreamingResponse,
     AsyncEmbeddingsResourceWithStreamingResponse,
+)
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
 )
 from .models import (
     ModelsResource,
@@ -86,6 +102,12 @@ __all__ = [
     "AsyncAsyncResourceWithRawResponse",
     "AsyncResourceWithStreamingResponse",
     "AsyncAsyncResourceWithStreamingResponse",
+    "BatchesResource",
+    "AsyncBatchesResource",
+    "BatchesResourceWithRawResponse",
+    "AsyncBatchesResourceWithRawResponse",
+    "BatchesResourceWithStreamingResponse",
+    "AsyncBatchesResourceWithStreamingResponse",
     "BrowserResource",
     "AsyncBrowserResource",
     "BrowserResourceWithRawResponse",
@@ -116,6 +138,12 @@ __all__ = [
     "AsyncEmbeddingsResourceWithRawResponse",
     "EmbeddingsResourceWithStreamingResponse",
     "AsyncEmbeddingsResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
     "ModelsResource",
     "AsyncModelsResource",
     "ModelsResourceWithRawResponse",
