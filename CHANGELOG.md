@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.1](https://github.com/perplexityai/perplexity-py/compare/v0.46.0...v0.46.1) (2026-10-23)
+
+
+### Bug Fixes
+
+* **files:** accept file handles and paths in files.create ([#144](https://github.com/perplexityai/perplexity-py/issues/144)) ([2d7a3f5](https://github.com/perplexityai/perplexity-py/commit/2d7a3f5437fbb64254e636c5f30bd8e16c0b68c6))
+
 ## [0.46.0](https://github.com/perplexityai/perplexity-py/compare/v0.45.0...v0.46.0) (2026-10-22)
 
 
