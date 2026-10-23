@@ -2,10 +2,13 @@ from __future__ import annotations
 
 # isort: skip_file
 # ruff: noqa: ANN401
+import os
+import pathlib
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterator, Mapping
 from functools import wraps
 from types import UnionType
 from typing import (
+    IO,
     Annotated,
     Any,
     Generic,
@@ -22,7 +25,9 @@ import httpx
 from pydantic import (
     BaseModel as PydanticBaseModel,
     ConfigDict,
+    PlainValidator,
     StrictBytes,
+    TypeAdapter,
     ValidationError,
 )
 from typing_extensions import Self, TypeAlias
@@ -42,9 +47,46 @@ omit = Omit()
 not_given = NotGiven()
 NoneType = type(None)
 Body: TypeAlias = Mapping[str, object]
-FileInput: TypeAlias = (
+FileContent: TypeAlias = bytes | IO[bytes] | os.PathLike[str]
+_WIRE_FILE: TypeAdapter[object] = TypeAdapter(
     StrictBytes | tuple[str, StrictBytes] | tuple[str, StrictBytes, str]
 )
+
+
+def _read_file_content(value: object) -> bytes:
+    if isinstance(value, bytes):
+        return value
+    if isinstance(value, os.PathLike):
+        return pathlib.Path(value).read_bytes()
+    # Duck-typed so wrappers like NamedTemporaryFile work; text handles read str.
+    read = getattr(value, "read", None)
+    if callable(read) and isinstance(content := read(), bytes):
+        return content
+    raise ValueError(
+        "File content must be bytes, a path, or a file opened in binary mode,"
+        f" not {type(value).__name__}"
+    )
+
+
+# Read files eagerly so lax validation never coerces a line iterator into a tuple.
+def _file_input(value: object) -> object:
+    if isinstance(value, tuple) and len(value) in (2, 3):
+        value = (value[0], _read_file_content(value[1]), *value[2:])
+    else:
+        name = (
+            os.fspath(value)
+            if isinstance(value, os.PathLike)
+            else getattr(value, "name", None)
+        )
+        content = _read_file_content(value)
+        value = (pathlib.Path(name).name, content) if isinstance(name, str) else content
+    return _WIRE_FILE.validate_python(value, strict=True)
+
+
+FileInput: TypeAlias = Annotated[
+    FileContent | tuple[str, FileContent] | tuple[str, FileContent, str],
+    PlainValidator(_file_input),
+]
 Headers: TypeAlias = Mapping[str, Optional[str]]  # noqa: UP045
 Query: TypeAlias = Mapping[str, object]
 Timeout: TypeAlias = httpx.Timeout
