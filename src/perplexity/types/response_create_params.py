@@ -114,7 +114,7 @@ class ResponseCreateParamsBase(TypedDict, total=False):
 
 
 class Reasoning(TypedDict, total=False):
-    effort: Literal["minimal", "low", "medium", "high", "xhigh"]
+    effort: Literal["minimal", "low", "medium", "high", "xhigh", "none"]
     """How much effort the model should spend on reasoning"""
 
 
