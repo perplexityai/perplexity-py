@@ -74,6 +74,16 @@ pytest_test(
 )
 
 pytest_test(
+    name = "test_oracle_test",
+    srcs = ["test_oracle.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//pytest",
+    ],
+)
+
+pytest_test(
     name = "test_qs_test",
     srcs = ["test_qs.py"],
     deps = [":conftest"],
