@@ -995,14 +995,24 @@ class DecisionScoreQuestionOutput(BaseModel):
     type: Literal["score"]
 
 
+class DecisionToolCallDetailsInput(BaseModel):
+    invocation: int
+
+
+class DecisionToolCallDetailsOutput(BaseModel):
+    invocation: int
+
+
 class DecisionUsageInput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsInput"]] = None
 
 
 class DecisionUsageOutput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsOutput"]] = None
 
 
 class DecisionsRequestInput(BaseModel):
@@ -3218,6 +3228,8 @@ DecisionScoreAnswerInput.model_rebuild(_types_namespace=globals())
 DecisionScoreAnswerOutput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionInput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsInput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsOutput.model_rebuild(_types_namespace=globals())
 DecisionUsageInput.model_rebuild(_types_namespace=globals())
 DecisionUsageOutput.model_rebuild(_types_namespace=globals())
 DecisionsRequestInput.model_rebuild(_types_namespace=globals())
