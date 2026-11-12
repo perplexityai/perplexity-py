@@ -27,7 +27,7 @@ import os
 from perplexity import Perplexity
 
 client = Perplexity(
-    api_key=os.environ.get("PERPLEXITY_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("PERPLEXITY_API_KEY"),  # Omit this to read PERPLEXITY_API_KEY from the environment
 )
 
 search = client.search.create(query="latest AI developments 2024", max_results=5)
