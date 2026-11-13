@@ -995,14 +995,24 @@ class DecisionScoreQuestionOutput(BaseModel):
     type: Literal["score"]
 
 
+class DecisionToolCallDetailsInput(BaseModel):
+    invocation: int
+
+
+class DecisionToolCallDetailsOutput(BaseModel):
+    invocation: int
+
+
 class DecisionUsageInput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsInput"]] = None
 
 
 class DecisionUsageOutput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsOutput"]] = None
 
 
 class DecisionsRequestInput(BaseModel):
@@ -1030,12 +1040,14 @@ class DecisionsResponseOutput(BaseModel):
 
 
 class EmbeddingObjectInput(BaseModel):
+    data: Optional[list["EmbeddingObjectInput"]] = None
     embedding: Optional[str] = None
     index: Optional[int] = None
     object: Optional[str] = None
 
 
 class EmbeddingObjectOutput(BaseModel):
+    data: Optional[list["EmbeddingObjectOutput"]] = None
     embedding: Optional[str] = None
     index: Optional[int] = None
     object: Optional[str] = None
@@ -1044,15 +1056,46 @@ class EmbeddingObjectOutput(BaseModel):
 class EmbeddingsRequestInput(BaseModel):
     dimensions: Optional[int] = None
     encoding_format: Optional[Literal["base64_int8", "base64_binary"]] = None
-    input: Union[str, list[str]]
-    model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"]
+    input: Union[
+        str, list[str], list[list[str]], list["EmbeddingsRequestInputVariant4ItemInput"]
+    ]
+    input_type: Optional[Literal["query", "document"]] = None
+    model: Literal[
+        "pplx-embed-v1-0.6b",
+        "pplx-embed-v1-4b",
+        "pplx-embed-v2-context-9b",
+        "pplx-embed-v2-context-0.6b",
+    ]
+    num_chunks: Optional[Literal[1, 2, 4, 8, 16, 32]] = None
 
 
 class EmbeddingsRequestOutput(BaseModel):
     dimensions: Optional[int] = None
     encoding_format: Optional[Literal["base64_int8", "base64_binary"]] = None
-    input: Union[str, list[str]]
-    model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"]
+    input: Union[
+        str,
+        list[str],
+        list[list[str]],
+        list["EmbeddingsRequestInputVariant4ItemOutput"],
+    ]
+    input_type: Optional[Literal["query", "document"]] = None
+    model: Literal[
+        "pplx-embed-v1-0.6b",
+        "pplx-embed-v1-4b",
+        "pplx-embed-v2-context-9b",
+        "pplx-embed-v2-context-0.6b",
+    ]
+    num_chunks: Optional[Literal[1, 2, 4, 8, 16, 32]] = None
+
+
+class EmbeddingsRequestInputVariant4ItemInput(BaseModel):
+    image: str
+    type: Literal["image"]
+
+
+class EmbeddingsRequestInputVariant4ItemOutput(BaseModel):
+    image: str
+    type: Literal["image"]
 
 
 class EmbeddingsResponseInput(BaseModel):
@@ -3218,6 +3261,8 @@ DecisionScoreAnswerInput.model_rebuild(_types_namespace=globals())
 DecisionScoreAnswerOutput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionInput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsInput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsOutput.model_rebuild(_types_namespace=globals())
 DecisionUsageInput.model_rebuild(_types_namespace=globals())
 DecisionUsageOutput.model_rebuild(_types_namespace=globals())
 DecisionsRequestInput.model_rebuild(_types_namespace=globals())
@@ -3228,6 +3273,8 @@ EmbeddingObjectInput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsRequestInput.model_rebuild(_types_namespace=globals())
 EmbeddingsRequestOutput.model_rebuild(_types_namespace=globals())
+EmbeddingsRequestInputVariant4ItemInput.model_rebuild(_types_namespace=globals())
+EmbeddingsRequestInputVariant4ItemOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsResponseInput.model_rebuild(_types_namespace=globals())
 EmbeddingsResponseOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsUsageInput.model_rebuild(_types_namespace=globals())
@@ -4788,10 +4835,24 @@ class EmbeddingsResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Sequence[str]],
-        model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"],
+        input: Union[
+            str,
+            Sequence[str],
+            Sequence[Sequence[str]],
+            Sequence[
+                Union["EmbeddingsRequestInputVariant4ItemInput", Mapping[str, object]]
+            ],
+        ],
+        model: Literal[
+            "pplx-embed-v1-0.6b",
+            "pplx-embed-v1-4b",
+            "pplx-embed-v2-context-9b",
+            "pplx-embed-v2-context-0.6b",
+        ],
         dimensions: Union[int, Omit] = omit,
         encoding_format: Union[Literal["base64_int8", "base64_binary"], Omit] = omit,
+        input_type: Union[Literal["query", "document"], Omit] = omit,
+        num_chunks: Union[Literal[1, 2, 4, 8, 16, 32], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4803,7 +4864,9 @@ class EmbeddingsResource(SyncAPIResource):
                     "dimensions": dimensions,
                     "encoding_format": encoding_format,
                     "input": input,
+                    "input_type": input_type,
                     "model": model,
+                    "num_chunks": num_chunks,
                 }
             )
         )
@@ -7026,10 +7089,24 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Sequence[str]],
-        model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"],
+        input: Union[
+            str,
+            Sequence[str],
+            Sequence[Sequence[str]],
+            Sequence[
+                Union["EmbeddingsRequestInputVariant4ItemInput", Mapping[str, object]]
+            ],
+        ],
+        model: Literal[
+            "pplx-embed-v1-0.6b",
+            "pplx-embed-v1-4b",
+            "pplx-embed-v2-context-9b",
+            "pplx-embed-v2-context-0.6b",
+        ],
         dimensions: Union[int, Omit] = omit,
         encoding_format: Union[Literal["base64_int8", "base64_binary"], Omit] = omit,
+        input_type: Union[Literal["query", "document"], Omit] = omit,
+        num_chunks: Union[Literal[1, 2, 4, 8, 16, 32], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -7041,7 +7118,9 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
                     "dimensions": dimensions,
                     "encoding_format": encoding_format,
                     "input": input,
+                    "input_type": input_type,
                     "model": model,
+                    "num_chunks": num_chunks,
                 }
             )
         )
