@@ -139,7 +139,7 @@ asyncio.run(main())
 
 ## Streaming responses
 
-We provide support for streaming responses using Server Side Events (SSE).
+We provide support for streaming responses using Server-Sent Events (SSE).
 
 ```python
 from perplexity import Perplexity
