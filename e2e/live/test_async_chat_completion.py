@@ -17,7 +17,8 @@ def test_async_chat_completion() -> None:
             }
         )
 
-        for _ in range(120):
+        # sonar-deep-research usually needs more than two minutes to finish.
+        for _ in range(600):
             assert completion.status != "FAILED", completion.error_message
             if completion.status == "COMPLETED":
                 break
