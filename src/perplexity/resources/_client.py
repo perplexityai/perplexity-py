@@ -73,6 +73,14 @@ from .models import (
     ModelsResourceWithStreamingResponse,
     AsyncModelsResourceWithStreamingResponse,
 )
+from .monitors import (
+    MonitorsResource,
+    AsyncMonitorsResource,
+    MonitorsResourceWithRawResponse,
+    AsyncMonitorsResourceWithRawResponse,
+    MonitorsResourceWithStreamingResponse,
+    AsyncMonitorsResourceWithStreamingResponse,
+)
 from .responses import (
     ResponsesResource,
     AsyncResponsesResource,
@@ -139,6 +147,10 @@ class SyncClientResources:
         return ModelsResource(self._sdk_transport)
 
     @cached_property
+    def monitors(self) -> MonitorsResource:
+        return MonitorsResource(self._sdk_transport)
+
+    @cached_property
     def responses(self) -> ResponsesResource:
         return ResponsesResource(self._sdk_transport)
 
@@ -189,6 +201,10 @@ class AsyncClientResources:
     @cached_property
     def models(self) -> AsyncModelsResource:
         return AsyncModelsResource(self._sdk_transport)
+
+    @cached_property
+    def monitors(self) -> AsyncMonitorsResource:
+        return AsyncMonitorsResource(self._sdk_transport)
 
     @cached_property
     def responses(self) -> AsyncResponsesResource:
@@ -248,6 +264,10 @@ class SyncClientWithRawResponse:
         return ModelsResourceWithRawResponse(self._client.models)
 
     @cached_property
+    def monitors(self) -> MonitorsResourceWithRawResponse:
+        return MonitorsResourceWithRawResponse(self._client.monitors)
+
+    @cached_property
     def responses(self) -> ResponsesResourceWithRawResponse:
         return ResponsesResourceWithRawResponse(self._client.responses)
 
@@ -303,6 +323,10 @@ class AsyncClientWithRawResponse:
     @cached_property
     def models(self) -> AsyncModelsResourceWithRawResponse:
         return AsyncModelsResourceWithRawResponse(self._client.models)
+
+    @cached_property
+    def monitors(self) -> AsyncMonitorsResourceWithRawResponse:
+        return AsyncMonitorsResourceWithRawResponse(self._client.monitors)
 
     @cached_property
     def responses(self) -> AsyncResponsesResourceWithRawResponse:
@@ -362,6 +386,10 @@ class SyncClientWithStreamingResponse:
         return ModelsResourceWithStreamingResponse(self._client.models)
 
     @cached_property
+    def monitors(self) -> MonitorsResourceWithStreamingResponse:
+        return MonitorsResourceWithStreamingResponse(self._client.monitors)
+
+    @cached_property
     def responses(self) -> ResponsesResourceWithStreamingResponse:
         return ResponsesResourceWithStreamingResponse(self._client.responses)
 
@@ -417,6 +445,10 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def models(self) -> AsyncModelsResourceWithStreamingResponse:
         return AsyncModelsResourceWithStreamingResponse(self._client.models)
+
+    @cached_property
+    def monitors(self) -> AsyncMonitorsResourceWithStreamingResponse:
+        return AsyncMonitorsResourceWithStreamingResponse(self._client.monitors)
 
     @cached_property
     def responses(self) -> AsyncResponsesResourceWithStreamingResponse:

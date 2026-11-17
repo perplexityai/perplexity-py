@@ -851,6 +851,24 @@ class CreateBrowserSessionRequestOutput(BaseModel):
     pass
 
 
+class CreateMonitorRequestInput(BaseModel):
+    goal: Optional[str] = None
+    metadata: Optional["MonitorMetadataInput"] = None
+    name: str
+    schedule: "MonitorScheduleRequestInput"
+    targets: "MonitorTargetsInput"
+    webhook: Union["MonitorWebhookRequestInput", None] = None
+
+
+class CreateMonitorRequestOutput(BaseModel):
+    goal: Optional[str] = None
+    metadata: Optional["MonitorMetadataOutput"] = None
+    name: str
+    schedule: "MonitorScheduleRequestOutput"
+    targets: "MonitorTargetsOutput"
+    webhook: Union["MonitorWebhookRequestOutput", None] = None
+
+
 CurrencyInput: TypeAlias = Literal["USD"]
 CurrencyOutput: TypeAlias = Literal["USD"]
 
@@ -995,14 +1013,24 @@ class DecisionScoreQuestionOutput(BaseModel):
     type: Literal["score"]
 
 
+class DecisionToolCallDetailsInput(BaseModel):
+    invocation: int
+
+
+class DecisionToolCallDetailsOutput(BaseModel):
+    invocation: int
+
+
 class DecisionUsageInput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsInput"]] = None
 
 
 class DecisionUsageOutput(BaseModel):
     input_tokens: int
     output_tokens: int
+    tool_calls_details: Optional[dict[str, "DecisionToolCallDetailsOutput"]] = None
 
 
 class DecisionsRequestInput(BaseModel):
@@ -1029,13 +1057,27 @@ class DecisionsResponseOutput(BaseModel):
     usage: "DecisionUsageOutput"
 
 
+class DeleteMonitorResponseInput(BaseModel):
+    deleted: bool
+    id: str
+    object: Literal["monitor"]
+
+
+class DeleteMonitorResponseOutput(BaseModel):
+    deleted: bool
+    id: str
+    object: Literal["monitor"]
+
+
 class EmbeddingObjectInput(BaseModel):
+    data: Optional[list["EmbeddingObjectInput"]] = None
     embedding: Optional[str] = None
     index: Optional[int] = None
     object: Optional[str] = None
 
 
 class EmbeddingObjectOutput(BaseModel):
+    data: Optional[list["EmbeddingObjectOutput"]] = None
     embedding: Optional[str] = None
     index: Optional[int] = None
     object: Optional[str] = None
@@ -1044,15 +1086,46 @@ class EmbeddingObjectOutput(BaseModel):
 class EmbeddingsRequestInput(BaseModel):
     dimensions: Optional[int] = None
     encoding_format: Optional[Literal["base64_int8", "base64_binary"]] = None
-    input: Union[str, list[str]]
-    model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"]
+    input: Union[
+        str, list[str], list[list[str]], list["EmbeddingsRequestInputVariant4ItemInput"]
+    ]
+    input_type: Optional[Literal["query", "document"]] = None
+    model: Literal[
+        "pplx-embed-v1-0.6b",
+        "pplx-embed-v1-4b",
+        "pplx-embed-v2-context-9b",
+        "pplx-embed-v2-context-0.6b",
+    ]
+    num_chunks: Optional[Literal[1, 2, 4, 8, 16, 32]] = None
 
 
 class EmbeddingsRequestOutput(BaseModel):
     dimensions: Optional[int] = None
     encoding_format: Optional[Literal["base64_int8", "base64_binary"]] = None
-    input: Union[str, list[str]]
-    model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"]
+    input: Union[
+        str,
+        list[str],
+        list[list[str]],
+        list["EmbeddingsRequestInputVariant4ItemOutput"],
+    ]
+    input_type: Optional[Literal["query", "document"]] = None
+    model: Literal[
+        "pplx-embed-v1-0.6b",
+        "pplx-embed-v1-4b",
+        "pplx-embed-v2-context-9b",
+        "pplx-embed-v2-context-0.6b",
+    ]
+    num_chunks: Optional[Literal[1, 2, 4, 8, 16, 32]] = None
+
+
+class EmbeddingsRequestInputVariant4ItemInput(BaseModel):
+    image: str
+    type: Literal["image"]
+
+
+class EmbeddingsRequestInputVariant4ItemOutput(BaseModel):
+    image: str
+    type: Literal["image"]
 
 
 class EmbeddingsResponseInput(BaseModel):
@@ -1103,6 +1176,22 @@ class ErrorInfoOutput(BaseModel):
     code: Optional[str] = None
     message: str
     type: Optional[str] = None
+
+
+class EventMonitorInput(BaseModel):
+    id: str
+    metadata: dict[str, str]
+    name: str
+    pause_reason: Optional["MonitorPauseReasonInput"] = None
+    status: "MonitorStatusInput"
+
+
+class EventMonitorOutput(BaseModel):
+    id: str
+    metadata: dict[str, str]
+    name: str
+    pause_reason: Optional["MonitorPauseReasonOutput"] = None
+    status: "MonitorStatusOutput"
 
 
 EventTypeInput: TypeAlias = Literal[
@@ -1865,6 +1954,662 @@ class ModelListOutput(BaseModel):
     object: Literal["list"]
 
 
+class MonitorInput(BaseModel):
+    created_at: "MonitorTimestampInput"
+    current_run_id: Optional[str] = None
+    goal: str
+    id: str
+    last_run: Optional["MonitorLastRunInput"] = None
+    metadata: "MonitorMetadataInput"
+    name: str
+    next_run_at: Optional["MonitorTimestampInput"] = None
+    object: Literal["monitor"]
+    pause_reason: Optional["MonitorPauseReasonInput"] = None
+    schedule: "MonitorScheduleInput"
+    status: "MonitorStatusInput"
+    targets: list["MonitorTargetInput"]
+    updated_at: "MonitorTimestampInput"
+    webhook: Optional["MonitorWebhookInput"] = None
+
+
+class MonitorOutput(BaseModel):
+    created_at: "MonitorTimestampOutput"
+    current_run_id: Optional[str] = None
+    goal: str
+    id: str
+    last_run: Optional["MonitorLastRunOutput"] = None
+    metadata: "MonitorMetadataOutput"
+    name: str
+    next_run_at: Optional["MonitorTimestampOutput"] = None
+    object: Literal["monitor"]
+    pause_reason: Optional["MonitorPauseReasonOutput"] = None
+    schedule: "MonitorScheduleOutput"
+    status: "MonitorStatusOutput"
+    targets: list["MonitorTargetOutput"]
+    updated_at: "MonitorTimestampOutput"
+    webhook: Optional["MonitorWebhookOutput"] = None
+
+
+MonitorChangeInput: TypeAlias = Union[
+    "MonitorSearchResultChangeInput", "MonitorPageChangeInput"
+]
+MonitorChangeOutput: TypeAlias = Union[
+    "MonitorSearchResultChangeOutput", "MonitorPageChangeOutput"
+]
+MonitorChangeIdInput: TypeAlias = str
+MonitorChangeIdOutput: TypeAlias = str
+
+
+class MonitorChangesDetectedEventInput(BaseModel):
+    data: "MonitorRunEventDataInput"
+    id: "MonitorEventIdInput"
+    object: "MonitorEventObjectInput"
+    timestamp: "MonitorTimestampInput"
+    type: Literal["monitor.changes.detected"]
+
+
+class MonitorChangesDetectedEventOutput(BaseModel):
+    data: "MonitorRunEventDataOutput"
+    id: "MonitorEventIdOutput"
+    object: "MonitorEventObjectOutput"
+    timestamp: "MonitorTimestampOutput"
+    type: Literal["monitor.changes.detected"]
+
+
+class MonitorCronScheduleInput(BaseModel):
+    cron: str
+    timezone: str
+    type: Literal["cron"]
+
+
+class MonitorCronScheduleOutput(BaseModel):
+    cron: str
+    timezone: str
+    type: Literal["cron"]
+
+
+class MonitorCronScheduleRequestInput(BaseModel):
+    cron: str
+    timezone: Optional[str] = None
+    type: Literal["cron"]
+
+
+class MonitorCronScheduleRequestOutput(BaseModel):
+    cron: str
+    timezone: Optional[str] = None
+    type: Literal["cron"]
+
+
+MonitorCurrencyInput: TypeAlias = Literal["USD"]
+MonitorCurrencyOutput: TypeAlias = Literal["USD"]
+
+
+class MonitorDiffInput(BaseModel):
+    added_lines: int
+    removed_lines: int
+    truncated: bool
+    unified: str
+
+
+class MonitorDiffOutput(BaseModel):
+    added_lines: int
+    removed_lines: int
+    truncated: bool
+    unified: str
+
+
+MonitorDomainInput: TypeAlias = str
+MonitorDomainOutput: TypeAlias = str
+MonitorEventInput: TypeAlias = Union[
+    "MonitorChangesDetectedEventInput",
+    "MonitorRunCompletedEventInput",
+    "MonitorPausedEventInput",
+    "MonitorWebhookTestEventInput",
+]
+MonitorEventOutput: TypeAlias = Union[
+    "MonitorChangesDetectedEventOutput",
+    "MonitorRunCompletedEventOutput",
+    "MonitorPausedEventOutput",
+    "MonitorWebhookTestEventOutput",
+]
+MonitorEventIdInput: TypeAlias = str
+MonitorEventIdOutput: TypeAlias = str
+MonitorEventObjectInput: TypeAlias = Literal["event"]
+MonitorEventObjectOutput: TypeAlias = Literal["event"]
+MonitorEventTypeInput: TypeAlias = Literal[
+    "monitor.changes.detected", "monitor.run.completed", "monitor.paused"
+]
+MonitorEventTypeOutput: TypeAlias = Literal[
+    "monitor.changes.detected", "monitor.run.completed", "monitor.paused"
+]
+MonitorFreshnessInput: TypeAlias = Literal["published", "updated"]
+MonitorFreshnessOutput: TypeAlias = Literal["published", "updated"]
+
+
+class MonitorIntervalScheduleInput(BaseModel):
+    interval: str
+    type: Literal["interval"]
+
+
+class MonitorIntervalScheduleOutput(BaseModel):
+    interval: str
+    type: Literal["interval"]
+
+
+class MonitorIntervalScheduleRequestInput(BaseModel):
+    interval: str
+    type: Literal["interval"]
+
+
+class MonitorIntervalScheduleRequestOutput(BaseModel):
+    interval: str
+    type: Literal["interval"]
+
+
+class MonitorLastRunInput(BaseModel):
+    change_count: int
+    finished_at: "MonitorTimestampInput"
+    id: str
+    status: "MonitorRunStatusInput"
+
+
+class MonitorLastRunOutput(BaseModel):
+    change_count: int
+    finished_at: "MonitorTimestampOutput"
+    id: str
+    status: "MonitorRunStatusOutput"
+
+
+class MonitorListInput(BaseModel):
+    data: list["MonitorInput"]
+    has_more: bool
+    object: Literal["list"]
+
+
+class MonitorListOutput(BaseModel):
+    data: list["MonitorOutput"]
+    has_more: bool
+    object: Literal["list"]
+
+
+class MonitorMetadataInput(BaseModel):
+    pass
+
+
+class MonitorMetadataOutput(BaseModel):
+    pass
+
+
+class MonitorPageChangeInput(BaseModel):
+    confidence: float
+    diff: "MonitorDiffInput"
+    fetched_at: "MonitorTimestampInput"
+    id: "MonitorChangeIdInput"
+    previous_fetched_at: "MonitorTimestampInput"
+    title: Optional[str] = None
+    type: Literal["page_change"]
+    url: str
+
+
+class MonitorPageChangeOutput(BaseModel):
+    confidence: float
+    diff: "MonitorDiffOutput"
+    fetched_at: "MonitorTimestampOutput"
+    id: "MonitorChangeIdOutput"
+    previous_fetched_at: "MonitorTimestampOutput"
+    title: Optional[str] = None
+    type: Literal["page_change"]
+    url: str
+
+
+class MonitorPageTargetInput(BaseModel):
+    type: Literal["page"]
+    url: str
+
+
+class MonitorPageTargetOutput(BaseModel):
+    type: Literal["page"]
+    url: str
+
+
+class MonitorPageTargetErrorInput(BaseModel):
+    code: "MonitorTargetErrorCodeInput"
+    message: str
+    status_code: Optional[int] = None
+    type: Literal["page"]
+    url: str
+
+
+class MonitorPageTargetErrorOutput(BaseModel):
+    code: "MonitorTargetErrorCodeOutput"
+    message: str
+    status_code: Optional[int] = None
+    type: Literal["page"]
+    url: str
+
+
+class MonitorPageTargetRequestInput(BaseModel):
+    type: Literal["page"]
+    url: str
+
+
+class MonitorPageTargetRequestOutput(BaseModel):
+    type: Literal["page"]
+    url: str
+
+
+MonitorPauseReasonInput: TypeAlias = Literal[
+    "user", "insufficient_credits", "org_policy", "webhook_failing", "source_failing"
+]
+MonitorPauseReasonOutput: TypeAlias = Literal[
+    "user", "insufficient_credits", "org_policy", "webhook_failing", "source_failing"
+]
+
+
+class MonitorPausedEventInput(BaseModel):
+    data: "MonitorPausedEventDataInput"
+    id: "MonitorEventIdInput"
+    object: "MonitorEventObjectInput"
+    timestamp: "MonitorTimestampInput"
+    type: Literal["monitor.paused"]
+
+
+class MonitorPausedEventOutput(BaseModel):
+    data: "MonitorPausedEventDataOutput"
+    id: "MonitorEventIdOutput"
+    object: "MonitorEventObjectOutput"
+    timestamp: "MonitorTimestampOutput"
+    type: Literal["monitor.paused"]
+
+
+class MonitorPausedEventDataInput(BaseModel):
+    monitor: "PausedEventMonitorInput"
+    run: Optional["MonitorRunInput"] = None
+
+
+class MonitorPausedEventDataOutput(BaseModel):
+    monitor: "PausedEventMonitorOutput"
+    run: Optional["MonitorRunOutput"] = None
+
+
+class MonitorRunInput(BaseModel):
+    changes: list["MonitorChangeInput"]
+    counts: "MonitorRunCountsInput"
+    created_at: "MonitorTimestampInput"
+    error: Optional["MonitorRunErrorInput"] = None
+    finished_at: Optional["MonitorTimestampInput"] = None
+    id: str
+    monitor_id: str
+    object: Literal["monitor.run"]
+    status: "MonitorRunStatusInput"
+    target_errors: list["MonitorTargetErrorInput"]
+    trigger: "MonitorRunTriggerInput"
+    usage: "MonitorRunUsageInput"
+    window: Optional["MonitorRunWindowInput"] = None
+
+
+class MonitorRunOutput(BaseModel):
+    changes: list["MonitorChangeOutput"]
+    counts: "MonitorRunCountsOutput"
+    created_at: "MonitorTimestampOutput"
+    error: Optional["MonitorRunErrorOutput"] = None
+    finished_at: Optional["MonitorTimestampOutput"] = None
+    id: str
+    monitor_id: str
+    object: Literal["monitor.run"]
+    status: "MonitorRunStatusOutput"
+    target_errors: list["MonitorTargetErrorOutput"]
+    trigger: "MonitorRunTriggerOutput"
+    usage: "MonitorRunUsageOutput"
+    window: Optional["MonitorRunWindowOutput"] = None
+
+
+class MonitorRunCompletedEventInput(BaseModel):
+    data: "MonitorRunEventDataInput"
+    id: "MonitorEventIdInput"
+    object: "MonitorEventObjectInput"
+    timestamp: "MonitorTimestampInput"
+    type: Literal["monitor.run.completed"]
+
+
+class MonitorRunCompletedEventOutput(BaseModel):
+    data: "MonitorRunEventDataOutput"
+    id: "MonitorEventIdOutput"
+    object: "MonitorEventObjectOutput"
+    timestamp: "MonitorTimestampOutput"
+    type: Literal["monitor.run.completed"]
+
+
+class MonitorRunCostInput(BaseModel):
+    currency: "MonitorCurrencyInput"
+    total_cost: float
+
+
+class MonitorRunCostOutput(BaseModel):
+    currency: "MonitorCurrencyOutput"
+    total_cost: float
+
+
+class MonitorRunCountsInput(BaseModel):
+    candidates: int
+    changes: int
+    errors: int
+
+
+class MonitorRunCountsOutput(BaseModel):
+    candidates: int
+    changes: int
+    errors: int
+
+
+class MonitorRunErrorInput(BaseModel):
+    code: Optional["MonitorRunFailureCodeInput"] = None
+    message: str
+    skip_reason: Optional["MonitorPauseReasonInput"] = None
+
+
+class MonitorRunErrorOutput(BaseModel):
+    code: Optional["MonitorRunFailureCodeOutput"] = None
+    message: str
+    skip_reason: Optional["MonitorPauseReasonOutput"] = None
+
+
+class MonitorRunEventDataInput(BaseModel):
+    monitor: "EventMonitorInput"
+    run: "MonitorRunInput"
+
+
+class MonitorRunEventDataOutput(BaseModel):
+    monitor: "EventMonitorOutput"
+    run: "MonitorRunOutput"
+
+
+MonitorRunFailureCodeInput: TypeAlias = Literal[
+    "gate_unavailable",
+    "detect_failed",
+    "judge_failed",
+    "source_failed",
+    "notify_failed",
+    "timed_out",
+]
+MonitorRunFailureCodeOutput: TypeAlias = Literal[
+    "gate_unavailable",
+    "detect_failed",
+    "judge_failed",
+    "source_failed",
+    "notify_failed",
+    "timed_out",
+]
+
+
+class MonitorRunListInput(BaseModel):
+    data: list["MonitorRunInput"]
+    has_more: bool
+    object: Literal["list"]
+
+
+class MonitorRunListOutput(BaseModel):
+    data: list["MonitorRunOutput"]
+    has_more: bool
+    object: Literal["list"]
+
+
+MonitorRunStatusInput: TypeAlias = Literal[
+    "queued", "running", "succeeded", "failed", "skipped"
+]
+MonitorRunStatusOutput: TypeAlias = Literal[
+    "queued", "running", "succeeded", "failed", "skipped"
+]
+MonitorRunTriggerInput: TypeAlias = Literal["schedule", "manual"]
+MonitorRunTriggerOutput: TypeAlias = Literal["schedule", "manual"]
+
+
+class MonitorRunUsageInput(BaseModel):
+    cost: "MonitorRunCostInput"
+    fetched_urls: int
+
+
+class MonitorRunUsageOutput(BaseModel):
+    cost: "MonitorRunCostOutput"
+    fetched_urls: int
+
+
+class MonitorRunWindowInput(BaseModel):
+    from_: "MonitorTimestampInput" = Field(alias="from")
+    to: "MonitorTimestampInput"
+
+
+class MonitorRunWindowOutput(BaseModel):
+    from_: "MonitorTimestampOutput" = Field(alias="from")
+    to: "MonitorTimestampOutput"
+
+
+MonitorScheduleInput: TypeAlias = Union[
+    "MonitorIntervalScheduleInput", "MonitorCronScheduleInput"
+]
+MonitorScheduleOutput: TypeAlias = Union[
+    "MonitorIntervalScheduleOutput", "MonitorCronScheduleOutput"
+]
+MonitorScheduleRequestInput: TypeAlias = Union[
+    "MonitorIntervalScheduleRequestInput", "MonitorCronScheduleRequestInput"
+]
+MonitorScheduleRequestOutput: TypeAlias = Union[
+    "MonitorIntervalScheduleRequestOutput", "MonitorCronScheduleRequestOutput"
+]
+
+
+class MonitorSearchFiltersInput(BaseModel):
+    exclude_domains: list["MonitorDomainInput"]
+    freshness: list["MonitorFreshnessInput"]
+    include_domains: list["MonitorDomainInput"]
+
+
+class MonitorSearchFiltersOutput(BaseModel):
+    exclude_domains: list["MonitorDomainOutput"]
+    freshness: list["MonitorFreshnessOutput"]
+    include_domains: list["MonitorDomainOutput"]
+
+
+class MonitorSearchFiltersRequestInput(BaseModel):
+    exclude_domains: Optional[list[str]] = None
+    freshness: Optional[list["MonitorFreshnessInput"]] = None
+    include_domains: Optional[list[str]] = None
+
+
+class MonitorSearchFiltersRequestOutput(BaseModel):
+    exclude_domains: Optional[list[str]] = None
+    freshness: Optional[list["MonitorFreshnessOutput"]] = None
+    include_domains: Optional[list[str]] = None
+
+
+class MonitorSearchResultChangeInput(BaseModel):
+    confidence: float
+    id: "MonitorChangeIdInput"
+    last_updated_at: Optional["MonitorTimestampInput"] = None
+    published_at: Optional["MonitorTimestampInput"] = None
+    snippet: Optional[str] = None
+    title: Optional[str] = None
+    type: Literal["search_result"]
+    url: str
+
+
+class MonitorSearchResultChangeOutput(BaseModel):
+    confidence: float
+    id: "MonitorChangeIdOutput"
+    last_updated_at: Optional["MonitorTimestampOutput"] = None
+    published_at: Optional["MonitorTimestampOutput"] = None
+    snippet: Optional[str] = None
+    title: Optional[str] = None
+    type: Literal["search_result"]
+    url: str
+
+
+class MonitorSearchTargetInput(BaseModel):
+    filters: "MonitorSearchFiltersInput"
+    max_results: int
+    query: str
+    type: Literal["search"]
+
+
+class MonitorSearchTargetOutput(BaseModel):
+    filters: "MonitorSearchFiltersOutput"
+    max_results: int
+    query: str
+    type: Literal["search"]
+
+
+class MonitorSearchTargetRequestInput(BaseModel):
+    filters: Optional["MonitorSearchFiltersRequestInput"] = None
+    max_results: Optional[int] = None
+    query: str
+    type: Literal["search"]
+
+
+class MonitorSearchTargetRequestOutput(BaseModel):
+    filters: Optional["MonitorSearchFiltersRequestOutput"] = None
+    max_results: Optional[int] = None
+    query: str
+    type: Literal["search"]
+
+
+MonitorStatusInput: TypeAlias = Literal["active", "paused"]
+MonitorStatusOutput: TypeAlias = Literal["active", "paused"]
+MonitorTargetInput: TypeAlias = Union[
+    "MonitorSearchTargetInput", "MonitorPageTargetInput"
+]
+MonitorTargetOutput: TypeAlias = Union[
+    "MonitorSearchTargetOutput", "MonitorPageTargetOutput"
+]
+MonitorTargetErrorInput: TypeAlias = "MonitorPageTargetErrorInput"
+MonitorTargetErrorOutput: TypeAlias = "MonitorPageTargetErrorOutput"
+MonitorTargetErrorCodeInput: TypeAlias = Literal[
+    "invalid_url",
+    "blocked",
+    "no_content",
+    "load_failed",
+    "timeout",
+    "fetch_unavailable",
+    "http_status",
+]
+MonitorTargetErrorCodeOutput: TypeAlias = Literal[
+    "invalid_url",
+    "blocked",
+    "no_content",
+    "load_failed",
+    "timeout",
+    "fetch_unavailable",
+    "http_status",
+]
+MonitorTargetRequestInput: TypeAlias = Union[
+    "MonitorSearchTargetRequestInput", "MonitorPageTargetRequestInput"
+]
+MonitorTargetRequestOutput: TypeAlias = Union[
+    "MonitorSearchTargetRequestOutput", "MonitorPageTargetRequestOutput"
+]
+MonitorTargetsInput: TypeAlias = list["MonitorTargetRequestInput"]
+MonitorTargetsOutput: TypeAlias = list["MonitorTargetRequestOutput"]
+MonitorTimestampInput: TypeAlias = str
+MonitorTimestampOutput: TypeAlias = str
+
+
+class MonitorWebhookInput(BaseModel):
+    events: list["MonitorEventTypeInput"]
+    secret: Optional["MonitorWebhookSecretInput"] = None
+    url: str
+
+
+class MonitorWebhookOutput(BaseModel):
+    events: list["MonitorEventTypeOutput"]
+    secret: Optional["MonitorWebhookSecretOutput"] = None
+    url: str
+
+
+MonitorWebhookRequestInput: TypeAlias = Union[
+    "MonitorWebhookRequestVariant1Input", None
+]
+MonitorWebhookRequestOutput: TypeAlias = Union[
+    "MonitorWebhookRequestVariant1Output", None
+]
+
+
+class MonitorWebhookRequestVariant1Input(BaseModel):
+    events: Optional[list["MonitorEventTypeInput"]] = None
+    secret: Optional["MonitorWebhookSecretInput"] = None
+    url: str
+
+
+class MonitorWebhookRequestVariant1Output(BaseModel):
+    events: Optional[list["MonitorEventTypeOutput"]] = None
+    secret: Optional["MonitorWebhookSecretOutput"] = None
+    url: str
+
+
+MonitorWebhookSecretInput: TypeAlias = str
+MonitorWebhookSecretOutput: TypeAlias = str
+
+
+class MonitorWebhookTestInput(BaseModel):
+    delivered: bool
+    duration_ms: int
+    error: Optional["MonitorWebhookTestErrorInput"] = None
+    event_id: str
+    object: Literal["monitor.webhook_test"]
+    status_code: Optional[int] = None
+
+
+class MonitorWebhookTestOutput(BaseModel):
+    delivered: bool
+    duration_ms: int
+    error: Optional["MonitorWebhookTestErrorOutput"] = None
+    event_id: str
+    object: Literal["monitor.webhook_test"]
+    status_code: Optional[int] = None
+
+
+MonitorWebhookTestErrorInput: TypeAlias = Literal[
+    "http_status",
+    "timeout",
+    "network_error",
+    "tls_certificate",
+    "blocked_address",
+    "invalid_url",
+    "send_failed",
+]
+MonitorWebhookTestErrorOutput: TypeAlias = Literal[
+    "http_status",
+    "timeout",
+    "network_error",
+    "tls_certificate",
+    "blocked_address",
+    "invalid_url",
+    "send_failed",
+]
+
+
+class MonitorWebhookTestEventInput(BaseModel):
+    data: "MonitorWebhookTestEventDataInput"
+    id: "MonitorEventIdInput"
+    object: "MonitorEventObjectInput"
+    timestamp: "MonitorTimestampInput"
+    type: Literal["monitor.webhook.test"]
+
+
+class MonitorWebhookTestEventOutput(BaseModel):
+    data: "MonitorWebhookTestEventDataOutput"
+    id: "MonitorEventIdOutput"
+    object: "MonitorEventObjectOutput"
+    timestamp: "MonitorTimestampOutput"
+    type: Literal["monitor.webhook.test"]
+
+
+class MonitorWebhookTestEventDataInput(BaseModel):
+    monitor: "EventMonitorInput"
+
+
+class MonitorWebhookTestEventDataOutput(BaseModel):
+    monitor: "EventMonitorOutput"
+
+
 class NamespaceToolInput(BaseModel):
     description: str
     name: str
@@ -1985,6 +2730,22 @@ class ParameterSpecOutput(BaseModel):
     properties: dict[str, Any]
     required: Union[list[str], None] = None
     type: str
+
+
+class PausedEventMonitorInput(BaseModel):
+    id: str
+    metadata: dict[str, str]
+    name: str
+    pause_reason: "MonitorPauseReasonInput"
+    status: Literal["paused"]
+
+
+class PausedEventMonitorOutput(BaseModel):
+    id: str
+    metadata: dict[str, str]
+    name: str
+    pause_reason: "MonitorPauseReasonOutput"
+    status: Literal["paused"]
 
 
 class PeopleSearchToolInput(BaseModel):
@@ -2985,6 +3746,24 @@ class UnknownOutputItemOutput(BaseModel):
     type: Literal["unknown"]
 
 
+class UpdateMonitorRequestInput(BaseModel):
+    goal: Union[str, None] = None
+    metadata: Union[dict[str, str], None] = None
+    name: Optional[str] = None
+    schedule: Optional["MonitorScheduleRequestInput"] = None
+    targets: Optional["MonitorTargetsInput"] = None
+    webhook: Union["MonitorWebhookRequestInput", None] = None
+
+
+class UpdateMonitorRequestOutput(BaseModel):
+    goal: Union[str, None] = None
+    metadata: Union[dict[str, str], None] = None
+    name: Optional[str] = None
+    schedule: Optional["MonitorScheduleRequestOutput"] = None
+    targets: Optional["MonitorTargetsOutput"] = None
+    webhook: Union["MonitorWebhookRequestOutput", None] = None
+
+
 class UrlContentInput(BaseModel):
     snippet: str
     title: str
@@ -3200,6 +3979,8 @@ CostInput.model_rebuild(_types_namespace=globals())
 CostOutput.model_rebuild(_types_namespace=globals())
 CreateBrowserSessionRequestInput.model_rebuild(_types_namespace=globals())
 CreateBrowserSessionRequestOutput.model_rebuild(_types_namespace=globals())
+CreateMonitorRequestInput.model_rebuild(_types_namespace=globals())
+CreateMonitorRequestOutput.model_rebuild(_types_namespace=globals())
 CustomSkillInput.model_rebuild(_types_namespace=globals())
 CustomSkillOutput.model_rebuild(_types_namespace=globals())
 DateFiltersInput.model_rebuild(_types_namespace=globals())
@@ -3218,16 +3999,22 @@ DecisionScoreAnswerInput.model_rebuild(_types_namespace=globals())
 DecisionScoreAnswerOutput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionInput.model_rebuild(_types_namespace=globals())
 DecisionScoreQuestionOutput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsInput.model_rebuild(_types_namespace=globals())
+DecisionToolCallDetailsOutput.model_rebuild(_types_namespace=globals())
 DecisionUsageInput.model_rebuild(_types_namespace=globals())
 DecisionUsageOutput.model_rebuild(_types_namespace=globals())
 DecisionsRequestInput.model_rebuild(_types_namespace=globals())
 DecisionsRequestOutput.model_rebuild(_types_namespace=globals())
 DecisionsResponseInput.model_rebuild(_types_namespace=globals())
 DecisionsResponseOutput.model_rebuild(_types_namespace=globals())
+DeleteMonitorResponseInput.model_rebuild(_types_namespace=globals())
+DeleteMonitorResponseOutput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectInput.model_rebuild(_types_namespace=globals())
 EmbeddingObjectOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsRequestInput.model_rebuild(_types_namespace=globals())
 EmbeddingsRequestOutput.model_rebuild(_types_namespace=globals())
+EmbeddingsRequestInputVariant4ItemInput.model_rebuild(_types_namespace=globals())
+EmbeddingsRequestInputVariant4ItemOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsResponseInput.model_rebuild(_types_namespace=globals())
 EmbeddingsResponseOutput.model_rebuild(_types_namespace=globals())
 EmbeddingsUsageInput.model_rebuild(_types_namespace=globals())
@@ -3236,6 +4023,8 @@ EmbeddingsUsageCostInput.model_rebuild(_types_namespace=globals())
 EmbeddingsUsageCostOutput.model_rebuild(_types_namespace=globals())
 ErrorInfoInput.model_rebuild(_types_namespace=globals())
 ErrorInfoOutput.model_rebuild(_types_namespace=globals())
+EventMonitorInput.model_rebuild(_types_namespace=globals())
+EventMonitorOutput.model_rebuild(_types_namespace=globals())
 ExecutePythonStepDetailsInput.model_rebuild(_types_namespace=globals())
 ExecutePythonStepDetailsOutput.model_rebuild(_types_namespace=globals())
 FetchUrlContentStepDetailsInput.model_rebuild(_types_namespace=globals())
@@ -3328,6 +4117,76 @@ ModelInput.model_rebuild(_types_namespace=globals())
 ModelOutput.model_rebuild(_types_namespace=globals())
 ModelListInput.model_rebuild(_types_namespace=globals())
 ModelListOutput.model_rebuild(_types_namespace=globals())
+MonitorInput.model_rebuild(_types_namespace=globals())
+MonitorOutput.model_rebuild(_types_namespace=globals())
+MonitorChangesDetectedEventInput.model_rebuild(_types_namespace=globals())
+MonitorChangesDetectedEventOutput.model_rebuild(_types_namespace=globals())
+MonitorCronScheduleInput.model_rebuild(_types_namespace=globals())
+MonitorCronScheduleOutput.model_rebuild(_types_namespace=globals())
+MonitorCronScheduleRequestInput.model_rebuild(_types_namespace=globals())
+MonitorCronScheduleRequestOutput.model_rebuild(_types_namespace=globals())
+MonitorDiffInput.model_rebuild(_types_namespace=globals())
+MonitorDiffOutput.model_rebuild(_types_namespace=globals())
+MonitorIntervalScheduleInput.model_rebuild(_types_namespace=globals())
+MonitorIntervalScheduleOutput.model_rebuild(_types_namespace=globals())
+MonitorIntervalScheduleRequestInput.model_rebuild(_types_namespace=globals())
+MonitorIntervalScheduleRequestOutput.model_rebuild(_types_namespace=globals())
+MonitorLastRunInput.model_rebuild(_types_namespace=globals())
+MonitorLastRunOutput.model_rebuild(_types_namespace=globals())
+MonitorListInput.model_rebuild(_types_namespace=globals())
+MonitorListOutput.model_rebuild(_types_namespace=globals())
+MonitorMetadataInput.model_rebuild(_types_namespace=globals())
+MonitorMetadataOutput.model_rebuild(_types_namespace=globals())
+MonitorPageChangeInput.model_rebuild(_types_namespace=globals())
+MonitorPageChangeOutput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetInput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetOutput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetErrorInput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetErrorOutput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetRequestInput.model_rebuild(_types_namespace=globals())
+MonitorPageTargetRequestOutput.model_rebuild(_types_namespace=globals())
+MonitorPausedEventInput.model_rebuild(_types_namespace=globals())
+MonitorPausedEventOutput.model_rebuild(_types_namespace=globals())
+MonitorPausedEventDataInput.model_rebuild(_types_namespace=globals())
+MonitorPausedEventDataOutput.model_rebuild(_types_namespace=globals())
+MonitorRunInput.model_rebuild(_types_namespace=globals())
+MonitorRunOutput.model_rebuild(_types_namespace=globals())
+MonitorRunCompletedEventInput.model_rebuild(_types_namespace=globals())
+MonitorRunCompletedEventOutput.model_rebuild(_types_namespace=globals())
+MonitorRunCostInput.model_rebuild(_types_namespace=globals())
+MonitorRunCostOutput.model_rebuild(_types_namespace=globals())
+MonitorRunCountsInput.model_rebuild(_types_namespace=globals())
+MonitorRunCountsOutput.model_rebuild(_types_namespace=globals())
+MonitorRunErrorInput.model_rebuild(_types_namespace=globals())
+MonitorRunErrorOutput.model_rebuild(_types_namespace=globals())
+MonitorRunEventDataInput.model_rebuild(_types_namespace=globals())
+MonitorRunEventDataOutput.model_rebuild(_types_namespace=globals())
+MonitorRunListInput.model_rebuild(_types_namespace=globals())
+MonitorRunListOutput.model_rebuild(_types_namespace=globals())
+MonitorRunUsageInput.model_rebuild(_types_namespace=globals())
+MonitorRunUsageOutput.model_rebuild(_types_namespace=globals())
+MonitorRunWindowInput.model_rebuild(_types_namespace=globals())
+MonitorRunWindowOutput.model_rebuild(_types_namespace=globals())
+MonitorSearchFiltersInput.model_rebuild(_types_namespace=globals())
+MonitorSearchFiltersOutput.model_rebuild(_types_namespace=globals())
+MonitorSearchFiltersRequestInput.model_rebuild(_types_namespace=globals())
+MonitorSearchFiltersRequestOutput.model_rebuild(_types_namespace=globals())
+MonitorSearchResultChangeInput.model_rebuild(_types_namespace=globals())
+MonitorSearchResultChangeOutput.model_rebuild(_types_namespace=globals())
+MonitorSearchTargetInput.model_rebuild(_types_namespace=globals())
+MonitorSearchTargetOutput.model_rebuild(_types_namespace=globals())
+MonitorSearchTargetRequestInput.model_rebuild(_types_namespace=globals())
+MonitorSearchTargetRequestOutput.model_rebuild(_types_namespace=globals())
+MonitorWebhookInput.model_rebuild(_types_namespace=globals())
+MonitorWebhookOutput.model_rebuild(_types_namespace=globals())
+MonitorWebhookRequestVariant1Input.model_rebuild(_types_namespace=globals())
+MonitorWebhookRequestVariant1Output.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestInput.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestOutput.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestEventInput.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestEventOutput.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestEventDataInput.model_rebuild(_types_namespace=globals())
+MonitorWebhookTestEventDataOutput.model_rebuild(_types_namespace=globals())
 NamespaceToolInput.model_rebuild(_types_namespace=globals())
 NamespaceToolOutput.model_rebuild(_types_namespace=globals())
 NamespaceToolDefInput.model_rebuild(_types_namespace=globals())
@@ -3340,6 +4199,8 @@ OutputTokensDetailsInput.model_rebuild(_types_namespace=globals())
 OutputTokensDetailsOutput.model_rebuild(_types_namespace=globals())
 ParameterSpecInput.model_rebuild(_types_namespace=globals())
 ParameterSpecOutput.model_rebuild(_types_namespace=globals())
+PausedEventMonitorInput.model_rebuild(_types_namespace=globals())
+PausedEventMonitorOutput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolInput.model_rebuild(_types_namespace=globals())
 PeopleSearchToolOutput.model_rebuild(_types_namespace=globals())
 ProfileReferenceInput.model_rebuild(_types_namespace=globals())
@@ -3460,6 +4321,8 @@ URLInput.model_rebuild(_types_namespace=globals())
 URLOutput.model_rebuild(_types_namespace=globals())
 UnknownOutputItemInput.model_rebuild(_types_namespace=globals())
 UnknownOutputItemOutput.model_rebuild(_types_namespace=globals())
+UpdateMonitorRequestInput.model_rebuild(_types_namespace=globals())
+UpdateMonitorRequestOutput.model_rebuild(_types_namespace=globals())
 UrlContentInput.model_rebuild(_types_namespace=globals())
 UrlContentOutput.model_rebuild(_types_namespace=globals())
 UsageInfoInput.model_rebuild(_types_namespace=globals())
@@ -3694,6 +4557,19 @@ JsonSchemaFormat: TypeAlias = JSONSchemaFormatInput
 ManagedSkill: TypeAlias = ManagedSkillOutput
 Model: TypeAlias = ModelOutput
 ModelListResponse: TypeAlias = ModelListOutput
+Monitor: TypeAlias = MonitorOutput
+MonitorChangesDetectedEvent: TypeAlias = MonitorChangesDetectedEventOutput
+MonitorCreateParams: TypeAlias = CreateMonitorRequestInput
+MonitorDeleteResponse: TypeAlias = DeleteMonitorResponseOutput
+MonitorEvent: TypeAlias = MonitorEventOutput
+MonitorListResponse: TypeAlias = MonitorListOutput
+MonitorPausedEvent: TypeAlias = MonitorPausedEventOutput
+MonitorRun: TypeAlias = MonitorRunOutput
+MonitorRunCompletedEvent: TypeAlias = MonitorRunCompletedEventOutput
+MonitorRunListResponse: TypeAlias = MonitorRunListOutput
+MonitorUpdateParams: TypeAlias = UpdateMonitorRequestInput
+MonitorWebhookTestEvent: TypeAlias = MonitorWebhookTestEventOutput
+MonitorWebhookTestResponse: TypeAlias = MonitorWebhookTestOutput
 OutputItem: TypeAlias = OutputItemOutput
 ResponseCancelResponse: TypeAlias = ResponsesCancelResponseOutput
 ResponseCreateParams: TypeAlias = ResponsesRequestInput
@@ -4354,6 +5230,138 @@ class ChatCompletionsResource(SyncAPIResource):
         return _result
 
 
+class MonitorsRunsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> MonitorsRunsResourceWithRawResponse:
+        return MonitorsRunsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MonitorsRunsResourceWithStreamingResponse:
+        return MonitorsRunsResourceWithStreamingResponse(self)
+
+    def list(
+        self,
+        monitor_id: str,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunListOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunListOutput",
+            self._get(
+                "/v1/monitors/{monitor_id}/runs".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorRunListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def retrieve(
+        self,
+        run_id: str,
+        *,
+        monitor_id: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        if run_id is None or (isinstance(run_id, str) and not str.__str__(run_id)):
+            raise ValueError(
+                "Expected a non-empty value for `run_id` but received " + repr(run_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunOutput",
+            self._get(
+                "/v1/monitors/{monitor_id}/runs/{run_id}".format(
+                    monitor_id=_path_segment(monitor_id), run_id=_path_segment(run_id)
+                ),
+                cast_to=MonitorRunOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class MonitorsWebhookResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> MonitorsWebhookResourceWithRawResponse:
+        return MonitorsWebhookResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MonitorsWebhookResourceWithStreamingResponse:
+        return MonitorsWebhookResourceWithStreamingResponse(self)
+
+    def test(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorWebhookTestOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorWebhookTestOutput",
+            self._post(
+                "/v1/monitors/{monitor_id}/webhook/test".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorWebhookTestOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class ResponsesFilesResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> ResponsesFilesResourceWithRawResponse:
@@ -4788,10 +5796,24 @@ class EmbeddingsResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Sequence[str]],
-        model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"],
+        input: Union[
+            str,
+            Sequence[str],
+            Sequence[Sequence[str]],
+            Sequence[
+                Union["EmbeddingsRequestInputVariant4ItemInput", Mapping[str, object]]
+            ],
+        ],
+        model: Literal[
+            "pplx-embed-v1-0.6b",
+            "pplx-embed-v1-4b",
+            "pplx-embed-v2-context-9b",
+            "pplx-embed-v2-context-0.6b",
+        ],
         dimensions: Union[int, Omit] = omit,
         encoding_format: Union[Literal["base64_int8", "base64_binary"], Omit] = omit,
+        input_type: Union[Literal["query", "document"], Omit] = omit,
+        num_chunks: Union[Literal[1, 2, 4, 8, 16, 32], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -4803,7 +5825,9 @@ class EmbeddingsResource(SyncAPIResource):
                     "dimensions": dimensions,
                     "encoding_format": encoding_format,
                     "input": input,
+                    "input_type": input_type,
                     "model": model,
+                    "num_chunks": num_chunks,
                 }
             )
         )
@@ -5032,6 +6056,333 @@ class ModelsResource(SyncAPIResource):
             ),
         )
         return _result
+
+
+class MonitorsResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> MonitorsResourceWithRawResponse:
+        return MonitorsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> MonitorsResourceWithStreamingResponse:
+        return MonitorsResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        name: str,
+        schedule: Union["MonitorScheduleRequestInput", Mapping[str, object]],
+        targets: "MonitorTargetsInput",
+        idempotency_key: Union[str, Omit] = omit,
+        goal: Union[str, Omit] = omit,
+        metadata: Union[
+            Union["MonitorMetadataInput", Mapping[str, object]], Omit
+        ] = omit,
+        webhook: Union[Union["MonitorWebhookRequestInput", None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        _body = CreateMonitorRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "goal": goal,
+                    "metadata": metadata,
+                    "name": name,
+                    "schedule": schedule,
+                    "targets": targets,
+                    "webhook": webhook,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Idempotency-Key": idempotency_key}
+        )
+        _result = cast(
+            "MonitorOutput",
+            self._post(
+                "/v1/monitors",
+                cast_to=MonitorOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def delete(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "DeleteMonitorResponseOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "DeleteMonitorResponseOutput",
+            self._delete(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=DeleteMonitorResponseOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorListOutput":
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorListOutput",
+            self._get(
+                "/v1/monitors",
+                cast_to=MonitorListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def pause(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            self._post(
+                "/v1/monitors/{monitor_id}/pause".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def resume(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            self._post(
+                "/v1/monitors/{monitor_id}/resume".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def retrieve(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            self._get(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def run(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunOutput",
+            self._post(
+                "/v1/monitors/{monitor_id}/run".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorRunOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    def update(
+        self,
+        monitor_id: str,
+        *,
+        goal: Union[Union[str, None], Omit] = omit,
+        metadata: Union[Union[dict[str, str], None], Omit] = omit,
+        name: Union[str, Omit] = omit,
+        schedule: Union[
+            Union["MonitorScheduleRequestInput", Mapping[str, object]], Omit
+        ] = omit,
+        targets: Union["MonitorTargetsInput", Omit] = omit,
+        webhook: Union[Union["MonitorWebhookRequestInput", None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _body = UpdateMonitorRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "goal": goal,
+                    "metadata": metadata,
+                    "name": name,
+                    "schedule": schedule,
+                    "targets": targets,
+                    "webhook": webhook,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            self._patch(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    @cached_property
+    def runs(self) -> MonitorsRunsResource:
+        return MonitorsRunsResource(self._client)
+
+    @cached_property
+    def webhook(self) -> MonitorsWebhookResource:
+        return MonitorsWebhookResource(self._client)
 
 
 class ResponsesResource(SyncAPIResource):
@@ -5724,6 +7075,32 @@ class ChatCompletionsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(resource, "create")
 
 
+class MonitorsRunsResourceWithRawResponse:
+    def __init__(self, resource: MonitorsRunsResource) -> None:
+        self._resource = resource
+        self.list = to_raw_response_wrapper(resource, "list")
+        self.retrieve = to_raw_response_wrapper(resource, "retrieve")
+
+
+class MonitorsRunsResourceWithStreamingResponse:
+    def __init__(self, resource: MonitorsRunsResource) -> None:
+        self._resource = resource
+        self.list = to_streamed_response_wrapper(resource, "list")
+        self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
+
+
+class MonitorsWebhookResourceWithRawResponse:
+    def __init__(self, resource: MonitorsWebhookResource) -> None:
+        self._resource = resource
+        self.test = to_raw_response_wrapper(resource, "test")
+
+
+class MonitorsWebhookResourceWithStreamingResponse:
+    def __init__(self, resource: MonitorsWebhookResource) -> None:
+        self._resource = resource
+        self.test = to_streamed_response_wrapper(resource, "test")
+
+
 class ResponsesFilesResourceWithRawResponse:
     def __init__(self, resource: ResponsesFilesResource) -> None:
         self._resource = resource
@@ -5890,6 +7267,48 @@ class ModelsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(resource, "list")
 
 
+class MonitorsResourceWithRawResponse:
+    def __init__(self, resource: MonitorsResource) -> None:
+        self._resource = resource
+        self.create = to_raw_response_wrapper(resource, "create")
+        self.delete = to_raw_response_wrapper(resource, "delete")
+        self.list = to_raw_response_wrapper(resource, "list")
+        self.pause = to_raw_response_wrapper(resource, "pause")
+        self.resume = to_raw_response_wrapper(resource, "resume")
+        self.retrieve = to_raw_response_wrapper(resource, "retrieve")
+        self.run = to_raw_response_wrapper(resource, "run")
+        self.update = to_raw_response_wrapper(resource, "update")
+
+    @cached_property
+    def runs(self) -> MonitorsRunsResourceWithRawResponse:
+        return MonitorsRunsResourceWithRawResponse(self._resource.runs)
+
+    @cached_property
+    def webhook(self) -> MonitorsWebhookResourceWithRawResponse:
+        return MonitorsWebhookResourceWithRawResponse(self._resource.webhook)
+
+
+class MonitorsResourceWithStreamingResponse:
+    def __init__(self, resource: MonitorsResource) -> None:
+        self._resource = resource
+        self.create = to_streamed_response_wrapper(resource, "create")
+        self.delete = to_streamed_response_wrapper(resource, "delete")
+        self.list = to_streamed_response_wrapper(resource, "list")
+        self.pause = to_streamed_response_wrapper(resource, "pause")
+        self.resume = to_streamed_response_wrapper(resource, "resume")
+        self.retrieve = to_streamed_response_wrapper(resource, "retrieve")
+        self.run = to_streamed_response_wrapper(resource, "run")
+        self.update = to_streamed_response_wrapper(resource, "update")
+
+    @cached_property
+    def runs(self) -> MonitorsRunsResourceWithStreamingResponse:
+        return MonitorsRunsResourceWithStreamingResponse(self._resource.runs)
+
+    @cached_property
+    def webhook(self) -> MonitorsWebhookResourceWithStreamingResponse:
+        return MonitorsWebhookResourceWithStreamingResponse(self._resource.webhook)
+
+
 class ResponsesResourceWithRawResponse:
     def __init__(self, resource: ResponsesResource) -> None:
         self._resource = resource
@@ -5992,6 +7411,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def models(self) -> ModelsResource:
         return ModelsResource(self._client)
+
+    @cached_property
+    def monitors(self) -> MonitorsResource:
+        return MonitorsResource(self._client)
 
     @cached_property
     def responses(self) -> ResponsesResource:
@@ -6578,6 +8001,142 @@ class AsyncClientChatCompletionsResource(AsyncAPIResource):
         return _result
 
 
+class AsyncClientMonitorsRunsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientMonitorsRunsResourceWithRawResponse:
+        return AsyncClientMonitorsRunsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientMonitorsRunsResourceWithStreamingResponse:
+        return AsyncClientMonitorsRunsResourceWithStreamingResponse(self)
+
+    async def list(
+        self,
+        monitor_id: str,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunListOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunListOutput",
+            await self._get(
+                "/v1/monitors/{monitor_id}/runs".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorRunListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def retrieve(
+        self,
+        run_id: str,
+        *,
+        monitor_id: str,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        if run_id is None or (isinstance(run_id, str) and not str.__str__(run_id)):
+            raise ValueError(
+                "Expected a non-empty value for `run_id` but received " + repr(run_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunOutput",
+            await self._get(
+                "/v1/monitors/{monitor_id}/runs/{run_id}".format(
+                    monitor_id=_path_segment(monitor_id), run_id=_path_segment(run_id)
+                ),
+                cast_to=MonitorRunOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
+class AsyncClientMonitorsWebhookResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientMonitorsWebhookResourceWithRawResponse:
+        return AsyncClientMonitorsWebhookResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientMonitorsWebhookResourceWithStreamingResponse:
+        return AsyncClientMonitorsWebhookResourceWithStreamingResponse(self)
+
+    async def test(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorWebhookTestOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorWebhookTestOutput",
+            await self._post(
+                "/v1/monitors/{monitor_id}/webhook/test".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorWebhookTestOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class AsyncClientResponsesFilesResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncClientResponsesFilesResourceWithRawResponse:
@@ -7026,10 +8585,24 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Sequence[str]],
-        model: Literal["pplx-embed-v1-0.6b", "pplx-embed-v1-4b"],
+        input: Union[
+            str,
+            Sequence[str],
+            Sequence[Sequence[str]],
+            Sequence[
+                Union["EmbeddingsRequestInputVariant4ItemInput", Mapping[str, object]]
+            ],
+        ],
+        model: Literal[
+            "pplx-embed-v1-0.6b",
+            "pplx-embed-v1-4b",
+            "pplx-embed-v2-context-9b",
+            "pplx-embed-v2-context-0.6b",
+        ],
         dimensions: Union[int, Omit] = omit,
         encoding_format: Union[Literal["base64_int8", "base64_binary"], Omit] = omit,
+        input_type: Union[Literal["query", "document"], Omit] = omit,
+        num_chunks: Union[Literal[1, 2, 4, 8, 16, 32], Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -7041,7 +8614,9 @@ class AsyncClientEmbeddingsResource(AsyncAPIResource):
                     "dimensions": dimensions,
                     "encoding_format": encoding_format,
                     "input": input,
+                    "input_type": input_type,
                     "model": model,
+                    "num_chunks": num_chunks,
                 }
             )
         )
@@ -7270,6 +8845,335 @@ class AsyncClientModelsResource(AsyncAPIResource):
             ),
         )
         return _result
+
+
+class AsyncClientMonitorsResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientMonitorsResourceWithRawResponse:
+        return AsyncClientMonitorsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientMonitorsResourceWithStreamingResponse:
+        return AsyncClientMonitorsResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        name: str,
+        schedule: Union["MonitorScheduleRequestInput", Mapping[str, object]],
+        targets: "MonitorTargetsInput",
+        idempotency_key: Union[str, Omit] = omit,
+        goal: Union[str, Omit] = omit,
+        metadata: Union[
+            Union["MonitorMetadataInput", Mapping[str, object]], Omit
+        ] = omit,
+        webhook: Union[Union["MonitorWebhookRequestInput", None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        _body = CreateMonitorRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "goal": goal,
+                    "metadata": metadata,
+                    "name": name,
+                    "schedule": schedule,
+                    "targets": targets,
+                    "webhook": webhook,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers(
+            {"Idempotency-Key": idempotency_key}
+        )
+        _result = cast(
+            "MonitorOutput",
+            await self._post(
+                "/v1/monitors",
+                cast_to=MonitorOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def delete(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "DeleteMonitorResponseOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "DeleteMonitorResponseOutput",
+            await self._delete(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=DeleteMonitorResponseOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def list(
+        self,
+        *,
+        after: Union[str, Omit] = omit,
+        limit: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorListOutput":
+        _query_parameters = _without_omitted({"after": after, "limit": limit})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorListOutput",
+            await self._get(
+                "/v1/monitors",
+                cast_to=MonitorListOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def pause(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            await self._post(
+                "/v1/monitors/{monitor_id}/pause".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def resume(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            await self._post(
+                "/v1/monitors/{monitor_id}/resume".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def retrieve(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            await self._get(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def run(
+        self,
+        monitor_id: str,
+        *,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorRunOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorRunOutput",
+            await self._post(
+                "/v1/monitors/{monitor_id}/run".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorRunOutput,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    async def update(
+        self,
+        monitor_id: str,
+        *,
+        goal: Union[Union[str, None], Omit] = omit,
+        metadata: Union[Union[dict[str, str], None], Omit] = omit,
+        name: Union[str, Omit] = omit,
+        schedule: Union[
+            Union["MonitorScheduleRequestInput", Mapping[str, object]], Omit
+        ] = omit,
+        targets: Union["MonitorTargetsInput", Omit] = omit,
+        webhook: Union[Union["MonitorWebhookRequestInput", None], Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "MonitorOutput":
+        if monitor_id is None or (
+            isinstance(monitor_id, str) and not str.__str__(monitor_id)
+        ):
+            raise ValueError(
+                "Expected a non-empty value for `monitor_id` but received "
+                + repr(monitor_id)
+            )
+        _body = UpdateMonitorRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "goal": goal,
+                    "metadata": metadata,
+                    "name": name,
+                    "schedule": schedule,
+                    "targets": targets,
+                    "webhook": webhook,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "MonitorOutput",
+            await self._patch(
+                "/v1/monitors/{monitor_id}".format(
+                    monitor_id=_path_segment(monitor_id)
+                ),
+                cast_to=MonitorOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+    @cached_property
+    def runs(self) -> AsyncClientMonitorsRunsResource:
+        return AsyncClientMonitorsRunsResource(self._client)
+
+    @cached_property
+    def webhook(self) -> AsyncClientMonitorsWebhookResource:
+        return AsyncClientMonitorsWebhookResource(self._client)
 
 
 class AsyncClientResponsesResource(AsyncAPIResource):
@@ -7968,6 +9872,32 @@ class AsyncClientChatCompletionsResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(resource, "create")
 
 
+class AsyncClientMonitorsRunsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientMonitorsRunsResource) -> None:
+        self._resource = resource
+        self.list = async_to_raw_response_wrapper(resource, "list")
+        self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
+
+
+class AsyncClientMonitorsRunsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientMonitorsRunsResource) -> None:
+        self._resource = resource
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+        self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
+
+
+class AsyncClientMonitorsWebhookResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientMonitorsWebhookResource) -> None:
+        self._resource = resource
+        self.test = async_to_raw_response_wrapper(resource, "test")
+
+
+class AsyncClientMonitorsWebhookResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientMonitorsWebhookResource) -> None:
+        self._resource = resource
+        self.test = async_to_streamed_response_wrapper(resource, "test")
+
+
 class AsyncClientResponsesFilesResourceWithRawResponse:
     def __init__(self, resource: AsyncClientResponsesFilesResource) -> None:
         self._resource = resource
@@ -8142,6 +10072,50 @@ class AsyncClientModelsResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(resource, "list")
 
 
+class AsyncClientMonitorsResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientMonitorsResource) -> None:
+        self._resource = resource
+        self.create = async_to_raw_response_wrapper(resource, "create")
+        self.delete = async_to_raw_response_wrapper(resource, "delete")
+        self.list = async_to_raw_response_wrapper(resource, "list")
+        self.pause = async_to_raw_response_wrapper(resource, "pause")
+        self.resume = async_to_raw_response_wrapper(resource, "resume")
+        self.retrieve = async_to_raw_response_wrapper(resource, "retrieve")
+        self.run = async_to_raw_response_wrapper(resource, "run")
+        self.update = async_to_raw_response_wrapper(resource, "update")
+
+    @cached_property
+    def runs(self) -> AsyncClientMonitorsRunsResourceWithRawResponse:
+        return AsyncClientMonitorsRunsResourceWithRawResponse(self._resource.runs)
+
+    @cached_property
+    def webhook(self) -> AsyncClientMonitorsWebhookResourceWithRawResponse:
+        return AsyncClientMonitorsWebhookResourceWithRawResponse(self._resource.webhook)
+
+
+class AsyncClientMonitorsResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientMonitorsResource) -> None:
+        self._resource = resource
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+        self.delete = async_to_streamed_response_wrapper(resource, "delete")
+        self.list = async_to_streamed_response_wrapper(resource, "list")
+        self.pause = async_to_streamed_response_wrapper(resource, "pause")
+        self.resume = async_to_streamed_response_wrapper(resource, "resume")
+        self.retrieve = async_to_streamed_response_wrapper(resource, "retrieve")
+        self.run = async_to_streamed_response_wrapper(resource, "run")
+        self.update = async_to_streamed_response_wrapper(resource, "update")
+
+    @cached_property
+    def runs(self) -> AsyncClientMonitorsRunsResourceWithStreamingResponse:
+        return AsyncClientMonitorsRunsResourceWithStreamingResponse(self._resource.runs)
+
+    @cached_property
+    def webhook(self) -> AsyncClientMonitorsWebhookResourceWithStreamingResponse:
+        return AsyncClientMonitorsWebhookResourceWithStreamingResponse(
+            self._resource.webhook
+        )
+
+
 class AsyncClientResponsesResourceWithRawResponse:
     def __init__(self, resource: AsyncClientResponsesResource) -> None:
         self._resource = resource
@@ -8250,6 +10224,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def models(self) -> AsyncClientModelsResource:
         return AsyncClientModelsResource(self._client)
+
+    @cached_property
+    def monitors(self) -> AsyncClientMonitorsResource:
+        return AsyncClientMonitorsResource(self._client)
 
     @cached_property
     def responses(self) -> AsyncClientResponsesResource:
