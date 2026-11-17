@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.47.0](https://github.com/perplexityai/perplexity-py/compare/v0.46.1...v0.47.0) (2026-11-17)
+
+
+### Features
+
+* add monitors resource ([3828de3](https://github.com/perplexityai/perplexity-py/commit/3828de394cc12759e7a86bb4208abddda0b51f45))
+
+
+### Documentation
+
+* clarify API key environment default ([#149](https://github.com/perplexityai/perplexity-py/issues/149)) ([f72896e](https://github.com/perplexityai/perplexity-py/commit/f72896e0ac11be15d4ab722bf39552b8e51b441c))
+* correct Server-Sent Events terminology ([#148](https://github.com/perplexityai/perplexity-py/issues/148)) ([be037af](https://github.com/perplexityai/perplexity-py/commit/be037af516d275f9e9ba00db26d0861c090291c8))
+
 ## [0.46.1](https://github.com/perplexityai/perplexity-py/compare/v0.46.0...v0.46.1) (2026-10-23)
 
 
