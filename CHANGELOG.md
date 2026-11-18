@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.0](https://github.com/perplexityai/perplexity-py/compare/v0.47.0...v0.48.0) (2026-11-18)
+
+
+### Features
+
+* **api:** add context resource ([a5607ce](https://github.com/perplexityai/perplexity-py/commit/a5607ce7d09f6898eab15837780863c30f4bc7ca))
+
 ## [0.47.0](https://github.com/perplexityai/perplexity-py/compare/v0.46.1...v0.47.0) (2026-11-17)
 
 
