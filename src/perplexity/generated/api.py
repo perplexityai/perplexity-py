@@ -783,6 +783,152 @@ ContentPartTypeInput: TypeAlias = Literal["output_text"]
 ContentPartTypeOutput: TypeAlias = Literal["output_text"]
 
 
+class ContextCostInput(BaseModel):
+    currency: "ContextCurrencyInput"
+    total_cost: float
+
+
+class ContextCostOutput(BaseModel):
+    currency: "ContextCurrencyOutput"
+    total_cost: float
+
+
+ContextCurrencyInput: TypeAlias = Literal["USD"]
+ContextCurrencyOutput: TypeAlias = Literal["USD"]
+
+
+class ContextDocumentInput(BaseModel):
+    highlights: Optional[str] = None
+    html: Optional[str] = None
+    links: Optional[list[str]] = None
+    markdown: Optional[str] = None
+    metadata: Optional["ContextMetadataInput"] = None
+    status: "ContextStatusInput"
+    url: str
+
+
+class ContextDocumentOutput(BaseModel):
+    highlights: Optional[str] = None
+    html: Optional[str] = None
+    links: Optional[list[str]] = None
+    markdown: Optional[str] = None
+    metadata: Optional["ContextMetadataOutput"] = None
+    status: "ContextStatusOutput"
+    url: str
+
+
+class ContextHighlightsInput(BaseModel):
+    max_tokens_per_url: Optional[int] = None
+    query: str
+
+
+class ContextHighlightsOutput(BaseModel):
+    max_tokens_per_url: Optional[int] = None
+    query: str
+
+
+class ContextMetadataInput(BaseModel):
+    author: Optional[str] = None
+    content_type: Optional[str] = None
+    description: Optional[str] = None
+    fetched_at: Optional[str] = None
+    language: Optional[str] = None
+    last_modified: Optional[str] = None
+    origin: Optional[Literal["cached", "live"]] = None
+    published_date: Optional[str] = None
+    source_url: str
+    title: Optional[str] = None
+
+
+class ContextMetadataOutput(BaseModel):
+    author: Optional[str] = None
+    content_type: Optional[str] = None
+    description: Optional[str] = None
+    fetched_at: Optional[str] = None
+    language: Optional[str] = None
+    last_modified: Optional[str] = None
+    origin: Optional[Literal["cached", "live"]] = None
+    published_date: Optional[str] = None
+    source_url: str
+    title: Optional[str] = None
+
+
+class ContextRequestInput(BaseModel):
+    cache_only: Optional[bool] = None
+    formats: Optional[list[Literal["markdown", "html", "links", "highlights"]]] = None
+    highlights: Optional["ContextHighlightsInput"] = None
+    if_modified_since: Optional[str] = None
+    max_age_seconds: Optional[int] = None
+    timeout_ms: Optional[int] = None
+    urls: list[str]
+
+
+class ContextRequestOutput(BaseModel):
+    cache_only: Optional[bool] = None
+    formats: Optional[list[Literal["markdown", "html", "links", "highlights"]]] = None
+    highlights: Optional["ContextHighlightsOutput"] = None
+    if_modified_since: Optional[str] = None
+    max_age_seconds: Optional[int] = None
+    timeout_ms: Optional[int] = None
+    urls: list[str]
+
+
+class ContextResponseInput(BaseModel):
+    request_id: str
+    results: list["ContextDocumentInput"]
+    usage: "ContextUsageInput"
+
+
+class ContextResponseOutput(BaseModel):
+    request_id: str
+    results: list["ContextDocumentOutput"]
+    usage: "ContextUsageOutput"
+
+
+class ContextStatusInput(BaseModel):
+    message: Optional[str] = None
+    status_code: Optional[int] = None
+    type: Literal[
+        "ok",
+        "not_modified",
+        "invalid_url",
+        "blocked",
+        "bot_challenge",
+        "crawl_failed",
+        "crawl_timeout",
+        "no_text",
+        "no_content",
+        "internal_error",
+    ]
+
+
+class ContextStatusOutput(BaseModel):
+    message: Optional[str] = None
+    status_code: Optional[int] = None
+    type: Literal[
+        "ok",
+        "not_modified",
+        "invalid_url",
+        "blocked",
+        "bot_challenge",
+        "crawl_failed",
+        "crawl_timeout",
+        "no_text",
+        "no_content",
+        "internal_error",
+    ]
+
+
+class ContextUsageInput(BaseModel):
+    cost: "ContextCostInput"
+    fetched_urls: int
+
+
+class ContextUsageOutput(BaseModel):
+    cost: "ContextCostOutput"
+    fetched_urls: int
+
+
 class ContextualizedEmbeddingObjectInput(BaseModel):
     data: Optional[list["EmbeddingObjectInput"]] = None
     index: Optional[int] = None
@@ -3086,6 +3232,7 @@ ResponsesObjectTypeOutput: TypeAlias = Literal["response"]
 
 class ResponsesRequestInput(BaseModel):
     background: Union[bool, None] = None
+    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -3116,6 +3263,7 @@ class ResponsesRequestInput(BaseModel):
 
 class ResponsesRequestOutput(BaseModel):
     background: Union[bool, None] = None
+    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputOutput"
     instructions: Optional[str] = None
@@ -3969,6 +4117,22 @@ ConnectorToolInput.model_rebuild(_types_namespace=globals())
 ConnectorToolOutput.model_rebuild(_types_namespace=globals())
 ContentPartInput.model_rebuild(_types_namespace=globals())
 ContentPartOutput.model_rebuild(_types_namespace=globals())
+ContextCostInput.model_rebuild(_types_namespace=globals())
+ContextCostOutput.model_rebuild(_types_namespace=globals())
+ContextDocumentInput.model_rebuild(_types_namespace=globals())
+ContextDocumentOutput.model_rebuild(_types_namespace=globals())
+ContextHighlightsInput.model_rebuild(_types_namespace=globals())
+ContextHighlightsOutput.model_rebuild(_types_namespace=globals())
+ContextMetadataInput.model_rebuild(_types_namespace=globals())
+ContextMetadataOutput.model_rebuild(_types_namespace=globals())
+ContextRequestInput.model_rebuild(_types_namespace=globals())
+ContextRequestOutput.model_rebuild(_types_namespace=globals())
+ContextResponseInput.model_rebuild(_types_namespace=globals())
+ContextResponseOutput.model_rebuild(_types_namespace=globals())
+ContextStatusInput.model_rebuild(_types_namespace=globals())
+ContextStatusOutput.model_rebuild(_types_namespace=globals())
+ContextUsageInput.model_rebuild(_types_namespace=globals())
+ContextUsageOutput.model_rebuild(_types_namespace=globals())
 ContextualizedEmbeddingObjectInput.model_rebuild(_types_namespace=globals())
 ContextualizedEmbeddingObjectOutput.model_rebuild(_types_namespace=globals())
 ContextualizedEmbeddingsRequestInput.model_rebuild(_types_namespace=globals())
@@ -4522,6 +4686,11 @@ AsyncChatCompletionsCompletionListResponse: TypeAlias = (
     ListAsyncApiChatCompletionsResponseOutput
 )
 ContentPart: TypeAlias = ContentPartOutput
+ContextCreateParams: TypeAlias = ContextRequestInput
+ContextCreateResponse: TypeAlias = ContextResponseOutput
+ContextDocument: TypeAlias = ContextDocumentOutput
+ContextMetadata: TypeAlias = ContextMetadataOutput
+ContextStatus: TypeAlias = ContextStatusOutput
 ContextualizedEmbeddingCreateParams: TypeAlias = ContextualizedEmbeddingsRequestInput
 ContextualizedEmbeddingCreateResponse: TypeAlias = (
     ContextualizedEmbeddingsResponseOutput
@@ -4577,6 +4746,7 @@ ResponseCreateParams: TypeAlias = ResponsesRequestInput
 
 class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     background: Union[bool, None] = None
+    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -4607,6 +4777,7 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
 
 class ResponsesResponseCreateParamsStreaming(BaseModel):
     background: Union[bool, None] = None
+    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -5688,6 +5859,67 @@ class ChatResource(SyncAPIResource):
         return ChatCompletionsResource(self._client)
 
 
+class ContextResource(SyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> ContextResourceWithRawResponse:
+        return ContextResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ContextResourceWithStreamingResponse:
+        return ContextResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        *,
+        urls: Sequence[str],
+        cache_only: Union[bool, Omit] = omit,
+        formats: Union[
+            Sequence[Literal["markdown", "html", "links", "highlights"]], Omit
+        ] = omit,
+        highlights: Union[
+            Union["ContextHighlightsInput", Mapping[str, object]], Omit
+        ] = omit,
+        if_modified_since: Union[str, Omit] = omit,
+        max_age_seconds: Union[int, Omit] = omit,
+        timeout_ms: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ContextResponseOutput":
+        _body = ContextRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "cache_only": cache_only,
+                    "formats": formats,
+                    "highlights": highlights,
+                    "if_modified_since": if_modified_since,
+                    "max_age_seconds": max_age_seconds,
+                    "timeout_ms": timeout_ms,
+                    "urls": urls,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ContextResponseOutput",
+            self._post(
+                "/v1/context",
+                cast_to=ContextResponseOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class ContextualizedEmbeddingsResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> ContextualizedEmbeddingsResourceWithRawResponse:
@@ -6435,6 +6667,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6474,6 +6707,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6512,6 +6746,7 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6550,6 +6785,7 @@ class ResponsesResource(SyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
+                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
@@ -7199,6 +7435,18 @@ class ChatResourceWithStreamingResponse:
         return ChatCompletionsResourceWithStreamingResponse(self._resource.completions)
 
 
+class ContextResourceWithRawResponse:
+    def __init__(self, resource: ContextResource) -> None:
+        self._resource = resource
+        self.create = to_raw_response_wrapper(resource, "create")
+
+
+class ContextResourceWithStreamingResponse:
+    def __init__(self, resource: ContextResource) -> None:
+        self._resource = resource
+        self.create = to_streamed_response_wrapper(resource, "create")
+
+
 class ContextualizedEmbeddingsResourceWithRawResponse:
     def __init__(self, resource: ContextualizedEmbeddingsResource) -> None:
         self._resource = resource
@@ -7391,6 +7639,10 @@ class PerplexitySdk(SyncAPIResource):
     @cached_property
     def chat(self) -> ChatResource:
         return ChatResource(self._client)
+
+    @cached_property
+    def context(self) -> ContextResource:
+        return ContextResource(self._client)
 
     @cached_property
     def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
@@ -8471,6 +8723,69 @@ class AsyncClientChatResource(AsyncAPIResource):
         return AsyncClientChatCompletionsResource(self._client)
 
 
+class AsyncClientContextResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncClientContextResourceWithRawResponse:
+        return AsyncClientContextResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(
+        self,
+    ) -> AsyncClientContextResourceWithStreamingResponse:
+        return AsyncClientContextResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        *,
+        urls: Sequence[str],
+        cache_only: Union[bool, Omit] = omit,
+        formats: Union[
+            Sequence[Literal["markdown", "html", "links", "highlights"]], Omit
+        ] = omit,
+        highlights: Union[
+            Union["ContextHighlightsInput", Mapping[str, object]], Omit
+        ] = omit,
+        if_modified_since: Union[str, Omit] = omit,
+        max_age_seconds: Union[int, Omit] = omit,
+        timeout_ms: Union[int, Omit] = omit,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | Timeout | None | NotGiven = not_given,
+    ) -> "ContextResponseOutput":
+        _body = ContextRequestInput.model_validate(
+            _without_omitted(
+                {
+                    "cache_only": cache_only,
+                    "formats": formats,
+                    "highlights": highlights,
+                    "if_modified_since": if_modified_since,
+                    "max_age_seconds": max_age_seconds,
+                    "timeout_ms": timeout_ms,
+                    "urls": urls,
+                }
+            )
+        )
+        _body_data = _body.model_dump(mode="json", by_alias=True, exclude_unset=True)
+        _query_parameters = _without_omitted({})
+        _header_parameters = _without_omitted_headers({})
+        _result = cast(
+            "ContextResponseOutput",
+            await self._post(
+                "/v1/context",
+                cast_to=ContextResponseOutput,
+                body=_body_data,
+                options=make_request_options(
+                    extra_headers={**_header_parameters, **(extra_headers or {})},
+                    extra_query={**_query_parameters, **(extra_query or {})},
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+            ),
+        )
+        return _result
+
+
 class AsyncClientContextualizedEmbeddingsResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(
@@ -9228,6 +9543,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9267,6 +9583,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9305,6 +9622,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
+        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9343,6 +9661,7 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
+                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
@@ -10004,6 +10323,18 @@ class AsyncClientChatResourceWithStreamingResponse:
         )
 
 
+class AsyncClientContextResourceWithRawResponse:
+    def __init__(self, resource: AsyncClientContextResource) -> None:
+        self._resource = resource
+        self.create = async_to_raw_response_wrapper(resource, "create")
+
+
+class AsyncClientContextResourceWithStreamingResponse:
+    def __init__(self, resource: AsyncClientContextResource) -> None:
+        self._resource = resource
+        self.create = async_to_streamed_response_wrapper(resource, "create")
+
+
 class AsyncClientContextualizedEmbeddingsResourceWithRawResponse:
     def __init__(self, resource: AsyncClientContextualizedEmbeddingsResource) -> None:
         self._resource = resource
@@ -10204,6 +10535,10 @@ class AsyncPerplexitySdk(AsyncAPIResource):
     @cached_property
     def chat(self) -> AsyncClientChatResource:
         return AsyncClientChatResource(self._client)
+
+    @cached_property
+    def context(self) -> AsyncClientContextResource:
+        return AsyncClientContextResource(self._client)
 
     @cached_property
     def contextualized_embeddings(self) -> AsyncClientContextualizedEmbeddingsResource:
