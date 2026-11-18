@@ -30,6 +30,14 @@ from .chat import (
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
+from .context import (
+    ContextResource,
+    AsyncContextResource,
+    ContextResourceWithRawResponse,
+    AsyncContextResourceWithRawResponse,
+    ContextResourceWithStreamingResponse,
+    AsyncContextResourceWithStreamingResponse,
+)
 from .contextualized_embeddings import (
     ContextualizedEmbeddingsResource,
     AsyncContextualizedEmbeddingsResource,
@@ -128,6 +136,12 @@ __all__ = [
     "AsyncChatResourceWithRawResponse",
     "ChatResourceWithStreamingResponse",
     "AsyncChatResourceWithStreamingResponse",
+    "ContextResource",
+    "AsyncContextResource",
+    "ContextResourceWithRawResponse",
+    "AsyncContextResourceWithRawResponse",
+    "ContextResourceWithStreamingResponse",
+    "AsyncContextResourceWithStreamingResponse",
     "ContextualizedEmbeddingsResource",
     "AsyncContextualizedEmbeddingsResource",
     "ContextualizedEmbeddingsResourceWithRawResponse",

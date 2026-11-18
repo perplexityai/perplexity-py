@@ -33,6 +33,14 @@ from .chat import (
     ChatResourceWithStreamingResponse,
     AsyncChatResourceWithStreamingResponse,
 )
+from .context import (
+    ContextResource,
+    AsyncContextResource,
+    ContextResourceWithRawResponse,
+    AsyncContextResourceWithRawResponse,
+    ContextResourceWithStreamingResponse,
+    AsyncContextResourceWithStreamingResponse,
+)
 from .contextualized_embeddings import (
     ContextualizedEmbeddingsResource,
     AsyncContextualizedEmbeddingsResource,
@@ -127,6 +135,10 @@ class SyncClientResources:
         return ChatResource(self._sdk_transport)
 
     @cached_property
+    def context(self) -> ContextResource:
+        return ContextResource(self._sdk_transport)
+
+    @cached_property
     def contextualized_embeddings(self) -> ContextualizedEmbeddingsResource:
         return ContextualizedEmbeddingsResource(self._sdk_transport)
 
@@ -181,6 +193,10 @@ class AsyncClientResources:
     @cached_property
     def chat(self) -> AsyncChatResource:
         return AsyncChatResource(self._sdk_transport)
+
+    @cached_property
+    def context(self) -> AsyncContextResource:
+        return AsyncContextResource(self._sdk_transport)
 
     @cached_property
     def contextualized_embeddings(self) -> AsyncContextualizedEmbeddingsResource:
@@ -238,6 +254,10 @@ class SyncClientWithRawResponse:
     @cached_property
     def chat(self) -> ChatResourceWithRawResponse:
         return ChatResourceWithRawResponse(self._client.chat)
+
+    @cached_property
+    def context(self) -> ContextResourceWithRawResponse:
+        return ContextResourceWithRawResponse(self._client.context)
 
     @cached_property
     def contextualized_embeddings(
@@ -301,6 +321,10 @@ class AsyncClientWithRawResponse:
         return AsyncChatResourceWithRawResponse(self._client.chat)
 
     @cached_property
+    def context(self) -> AsyncContextResourceWithRawResponse:
+        return AsyncContextResourceWithRawResponse(self._client.context)
+
+    @cached_property
     def contextualized_embeddings(
         self,
     ) -> AsyncContextualizedEmbeddingsResourceWithRawResponse:
@@ -362,6 +386,10 @@ class SyncClientWithStreamingResponse:
         return ChatResourceWithStreamingResponse(self._client.chat)
 
     @cached_property
+    def context(self) -> ContextResourceWithStreamingResponse:
+        return ContextResourceWithStreamingResponse(self._client.context)
+
+    @cached_property
     def contextualized_embeddings(
         self,
     ) -> ContextualizedEmbeddingsResourceWithStreamingResponse:
@@ -421,6 +449,10 @@ class AsyncClientWithStreamingResponse:
     @cached_property
     def chat(self) -> AsyncChatResourceWithStreamingResponse:
         return AsyncChatResourceWithStreamingResponse(self._client.chat)
+
+    @cached_property
+    def context(self) -> AsyncContextResourceWithStreamingResponse:
+        return AsyncContextResourceWithStreamingResponse(self._client.context)
 
     @cached_property
     def contextualized_embeddings(
