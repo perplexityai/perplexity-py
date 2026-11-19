@@ -36,6 +36,61 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
+## Embeddings
+
+Use the pplx-embed-v2 models. Start with `pplx-embed-v2-context-0.6b` for higher
+throughput and lower latency, and choose `pplx-embed-v2-context-9b` for retrieval
+quality. Their 1024-dimension outputs share one embedding space, so you can index
+with one model and query with the other. The `pplx-embed-v1-*` and
+`pplx-embed-context-v1-*` models still work but will be phased out during 2027.
+See the [Embeddings guide](https://docs.perplexity.ai/docs/embeddings/contextualized-embeddings)
+for parameters and limits.
+
+v2 models require `input_type`: `"query"` for the text a user types to search, and
+`"document"` for everything you index, including short titles or summaries. The
+shape of `input` sets the shape of the response:
+
+| `input`                                       | `input_type` | Response                                  |
+| --------------------------------------------- | ------------ | ----------------------------------------- |
+| String or list of strings                     | `"query"`    | One embedding per query, `data[i].embedding` |
+| String or list of strings                     | `"document"` | One embedding per document, `data[i].embedding` |
+| List of chunk lists, one per document         | `"document"` | One embedding per chunk, `data[i].data[j].embedding` |
+| List of image objects                         | `"document"` | One embedding per image, `data[i].embedding` |
+| List of image objects with `num_chunks` > 1   | `"document"` | One embedding per image region, `data[i].data[j].embedding` |
+
+```python
+from perplexity import Perplexity
+
+client = Perplexity()
+
+query = client.embeddings.create(
+    model="pplx-embed-v2-context-0.6b",
+    input_type="query",
+    input=["What drives scientific breakthroughs?"],
+)
+print(query.data[0].embedding)
+
+# Each chunk is embedded in the context of its whole document. Send
+# non-overlapping chunks in source order.
+documents = client.embeddings.create(
+    model="pplx-embed-v2-context-0.6b",
+    input_type="document",
+    input=[
+        ["Curiosity sparks questions.", "They drive breakthroughs."],
+        ["The Curiosity rover explores Mars."],
+    ],
+)
+for document in documents.data or []:
+    for chunk in document.data or []:
+        print(document.index, chunk.index, chunk.embedding)
+```
+
+Images are base64 data URIs such as
+`{"type": "image", "image": "data:image/png;base64,..."}`. A request holds either
+text or images, not both. Embeddings are base64-encoded signed int8 values by
+default; decode one with `numpy.frombuffer(base64.b64decode(embedding), dtype=numpy.int8)`
+and compare with cosine similarity.
+
 ## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).
