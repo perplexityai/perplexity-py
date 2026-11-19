@@ -114,6 +114,39 @@ def test_v2_query(model: Any) -> None:
 
 
 @pytest.mark.parametrize("model", ["pplx-embed-v2-context-9b", "pplx-embed-v2-context-0.6b"])
+def test_v2_whole_documents_return_one_embedding_per_document(model: Any) -> None:
+    requests: list[httpx.Request] = []
+    with mock_client(dense_response(model, 2), requests) as client:
+        response = client.embeddings.create(
+            model=model,
+            input_type="document",
+            input=["First document.", "Second document."],
+        )
+
+    assert sent(requests) == {
+        "model": model,
+        "input_type": "document",
+        "input": ["First document.", "Second document."],
+    }
+    assert response.data is not None
+    assert [(item.index, item.embedding, item.data) for item in response.data] == [(0, "AAE=", None), (1, "AAE=", None)]
+
+
+def test_v2_image_without_num_chunks_returns_one_embedding_per_image() -> None:
+    requests: list[httpx.Request] = []
+    with mock_client(dense_response("pplx-embed-v2-context-0.6b"), requests) as client:
+        response = client.embeddings.create(
+            model="pplx-embed-v2-context-0.6b",
+            input_type="document",
+            input=[IMAGE],
+        )
+
+    assert sent(requests) == {"model": "pplx-embed-v2-context-0.6b", "input_type": "document", "input": [IMAGE]}
+    assert response.data is not None
+    assert response.data[0].embedding == "AAE="
+
+
+@pytest.mark.parametrize("model", ["pplx-embed-v2-context-9b", "pplx-embed-v2-context-0.6b"])
 def test_v2_chunked_documents_return_one_embedding_per_chunk(model: Any) -> None:
     requests: list[httpx.Request] = []
     with mock_client(chunked_response(model, [2, 1]), requests) as client:
