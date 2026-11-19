@@ -39,6 +39,17 @@ pytest_test(
 )
 
 pytest_test(
+    name = "test_embeddings_test",
+    srcs = ["test_embeddings.py"],
+    deps = [
+        ":conftest",
+        "//src:perplexity",
+        "@pip//httpx",
+        "@pip//pydantic",
+    ],
+)
+
+pytest_test(
     name = "test_extract_files_test",
     srcs = ["test_extract_files.py"],
     deps = [":conftest"],

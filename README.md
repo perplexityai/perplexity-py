@@ -36,6 +36,50 @@ for result in search.results:
     print(f"{result.title}: {result.url}")
 ```
 
+## Embeddings
+
+Use the `pplx-embed-v2-context-9b` or `pplx-embed-v2-context-0.6b` model for new
+integrations. `pplx-embed-v2-context-9b` gives the highest quality, and
+`pplx-embed-v2-context-0.6b` gives lower latency and cost. The `pplx-embed-v1-*`
+models remain supported, and `client.contextualized_embeddings` keeps serving the
+`pplx-embed-context-v1-*` models.
+
+v2 models require `input_type`. Embed search queries with `"query"`. Embed the
+content you search over with `"document"`, passing each document as a list of
+chunks. Each chunk is embedded in the context of its whole document, and the
+response returns one embedding per chunk.
+
+```python
+from perplexity import Perplexity
+
+client = Perplexity()
+
+query = client.embeddings.create(
+    model="pplx-embed-v2-context-9b",
+    input_type="query",
+    input=["How do contextual embeddings work?"],
+)
+query_embedding = query.data[0].embedding
+
+documents = client.embeddings.create(
+    model="pplx-embed-v2-context-9b",
+    input_type="document",
+    input=[
+        ["First chunk of document A.", "Second chunk of document A."],
+        ["Only chunk of document B."],
+    ],
+)
+for document in documents.data or []:
+    for chunk in document.data or []:
+        print(document.index, chunk.index, chunk.embedding)
+```
+
+Embeddings are base64-encoded signed int8 values by default. Decode one with
+`numpy.frombuffer(base64.b64decode(embedding), dtype=numpy.int8)`. To embed
+images, pass `input_type="document"` and items such as
+`{"type": "image", "image": "data:image/png;base64,..."}`; `num_chunks` sets the
+number of embeddings per image.
+
 ## Chat Completions
 
 The full API of this library can be found in [api.md](api.md).
