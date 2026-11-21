@@ -3232,7 +3232,6 @@ ResponsesObjectTypeOutput: TypeAlias = Literal["response"]
 
 class ResponsesRequestInput(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -3263,7 +3262,6 @@ class ResponsesRequestInput(BaseModel):
 
 class ResponsesRequestOutput(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputOutput"
     instructions: Optional[str] = None
@@ -4746,7 +4744,6 @@ ResponseCreateParams: TypeAlias = ResponsesRequestInput
 
 class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -4777,7 +4774,6 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
 
 class ResponsesResponseCreateParamsStreaming(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -6667,7 +6663,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6707,7 +6702,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6746,7 +6740,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6785,7 +6778,6 @@ class ResponsesResource(SyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
-                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
@@ -9543,7 +9535,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9583,7 +9574,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9622,7 +9612,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9661,7 +9650,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
-                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
