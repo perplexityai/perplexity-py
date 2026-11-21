@@ -30,7 +30,7 @@ client = Perplexity(
     api_key=os.environ.get("PERPLEXITY_API_KEY"),  # Omit this to read PERPLEXITY_API_KEY from the environment
 )
 
-search = client.search.create(query="latest AI developments 2024", max_results=5)
+search = client.search.create(query="latest AI developments", max_results=5)
 
 for result in search.results:
     print(f"{result.title}: {result.url}")
