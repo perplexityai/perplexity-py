@@ -268,6 +268,7 @@ class ApiSearchRequestInput(BaseModel):
         Literal["hour", "day", "week", "month", "year"], None
     ] = None
     search_type: Union[Literal["web", "fast", "people"], None] = None
+    snapshot_as_of: Optional[str] = None
 
 
 class ApiSearchRequestOutput(BaseModel):
@@ -289,6 +290,7 @@ class ApiSearchRequestOutput(BaseModel):
         Literal["hour", "day", "week", "month", "year"], None
     ] = None
     search_type: Union[Literal["web", "fast", "people"], None] = None
+    snapshot_as_of: Optional[str] = None
 
 
 class ApiSearchResponseInput(BaseModel):
@@ -859,6 +861,7 @@ class ContextRequestInput(BaseModel):
     highlights: Optional["ContextHighlightsInput"] = None
     if_modified_since: Optional[str] = None
     max_age_seconds: Optional[int] = None
+    snapshot_as_of: Optional[str] = None
     timeout_ms: Optional[int] = None
     urls: list[str]
 
@@ -869,6 +872,7 @@ class ContextRequestOutput(BaseModel):
     highlights: Optional["ContextHighlightsOutput"] = None
     if_modified_since: Optional[str] = None
     max_age_seconds: Optional[int] = None
+    snapshot_as_of: Optional[str] = None
     timeout_ms: Optional[int] = None
     urls: list[str]
 
@@ -3232,7 +3236,6 @@ ResponsesObjectTypeOutput: TypeAlias = Literal["response"]
 
 class ResponsesRequestInput(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -3263,7 +3266,6 @@ class ResponsesRequestInput(BaseModel):
 
 class ResponsesRequestOutput(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputOutput"
     instructions: Optional[str] = None
@@ -4746,7 +4748,6 @@ ResponseCreateParams: TypeAlias = ResponsesRequestInput
 
 class ResponsesResponseCreateParamsNonStreaming(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -4777,7 +4778,6 @@ class ResponsesResponseCreateParamsNonStreaming(BaseModel):
 
 class ResponsesResponseCreateParamsStreaming(BaseModel):
     background: Union[bool, None] = None
-    code_mode: Optional[bool] = None
     effort: Optional[str] = None
     input: "InputInput"
     instructions: Optional[str] = None
@@ -5881,6 +5881,7 @@ class ContextResource(SyncAPIResource):
         ] = omit,
         if_modified_since: Union[str, Omit] = omit,
         max_age_seconds: Union[int, Omit] = omit,
+        snapshot_as_of: Union[str, Omit] = omit,
         timeout_ms: Union[int, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -5895,6 +5896,7 @@ class ContextResource(SyncAPIResource):
                     "highlights": highlights,
                     "if_modified_since": if_modified_since,
                     "max_age_seconds": max_age_seconds,
+                    "snapshot_as_of": snapshot_as_of,
                     "timeout_ms": timeout_ms,
                     "urls": urls,
                 }
@@ -6667,7 +6669,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6707,7 +6708,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6746,7 +6746,6 @@ class ResponsesResource(SyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -6785,7 +6784,6 @@ class ResponsesResource(SyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
-                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
@@ -6982,6 +6980,7 @@ class SearchResource(SyncAPIResource):
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
         search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
+        snapshot_as_of: Union[str, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -7006,6 +7005,7 @@ class SearchResource(SyncAPIResource):
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                     "search_type": search_type,
+                    "snapshot_as_of": snapshot_as_of,
                 }
             )
         )
@@ -8747,6 +8747,7 @@ class AsyncClientContextResource(AsyncAPIResource):
         ] = omit,
         if_modified_since: Union[str, Omit] = omit,
         max_age_seconds: Union[int, Omit] = omit,
+        snapshot_as_of: Union[str, Omit] = omit,
         timeout_ms: Union[int, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -8761,6 +8762,7 @@ class AsyncClientContextResource(AsyncAPIResource):
                     "highlights": highlights,
                     "if_modified_since": if_modified_since,
                     "max_age_seconds": max_age_seconds,
+                    "snapshot_as_of": snapshot_as_of,
                     "timeout_ms": timeout_ms,
                     "urls": urls,
                 }
@@ -9543,7 +9545,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9583,7 +9584,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9622,7 +9622,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
         *,
         input: "InputInput",
         background: Union[Union[bool, None], Omit] = omit,
-        code_mode: Union[bool, Omit] = omit,
         effort: Union[str, Omit] = omit,
         instructions: Union[str, Omit] = omit,
         language_preference: Union[str, Omit] = omit,
@@ -9661,7 +9660,6 @@ class AsyncClientResponsesResource(AsyncAPIResource):
             _without_omitted(
                 {
                     "background": background,
-                    "code_mode": code_mode,
                     "effort": effort,
                     "input": input,
                     "instructions": instructions,
@@ -9858,6 +9856,7 @@ class AsyncClientSearchResource(AsyncAPIResource):
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
         search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
+        snapshot_as_of: Union[str, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -9882,6 +9881,7 @@ class AsyncClientSearchResource(AsyncAPIResource):
                     "search_mode": search_mode,
                     "search_recency_filter": search_recency_filter,
                     "search_type": search_type,
+                    "snapshot_as_of": snapshot_as_of,
                 }
             )
         )
