@@ -1,10 +1,11 @@
 # ruff: noqa
 # Generated from SDK OpenAPI. Do not edit.
 from __future__ import annotations
+from datetime import datetime
 from functools import cached_property
 import uuid as _uuid
 from urllib.parse import quote
-from pydantic import Field
+from pydantic import AwareDatetime, Field
 from typing import Any, Mapping, Optional, Sequence, Union, cast, overload
 from typing_extensions import Literal, TypeAlias
 from typing_extensions import Never as Never
@@ -268,7 +269,7 @@ class ApiSearchRequestInput(BaseModel):
         Literal["hour", "day", "week", "month", "year"], None
     ] = None
     search_type: Union[Literal["web", "fast", "people"], None] = None
-    snapshot_as_of: Optional[str] = None
+    snapshot_as_of: Optional[AwareDatetime] = None
 
 
 class ApiSearchRequestOutput(BaseModel):
@@ -560,12 +561,16 @@ class BrowserSessionResponseOutput(BaseModel):
 
 
 class BuiltinSkillInput(BaseModel):
-    name: Literal["office", "office/docx", "office/pdf", "office/pptx", "office/xlsx"]
+    name: Literal[
+        "search", "office", "office/docx", "office/pdf", "office/pptx", "office/xlsx"
+    ]
     type: Literal["builtin"]
 
 
 class BuiltinSkillOutput(BaseModel):
-    name: Literal["office", "office/docx", "office/pdf", "office/pptx", "office/xlsx"]
+    name: Literal[
+        "search", "office", "office/docx", "office/pdf", "office/pptx", "office/xlsx"
+    ]
     type: Literal["builtin"]
 
 
@@ -833,7 +838,7 @@ class ContextMetadataInput(BaseModel):
     author: Optional[str] = None
     content_type: Optional[str] = None
     description: Optional[str] = None
-    fetched_at: Optional[str] = None
+    fetched_at: Optional[AwareDatetime] = None
     language: Optional[str] = None
     last_modified: Optional[str] = None
     origin: Optional[Literal["cached", "live"]] = None
@@ -861,7 +866,7 @@ class ContextRequestInput(BaseModel):
     highlights: Optional["ContextHighlightsInput"] = None
     if_modified_since: Optional[str] = None
     max_age_seconds: Optional[int] = None
-    snapshot_as_of: Optional[str] = None
+    snapshot_as_of: Optional[AwareDatetime] = None
     timeout_ms: Optional[int] = None
     urls: list[str]
 
@@ -1863,13 +1868,13 @@ class ListAsyncApiChatCompletionsResponseOutput(BaseModel):
 
 
 class ManagedSkillInput(BaseModel):
-    created_at: Optional[str] = None
+    created_at: Optional[AwareDatetime] = None
     description: Optional[str] = None
     latest_revision: Optional[str] = None
     name: Optional[str] = None
     revision: Optional[str] = None
     skill_id: str
-    updated_at: Optional[str] = None
+    updated_at: Optional[AwareDatetime] = None
 
 
 class ManagedSkillOutput(BaseModel):
@@ -2658,7 +2663,7 @@ MonitorTargetRequestOutput: TypeAlias = Union[
 ]
 MonitorTargetsInput: TypeAlias = list["MonitorTargetRequestInput"]
 MonitorTargetsOutput: TypeAlias = list["MonitorTargetRequestOutput"]
-MonitorTimestampInput: TypeAlias = str
+MonitorTimestampInput: TypeAlias = AwareDatetime
 MonitorTimestampOutput: TypeAlias = str
 
 
@@ -3671,7 +3676,7 @@ class SkillLoadedOutputItemOutput(BaseModel):
 
 
 class SkillRevisionInput(BaseModel):
-    created_at: Optional[str] = None
+    created_at: Optional[AwareDatetime] = None
     name: Optional[str] = None
     revision: str
 
@@ -3693,11 +3698,11 @@ class SkillRevisionListOutput(BaseModel):
 
 
 class SkillSummaryInput(BaseModel):
-    created_at: Optional[str] = None
+    created_at: Optional[AwareDatetime] = None
     name: Optional[str] = None
     revision: Optional[str] = None
     skill_id: str
-    updated_at: Optional[str] = None
+    updated_at: Optional[AwareDatetime] = None
 
 
 class SkillSummaryOutput(BaseModel):
@@ -5881,7 +5886,7 @@ class ContextResource(SyncAPIResource):
         ] = omit,
         if_modified_since: Union[str, Omit] = omit,
         max_age_seconds: Union[int, Omit] = omit,
-        snapshot_as_of: Union[str, Omit] = omit,
+        snapshot_as_of: Union[datetime, Omit] = omit,
         timeout_ms: Union[int, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -6980,7 +6985,7 @@ class SearchResource(SyncAPIResource):
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
         search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
-        snapshot_as_of: Union[str, Omit] = omit,
+        snapshot_as_of: Union[datetime, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -8747,7 +8752,7 @@ class AsyncClientContextResource(AsyncAPIResource):
         ] = omit,
         if_modified_since: Union[str, Omit] = omit,
         max_age_seconds: Union[int, Omit] = omit,
-        snapshot_as_of: Union[str, Omit] = omit,
+        snapshot_as_of: Union[datetime, Omit] = omit,
         timeout_ms: Union[int, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -9856,7 +9861,7 @@ class AsyncClientSearchResource(AsyncAPIResource):
             Union[Literal["hour", "day", "week", "month", "year"], None], Omit
         ] = omit,
         search_type: Union[Union[Literal["web", "fast", "people"], None], Omit] = omit,
-        snapshot_as_of: Union[str, Omit] = omit,
+        snapshot_as_of: Union[datetime, Omit] = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
