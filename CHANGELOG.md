@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.50.0](https://github.com/perplexityai/perplexity-py/compare/v0.49.0...v0.50.0) (2026-11-25)
+
+
+### Features
+
+* type snapshot_as_of as datetime, add the search builtin skill ([#158](https://github.com/perplexityai/perplexity-py/issues/158)) ([caff9d1](https://github.com/perplexityai/perplexity-py/commit/caff9d143cd08e9d4d3fbaeea1478d5c76d0f0c3))
+
 ## [0.49.0](https://github.com/perplexityai/perplexity-py/compare/v0.48.1...v0.49.0) (2026-11-23)
 
 
